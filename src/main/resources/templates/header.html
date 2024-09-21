@@ -1,0 +1,48 @@
+<div id="header" class="header d-flex align-items-center fixed-top" th:fragment="header">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+        <a href="/" class="logo d-flex align-items-center me-auto">
+            <img src="/image/Logo.png" alt="Artineer Logo" style="max-height: 50px;">
+            <h1 class="sitename">Artineer</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+            <ul>
+                <li><a href="#about">ABOUT</a></li>
+                <li class="dropdown"><a href="#"><span>NOTICE</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul>
+                        <li><a href="/notice">공지사항</a></li>
+                        <li><a href="#">방명록</a></li>
+                        <li><a href="#">가입인사</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><span>ACTIVITY</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul>
+                        <li><a href="#">스터디</a></li>
+                        <li><a href="#">프로젝트</a></li>
+                        <li><a href="#">갤러리</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><span>DATA</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul>
+                        <li><a href="#">회의자료</a></li>
+                        <li><a href="#">족보자료</a></li>
+                    </ul>
+                </li>
+
+                <li class="btn-getstarted" id="login-dropdown">
+                    <a href="#" id="login-button"><span>LOGIN</span></a>
+                    <ul id="dropdown-menu" style="display: none;">
+                        <li><a href="/login">로그인</a></li>
+                        <li><a href="#">회원가입</a></li>
+                    </ul>
+                </li>
+
+
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+    </div>
+</div>
