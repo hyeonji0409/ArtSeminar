@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>아티니어::로그인</title>
-  <meta name="description" content="아티니어와 함께하기">
+  <title>아티니어::관리자</title>
+  <meta name="description" content="관리자 페이지">
   <meta name="keywords" content="">
 
   <!-- Favicons -->
@@ -23,7 +23,7 @@
   <link th:href="@{assets/vendor/aos/aos.css}" rel="stylesheet">
   <link th:href="@{assets/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
   <link th:href="@{assets/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
-<!--  <link th:href="@{/css/signUpIn.css}" rel="stylesheet">-->
+  <link th:href="@{/css/admin.css}" rel="stylesheet">
 
   <!-- Main CSS File -->
   <link th:href="@{/assets/css/main.css}" rel="stylesheet">
@@ -67,32 +67,31 @@
         <!-- 검색 필터 -->
         <div class="row mb-4">
           <div class="col-md-8 offset-md-2">
-            <form id="search-form" class="row" style="min-width: 768px;">
+            <form id="search-form" class="row" style="min-width: 768px;" th:action="@{/admin}" method="post">
               <div class="row justify-content-start mb-3">
                 <select class="col-2 form-select me-2" style="width: 15%" name="query">
-                  <option>검색항목</option>
+                  <option value="">검색항목</option>
                   <option value="username">아이디</option>
                   <option value="name">이름</option>
                   <option value="tel">연락처</option>
                   <option value="address">거주지</option>
                   <option value="year">기수</option>
                 </select>
-                <input type="text" class="col-10 form-control col-10" style="width: 83%" placeholder="조건을 입력하세요.">
+                <input type="text" class="col-10 form-control col-10" name="queryValue" th:value="${userSearchDTO.getQueryValue().orElse(null)}" style="width: 83%" placeholder="조건을 입력하세요.">
               </div>
               <div class="row justify-content-start mb-3">
                 <select class="form-select col-1 me-2" style="width: 15%" name="sex">
-                  <option>모든 성별</option>
+                  <option value="">모든 성별</option>
                   <option value="male">남성</option>
                   <option value="female">여성</option>
                 </select>
-                <input type="number" class="form-control bi-border-right col-1" style="width: 15%" name="minBirth" placeholder="최소 나이">
+                  <input type="number" class="form-control bi-border-right col-1" style="width: 15%" name="minBirth" placeholder="최소 나이">
                 ~
                 <input type="number" class="form-control col-1 me-2" style="width: 15%" name="maxBirth" placeholder="최대 나이">
-                <select class="form-select col-1 me-2" style="width: 20%" name="authorization">
-                  <option>모든 등급</option>
-                  <option value="anonymous">anonymous</option>
-                  <option value="user">user</option>
-                  <option value="admin">admin</option>
+                <select class="form-select col-1 me-2" style="width: 20%" name="role">
+                  <option value="">모든 등급</option>
+                  <option value="ROLE_GUEST">user</option>
+                  <option value="ROLE_ADMIN">admin</option>
                 </select>
 
                 <select class="form-select me-2 col-1" style="width: 15%" name="sort">
@@ -120,9 +119,13 @@
 <!--                </select>-->
 <!--                <button type="submit" class="btn btn-primary col-1" style="width: 16%">검색</button>-->
 <!--              </div>-->
+
+<!--              <input type="hidden" th:if="${userSearchDTO!=null}" th:value="${userSearchDTO.getPage()}" name="page">-->
+<!--              <input type="hidden" th:if="${userSearchDTO!=null}" th:value="${userSearchDTO.getPageSize()}" name="pageSize">-->
             </form>
           </div>
         </div>
+<!--        <p th:if="${users}">검색결과 00 명이 검색됨.</p>-->
 
         <!-- 회원 목록 테이블 -->
         <div class="table-responsive">
@@ -133,7 +136,7 @@
               <th>아이디</th>
               <th>이름</th>
               <th>성별</th>
-              <th>나이</th>
+              <th>나이(연)</th>
               <th>연락처</th>
               <th>거주지</th>
               <th>가입일</th>
@@ -143,8 +146,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="eachUser : ${users}">
-              <td th:text="${eachUser.getNo()}">DB인덱스</td>
+            <tr th:each="eachUser, iterStat : ${users}">
+<!--              <td th:text="${eachUser.getNo()}">DB인덱스</td>-->
+              <td th:text="${users.getNumber()*users.getNumberOfElements() + iterStat.index+1}">출력인데스</td>
               <td th:text="${eachUser.getUsername()}">아이디</td>
               <td th:text="${eachUser.getName()}">홍길동(이름)</td>
               <td th:text="${eachUser.getSex() == 'male' ? '남자' : '여자' }">남녀</td>
@@ -182,66 +186,94 @@
             </script>
 
               <li th:classappend="${users.number + 1 >= users.totalPages} ? 'disabled'" class="page-item">
-              <a class="page-link" th:href="@{|?page=${users.number + 2}|}">다음</a>
-            </li>
+<!--              <button type="submit" class="page-link" th:action="@{|?page=${users.number + 2}|}" form="search-form">다음</button>-->
+                <button type="button" class="page-link" th:onclick="|console.log(${userSearchDTO.getPage()})|" form="search-form">다음</button>
+
+              </li>
           </ul>
         </nav>
       </div>
 
       <!-- 회원 정보 수정 모달 -->
       <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl mt-5 pt-5" >
+        <div class="modal-dialog mt-5 pt-5" >
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="editModalLabel">회원 정보 수정</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="edit-form" th:action="@{/user/update}" method="post" class="row">
-                  <div class="mb-3 col-1" style="width: 170px;">
-                    <label for="username" class="form-label">아이디</label>
-                    <input type="text" class="form-control" id="username" name="username" readonly required>
-                  </div>
-                  <div class="mb-3 col-1" style="width: 190px;">
-                    <label for="edit-password" class="form-label">비밀번호</label>
-                    <input type="text" class="form-control" id="edit-password" name="password" required>
-                  </div>
-                <div class="mb-3 col-1" style="width: 170px;">
-                  <label for="edit-name" class="form-label">이름</label>
-                  <input type="text" class="form-control" id="edit-name" name="name" required>
+              <form onsubmit="return true" name="form" id="form" action="/user/sign-up" method="post">
+                <div id="usernameBox" class="inputBox">
+                  <input id="userId" type="text" name="username" readonly>
+                  <label for="userId">아이디</label>
+                  <div class="error-msg"></div>
                 </div>
-                <div class="mb-3 col-1" style="width: 120px;">
-                  <label for="edit-gender" class="form-label">성별</label>
-                  <select class="form-select" id="edit-gender" name="sex" required>
-                    <option value="male">남성</option>
-                    <option value="female">여성</option>
-                  </select>
+                <div id="passwordBox" class="inputBox">
+                  <input id="password" type="password" name="password">
+                  <label for="password">비밀번호</label>
+                  <div class="error-msg"></div>
                 </div>
-                  <div class="mb-3 col-1" style="width: 190px;">
-                    <label for="edit-tel" class="form-label">연락처</label>
-                    <input type="text" class="form-control" id="edit-tel" name="tel" required>
-                  </div>
-                  <div class="mb-3 col-1" style="width: 400px;">
-                    <label for="edit-address" class="form-label">거주지</label>
-                    <input type="text" class="form-control" id="edit-address" name="address" required>
-                  </div>
-                <div class="mb-3 col-1" style="width: 190px;">
-                  <label for="edit-birth" class="form-label">나이</label>
-                  <input type="text" class="form-control" id="edit-birth" name="birth" required>
+                <div id="emailBox" class="inputBox">
+                  <input id="email" type="email" name="email">
+                  <label for="email">이메일</label>
+                  <div class="error-msg"></div>
                 </div>
-                <div class="mb-3 col-1" style="width: 160px;">
-                  <label for="edit-grade" class="form-label">등급</label>
-                  <select class="form-select" id="edit-grade" name="role" required>
-                      <option value="ANONYMOUS">무권한</option>
-                    <option value="GUEST">일반</option>
-                    <option value="ADMIN">관리자</option>
-                  </select>
+                <div id="nameBox" class="inputBox">
+                  <input id="name" type="text" name="name">
+                  <label for="name">이름</label>
+                  <div class="error-msg"></div>
+                </div>
+                <div id="birthBox" class="inputBox">
+                  <input id="birthday" type="text" name="birth">
+                  <label for="birthday">생년월일(8자리)</label>
+                  <div class="error-msg"></div>
+                </div>
+                <!-- Todo 블러되면 하이픈 넣는 작업-->
+                <div id="telBox" class="inputBox">
+                  <input id="contactNumber" type="text" name="tel">
+                  <label for="contactNumber">휴대전화 번호</label>
+                  <div class="error-msg"></div>
+                </div>
+
+                <div id="sexBox" class="gender-selection inputBox">
+                  <div class="sex-box inputBox">
+                    <input type="radio" id="male" name="sex" value="male">
+                    <label class="gender" for="male">남자</label>
+                    <div class="error-msg"></div>
+                  </div>
+                  <div class="sex-box inputBox" >
+                    <input type="radio" id="female" name="sex" value="female">
+                    <label class="gender" for="female">여자</label>
+                    <div class="error-msg"></div>
+                  </div>
+                  <div class="error-msg"></div>
+                </div>
+
+                <div id="yearBox" class="inputBox">
+                  <!--            TODO 페이지 렌더링 모델?에 현재 가입 가능 기수 최대 값을 max 에 넣기-->
+                  <input id="cohort" type="number" name="year" min="1" max="9">
+                  <label for="cohort">가입 기수</label>
+                  <div class="error-msg"></div>
+                </div>
+
+                <input id="zipcode" type="number" name="zipcode" value="" style="display: none;">
+                <div id="roadAddressBox" class="inputBox">
+                  <div>
+                    <input id="roadAddress" type="text" name="roadAddress" tabindex="-1" readonly>
+                    <input type="button" onClick="openZipSearch();" class="roadFullAddr" tabindex="0">
+                    <hr>
+                    <input id="detailAddress" type="text" name="detailAddress" placeholder="상세주소(000동 000호)" >
+                    <label for="roadAddress">자택 주소</label>
+                    <label for="detailAddress"></label>
+                  </div>
+                  <div class="error-msg"></div>
                 </div>
               </form>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-              <button type="submit" class="btn btn-primary" id="save-changes" onclick="{alert('수정완료')}" form="edit-form">저장</button>
+            <div class="modal-footer" style="justify-content: center">
+              <button type="submit" class="btn btn-primary" id="save-changes" onclick="{confirm('수정하시겠습니까?') ? (this.submit()&&alert('수정되었습니다.')) : null }" form="form" style="width: 40%">저장</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 40%">취소</button>
             </div>
           </div>
         </div>
@@ -267,7 +299,7 @@
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
   <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script th:src="@{/js/signIn.js}"></script>
+  <script th:src="@{/js/userEdit.js}"></script>
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
