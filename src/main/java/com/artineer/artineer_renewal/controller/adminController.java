@@ -53,45 +53,50 @@ public class adminController {
         Page<User> users = null;
 
         if (userSearchDTO.getQuery().isEmpty() ||userSearchDTO.getQuery().get().isEmpty()) {
-            users = userRepository.findByNameContainingAndSexStartingWith(
+            users = userRepository.findByNameContainingAndSexStartingWithAndRoleContaining(
                     userSearchDTO.getQueryValue().orElse(""),
                     userSearchDTO.getSex().orElse(""),
+                    userSearchDTO.getRole().orElse(""),
                     PageRequest.of(
                             userSearchDTO.getPage() == null ? 0 : (int) userSearchDTO.getPage().get() - 1,
                             userSearchDTO.getPageSize() == null ? 10 : (int) (userSearchDTO.getPageSize().get()),
                             Sort.by(direction, sortProperty))
             );
         } else if (userSearchDTO.getQuery().get().equals("name")) {
-            users = userRepository.findByNameContainingAndSexStartingWith(
+            users = userRepository.findByNameContainingAndSexStartingWithAndRoleContaining(
                     userSearchDTO.getQueryValue().orElse(""),
                     userSearchDTO.getSex().orElse(""),
+                    userSearchDTO.getRole().orElse(""),
                     PageRequest.of(
                             userSearchDTO.getPage() == null ? 0 : (int) userSearchDTO.getPage().get() - 1,
                             userSearchDTO.getPageSize() == null ? 10 : (int) (userSearchDTO.getPageSize().get()),
                             Sort.by(direction, sortProperty))
             );
         } else if (userSearchDTO.getQuery().get().equals("username")) {
-            users = userRepository.findByUsernameContainingAndSexStartingWith(
+            users = userRepository.findByUsernameContainingAndSexStartingWithAndRoleContaining(
                     userSearchDTO.getQueryValue().orElse(""),
                     userSearchDTO.getSex().orElse(""),
+                    userSearchDTO.getRole().orElse(""),
                     PageRequest.of(
                             userSearchDTO.getPage() == null ? 0 : (int) userSearchDTO.getPage().get() - 1,
                             userSearchDTO.getPageSize() == null ? 10 : (int) (userSearchDTO.getPageSize().get()),
                             Sort.by(direction, sortProperty))
             );
         } else if (userSearchDTO.getQuery().get().equals("email")) {
-            users = userRepository.findByEmailContainingAndSexStartingWith(
+            users = userRepository.findByEmailContainingAndSexStartingWithAndRoleContaining(
                     userSearchDTO.getQueryValue().orElse(""),
                     userSearchDTO.getSex().orElse(""),
+                    userSearchDTO.getRole().orElse(""),
                     PageRequest.of(
                             userSearchDTO.getPage() == null ? 0 : (int) userSearchDTO.getPage().get() - 1,
                             userSearchDTO.getPageSize() == null ? 10 : (int) (userSearchDTO.getPageSize().get()),
                             Sort.by(direction, sortProperty))
             );
         } else if (userSearchDTO.getQuery().get().equals("tel")) {
-            users = userRepository.findByTelContainingAndSexStartingWith(
+            users = userRepository.findByTelContainingAndSexStartingWithAndRoleContaining(
                     userSearchDTO.getQueryValue().orElse(""),
                     userSearchDTO.getSex().orElse(""),
+                    userSearchDTO.getRole().orElse(""),
                     PageRequest.of(
                             userSearchDTO.getPage() == null ? 0 : (int) userSearchDTO.getPage().get() - 1,
                             userSearchDTO.getPageSize() == null ? 10 : (int) (userSearchDTO.getPageSize().get()),

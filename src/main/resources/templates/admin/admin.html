@@ -302,8 +302,8 @@
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 
   <script>
+    role = "[[${userSearchDTO.getRole().orElse('')}]]"
     query = "[[${userSearchDTO.getQuery().orElse('')}]]"
-    console.log(query)
     sex = "[[${userSearchDTO.getSex().orElse('')}]]"
     sort = "[[${userSearchDTO.getSort().orElse('')}]]"
     order = "[[${userSearchDTO.getOrder().orElse('ASC')}]]"

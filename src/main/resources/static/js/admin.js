@@ -218,6 +218,8 @@ document.querySelectorAll("#starter-section > div.container > nav > ul > li > a"
         document.querySelector("#search-form").submit()
     }))
 
+
+
 try {
     document.querySelector(`#search-form > div > select[name='query'] > option[value=${query}]`).selected = true
 } catch (e) {}
@@ -229,4 +231,7 @@ try {
 } catch (e) {}
 try {
     document.querySelector(`#search-form > div > select[name='order'] > option[value=${order}]`).selected = true
+} catch (e) {}
+try {
+    document.querySelector(`#search-form > div > select[name='role'] > option[value=${role}]`).selected = true
 } catch (e) {}
