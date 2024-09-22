@@ -98,7 +98,7 @@
                   <option value="name">정렬기준</option>
                   <option value="name">이름</option>
                   <option value="birth">나이</option>
-                  <option value="regDate">가입일</option>
+                  <option value="regdate">가입일</option>
                   <option value="year">기수</option>
                 </select>
                 <select class="col-1 form-select" style="width: 12%; padding: 0" name="order">
@@ -120,8 +120,8 @@
 <!--                <button type="submit" class="btn btn-primary col-1" style="width: 16%">검색</button>-->
 <!--              </div>-->
 
-<!--              <input type="hidden" th:if="${userSearchDTO!=null}" th:value="${userSearchDTO.getPage()}" name="page">-->
-<!--              <input type="hidden" th:if="${userSearchDTO!=null}" th:value="${userSearchDTO.getPageSize()}" name="pageSize">-->
+              <input type="hidden" th:if="${userSearchDTO.getPage()!=null}" th:value="${userSearchDTO.getPage().get()}" name="page">
+              <input type="hidden" th:if="${userSearchDTO.getPageSize()!=null}" th:value="${userSearchDTO.getPageSize().get()}" name="pageSize">
             </form>
           </div>
         </div>
@@ -148,7 +148,8 @@
             <tbody>
             <tr th:each="eachUser, iterStat : ${users}">
 <!--              <td th:text="${eachUser.getNo()}">DB인덱스</td>-->
-              <td th:text="${users.getNumber()*users.getNumberOfElements() + iterStat.index+1}">출력인데스</td>
+              <td th:text="${users.getNumber()*userSearchDTO.getPageSize().orElse(10) + iterStat.index+1}">출력인데스</td>
+<!--              <td th:text="|${users.getNumber()} + ${userSearchDTO.getPageSize().orElse(10)} + ${iterStat.index+1}|">출력인데스</td>-->
               <td th:text="${eachUser.getUsername()}">아이디</td>
               <td th:text="${eachUser.getName()}">홍길동(이름)</td>
               <td th:text="${eachUser.getSex() == 'male' ? '남자' : '여자' }">남녀</td>
@@ -172,7 +173,8 @@
         <nav aria-label="Page navigation">
           <ul class="pagination justify-content-center">
             <li th:classappend="${users.number <= 0} ? 'disabled'" class="page-item">
-              <a class="page-link" th:href="@{|?page=${users.number}|}" tabindex="-1" aria-disabled="true">이전</a>
+              <button id="previous-page" class="page-link" tabindex="-1" aria-disabled="true">이전</button>
+<!--              <a id="previous-page" class="page-link" th:href="@{|?page=${users.number}|}" tabindex="-1" aria-disabled="true">이전</a>-->
             </li>
 <!--          users.number 가 0부터 시작!!!!!!-->
             <li th:each="page : ${#numbers.sequence(1, users.totalPages)} "
@@ -187,8 +189,7 @@
 
               <li th:classappend="${users.number + 1 >= users.totalPages} ? 'disabled'" class="page-item">
 <!--              <button type="submit" class="page-link" th:action="@{|?page=${users.number + 2}|}" form="search-form">다음</button>-->
-                <button type="button" class="page-link" th:onclick="|console.log(${userSearchDTO.getPage()})|" form="search-form">다음</button>
-
+                <button id="next-page" class="page-link" >다음</button>
               </li>
           </ul>
         </nav>
@@ -299,7 +300,15 @@
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
   <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script th:src="@{/js/userEdit.js}"></script>
+
+  <script>
+    query = "[[${userSearchDTO.getQuery().orElse('')}]]"
+    console.log(query)
+    sex = "[[${userSearchDTO.getSex().orElse('')}]]"
+    sort = "[[${userSearchDTO.getSort().orElse('')}]]"
+    order = "[[${userSearchDTO.getOrder().orElse('ASC')}]]"
+  </script>
+  <script th:src="@{/js/admin.js}"></script>
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>

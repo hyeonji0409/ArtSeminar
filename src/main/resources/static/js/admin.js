@@ -1,11 +1,10 @@
-
 /* input placeholder animation*/
 const inputBoxes = document.querySelectorAll('input[type="text"]:not([name="detailAddress"]), input[type="number"], input[type="email"], input[type="password"]');
 
-inputBoxes.forEach(v =>  v.addEventListener("change", (e) => {
-    console.log("인풋박스에 값:" + e.target.value )
+inputBoxes.forEach(v => v.addEventListener("change", (e) => {
+    console.log("인풋박스에 값:" + e.target.value)
     // e.target.validity.badInput 는  number type 검사를 위함.
-    if (e.target.value || e.target.validity.badInput ) {
+    if (e.target.value || e.target.validity.badInput) {
         // e.target.nextElementSibling.classList.add('focused-label')
         e.target.parentElement.querySelector("label").classList.add('focused-label')
     } else {
@@ -13,7 +12,6 @@ inputBoxes.forEach(v =>  v.addEventListener("change", (e) => {
         e.target.parentElement.querySelector("label").classList.remove('focused-label')
     }
 }))
-
 
 
 /* check submit form validation */
@@ -29,7 +27,6 @@ const roadFullAddrInput = document.querySelector('input[name="roadAddress"]');
 const detailAddrInput = document.querySelector('input[name="detailAddress"]');
 // const submitBtn = document.querySelector('button[type="submit"]');
 const genderInputs = document.querySelectorAll('input[name="sex"]');
-
 
 
 idInput.addEventListener('blur', (e) => {
@@ -61,9 +58,9 @@ detailAddrInput.addEventListener('blur', (e) => {
 })
 
 // 성별 포커스 시 즉시 체크
-genderInputs.forEach((v)=> v.addEventListener('focus', (e) => {e.target.checked= true }))
-
-
+genderInputs.forEach((v) => v.addEventListener('focus', (e) => {
+    e.target.checked = true
+}))
 
 
 // form.addEventListener('submit', async (e) => {
@@ -195,3 +192,41 @@ const errMsg = {
         fail: "상세주소를 입력해 주세요.fail"
     }
 }
+
+
+document.querySelector("#search-form > div.row.justify-content-end > button").addEventListener("click", (e) => {
+    e.preventDefault()
+    document.querySelector("#search-form > input[type=hidden]:nth-child(4)").value = 1
+    document.querySelector("#search-form").submit()
+})
+
+document.querySelectorAll("#previous-page, #next-page").forEach(v => v.addEventListener("click", (e) => {
+    e.preventDefault()
+
+    document.querySelector("#search-form > input[type=hidden]:nth-child(4)").value =
+        e.target.id === "previous-page" ?
+            Number(document.querySelector("#search-form > input[type=hidden]:nth-child(4)").value) - 1 :
+            Number(document.querySelector("#search-form > input[type=hidden]:nth-child(4)").value) + 1
+
+    document.querySelector("#search-form").submit()
+}))
+
+document.querySelectorAll("#starter-section > div.container > nav > ul > li > a").forEach(v =>
+    v.addEventListener('click', (e) => {
+        e.preventDefault()
+        document.querySelector("#search-form > input[type=hidden]:nth-child(4)").value = v.innerHTML
+        document.querySelector("#search-form").submit()
+    }))
+
+try {
+    document.querySelector(`#search-form > div > select[name='query'] > option[value=${query}]`).selected = true
+} catch (e) {}
+try {
+    document.querySelector(`#search-form > div > select[name='sex'] > option[value=${sex}]`).selected = true
+} catch (e) {}
+try {
+    document.querySelector(`#search-form > div > select[name='sort'] > option[value=${sort}]`).selected = true
+} catch (e) {}
+try {
+    document.querySelector(`#search-form > div > select[name='order'] > option[value=${order}]`).selected = true
+} catch (e) {}
