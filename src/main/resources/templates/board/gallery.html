@@ -21,37 +21,37 @@
     </style>
 </head>
 <body>
+<!--<div th:insert="~{header :: header}"></div>-->
+
 <div class="container text-center mt-5">
     <h2 class="text-info fw-bold">갤러리</h2>
+    <h5 class="text-muted" style="opacity: 0.5;">Gallery</h5>
 </div>
 
 <div class="d-flex justify-content-center">
-    <div class="container m-5  " >
+    <div class="container m-5 " >
         <div class="d-flex justify-content-end">
             <a href="/gallery/new" class="text-light btn btn-info">추가</a>
         </div>
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row g-0">
 
-                <div class="col-md-8">
-                    <div class="card-body"  th:each="gallery, iterStat :  ${gallerys}">
-                        <p th:text="${gallerys.size() - iterStat.index}">번호</p>
-                        <h5 th:text="${gallery.title}" th:href="@{/gallery/{no}(no=${gallery.no})}" class="card-title">제목</h5>
-                        <div class="d-flex justify-content">
-                            <p th:text="${gallery.name} + '(' + ${gallery.year} + '기)'" class="card-text">작성자</p>
-                            <p th:text="${gallery.regdate}" class="card-text">날짜</p>
-                        </div>
-                        <div class="d-flex justify-content">
-                            <p th:text="${gallery.comment}" class="card-text"><small class="text-muted">댓글수</small></p>
-                            <p th:text="${gallery.hit}" class="card-text"><small class="text-muted">조회수</small></p>
-                        </div>
-
-
+        <div class="card row col-12 mt-3 mb-3" style="max-width: 100%; width: 100%"
+             th:each="gallery, iterStat :  ${gallerys}">
+            <div class="col-md-8">
+                <div class="card-body">
+                    <p th:text="${gallerys.size() - iterStat.index}">번호</p>
+                    <h5 th:text="${gallery.title}" th:href="@{/gallery/{no}(no=${gallery.no})}" class="card-title">제목</h5>
+                    <div class="d-flex justify-content">
+                        <p th:text="${gallery.name} + '(' + ${gallery.year} + '기)'" class="card-text">작성자</p>
+                        <p th:text="${gallery.regdate}" class="card-text">날짜</p>
+                    </div>
+                    <div class="d-flex justify-content">
+                        <p th:text="${gallery.comment}" class="card-text"><small class="text-muted">댓글수</small></p>
+                        <p th:text="${gallery.hit}" class="card-text"><small class="text-muted">조회수</small></p>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <img src="..." class="img-fluid rounded-start" alt="...">
-                </div>
+            </div>
+            <div class="col-md-4">
+                <img src="..." class="img-fluid rounded-start" alt="...">
             </div>
         </div>
 <!--        <table>-->
@@ -79,10 +79,24 @@
 
 <!--            </tbody>-->
 <!--        </table>-->
-
+        <nav aria-label="Page navigation example" class="d-flex justify-content-center ">
+            <ul class="pagination">
+                <li class="page-item border-0">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">◀</span>
+                    </a>
+                </li>
+                <li class="page-item border-0"><a class="page-link" href="#">1</a></li>
+                <li class="page-item border-0">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">▶</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
-
+<div th:insert="~{footer :: footer}"></div>
 
 </body>
 

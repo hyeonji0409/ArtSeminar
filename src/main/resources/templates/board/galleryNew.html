@@ -24,13 +24,15 @@
 
 </head>
 <body>
+<div class="d-flex justify-content-center">
 <form class="container mt-5" th:action="@{/notice/new}" method="post" enctype="multipart/form-data" >
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" required><br><br>
+
+
+    <input type="text" id="title" name="title" required style="width: 500px" placeholder="Title"><br><br>
 
     <textarea name="story" id="story"></textarea>
 
-    <input type="file" id="file" name="file" multiple>
+    <input class="border-bottom" type="file" id="file" name="file" multiple>
 
     <script>
         ClassicEditor
@@ -39,8 +41,8 @@
                 console.error( error );
             } );
     </script>
-
-    <button type="submit">Save</button>
+        <button type="#">취소</button>
+        <button type="submit">등록</button>
 </form>
 
 <!-- CKEditor 적용 -->
@@ -83,6 +85,7 @@
         console.error(error);
     });
 </script>-->
+</div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
