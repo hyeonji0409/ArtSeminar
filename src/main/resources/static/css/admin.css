@@ -15,10 +15,15 @@ form {
     border-radius: 10px;
 }
 
-@media only screen and (max-width: 1000px) {
-    form {
-        border-style: none;
-    }
+/*@media only screen and (max-width: 1000px) {*/
+/*    form {*/
+/*        border-style: none;*/
+/*    }*/
+/*}*/
+
+#starter-section > div.container {
+    width: 90%;
+    max-width: 1500px;
 }
 
 .text-center {

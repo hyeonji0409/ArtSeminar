@@ -65,7 +65,7 @@
         <h1 class="text-center mb-4 fw-bold form">회원 관리</h1>
 
         <!-- 검색 필터 -->
-        <div class="row mb-4">
+        <div class="table-responsive row mb-4">
           <div class="col-md-8 offset-md-2">
             <form id="search-form" class="row" style="min-width: 768px;" th:action="@{/admin}" method="post">
               <div class="row justify-content-start mb-3">
@@ -74,8 +74,8 @@
                   <option value="username">아이디</option>
                   <option value="name">이름</option>
                   <option value="tel">연락처</option>
-                  <option value="address">거주지</option>
-                  <option value="year">기수</option>
+                  <option value="address">자택 주소</option>
+                  <option value="year">기수(비활성화)</option>
                 </select>
                 <input type="text" class="col-10 form-control col-10" name="queryValue" th:value="${userSearchDTO.getQueryValue().orElse(null)}" style="width: 83%" placeholder="조건을 입력하세요.">
               </div>
@@ -85,13 +85,13 @@
                   <option value="male">남성</option>
                   <option value="female">여성</option>
                 </select>
-                  <input type="number" class="form-control bi-border-right col-1" style="width: 15%" name="minBirth" placeholder="최소 나이">
+                  <input type="number" class="form-control bi-border-right col-1" style="width: 15%" name="minBirth" placeholder="최소 나이(비활성화)">
                 ~
-                <input type="number" class="form-control col-1 me-2" style="width: 15%" name="maxBirth" placeholder="최대 나이">
+                <input type="number" class="form-control col-1 me-2" style="width: 15%" name="maxBirth" placeholder="최대 나이(비활성화)">
                 <select class="form-select col-1 me-2" style="width: 20%" name="role">
                   <option value="">모든 등급</option>
-                  <option value="ROLE_GUEST">user</option>
-                  <option value="ROLE_ADMIN">admin</option>
+                  <option value="ROLE_GUEST">일반사용자</option>
+                  <option value="ROLE_ADMIN">관리자</option>
                 </select>
 
                 <select class="form-select me-2 col-1" style="width: 15%" name="sort">
@@ -138,7 +138,7 @@
               <th>성별</th>
               <th>나이(연)</th>
               <th>연락처</th>
-              <th>거주지</th>
+              <th>자택 주소</th>
               <th>가입일</th>
               <th>기수</th>
               <th>등급</th>
@@ -153,7 +153,6 @@
               <td th:text="${eachUser.getUsername()}">아이디</td>
               <td th:text="${eachUser.getName()}">홍길동(이름)</td>
               <td th:text="${eachUser.getSex() == 'male' ? '남자' : '여자' }">남녀</td>
-<!--              <td th:text="${eachUser.getBirth()}">30</td>-->
               <td th:text="${(eachUser.getBirth() != null ?
               T(java.time.Period).between(T(java.time.LocalDate).parse(eachUser.getBirth(), T(java.time.format.DateTimeFormatter).ofPattern('yyyy/MM/dd')), T(java.time.LocalDate).now()).getYears() :
               '')
@@ -163,7 +162,7 @@
               <td th:text="${eachUser.getRegdate()}">1999/11/25 (11:27)</td>
               <td th:text="${eachUser.getYear()}">1</td>
               <td th:text="${eachUser.getRole()}">admin</td>
-              <td><button class="btn btn-sm btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" data-member-id="1">수정</button></td>
+              <td><button class="btn btn-sm btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" th:data-member-id="${iterStat.index}">수정</button></td>
             </tr>
             </tbody>
           </table>
@@ -204,7 +203,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form onsubmit="return true" name="form" id="form" action="/user/sign-up" method="post">
+              <form name="form" id="form" action="/user/update" method="post">
                 <div id="usernameBox" class="inputBox">
                   <input id="userId" type="text" name="username" readonly>
                   <label for="userId">아이디</label>
@@ -258,7 +257,7 @@
                   <div class="error-msg"></div>
                 </div>
 
-                <input id="zipcode" type="number" name="zipcode" value="" style="display: none;">
+                <input type="hidden" id="zipcode" name="zipcode" value="">
                 <div id="roadAddressBox" class="inputBox">
                   <div>
                     <input id="roadAddress" type="text" name="roadAddress" tabindex="-1" readonly>
@@ -273,7 +272,7 @@
               </form>
             </div>
             <div class="modal-footer" style="justify-content: center">
-              <button type="submit" class="btn btn-primary" id="save-changes" onclick="{confirm('수정하시겠습니까?') ? (this.submit()&&alert('수정되었습니다.')) : null }" form="form" style="width: 40%">저장</button>
+              <button type="button" class="btn btn-primary" id="save-changes" form="form" style="width: 40%">저장</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 40%">취소</button>
             </div>
           </div>
@@ -300,7 +299,9 @@
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
   <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-
+<!--<script th:inline="javascript">-->
+<!--  var list = /*[[${list}]]*/ [];-->
+<!--</script>-->
   <script>
     role = "[[${userSearchDTO.getRole().orElse('')}]]"
     query = "[[${userSearchDTO.getQuery().orElse('')}]]"
@@ -308,6 +309,11 @@
     sort = "[[${userSearchDTO.getSort().orElse('')}]]"
     order = "[[${userSearchDTO.getOrder().orElse('ASC')}]]"
   </script>
+
+  <script th:inline="javascript">
+    userForEdit = /*[[${users}]]*/ [];
+  </script>
+
   <script th:src="@{/js/admin.js}"></script>
 
   <!-- Main JS File -->

@@ -141,43 +141,6 @@ public class UserController {
     }
 
 
-    @PostMapping("/user/update")
-    public String updateUser(UserDto userDto) {
-        // IP 주소 가져오기
-        String clientIp = request.getRemoteAddr();
-        System.out.println("Client IP: " + clientIp);
-
-        // 현재 시간 가져오기
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd (HH:mm)");
-        String formattedDate = now.format(formatter);
-        String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
-
-
-        System.out.println("수정요청 받음");
-
-        User user = userRepository.findByUsername(userDto.getUsername());
-
-        user.setPassword( passwordEncoder.encode(userDto.getPassword()));
-        user.setName(userDto.getName());
-        user.setSex(userDto.getSex());
-        user.setBirth(formattedBirth);
-        user.setTel(userDto.getTel());
-        user.setEmail(userDto.getEmail());
-        user.setZipcode(userDto.getZipcode());
-        user.setRoadAddress(userDto.getRoadAddress());
-        user.setDetailAddress(userDto.getDetailAddress());
-        user.setYear(userDto.getYear());
-        user.setRole(userDto.getRole());
-
-        userRepository.save(user);
-        System.out.println(user);
-
-        return  "redirect:/";
-    }
-
-
-
 //    /* 아이디/비밀번호 찾기 */
 //    @GetMapping("/sign-find/{what}")
 //    public String signFind(@PathVariable String what,
