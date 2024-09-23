@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -139,22 +140,18 @@ public class adminController {
 
 
     @PostMapping("/user/update")
-    public String updateUser(UserDto userDto) {
+    public String updateUser(UserDto userDto,
+                             RedirectAttributes redirectAttributes ) {
         // IP 주소 가져오기
         String clientIp = request.getRemoteAddr();
         System.out.println("Client IP: " + clientIp);
 
-        // 현재 시간 가져오기
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd (HH:mm)");
-        String formattedDate = now.format(formatter);
+        // 생년월일 포멧
         String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
 
-        System.out.println(userDto.toString());
         System.out.println("수정요청 받음");
 
         User oldUser = userRepository.findByUsername(userDto.getUsername());
-        System.out.println(oldUser.toString());
 
         if (!userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
         oldUser.setName(userDto.getName());
@@ -166,11 +163,9 @@ public class adminController {
         oldUser.setRoadAddress(userDto.getRoadAddress());
         oldUser.setDetailAddress(userDto.getDetailAddress());
         oldUser.setYear(userDto.getYear());
-        // todo role도 폼에 추가해야함
-//        oldUser.setRole(userDto.getRole());
+        oldUser.setRole(userDto.getRole());
 
         userRepository.save(oldUser);
-        System.out.println(oldUser);
 
         return "redirect:/admin";
     }

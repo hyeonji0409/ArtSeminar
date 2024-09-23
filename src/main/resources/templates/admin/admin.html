@@ -27,6 +27,7 @@
 
   <!-- Main CSS File -->
   <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 
   <!-- =======================================================
@@ -89,7 +90,7 @@
                 ~
                 <input type="number" class="form-control col-1 me-2" style="width: 15%" name="maxBirth" placeholder="최대 나이(비활성화)">
                 <select class="form-select col-1 me-2" style="width: 20%" name="role">
-                  <option value="">모든 등급</option>
+                  <option value="">모든 권한</option>
                   <option value="ROLE_GUEST">일반사용자</option>
                   <option value="ROLE_ADMIN">관리자</option>
                 </select>
@@ -141,7 +142,7 @@
               <th>자택 주소</th>
               <th>가입일</th>
               <th>기수</th>
-              <th>등급</th>
+              <th>권한</th>
               <th>수정</th>
             </tr>
             </thead>
@@ -269,6 +270,11 @@
                   </div>
                   <div class="error-msg"></div>
                 </div>
+                <div id="roleBox" class="inputBox">
+                  <input id="role" type="text" name="role">
+                  <label for="role">권한</label>
+                  <div class="error-msg"></div>
+                </div>
               </form>
             </div>
             <div class="modal-footer" style="justify-content: center">
@@ -315,6 +321,27 @@
   </script>
 
   <script th:src="@{/js/admin.js}"></script>
+
+<script>
+  // daum api 사용
+  function openZipSearch() {
+    new daum.Postcode({
+      oncomplete: function (data) {
+        // 우편번호와 주소 정보 필드에 넣기
+        document.getElementById('zipcode').value = data.zonecode;
+        document.getElementById('roadAddress').value = data.roadAddress;
+        // document.getElementById('detailAddr').value = data.detailAddress;
+        // 상세 주소로 커서 이동
+        document.getElementById('detailAddress').focus();
+        checkValidation("roadAddress", roadFullAddrInput);
+        roadFullAddrInput.dispatchEvent(new Event('change'));
+      },
+      popupTitle: "아티니어::나의 주소 찾기",
+      left: `${(window.screen.width-570)/2}`,
+      top: `${(window.screen.height-570)/2}`
+    }).open();
+  }
+</script>
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>

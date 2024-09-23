@@ -43,50 +43,7 @@
 </head>
 
 <body class="starter-page-page">
-
-  <header id="header" class="header d-flex align-items-center sticky-top">
-    <div class="container-fluid container-xl position-relative d-flex align-items-center">
-
-      <a th:href="@{/}" class="logo d-flex align-items-center me-auto">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="sitename">Artineer</h1>
-      </a>
-
-<!--      <nav id="navmenu" class="navmenu">-->
-<!--        <ul>-->
-<!--          <li><a href="#hero">Home</a></li>-->
-<!--          <li><a href="#about">About</a></li>-->
-<!--          <li><a href="#services">Services</a></li>-->
-<!--          <li><a href="#portfolio">Portfolio</a></li>-->
-<!--          <li><a href="#team">Team</a></li>-->
-<!--          <li><a href="#pricing">Pricing</a></li>-->
-<!--          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>-->
-<!--            <ul>-->
-<!--              <li><a href="#">Dropdown 1</a></li>-->
-<!--              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>-->
-<!--                <ul>-->
-<!--                  <li><a href="#">Deep Dropdown 1</a></li>-->
-<!--                  <li><a href="#">Deep Dropdown 2</a></li>-->
-<!--                  <li><a href="#">Deep Dropdown 3</a></li>-->
-<!--                  <li><a href="#">Deep Dropdown 4</a></li>-->
-<!--                  <li><a href="#">Deep Dropdown 5</a></li>-->
-<!--                </ul>-->
-<!--              </li>-->
-<!--              <li><a href="#">Dropdown 2</a></li>-->
-<!--              <li><a href="#">Dropdown 3</a></li>-->
-<!--              <li><a href="#">Dropdown 4</a></li>-->
-<!--            </ul>-->
-<!--          </li>-->
-<!--          <li><a href="#contact">Contact</a></li>-->
-<!--        </ul>-->
-<!--        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>-->
-<!--      </nav>-->
-
-<!--      <a class="btn-getstarted" href="#about">Get Started</a>-->
-
-    </div>
-  </header>
+  <header th:replace="~{/fragments/headerFragment :: headerFragment(user=${'anonymousUser'})}"></header>
 
   <main class="main">
 
@@ -97,9 +54,13 @@
     padding-bottom: 0">
       <div class="container" style="
       display: flex;
+      flex-direction: column;
       justify-content: center; /* 수평 가운데 정렬 */
-      align-items: center;">
+      align-items: center;
+      margin-top: 90px">
         <h1 style="font-size: 60px" >나의 계정 찾기</h1>
+        <p style="font-size: 40px;">(점검 중...)</p>
+        <p style="font-size: 18px;">계정을 찾으려면 사이트 관리자에게 문의해주세요.</p>
       </div>
     </div><!-- End Page Title -->
 
@@ -110,8 +71,8 @@
       margin-top: 0;
       display: flex;
       justify-content: center;">
-        <a id="idAddr" th:href="@{/sign-find/id}" style="display:none;">아이디 ee</a>
-        <a id="pwAddr" th:href="@{/sign-find/pw}" style="display:none;">비밀번호 ee</a>
+        <a id="idAddr" th:href="@{/user/sign-find/id}" style="display:none;">아이디 error</a>
+        <a id="pwAddr" th:href="@{/user/sign-find/pw}" style="display:none;">비밀번호 error</a>
 
 <!--        <p>Use this page as a starter for your own custom pages.</p>-->
 <!--        <form name="form" id="form">-->

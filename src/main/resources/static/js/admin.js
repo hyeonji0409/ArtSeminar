@@ -28,6 +28,7 @@ const roadFullAddrInput = document.querySelector('input[name="roadAddress"]');
 const detailAddrInput = document.querySelector('input[name="detailAddress"]');
 // const submitBtn = document.querySelector('button[type="submit"]');
 const genderInputs = document.querySelectorAll('input[name="sex"]');
+const roleInput = document.querySelector('input[name="role"]');
 
 idInput.parentElement.querySelector("label").classList.add('focused-label')
 emailInput.parentElement.querySelector("label").classList.add('focused-label')
@@ -36,6 +37,7 @@ birthdayInput.parentElement.querySelector("label").classList.add('focused-label'
 contactNumberInput.parentElement.querySelector("label").classList.add('focused-label')
 cohortInput.parentElement.querySelector("label").classList.add('focused-label')
 roadFullAddrInput.parentElement.querySelector("label").classList.add('focused-label')
+roleInput.parentElement.querySelector("label").classList.add('focused-label')
 
 
 // idInput.addEventListener('blur', (e) => {
@@ -96,6 +98,7 @@ submitButton.addEventListener('click', async (e) => {
         ( await checkValidation("roadAddress", roadFullAddrInput) === false ? roadFullAddrInput.focus() : true) &&
         ( await checkValidation("roadAddress", detailAddrInput) === false ? detailAddrInput.focus() : true)
     ) {
+
         form.submit();
         alert("수정이 완료되었습니다.");
     }
@@ -276,4 +279,5 @@ editButtons.forEach(v => v.addEventListener("click", (e) => {
         console.log(eachUser.sex)
         if (v.value === eachUser.sex) v.checked = true;
     });
+    roleInput.value = eachUser.role
 }))

@@ -114,7 +114,6 @@ public class UserController {
 //        org.hibernate.NonUniqueResultException: Query did not return a unique result: 9 results were returned
         User foundUser = switch (valueName) {
             case "username" -> userRepository.findByUsername(payload.get("value"));
-            case "password" -> userRepository.findByPassword(payload.get("value"));
             case "email" -> userRepository.findByEmail(payload.get("value"));
             case "tel" -> userRepository.findByTel(payload.get("value"));
             default -> null;
@@ -141,37 +140,37 @@ public class UserController {
     }
 
 
-//    /* 아이디/비밀번호 찾기 */
-//    @GetMapping("/sign-find/{what}")
-//    public String signFind(@PathVariable String what,
-//                           Model model) {
-//
-//        if (what.equals("id")) {
-//            model.addAttribute("what", "id");
-//        } else if (what.equals("pw")) {
-//            model.addAttribute("what", "pw");
-//        }
-//
-//        return "/userLog/sign-find";
-//    }
-//
-//
-//    @GetMapping("/sign-withdrawal")
-//    public String withdrawal() {
-//
-//        return "/userLog/sign-withdrawal";
-//    }
-//    @PostMapping("/sign-withdrawal")
-//    public String PostWithdrawal() {
-//
-//        return "redirect:/";
-//    }
-//
-//    @GetMapping("/sign-withdrawalConfirm")
-//    public String withdrawalConfirm() {
-//
-//        return "/userLog/sign-withdrawalConfirm";
-//    }
+    /* 아이디/비밀번호 찾기 */
+    @GetMapping("/user/sign-find/{what}")
+    public String signFind(@PathVariable String what,
+                           Model model) {
+
+        if (what.equals("id")) {
+            model.addAttribute("what", "id");
+        } else if (what.equals("pw")) {
+            model.addAttribute("what", "pw");
+        }
+
+        return "/user/sign-find";
+    }
+
+
+    @GetMapping("/user/sign-withdrawal")
+    public String withdrawal() {
+
+        return "/user/sign-withdrawal";
+    }
+    @PostMapping("/user/sign-withdrawal")
+    public String PostWithdrawal() {
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/user/sign-withdrawalConfirm")
+    public String withdrawalConfirm() {
+
+        return "/user/sign-withdrawalConfirm";
+    }
 //
 //    @PostMapping("/sign-withdrawalConfirm")
 //    public String PostWithdrawalConfirm() {
