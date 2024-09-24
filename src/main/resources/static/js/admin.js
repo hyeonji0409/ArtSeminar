@@ -67,6 +67,9 @@ nameInput.addEventListener('blur', (e) => {
 detailAddrInput.addEventListener('blur', (e) => {
     checkValidation("roadAddress", e.target);
 })
+roleInput.addEventListener('blur', (e) => {
+    checkValidation("role", e.target);
+})
 
 // 성별 포커스 시 즉시 체크
 genderInputs.forEach((v) => v.addEventListener('focus', (e) => {
@@ -96,9 +99,9 @@ submitButton.addEventListener('click', async (e) => {
         checkValidationGender() &&
         ( await checkValidation("year", cohortInput) === false ? cohortInput.focus() : true) &&
         ( await checkValidation("roadAddress", roadFullAddrInput) === false ? roadFullAddrInput.focus() : true) &&
-        ( await checkValidation("roadAddress", detailAddrInput) === false ? detailAddrInput.focus() : true)
+        ( await checkValidation("roadAddress", detailAddrInput) === false ? detailAddrInput.focus() : true) &&
+        ( await checkValidation("role", roleInput) === false ? roleInput.focus() : true)
     ) {
-
         form.submit();
         alert("수정이 완료되었습니다.");
     }
@@ -205,6 +208,11 @@ const errMsg = {
         pattern: /\S+/,
         invalid: "상세주소를 입력해 주세요.",
         fail: "상세주소를 입력해 주세요.fail"
+    },
+    role: {
+        pattern: /^(ROLE_GUEST|ROLE_ADMIN)$/,
+        invalid: "똑바로 입력해주세요.",
+        fail: "똑바로 입력..fail"
     }
 }
 
