@@ -297,6 +297,10 @@ button[type="submit"]:hover {
 }
 
 
+#starter-section > div.container > div:nth-child(3) > table > thead > tr > th:nth-child(7) {
+    width: 28%;
+}
+
 .pagination {
     min-width: 400px;
 }

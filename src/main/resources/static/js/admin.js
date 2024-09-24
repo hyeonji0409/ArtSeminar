@@ -102,6 +102,7 @@ submitButton.addEventListener('click', async (e) => {
         ( await checkValidation("roadAddress", detailAddrInput) === false ? detailAddrInput.focus() : true) &&
         ( await checkValidation("role", roleInput) === false ? roleInput.focus() : true)
     ) {
+        if ( !confirm("기존 정보는 복구할 수 없습니다.\n정말 수정하시겠습니까?") ) return;
         form.submit();
         alert("수정이 완료되었습니다.");
     }

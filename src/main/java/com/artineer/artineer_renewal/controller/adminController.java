@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -40,19 +41,16 @@ public class adminController {
 
     @RequestMapping("/admin")
     public String adminPage(Model model,
-//                            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-//                            @RequestParam(name = "size", required = false, defaultValue = "10") int pageSize,
-                            @ModelAttribute UserSearchDTO userSearchDTO ) {
+                            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                            @RequestParam(name = "size", required = false, defaultValue = "10") int pageSize,
+                            @ModelAttribute UserSearchDTO userSearchDTO) {
 
+        // Todo 인증을 이렇게 작성해도 되는 거 맞나
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        User untrackedUser = (User) authentication.getPrincipal();
 
-        if (username.equals("anonymousUser")) {
-            model.addAttribute("user", username);
-        } else {
-            User user = userRepository.findByUsername(username);
-            model.addAttribute("user", user);
-        }
+        User user = userRepository.findById(untrackedUser.getNo()).orElse(null);
+        model.addAttribute("user", user);
 
         System.out.println(userSearchDTO.toString());
 
@@ -60,16 +58,15 @@ public class adminController {
         Sort.Direction direction = userSearchDTO.getOrder().orElse("ASC").equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
 
         Page<User> users = null;
-
         String queryValue = userSearchDTO.getQueryValue().orElse("");
         String sex = userSearchDTO.getSex().orElse("");
         String role = userSearchDTO.getRole().orElse("");
         Pageable pageable = PageRequest.of(
-                userSearchDTO.getPage() == null ? 0 : (int) userSearchDTO.getPage().get() - 1,
-                userSearchDTO.getPageSize() == null ? 10 : (int) (userSearchDTO.getPageSize().get()),
+                userSearchDTO.getPage().orElse(page) - 1,
+                userSearchDTO.getPageSize().orElse(pageSize),
                 Sort.by(direction, sortProperty));
 
-        if (userSearchDTO.getQuery().isEmpty() ||userSearchDTO.getQuery().get().isEmpty()) {
+        if (userSearchDTO.getQuery().isEmpty() || userSearchDTO.getQuery().get().isEmpty()) {
             users = userRepository.findByNameContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
         } else if (userSearchDTO.getQuery().get().equals("name")) {
             users = userRepository.findByNameContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
@@ -83,9 +80,8 @@ public class adminController {
             users = userRepository.findByRoadAddressContainingOrDetailAddressContainingAndSexStartingWithAndRoleContaining(queryValue, queryValue, sex, role, pageable);
         }
 
-        if (userSearchDTO.getPage()==null) { userSearchDTO.setPage(Optional.of(1)); }
-        if (userSearchDTO.getPageSize()==null) { userSearchDTO.setPageSize(Optional.of(10)); }
-
+        if (userSearchDTO.getPage().isEmpty()) { userSearchDTO.setPage(Optional.of(1)); }
+        if (userSearchDTO.getPageSize().isEmpty()) { userSearchDTO.setPageSize(Optional.of(10)); }
 
         model.addAttribute("users", users);
         model.addAttribute("userSearchDTO", userSearchDTO);

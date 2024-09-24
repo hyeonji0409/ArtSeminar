@@ -49,9 +49,9 @@
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <a th:if="${user=='anonymousUser'}" class="btn-getstarted" th:href="@{/user/sign-in}">참여하기</a>
+        <a th:if="${user==null}" class="btn-getstarted" th:href="@{/user/sign-in}">참여하기</a>
 <!--        todo 마이프로필 연결-->
-        <a th:if="${user!='anonymousUser'}" th:text="|${user.getName()}(${user.getYear()}기)|" class="btn-getstarted" th:href="@{/logout}">내 계정</a>
+        <a th:if="${user!=null}" th:text="|${user.getName()}(${user.getYear()}기)|" class="btn-getstarted" th:href="@{/logout}">내 계정</a>
 
     </div>
 </header>

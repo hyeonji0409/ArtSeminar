@@ -106,7 +106,7 @@
                   <option value="ASC">오름차순</option>
                   <option value="DESC">내림차순</option>
                 </select>
-                <span class="material-symbols-outlined form-check col-1" style="width: fit-content; height: fit-content; font-size: 16px; padding: 1px; writing-mode: vertical-lr; display: inline;">sync_alt</span>
+                <span class="material-symbols-outlined form-check col-1" style="width: fit-content; height: fit-content; font-size: 30px; padding: 1px; writing-mode: vertical-lr; display: inline;">sync_alt</span>
               </div>
               <div class="row justify-content-end">
                 <a th:href="@{/admin}" class="btn btn-secondary col-1 me-2" style="width: 10%">초기화</a>
@@ -160,7 +160,8 @@
               '')
               +'세('+ eachUser.getBirth() +')'}"></td>
               <td th:text="${eachUser.getTel()}">010-0000-0000</td>
-              <td th:text="|${eachUser.getRoadAddress() + ', ' + eachUser.getDetailAddress()}|">익산광역시 영등구 동서로175길 14, 조은빌라 114호</td>
+<!--              <td th:utext="|${eachUser.getRoadAddress() + ',<br>' + eachUser.getDetailAddress()}|">익산광역시 영등구 동서로175길 14, 조은빌라 114호</td>-->
+              <td th:utext="|${eachUser.getRoadAddress()}|">익산광역시 영등구 동서로175길 12</td>
               <td th:text="${eachUser.getRegdate()}">1999/11/25 (11:27)</td>
               <td th:text="${eachUser.getYear()}">1</td>
               <td th:text="${eachUser.getRole()}">admin</td>

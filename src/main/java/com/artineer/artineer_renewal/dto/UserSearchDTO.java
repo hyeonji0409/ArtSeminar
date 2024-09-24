@@ -12,18 +12,30 @@ import java.util.Optional;
 @ToString
 public class UserSearchDTO {
     private Optional<String> query;
-    private  Optional<String> queryValue;
-    private  Optional<String> sex;
-    private  Optional<String> minBirth;
-    private  Optional<String> maxBirth;
-    private  Optional<String> role;
-    private  Optional<String> sort;
-    private  Optional<String> order;
-    private  Optional<Integer> page;
-    private  Optional<Integer> pageSize;
+    private Optional<String> queryValue;
+    private Optional<String> sex;
+    private Optional<String> minBirth;
+    private Optional<String> maxBirth;
+    private Optional<String> role;
+    private Optional<String> sort;
+    private Optional<String> order;
+    private Optional<Integer> page;
+    private Optional<Integer> pageSize;
+
+//    @Builder
+//    public UserSearchDTO(Optional<String> query, Optional<String> queryValue, Optional<String> sex, Optional<String> minBirth, Optional<String> maxBirth, Optional<String> role, Optional<String> sort, Optional<String> order) {
+//        this.query = query;
+//        this.queryValue = queryValue;
+//        this.sex = sex;
+//        this.minBirth = minBirth;
+//        this.maxBirth = maxBirth;
+//        this.role = role;
+//        this.sort = sort;
+//        this.order = order;
+//    }
 
     @Builder
-    public UserSearchDTO(Optional<String> query, Optional<String> queryValue, Optional<String> sex, Optional<String> minBirth, Optional<String> maxBirth, Optional<String> role, Optional<String> sort, Optional<String> order) {
+    public UserSearchDTO(Optional<String> query, Optional<String> queryValue, Optional<String> sex, Optional<String> minBirth, Optional<String> maxBirth, Optional<String> role, Optional<String> sort, Optional<String> order, Optional<Integer> page, Optional<Integer> pageSize) {
         this.query = query;
         this.queryValue = queryValue;
         this.sex = sex;
@@ -32,5 +44,7 @@ public class UserSearchDTO {
         this.role = role;
         this.sort = sort;
         this.order = order;
+        this.page = page;
+        this.pageSize = pageSize;
     }
 }
