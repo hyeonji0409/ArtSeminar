@@ -14,7 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -22,8 +21,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Optional;
 
@@ -45,11 +42,10 @@ public class adminController {
                             @RequestParam(name = "size", required = false, defaultValue = "10") int pageSize,
                             @ModelAttribute UserSearchDTO userSearchDTO) {
 
-        // Todo 인증을 이렇게 작성해도 되는 거 맞나
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User untrackedUser = (User) authentication.getPrincipal();
+        String username = authentication.getName();
 
-        User user = userRepository.findById(untrackedUser.getNo()).orElse(null);
+        User user = userRepository.findByUsername(username);
         model.addAttribute("user", user);
 
         System.out.println(userSearchDTO.toString());
@@ -101,8 +97,7 @@ public class adminController {
     public ResponseEntity<String> checkSignUpValue(@PathVariable(name = "valueName") String valueName,
                                                    @RequestBody Map<String, String> payload) {
 
-
-//        Todo 이하 4종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
+//        Todo 이하 2종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
 //        org.hibernate.NonUniqueResultException: Query did not return a unique result: 9 results were returned
         User foundUser = switch (valueName) {
             case "email" -> userRepository.findByEmail(payload.get("value"));

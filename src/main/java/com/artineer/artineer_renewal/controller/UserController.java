@@ -110,7 +110,7 @@ public class UserController {
     public ResponseEntity<String> checkSignUpValue(@PathVariable(name = "valueName") String valueName,
                                                    @RequestBody Map<String, String> payload) {
 
-//        Todo 이하 4종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
+//        Todo 이하 3종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
 //        org.hibernate.NonUniqueResultException: Query did not return a unique result: 9 results were returned
         User foundUser = switch (valueName) {
             case "username" -> userRepository.findByUsername(payload.get("value"));

@@ -9,7 +9,7 @@
 
 
 form {
-    width: fit-content;
+    width: 100%;
     border: 4px solid var(--subtle);
     padding: 16px;
     border-radius: 10px;
@@ -48,8 +48,9 @@ form div {
 }
 
 .inputBox {
+    width: inherit;
     position: relative;
-    margin: 0 25px 25px 25px;
+    margin: 0 0 26px 0;
     font-size: 20px;
     color: darkgray;
     font-weight: normal;
@@ -226,8 +227,7 @@ hr {
 /*주소 찾기 버튼 */
 .roadFullAddr {
     position: absolute;
-    top: 3px;
-    left: 310px;
+    right: 10px;
     display: inline;
     width: 10%;
     border-style: none;
@@ -299,10 +299,6 @@ button[type="submit"]:hover {
 
 #starter-section > div.container > div:nth-child(3) > table > thead > tr > th:nth-child(7) {
     width: 28%;
-}
-
-.pagination {
-    min-width: 400px;
 }
 
 .pagination  li {

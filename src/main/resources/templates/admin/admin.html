@@ -68,9 +68,9 @@
         <!-- 검색 필터 -->
         <div class="table-responsive row mb-4">
           <div class="col-md-8 offset-md-2">
-            <form id="search-form" class="row" style="min-width: 768px;" th:action="@{/admin}" method="post">
+            <form id="search-form" class="row" th:action="@{/admin}" method="post">
               <div class="row justify-content-start mb-3">
-                <select class="col-2 form-select me-2" style="width: 15%" name="query">
+                <select class="col-2 form-select me-2" style="width: 7rem" name="query">
                   <option value="">검색항목</option>
                   <option value="username">아이디</option>
                   <option value="name">이름</option>
@@ -78,35 +78,35 @@
                   <option value="address">자택 주소</option>
                   <option value="year">기수(비활성화)</option>
                 </select>
-                <input type="text" class="col-10 form-control col-10" name="queryValue" th:value="${userSearchDTO.getQueryValue().orElse(null)}" style="width: 83%" placeholder="조건을 입력하세요.">
+                <input type="text" class="col-10 form-control col-10" name="queryValue" th:value="${userSearchDTO.getQueryValue().orElse(null)}" style="width: calc(100% - 8rem)" placeholder="조건을 입력하세요.">
               </div>
               <div class="row justify-content-start mb-3">
-                <select class="form-select col-1 me-2" style="width: 15%" name="sex">
+                <select class="form-select col-1 me-2" style="width: 8rem" name="sex">
                   <option value="">모든 성별</option>
                   <option value="male">남성</option>
                   <option value="female">여성</option>
                 </select>
-                  <input type="number" class="form-control bi-border-right col-1" style="width: 15%" name="minBirth" placeholder="최소 나이(비활성화)">
-                ~
-                <input type="number" class="form-control col-1 me-2" style="width: 15%" name="maxBirth" placeholder="최대 나이(비활성화)">
-                <select class="form-select col-1 me-2" style="width: 20%" name="role">
+<!--                  <input type="number" class="form-control bi-border-right col-1" style="width: 15%" name="minBirth" placeholder="최소 나이(비활성화)">-->
+<!--                ~-->
+<!--                <input type="number" class="form-control col-1 me-2" style="width: 15%" name="maxBirth" placeholder="최대 나이(비활성화)">-->
+                <select class="form-select col-1 me-2" style="width: 8rem" name="role">
                   <option value="">모든 권한</option>
                   <option value="ROLE_GUEST">일반사용자</option>
                   <option value="ROLE_ADMIN">관리자</option>
                 </select>
 
-                <select class="form-select me-2 col-1" style="width: 15%" name="sort">
+                <select class="form-select me-2 col-1" style="width: 8rem" name="sort">
                   <option value="name">정렬기준</option>
                   <option value="name">이름</option>
                   <option value="birth">나이</option>
                   <option value="regdate">가입일</option>
                   <option value="year">기수</option>
                 </select>
-                <select class="col-1 form-select" style="width: 12%; padding: 0" name="order">
+                <select class="col-1 form-select" style="width: 8rem;" name="order">
                   <option value="ASC">오름차순</option>
                   <option value="DESC">내림차순</option>
                 </select>
-                <span class="material-symbols-outlined form-check col-1" style="width: fit-content; height: fit-content; font-size: 30px; padding: 1px; writing-mode: vertical-lr; display: inline;">sync_alt</span>
+<!--                <span class="material-symbols-outlined form-check col-1" style="width: fit-content; height: fit-content; font-size: 30px; padding: 1px; writing-mode: vertical-lr; display: inline;">sync_alt</span>-->
               </div>
               <div class="row justify-content-end">
                 <a th:href="@{/admin}" class="btn btn-secondary col-1 me-2" style="width: 10%">초기화</a>

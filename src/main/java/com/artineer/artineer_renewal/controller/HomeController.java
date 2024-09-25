@@ -65,8 +65,7 @@ public class HomeController {
         String username = authentication.getName();
 
         if (username.equals("anonymousUser")) {
-            model.addAttribute("user", username);
-
+            model.addAttribute("user", null);
         } else{
             User user = userRepository.findByUsername(username);
             model.addAttribute("user", user);
