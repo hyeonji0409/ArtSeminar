@@ -11,52 +11,52 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<div>
-<h1 th:text="${notice.title}">Notice Title</h1>
-<div th:utext="${notice.story}">Notice Story</div>
-<div th:each="fileName: ${notice.file}">
-    <img th:src="@{'/data/' + ${fileName}}" height="570">
+<div class="container text-center mt-5">
+    <h1 th:text="${notice.title}">Notice Title</h1>
+    <div th:utext="${notice.story}">Notice Story</div>
+    <div th:each="fileName: ${notice.file}">
+        <img th:src="@{'/data/' + ${fileName}}" height="570">
+    </div>
+
+    <div th:each="fileName: ${notice.file}">
+        <a th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image"></a>
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <a href="/notice/edit" class="text-light btn btn-info">수정</a>
+    </div>
+
+
+
+
+    <h2>댓글 동작 안함</h2>
+    <form th:action="@{/comments/add}" method="post">
+        <input type="hidden" name="bbsname" th:value="${bbsName}" />
+        <input type="hidden" name="bbsNo" th:value="${bbsNo}" />
+        <input type="hidden" name="username" th:value="${username}" />
+        <input type="hidden" name="replys" th:value="${replys}" />
+        <input type="text" name="memo" placeholder="댓글을 입력하세요." required />
+        <button type="submit">등록</button>
+    </form>
+
+    <h2>댓글 목록</h2>
+    <!--<div th:each="comment : ${notice.comment}">
+        <p th:text="${comment.memo}"></p>
+        <p th:text="${comment.regdate}"></p>
+    </div>-->
+
+
+    <div class="btn-group" sec:authorize="isAuthenticated()">
+        <a type="button" class="btn btn-sm btn-outline-secondary"
+           th:href="@{/notice/edit/{no}(no=${notice.no})}">edit</a>
+        <a type="button" class="btn btn-sm btn-outline-secondary"
+           th:href="@{/notice/delete/{no}(no=${notice.no})}">delete</a>
+    </div>
+
+    <div>
+        <a href="/notice">목록</a>
+    </div>
 </div>
-
-<div th:each="fileName: ${notice.file}">
-    <a th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image"></a>
-</div>
-
-<div class="d-flex justify-content-end">
-    <a href="/notice/edit" class="text-light btn btn-info">수정</a>
-</div>
-</div>
-
-
-
-<h2>댓글 동작 안함</h2>
-<form th:action="@{/comments/add}" method="post">
-    <input type="hidden" name="bbsname" th:value="${bbsName}" />
-    <input type="hidden" name="bbsNo" th:value="${bbsNo}" />
-    <input type="hidden" name="username" th:value="${username}" />
-    <input type="hidden" name="replys" th:value="${replys}" />
-    <input type="text" name="memo" placeholder="댓글을 입력하세요." required />
-    <button type="submit">등록</button>
-</form>
-
-<h2>댓글 목록</h2>
-<!--<div th:each="comment : ${notice.comment}">
-    <p th:text="${comment.memo}"></p>
-    <p th:text="${comment.regdate}"></p>
-</div>-->
-
-
-<div class="btn-group" sec:authorize="isAuthenticated()">
-    <a type="button" class="btn btn-sm btn-outline-secondary"
-       th:href="@{/notice/edit/{no}(no=${notice.no})}">edit</a>
-    <a type="button" class="btn btn-sm btn-outline-secondary"
-       th:href="@{/notice/delete/{no}(no=${notice.no})}">delete</a>
-</div>
-
-<div>
-    <a href="/notice">목록</a>
-</div>
-
 
 
 </body>

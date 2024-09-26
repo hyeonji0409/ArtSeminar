@@ -8,10 +8,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
     public User findByUsername(String username);
     public User findByPassword(String password);
     public User findByEmail(String email);
     public User findByTel(String telephoneNumber);
 
     Page<User> findAll(Pageable pageable);
+
+//    Page<User> findAllByNameContainingAndSexContainingAndRoleContaining(String name, String sex, String role, Pageable pageable);
+    Page<User> findByUsernameContaining(String username, Pageable pageable);
 }

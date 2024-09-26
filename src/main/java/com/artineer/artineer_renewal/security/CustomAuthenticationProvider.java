@@ -33,7 +33,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         User user = (User) customUserDetailService.loadUserByUsername(username);
 
         try {
-            // check pw
+            // check pw Todo 숨기기
             if (!passwordEncoder.matches(password, user.getPassword())) {
                 throw new BadCredentialsException("Password is invalid");
             }

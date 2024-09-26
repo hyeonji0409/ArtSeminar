@@ -23,25 +23,32 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
+
+<div></div>
 <div style="display: flex; justify-content: center; align-items: center;">
-<form class="container mt-5" th:action="@{/notice/new}" method="post" enctype="multipart/form-data" >
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" required><br><br>
+    <form class="container mt-5" th:action="@{/notice/new}" method="post" enctype="multipart/form-data" >
+        <select class="form-select mb-3" aria-label="Default select example" style="width: 500px">
+            <option selected>등록할 게시판 고르시오.</option>
+            <option value="1">공지사항 (notice)</option>
+        </select>
+        <input type="text" id="title" name="title" required style="width: 500px" placeholder="Title"><br><br>
 
-    <textarea name="story" id="story"></textarea>
+        <textarea name="story" id="story"></textarea>
 
-    <input type="file" id="file" name="file" multiple>
+        <input type="file" id="file" name="file" multiple>
 
-    <script>
-        ClassicEditor
-            .create( document.querySelector( '#story' ))
-            .catch( error => {
-                console.error( error );
-            } );
-    </script>
+        <script>
+            ClassicEditor
+                .create( document.querySelector( '#story' ))
+                .catch( error => {
+                    console.error( error );
+                } );
+        </script>
 
-    <button type="submit">Save</button>
-</form>
+        <button type="#">취소</button>
+        <button type="submit">등록</button>
+
+    </form>
 
 <!-- CKEditor 적용 -->
 <script type="module">

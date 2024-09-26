@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.ErrorResponse;
 
 @Entity
 @Getter
@@ -31,5 +32,6 @@ public class Gallery {
 
     private String name;
     private int year;
+
 
 }
