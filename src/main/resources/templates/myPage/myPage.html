@@ -15,15 +15,18 @@
         <div class="info__list">
             <div class="text" style="font-size: xx-large">회원 정보
             </div>
-            <div class="info__items">
-                <input type="text" value="아이디" disabled>
+            <div class="accountInfo">
+                <div class="info__items">
+                    <input type="text" value="아이디" disabled>
+                </div>
+                <div class="info__items">
+                    <input type="password" placeholder="비밀번호" disabled>
+                </div>
+                <div class="info__items">
+                    <input type="password" placeholder="비밀번호 확인" disabled>
+                </div>
             </div>
-            <div class="info__items">
-                <input type="password" placeholder="비밀번호" disabled>
-            </div>
-            <div class="info__items">
-                <input type="password" placeholder="비밀번호" disabled>
-            </div>
+
             <div class="info__items">
                 <input type="text" value="장준호" placeholder="이름" disabled>
             </div>
@@ -43,9 +46,9 @@
 
         <div class="button__list">
             <button id="editbtn">수정</button>
-            <div class="eidtPageBtn">
+            <div class="editPageBtn">
                 <button id="savebtn">완료</button>
-                <button id="camcelbtn">취소</button>
+                <button id="canclebtn">취소</button>
             </div>
 
         </div>
@@ -56,16 +59,18 @@
 
     <div class="side__bar">
         <div class="profile">
-            <img class="side__icon" src="../../static/assets/img/testimonials/profileimg.png" height="308" width="300"/>
-            <div class="side__page__name">이름(n기)</div>
+<!--            <img class="side__icon" src="../../static/image/profileimg.png" height="308" width="300"/>-->
+            <div class="side__icon"></div>
+            <h2 class="side__page__name">이름(n기)</h2>
         </div>
 
         <div class="side__items" >
-            <div class="section__title">계정</div>
-            <div>회원 정보</div>
-            <div class="section__title">활동</div>
-            <div>작성한 글</div>
-            <div>댓글단 글</div>
+            <h2 class="section__title">계정</h2>
+            <div class="myPage__section">회원 정보</div>
+            <h2 class="section__title">활동</h2>
+            <div class="myPage__section">작성한 글</div>
+            <div class="myPage__section">댓글단 글</div>
+            <div class="test_text" style="background-color: darkgray">test text</div>
         </div>
         <div>
             <button>로그아웃</button>

@@ -47,7 +47,8 @@ body {
 }
 .side__bar {
     display: flex;
-    align-items: center;
+    /*align-items: center;*/
+    align-items: flex-start;
     flex-direction: column;
     background-color: white;
     height: 100%;
@@ -56,7 +57,8 @@ body {
 }
 
 .side__items {
-    justify-content: start;
+    width: 100%;
+
 }
 
 .profile {
@@ -70,7 +72,22 @@ body {
     width: 150px;
     height: 150px;
     border-radius: 50%;
+    background-color: #0a58ca;
     margin: 1rem;
+}
+
+.section__title {
+    margin-left: 1rem;
+}
+
+.myPage__section {
+    width: 60%;
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    font-size: large;
+    font-weight: bold;
+
 }
 
 .side__page__name {
@@ -95,6 +112,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 1.5rem;
 }
 
 .info__items {
@@ -118,6 +136,15 @@ li {
     padding: 1rem;
 }
 
-.eidtPageBtn {
+.editPageBtn {
     display: none;
+}
+
+.accountInfo {
+    margin: 1rem;
+}
+
+.test_text {
+    width: 60%;
+
 }
