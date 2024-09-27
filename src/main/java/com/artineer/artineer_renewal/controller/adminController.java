@@ -85,10 +85,6 @@ public class adminController {
         return "/admin/admin";
     }
 
-//    @PostMapping("update-user")
-//    public String updateUser(@ModelAttribute("userSearchDTO") UserSearchDTO userSearchDTO) {
-//        userSearchDTO
-//    }
 
 
     // 회원정보 갱신

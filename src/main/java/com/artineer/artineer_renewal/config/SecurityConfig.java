@@ -1,7 +1,6 @@
 package com.artineer.artineer_renewal.config;
 
 
-import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.security.CustomAuthenticationFailureHandler;
 import com.artineer.artineer_renewal.security.CustomAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,11 +23,6 @@ import java.util.Map;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-//    private final UserRepository userRepository;
-//
-//    public SecurityConfig(UserRepository userRepository) {
-//        this.userRepository = userRepository;
-//    }
 
     // MD5 방식으로 암호화
     @Bean

@@ -1,10 +1,10 @@
 package com.artineer.artineer_renewal.entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "comment")
@@ -21,7 +21,8 @@ public class Comment {
     @Column(name = "bbs_no")
     private int bbsNo; // 게시글 번호
 
-    private int replys; // 대댓글 수..?
+    @Nullable
+    private Integer replys; // 대댓글 수..?
     private String memo;
     private String regdate;
 
@@ -32,5 +33,9 @@ public class Comment {
 
     private String name;
     private int year;
+
+    @OneToMany
+    @JoinColumn(name = "replys", referencedColumnName = "no")
+    private List<Comment> comments;
 
 }
