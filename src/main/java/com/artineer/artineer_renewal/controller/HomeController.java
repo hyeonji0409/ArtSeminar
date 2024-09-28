@@ -75,4 +75,20 @@ public class HomeController {
     public String denied() {
         return "/user/access-denied";
     }
+
+    @RequestMapping("/about")
+    public String about(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        if (username.equals("anonymousUser")) {
+            model.addAttribute("user", username);
+
+        } else{
+            User user = userRepository.findByUsername(username);
+            model.addAttribute("user", user);
+        }
+
+        return "about";
+    }
 }
