@@ -1,7 +1,9 @@
 package com.artineer.artineer_renewal.controller;
 
 import com.artineer.artineer_renewal.dto.NoticeDto;
+import com.artineer.artineer_renewal.entity.Comment;
 import com.artineer.artineer_renewal.entity.Notice;
+import com.artineer.artineer_renewal.repository.CommentRepository;
 import com.artineer.artineer_renewal.repository.NoticeRepository;
 import com.artineer.artineer_renewal.service.NoticeService;
 import com.artineer.artineer_renewal.service.UserService;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 @Controller
 public class NoticeController {
@@ -37,6 +40,8 @@ public class NoticeController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private CommentRepository commentRepository;
 
     public NoticeController(NoticeRepository noticeRepository) {
         this.noticeRepository = noticeRepository;
@@ -71,6 +76,10 @@ public class NoticeController {
     /* 글 세부 내용 조회 */
     @GetMapping("/notice/{no}")
     public String showNoticeDetail(@PathVariable("no") Long no, Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
         // 조회수 증가
         noticeService.increaseHitCount(no);
 
@@ -79,7 +88,17 @@ public class NoticeController {
         if (notice == null) {
             throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
         }
+
+        /* Todo 2차 댓글까지만 지원함. */
+
+        List<Comment> comments = commentRepository.findAllByBbsNo( no.intValue() );
+
+        model.addAttribute("bbsno", no);
+        model.addAttribute("comments", comments);
+        model.addAttribute("bbsname", "notice");
+        model.addAttribute("username", username);
         model.addAttribute("notice", notice);
+
         return "board/noticeDetail";
     }
 

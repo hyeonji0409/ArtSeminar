@@ -33,16 +33,6 @@ public class UserController {
     private HttpServletRequest request;
 
 
-//    @GetMapping("/user/sign-in/")
-//    public String loginForm(Model model,
-//                            @RequestParam(value = "error", required = false) String error) {
-//
-//        System.out.println("주소");e
-//        model.addAttribute("error", error);
-//
-//        return "/user/sign-in";
-//    }
-
     @RequestMapping("/user/sign-in")
     public String login(Model model,
                         @RequestParam(value = "error", required = false) String error) {
@@ -93,7 +83,7 @@ public class UserController {
         return  "redirect:/user/sign-in";
     }
 
-    @RequestMapping("/user/sign-up")
+    @GetMapping("/user/sign-up")
     public String join() {
         return "/user/sign-up";
     }
@@ -110,11 +100,10 @@ public class UserController {
     public ResponseEntity<String> checkSignUpValue(@PathVariable(name = "valueName") String valueName,
                                                    @RequestBody Map<String, String> payload) {
 
-//        Todo 이하 4종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
+//        Todo 이하 3종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
 //        org.hibernate.NonUniqueResultException: Query did not return a unique result: 9 results were returned
         User foundUser = switch (valueName) {
             case "username" -> userRepository.findByUsername(payload.get("value"));
-            case "password" -> userRepository.findByPassword(payload.get("value"));
             case "email" -> userRepository.findByEmail(payload.get("value"));
             case "tel" -> userRepository.findByTel(payload.get("value"));
             default -> null;
@@ -141,74 +130,37 @@ public class UserController {
     }
 
 
-    @PostMapping("/user/update")
-    public String updateUser(UserDto userDto) {
-        // IP 주소 가져오기
-        String clientIp = request.getRemoteAddr();
-        System.out.println("Client IP: " + clientIp);
+    /* 아이디/비밀번호 찾기 */
+    @GetMapping("/user/sign-find/{what}")
+    public String signFind(@PathVariable String what,
+                           Model model) {
 
-        // 현재 시간 가져오기
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd (HH:mm)");
-        String formattedDate = now.format(formatter);
-        String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
+        if (what.equals("id")) {
+            model.addAttribute("what", "id");
+        } else if (what.equals("pw")) {
+            model.addAttribute("what", "pw");
+        }
 
-
-        System.out.println("수정요청 받음");
-
-        User user = userRepository.findByUsername(userDto.getUsername());
-
-        user.setPassword( passwordEncoder.encode(userDto.getPassword()));
-        user.setName(userDto.getName());
-        user.setSex(userDto.getSex());
-        user.setBirth(formattedBirth);
-        user.setTel(userDto.getTel());
-        user.setEmail(userDto.getEmail());
-        user.setZipcode(userDto.getZipcode());
-        user.setRoadAddress(userDto.getRoadAddress());
-        user.setDetailAddress(userDto.getDetailAddress());
-        user.setYear(userDto.getYear());
-        user.setRole(userDto.getRole());
-
-        userRepository.save(user);
-        System.out.println(user);
-
-        return  "redirect:/";
+        return "/user/sign-find";
     }
 
 
+    @GetMapping("/user/sign-withdrawal")
+    public String withdrawal() {
 
-//    /* 아이디/비밀번호 찾기 */
-//    @GetMapping("/sign-find/{what}")
-//    public String signFind(@PathVariable String what,
-//                           Model model) {
-//
-//        if (what.equals("id")) {
-//            model.addAttribute("what", "id");
-//        } else if (what.equals("pw")) {
-//            model.addAttribute("what", "pw");
-//        }
-//
-//        return "/userLog/sign-find";
-//    }
-//
-//
-//    @GetMapping("/sign-withdrawal")
-//    public String withdrawal() {
-//
-//        return "/userLog/sign-withdrawal";
-//    }
-//    @PostMapping("/sign-withdrawal")
-//    public String PostWithdrawal() {
-//
-//        return "redirect:/";
-//    }
-//
-//    @GetMapping("/sign-withdrawalConfirm")
-//    public String withdrawalConfirm() {
-//
-//        return "/userLog/sign-withdrawalConfirm";
-//    }
+        return "/user/sign-withdrawal";
+    }
+    @PostMapping("/user/sign-withdrawal")
+    public String PostWithdrawal() {
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/user/sign-withdrawalConfirm")
+    public String withdrawalConfirm() {
+
+        return "/user/sign-withdrawalConfirm";
+    }
 //
 //    @PostMapping("/sign-withdrawalConfirm")
 //    public String PostWithdrawalConfirm() {

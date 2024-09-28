@@ -26,7 +26,7 @@ public class UserService {
     }
 
 
-    public Page<User> paginationFindUsers(int pageNumber, int pageSize, Sort sort) {
+    public Page<User> paginationFindAllUsers(int pageNumber, int pageSize, Sort sort) {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
         return userRepository.findAll(pageable);
     }

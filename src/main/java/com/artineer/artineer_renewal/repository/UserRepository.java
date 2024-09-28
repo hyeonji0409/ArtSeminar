@@ -16,6 +16,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findAll(Pageable pageable);
 
-//    Page<User> findAllByNameContainingAndSexContainingAndRoleContaining(String name, String sex, String role, Pageable pageable);
-    Page<User> findByUsernameContaining(String username, Pageable pageable);
+//      todo 네이티브? 쿼리가 나을지도, 또는 스펙이나?
+    Page<User> findByNameContainingAndSexStartingWithAndRoleContaining(String name, String sex, String role, Pageable pageable);
+    Page<User> findByUsernameContainingAndSexStartingWithAndRoleContaining(String username, String sex, String role, Pageable pageable);
+    Page<User> findByEmailContainingAndSexStartingWithAndRoleContaining(String email, String sex, String role, Pageable pageable);
+    Page<User> findByTelContainingAndSexStartingWithAndRoleContaining(String tel, String sex, String role, Pageable pageable);
+    Page<User> findByRoadAddressContainingOrDetailAddressContainingAndSexStartingWithAndRoleContaining(String roadAddress, String detailAddress, String sex, String role, Pageable pageable);
 }
