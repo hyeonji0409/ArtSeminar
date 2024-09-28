@@ -33,16 +33,6 @@ public class UserController {
     private HttpServletRequest request;
 
 
-//    @GetMapping("/user/sign-in/")
-//    public String loginForm(Model model,
-//                            @RequestParam(value = "error", required = false) String error) {
-//
-//        System.out.println("주소");e
-//        model.addAttribute("error", error);
-//
-//        return "/user/sign-in";
-//    }
-
     @RequestMapping("/user/sign-in")
     public String login(Model model,
                         @RequestParam(value = "error", required = false) String error) {
@@ -93,7 +83,7 @@ public class UserController {
         return  "redirect:/user/sign-in";
     }
 
-    @RequestMapping("/user/sign-up")
+    @GetMapping("/user/sign-up")
     public String join() {
         return "/user/sign-up";
     }
