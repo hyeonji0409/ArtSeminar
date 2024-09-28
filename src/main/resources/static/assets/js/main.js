@@ -229,3 +229,66 @@
   document.addEventListener('scroll', navmenuScrollspy);
 
 })();
+
+/**
+ * Open blog link in new tab
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  const blogLink = document.querySelector('.btn-watch-video');
+
+  if (blogLink) {
+    // glightbox 클래스가 없을 경우에만 새 탭에서 열기
+    blogLink.addEventListener('click', (e) => {
+      e.preventDefault();
+
+
+      if (!blogLink.classList.contains('glightbox')) {
+        window.open(blogLink.href, '_blank');
+      }
+    });
+  }
+});
+
+// 모달 및 캘린더 관련 코드
+const modal = document.getElementById("calendarModal");
+const closeModal = document.querySelector(".close");
+
+document.getElementById("openModal").onclick = function() {
+    modal.style.display = "block";
+
+    // 캘린더 초기화
+    $('#calendarModalContent').fullCalendar({
+        // 캘린더 설정
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+        editable: true,
+        events: [
+            // 여기에 이벤트 추가
+            {
+                title: '이벤트 1',
+                start: '2024-09-30'
+            },
+            {
+                title: '이벤트 2',
+                start: '2024-10-01',
+                end: '2024-10-02'
+            }
+            // 추가 이벤트...
+        ]
+    });
+};
+
+// 모달 닫기
+closeModal.onclick = function() {
+    modal.style.display = "none";
+};
+
+// 모달 바깥 클릭 시 닫기
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
