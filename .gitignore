@@ -231,4 +231,7 @@ gradle-app.setting
 application.properties
 
 .idea/
-/src/main/resources/data/
+/src/main/resources/data/**
+/et --hard 63bc513
+/src/main/resources/fileETC/
+/src/main/java/com/artineer/artineer_renewal/dto/JusoDto.java
