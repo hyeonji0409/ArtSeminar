@@ -89,12 +89,8 @@ public class NoticeController {
             throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
         }
 
-        /* Todo 2차 댓글까지만 지원함. */
-
-        List<Comment> comments = commentRepository.findAllByBbsNo( no.intValue() );
 
         model.addAttribute("bbsno", no);
-        model.addAttribute("comments", comments);
         model.addAttribute("bbsname", "notice");
         model.addAttribute("username", username);
         model.addAttribute("notice", notice);

@@ -219,12 +219,14 @@ const errMsg = {
 
 
 
-// 검색 결과 시 모델속성 값 유지 처리
-// document.querySelector("#search-form > div.row.d-flex.justify-content-between.mb-3 > div.col-2.d-flex.justify-content-end > a").addEventListener("click", (e) => {
-//     e.preventDefault()
-//     document.querySelector("#search-form > input[name='page']").value = 1
-//     window.location
-// })
+// 검색 결과 시 모델속성 값 유지 처리에 관한 코드
+
+// 필터 검색 시 페이지는 1로 하고 조건들을 보냄
+document.querySelector("#search-form > div.row.d-flex.justify-content-between.mb-3 > div.col-2.d-flex.justify-content-end > button").addEventListener("click", (e) => {
+    e.preventDefault()
+    document.querySelector("#search-form > input[name='page']").value = 1
+    document.querySelector("#search-form").submit()
+})
 
 document.querySelectorAll("#previous-page, #next-page").forEach(v => v.addEventListener("click", (e) => {
     e.preventDefault()

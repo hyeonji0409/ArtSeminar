@@ -73,14 +73,13 @@ public class adminController {
         } else if (userSearchDTO.getQuery().get().equals("tel")) {
             users = userRepository.findByTelContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
         } else if (userSearchDTO.getQuery().get().equals("address")) {
-            users = userRepository.findByRoadAddressContainingOrDetailAddressContainingAndSexStartingWithAndRoleContaining(queryValue, queryValue, sex, role, pageable);
+            System.out.println("address" + sex);
+            users = userRepository.findByRoadAddressContainingAndSexStartingWithAndRoleContainingOrDetailAddressContaining(queryValue, sex, role, queryValue, pageable);
         }
 
         if (userSearchDTO.getPage().isEmpty()) { userSearchDTO.setPage(Optional.of(1)); }
         if (userSearchDTO.getPageSize().isEmpty()) { userSearchDTO.setPageSize(Optional.of(10)); }
 
-
-        System.out.println("모델에 넣을거:\n" + userSearchDTO.toString());
 
         model.addAttribute("users", users);
         model.addAttribute("userSearchDTO", userSearchDTO);
