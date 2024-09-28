@@ -69,7 +69,7 @@
         <div class="table-responsive row mb-4">
           <div class="col-md-8 offset-md-2">
             <form id="search-form" class="row" style="margin-left: 0;" th:action="@{/admin}" method="post">
-              <div class="row justify-content-start mb-3">
+              <div class="row justify-content-between mb-3">
                 <select class="col-2 form-select me-2" style="width: 7rem" name="query">
                   <option value="">검색항목</option>
                   <option value="username">아이디</option>
@@ -80,8 +80,9 @@
                 </select>
                 <input type="text" class="col-10 form-control col-10" name="queryValue" th:value="${userSearchDTO.getQueryValue().orElse(null)}" style="width: calc(100% - 8rem)" placeholder="조건을 입력하세요.">
               </div>
-              <div class="row justify-content-start mb-3">
-                <select class="form-select col-1 me-2" style="width: 8rem" name="sex">
+              <div class="row d-flex justify-content-between mb-3">
+                <div class="col-8 d-flex flex flex-wrap">
+                <select class="form-select col me-2" style="width: 8rem" name="sex">
                   <option value="">모든 성별</option>
                   <option value="male">남성</option>
                   <option value="female">여성</option>
@@ -89,37 +90,34 @@
 <!--                  <input type="number" class="form-control bi-border-right col-1" style="width: 15%" name="minBirth" placeholder="최소 나이(비활성화)">-->
 <!--                ~-->
 <!--                <input type="number" class="form-control col-1 me-2" style="width: 15%" name="maxBirth" placeholder="최대 나이(비활성화)">-->
-                <select class="form-select col-1 me-2" style="width: 8rem" name="role">
+                <select class="form-select col me-2" style="width: 8rem" name="role">
                   <option value="">모든 권한</option>
                   <option value="ROLE_GUEST">일반사용자</option>
                   <option value="ROLE_ADMIN">관리자</option>
                 </select>
 
-                <select class="form-select me-2 col-1" style="width: 8rem" name="sort">
+                <select class="form-select me-2 col" style="width: 8rem" name="sort">
                   <option value="name">정렬기준</option>
                   <option value="name">이름</option>
                   <option value="birth">나이</option>
                   <option value="regdate">가입일</option>
                   <option value="year">기수</option>
                 </select>
-                <select class="col-1 form-select" style="width: 8rem;" name="order">
+                <select class="col d-flex form-select" style="width: 8rem;" name="order">
                   <option value="ASC">오름차순</option>
                   <option value="DESC">내림차순</option>
                 </select>
+                </div>
+
+                <div class="col-2 d-flex justify-content-end">
+                  <a th:href="@{/admin}" class="btn btn-secondary col-1 me-2 align-content-center" style="width: fit-content">초기화</a>
+                  <button type="submit" class="btn btn-primary col-1" style="width: fit-content">검색</button>
+                </div>
 <!--                <span class="material-symbols-outlined form-check col-1" style="width: fit-content; height: fit-content; font-size: 30px; padding: 1px; writing-mode: vertical-lr; display: inline;">sync_alt</span>-->
               </div>
-              <div class="row justify-content-end">
-                <a th:href="@{/admin}" class="btn btn-secondary col-1 me-2" style="width: 10%">초기화</a>
-                <button type="submit" class="btn btn-primary col-1" style="width: 10%">검색</button>
-              </div>
 <!--              <div class="row justify-content-end">-->
-<!--                <select class="form-select me-2 col-1" style="width: 15%" name="sort">-->
-<!--                  <option value="name">정렬기준</option>-->
-<!--                  <option value="name">이름</option>-->
-<!--                  <option value="birth">나이</option>-->
-<!--                  <option value="regDate">가입일</option>-->
-<!--                </select>-->
-<!--                <button type="submit" class="btn btn-primary col-1" style="width: 16%">검색</button>-->
+<!--                <a th:href="@{/admin}" class="btn btn-secondary col-1 me-2" style="width: 10%">초기화</a>-->
+<!--                <button type="submit" class="btn btn-primary col-1" style="width: 10%">검색</button>-->
 <!--              </div>-->
 
               <input type="hidden" th:if="${userSearchDTO.getPage()!=null}" th:value="${userSearchDTO.getPage().get()}" name="page">
@@ -172,22 +170,36 @@
         </div>
 
         <!-- 페이지네이션 -->
+        <!--          users.number 가 0부터 시작!!!!!!-->
         <nav aria-label="Page navigation">
           <ul class="pagination justify-content-center">
             <li th:classappend="${users.number <= 0} ? 'disabled'" class="page-item">
               <button id="previous-page" class="page-link" tabindex="-1" aria-disabled="true">이전</button>
 <!--              <a id="previous-page" class="page-link" th:href="@{|?page=${users.number}|}" tabindex="-1" aria-disabled="true">이전</a>-->
             </li>
-<!--          users.number 가 0부터 시작!!!!!!-->
+
+<!--            1번 모드: n페이지 단위씩 보이고 현재 페이지 위치는 매번 다름-->
+<!--            <li :each="page : ${#numbers.sequence(1, users.totalPages)} "-->
+<!--                :if="${ ((users.number)/5)*5 + 1 <= page and page <= ((users.number)/5)*5 + 5 }"-->
+<!--                :classappend="${page == users.number + 1 } ? 'active'" class="page-item"-->
+<!--                style="width: 3%;">-->
+<!--              <a class="page-link"  :href="@{|?page=${page}|}" :text="${page}">1</a>-->
+<!--            </li>-->
+
+<!--            2번 모드: 현재 페이지가 항상 가운데-->
             <li th:each="page : ${#numbers.sequence(1, users.totalPages)} "
-                th:if="${ ((users.number)/5)*5 + 1 <= page and page <= ((users.number)/5)*5 + 5 }"
+                th:if="${
+                  ( (users.getNumber() -2 < page) and (page < users.getNumber() +4) )
+                  or
+                  ( users.getNumber() < 2 and page <6 )
+                  or
+                  (  users.getNumber() > users.getTotalPages()-3 and page > users.getTotalPages() -5  )
+                }"
                 th:classappend="${page == users.number + 1 } ? 'active'" class="page-item"
                 style="width: 3%;">
               <a class="page-link"  th:href="@{|?page=${page}|}" th:text="${page}">1</a>
             </li>
-            <script>
-              console.log("현재 페이지네이션의 넘버는 " + [[${users.number}]])
-            </script>
+
 
               <li th:classappend="${users.number + 1 >= users.totalPages} ? 'disabled'" class="page-item">
 <!--              <button type="submit" class="page-link" th:action="@{|?page=${users.number + 2}|}" form="search-form">다음</button>-->
@@ -310,15 +322,14 @@
 <!--<script th:inline="javascript">-->
 <!--  var list = /*[[${list}]]*/ [];-->
 <!--</script>-->
-  <script>
-    role = "[[${userSearchDTO.getRole().orElse('')}]]"
-    query = "[[${userSearchDTO.getQuery().orElse('')}]]"
-    sex = "[[${userSearchDTO.getSex().orElse('')}]]"
-    sort = "[[${userSearchDTO.getSort().orElse('')}]]"
-    order = "[[${userSearchDTO.getOrder().orElse('ASC')}]]"
-  </script>
+  <script  th:inline="javascript">
+    // console.log([[${userSearchDTO.getRole().orElse('si')}]])
+    role = [[${userSearchDTO.getRole().orElse('')}]]
+    query = [[${userSearchDTO.getQuery().orElse('')}]]
+    sex = [[${userSearchDTO.getSex().orElse('')}]]
+    sort = [[${userSearchDTO.getSort().orElse('')}]]
+    order = [[${userSearchDTO.getOrder().orElse('ASC')}]]
 
-  <script th:inline="javascript">
     userForEdit = /*[[${users}]]*/ [];
   </script>
 

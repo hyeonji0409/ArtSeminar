@@ -22,6 +22,7 @@ public class CommentController {
 
     @PostMapping("/comments/add")
     public String addComment(@RequestParam String bbsname,
+                             @RequestParam String bbsno,
                              @RequestParam String username,
                              @RequestParam(required = false) Integer replys,
                              @RequestParam String memo) {

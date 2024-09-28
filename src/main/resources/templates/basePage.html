@@ -69,8 +69,30 @@
       justify-content: center;
       border: #0a58ca solid 5px;
       width: 50%; height: 1000px">
+        <button class="btn btn-sm btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" >수정</button>
 
-        <h1>여기에 콘텐츠를 넣기</h1>
+        <div class="">여기에 콘텐츠를 넣기</div>
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+          <div class="modal-dialog mt-5 pt-5" >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">모달 제목</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form name="form" id="form" action="/user/update" method="post">
+                  모달 내용
+                </form>
+              </div>
+              <div class="modal-footer" style="justify-content: center">
+                <button type="button" class="btn btn-primary" id="save-changes" form="form" style="width: 40%">진행</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 40%">취소</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
 
       </div>
 

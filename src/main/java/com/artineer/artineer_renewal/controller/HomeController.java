@@ -43,6 +43,8 @@ public class HomeController {
         return "/user/access-denied";
     }
 
+
+
     @RequestMapping("/about")
     public String about(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

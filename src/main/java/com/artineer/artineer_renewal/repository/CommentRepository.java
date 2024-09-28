@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    List<Comment> findByBbsname(String bbsname);
+    List<Comment> findAllByBbsNo(Integer bbsno);
 }

@@ -220,19 +220,19 @@ const errMsg = {
 
 
 // 검색 결과 시 모델속성 값 유지 처리
-document.querySelector("#search-form > div.row.justify-content-end > button").addEventListener("click", (e) => {
-    e.preventDefault()
-    document.querySelector("#search-form > input[type=hidden]:nth-child(4)").value = 1
-    document.querySelector("#search-form").submit()
-})
+// document.querySelector("#search-form > div.row.d-flex.justify-content-between.mb-3 > div.col-2.d-flex.justify-content-end > a").addEventListener("click", (e) => {
+//     e.preventDefault()
+//     document.querySelector("#search-form > input[name='page']").value = 1
+//     window.location
+// })
 
 document.querySelectorAll("#previous-page, #next-page").forEach(v => v.addEventListener("click", (e) => {
     e.preventDefault()
 
-    document.querySelector("#search-form > input[type=hidden]:nth-child(4)").value =
+    document.querySelector("#search-form > input[name='page']").value =
         e.target.id === "previous-page" ?
-            Number(document.querySelector("#search-form > input[type=hidden]:nth-child(4)").value) - 1 :
-            Number(document.querySelector("#search-form > input[type=hidden]:nth-child(4)").value) + 1
+            Number(document.querySelector("#search-form > input[name='page']").value) - 1 :
+            Number(document.querySelector("#search-form > input[name='page']").value) + 1
 
     document.querySelector("#search-form").submit()
 }))
@@ -240,7 +240,7 @@ document.querySelectorAll("#previous-page, #next-page").forEach(v => v.addEventL
 document.querySelectorAll("#starter-section > div.container > nav > ul > li > a").forEach(v =>
     v.addEventListener('click', (e) => {
         e.preventDefault()
-        document.querySelector("#search-form > input[type=hidden]:nth-child(4)").value = v.innerHTML
+        document.querySelector("#search-form > input[name='page']").value = v.innerHTML
         document.querySelector("#search-form").submit()
     }))
 
@@ -250,16 +250,16 @@ try {
     document.querySelector(`#search-form > div > select[name='query'] > option[value=${query}]`).selected = true
 } catch (e) {}
 try {
-    document.querySelector(`#search-form > div > select[name='sex'] > option[value=${sex}]`).selected = true
+    document.querySelector(`#search-form > div > div > select[name='sex'] > option[value=${sex}]`).selected = true
 } catch (e) {}
 try {
-    document.querySelector(`#search-form > div > select[name='sort'] > option[value=${sort}]`).selected = true
+    document.querySelector(`#search-form > div > div > select[name='sort'] > option[value=${sort}]`).selected = true
 } catch (e) {}
 try {
-    document.querySelector(`#search-form > div > select[name='order'] > option[value=${order}]`).selected = true
+    document.querySelector(`#search-form > div > div > select[name='order'] > option[value=${order}]`).selected = true
 } catch (e) {}
 try {
-    document.querySelector(`#search-form > div > select[name='role'] > option[value=${role}]`).selected = true
+    document.querySelector(`#search-form > div > div > select[name='role'] > option[value=${role}]`).selected = true
 } catch (e) {}
 
 

@@ -91,8 +91,9 @@ public class NoticeController {
 
         /* Todo 2차 댓글까지만 지원함. */
 
-        List<Comment> comments = commentRepository.findByBbsname("notice");
+        List<Comment> comments = commentRepository.findAllByBbsNo( no.intValue() );
 
+        model.addAttribute("bbsno", no);
         model.addAttribute("comments", comments);
         model.addAttribute("bbsname", "notice");
         model.addAttribute("username", username);

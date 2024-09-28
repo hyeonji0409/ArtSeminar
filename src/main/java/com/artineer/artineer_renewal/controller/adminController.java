@@ -79,6 +79,9 @@ public class adminController {
         if (userSearchDTO.getPage().isEmpty()) { userSearchDTO.setPage(Optional.of(1)); }
         if (userSearchDTO.getPageSize().isEmpty()) { userSearchDTO.setPageSize(Optional.of(10)); }
 
+
+        System.out.println("모델에 넣을거:\n" + userSearchDTO.toString());
+
         model.addAttribute("users", users);
         model.addAttribute("userSearchDTO", userSearchDTO);
 
