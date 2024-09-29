@@ -122,7 +122,9 @@ public class UserController {
         String clientIp = request.getRemoteAddr();
         userService.updateUser(userDto, clientIp);
 
-        return "/user/sign-find";
+        String redirectAddress =  request.getHeader("Referer");
+        System.out.println(redirectAddress);
+        return "redirect:" + redirectAddress;
     }
 
 
@@ -133,7 +135,7 @@ public class UserController {
   
     @PostMapping("/user/sign-withdrawal")
     public String PostWithdrawal() {
-        return "redirect:/mypage";
+        return "redirect:/";
     }
 
 
