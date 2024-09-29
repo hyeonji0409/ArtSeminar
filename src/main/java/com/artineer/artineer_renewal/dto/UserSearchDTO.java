@@ -12,25 +12,28 @@ import java.util.Optional;
 @ToString
 public class UserSearchDTO {
     private Optional<String> query;
-    private  Optional<String> queryValue;
-    private  Optional<String> sex;
-    private  Optional<String> minBirth;
-    private  Optional<String> maxBirth;
-    private  Optional<String> role;
-    private  Optional<String> sort;
-    private  Optional<String> order;
-    private  Optional<Integer> page;
-    private  Optional<Integer> pageSize;
+    private Optional<String> queryValue;
+    private Optional<String> sex;
+    private Optional<String> minBirth;
+    private Optional<String> maxBirth;
+    private Optional<String> role;
+    private Optional<String> sort;
+    private Optional<String> order;
+    private Optional<Integer> page;
+    private Optional<Integer> pageSize;
+
 
     @Builder
-    public UserSearchDTO(Optional<String> query, Optional<String> queryValue, Optional<String> sex, Optional<String> minBirth, Optional<String> maxBirth, Optional<String> role, Optional<String> sort, Optional<String> order) {
-        this.query = query;
-        this.queryValue = queryValue;
-        this.sex = sex;
-        this.minBirth = minBirth;
-        this.maxBirth = maxBirth;
-        this.role = role;
-        this.sort = sort;
-        this.order = order;
+    public UserSearchDTO(String query, String queryValue, String sex, String minBirth, String maxBirth, String role, String sort, String order, Integer page, Integer pageSize) {
+        this.query = Optional.ofNullable(query);
+        this.queryValue = Optional.ofNullable(queryValue);
+        this.sex = Optional.ofNullable(sex);
+        this.minBirth = Optional.ofNullable(minBirth);
+        this.maxBirth = Optional.ofNullable(maxBirth);
+        this.role = Optional.ofNullable(role);
+        this.sort = Optional.ofNullable(sort);
+        this.order = Optional.ofNullable(order);
+        this.page = Optional.ofNullable(page);
+        this.pageSize = Optional.ofNullable(pageSize);
     }
 }
