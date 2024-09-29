@@ -45,7 +45,7 @@
 
 <body class="index-page">
 
-<!--<header 부분은 /fragments/header.html로 분리 -->
+<!--<header 부분은 templetes/header.html로 분리-->
 <div th:replace="~{header :: header}"></div>
 
 
@@ -265,15 +265,14 @@
 
 
 </main>
-<!--<footer 부분은 /fragments/header.html로 분리-->
-<!--<footer th:replace="~{/fragments/footerFragment :: footerFragment}"></footer>-->
+<!--<footer 부분은 templetes/footer.html로 분리-->
 <div th:replace="~{footer::footer}"></div>>
 
 <!-- Scroll Top -->
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Preloader -->
-<div id="preloader"></div>
+<!--<div id="preloader"></div>-->
 
 <!-- Vendor JS Files -->
 
