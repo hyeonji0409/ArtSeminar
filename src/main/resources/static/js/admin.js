@@ -16,7 +16,8 @@ inputBoxes.forEach(v => v.addEventListener("change", (e) => {
 
 /* check submit form validation */
 const form = document.querySelector('#form');
-const submitButton = document.querySelector('#save-changes');
+const saveButton = document.querySelector('#save-changes');
+const deleteButton = document.querySelector('#delete');
 const idInput = document.querySelector('input[name="username"]');
 const passwordInput = document.querySelector('input[name="password"]');
 const emailInput = document.querySelector('input[name="email"]');
@@ -77,7 +78,7 @@ genderInputs.forEach((v) => v.addEventListener('focus', (e) => {
 }))
 
 
-submitButton.addEventListener('click', async (e) => {
+saveButton.addEventListener('click', async (e) => {
     e.preventDefault();
 
     // 젠더는 트리 구조가 좀 달라서 일단 이렇게...
@@ -106,7 +107,32 @@ submitButton.addEventListener('click', async (e) => {
         form.submit();
         alert("수정이 완료되었습니다.");
     }
+})
 
+deleteButton.addEventListener("click", async () => {
+
+    let flag = confirm("삭제된 계정은 DB에서 완전히 제거됩니다.\n정말 삭제하시겠습니까?")
+    if (!flag) return
+
+    let response = await fetch("user/withdrawal", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "username": idInput.value
+            })
+        }
+    )
+
+    if (response.status === 200) {
+        alert("계정이 삭제되었다.")
+    }
+    else {
+        alert("알 수 없는 문제가 발생하였다.")
+    }
+
+    location.href = "/admin"
 })
 
 // 서버에 유효한 값인지 판별 요청

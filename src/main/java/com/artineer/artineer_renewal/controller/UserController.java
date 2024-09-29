@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Controller
@@ -34,7 +35,7 @@ public class UserController {
 
 
     @RequestMapping("/user/sign-in")
-    public String login(Model model,
+    public String signIn(Model model,
                         @RequestParam(value = "error", required = false) String error) {
 
         model.addAttribute("error", error);
@@ -83,7 +84,7 @@ public class UserController {
     }
 
     @GetMapping("/user/sign-up")
-    public String join() {
+    public String signUp() {
         return "/user/sign-up";
     }
 
@@ -120,26 +121,41 @@ public class UserController {
 
     @GetMapping("/user/sign-withdrawal")
     public String withdrawal() {
-
         return "/user/sign-withdrawal";
     }
     @PostMapping("/user/sign-withdrawal")
     public String PostWithdrawal() {
-
         return "redirect:/";
     }
 
     @GetMapping("/user/sign-withdrawalConfirm")
     public String withdrawalConfirm() {
-
         return "/user/sign-withdrawalConfirm";
     }
-//
+
+
+
 //    @PostMapping("/sign-withdrawalConfirm")
 //    public String PostWithdrawalConfirm() {
 //        // Todo 회원정보 삭제화
 //        return "redirect:/";
 //    }
+
+    @PostMapping("/user/withdrawal")
+    public ResponseEntity<String> PostWithdrawal(@RequestBody Map<String, Object> payload) {
+
+        System.out.println("다음 아이디가 삭제될 예정:\n" + payload.get("username"));
+
+        User user = null;
+        try {
+            user = userRepository.findByUsername((String) payload.get("username"));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notFound");
+        }
+
+        userRepository.deleteById(user.getNo());
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
 
 
 }

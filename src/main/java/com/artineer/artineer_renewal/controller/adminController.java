@@ -5,14 +5,9 @@ import com.artineer.artineer_renewal.dto.UserSearchDTO;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.AdminService;
-import com.artineer.artineer_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,7 +42,6 @@ public class adminController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-
         User user = userRepository.findByUsername(username);
 
         System.out.println(userSearchDTO.toString());
