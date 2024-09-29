@@ -36,6 +36,8 @@ public class adminController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
+    // 관리자의 사용자 정보 쿼리 화면
     @RequestMapping("/admin")
     public String adminPage(Model model,
                             @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
@@ -62,20 +64,15 @@ public class adminController {
                 userSearchDTO.getPageSize().orElse(pageSize),
                 Sort.by(direction, sortProperty));
 
-        if (userSearchDTO.getQuery().isEmpty() || userSearchDTO.getQuery().get().isEmpty()) {
-            users = userRepository.findByNameContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
-        } else if (userSearchDTO.getQuery().get().equals("name")) {
-            users = userRepository.findByNameContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
-        } else if (userSearchDTO.getQuery().get().equals("username")) {
-            users = userRepository.findByUsernameContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
-        } else if (userSearchDTO.getQuery().get().equals("email")) {
-            users = userRepository.findByEmailContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
-        } else if (userSearchDTO.getQuery().get().equals("tel")) {
-            users = userRepository.findByTelContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
-        } else if (userSearchDTO.getQuery().get().equals("address")) {
-            System.out.println("address" + sex);
-            users = userRepository.findByRoadAddressContainingAndSexStartingWithAndRoleContainingOrDetailAddressContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, queryValue, sex, role, pageable);
-        }
+        users =
+                switch (userSearchDTO.getQuery().orElse("")) {
+                    case "name" -> userRepository.findByNameContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
+                    case "username" -> userRepository.findByUsernameContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
+                    case "email" -> userRepository.findByEmailContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
+                    case "tel" -> userRepository.findByTelContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
+                    case "address" -> userRepository.findByRoadAddressContainingAndSexStartingWithAndRoleContainingOrDetailAddressContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, queryValue, sex, role, pageable);
+                    default -> userRepository.findByNameContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
+                };
 
         if (userSearchDTO.getPage().isEmpty()) { userSearchDTO.setPage(Optional.of(page==null?1:page)); }
         if (userSearchDTO.getPageSize().isEmpty()) { userSearchDTO.setPageSize(Optional.of(pageSize==null?10:pageSize)); }
