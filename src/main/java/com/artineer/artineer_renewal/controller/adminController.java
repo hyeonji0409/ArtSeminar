@@ -52,19 +52,17 @@ public class adminController {
 
         System.out.println(userSearchDTO.toString());
 
-        String sortProperty =  userSearchDTO.getSort().orElse("name");
-        Sort.Direction direction = userSearchDTO.getOrder().orElse("ASC").equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
-
-        Page<User> users = null;
         String queryValue = userSearchDTO.getQueryValue().orElse("");
         String sex = userSearchDTO.getSex().orElse("");
         String role = userSearchDTO.getRole().orElse("");
+        String sortProperty =  userSearchDTO.getSort().orElse("name");
+        Sort.Direction direction = userSearchDTO.getOrder().orElse("ASC").equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(
                 userSearchDTO.getPage().orElse(page) - 1,
                 userSearchDTO.getPageSize().orElse(pageSize),
                 Sort.by(direction, sortProperty));
 
-        users =
+        Page<User> users =
                 switch (userSearchDTO.getQuery().orElse("")) {
                     case "name" -> userRepository.findByNameContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
                     case "username" -> userRepository.findByUsernameContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
