@@ -11,7 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PopupDTO {
     private Long no;
-    private String title;
-    private String imageSrc;
     private String popupValue;
+    private String title;
+    private String description;
+    private String imageSrc;
 }

@@ -32,8 +32,7 @@ public class HomeController {
             model.addAttribute("user", user);
         }
 
-
-        PopupDTO popup = new PopupDTO(121414L, "공지사항", "/assets/img/IMG_5885.png", "무슨벨류");
+        PopupDTO popup = new PopupDTO(121414L, "첫팝업", "공지사항", "부원모집","/assets/img/IMG_5885.png");
         model.addAttribute("popup", popup);
 
         return "index";
