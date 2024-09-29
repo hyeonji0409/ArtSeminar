@@ -80,25 +80,26 @@ public class GalleryController {
 
     /* 글 수정 */
     //현재 오류 떠서 안들어가짐
-    @GetMapping("/gallery/edit/{no}")
-    public String showEditGalleryForm(@PathVariable Long no, Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String loggedInUsername = authentication.getName();
+   @GetMapping("/gallery/edit/{no}")
+   public String showEditGalleryFrom(@PathVariable Long no, Model model){
+       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+       String loggedInUsername = authentication.getName();
 
-        Gallery gallery = galleryRepository.findById(no).orElse(null);
+       Gallery gallery = galleryRepository.findById(no).orElse(null);
 
-        if(isAuthorizedUser(gallery, loggedInUsername)) {
-            model.addAttribute("gallery", gallery);
-            return "board/galleryEdit";
-        } else {
-            return "redirect:/access-denied";
-        }
-    }
+       if(isAuthorizedUser(gallery, loggedInUsername)){
+           model.addAttribute("gallery",gallery);
+           return  "board/galleryEdit";
+       }
+       else {
+           return "redirect:/access-denied";
+       }
+   }
 
     @PostMapping("/gallery/edit")
-    public String updateGallery(@RequestParam Long no, @RequestParam String title, @RequestParam String story) {
-        galleryService.updateGallery(no, title, story);
-        return "redirect:/gallery/" + no;
+    public String updateGallery(@RequestParam Long no, @RequestParam String title,@RequestParam String story){
+       galleryService.updateGallery(no,title, story);
+       return "redirect:/gallery/"+no;
     }
 
     /* 글 삭제 */

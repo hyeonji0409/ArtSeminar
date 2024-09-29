@@ -11,8 +11,8 @@
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="/img/favicon.png" rel="icon">
-    <link href="/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link th:href="@{/image/favicon.ico}" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -68,14 +68,14 @@
             <div class="col-md-8">
                 <div class="card-body">
                     <p th:text="${gallerys.size() - iterStat.index}">번호</p>
-                    <a th:text="${gallery.title}" th:href="@{/gallery/{no}(no=${gallery.no})}" class="card-title">제목</a>
-                    <div class="d-flex justify-content">
-                        <p th:text="${gallery.name} + '(' + ${gallery.year} + '기)'" class="card-text">작성자</p>
-                        <p th:text="${gallery.regdate}" class="card-text">날짜</p>
+                    <a th:text="${gallery.title}" th:href="@{/gallery/{no}(no=${gallery.no})}" class="card-title" style="font-size: 25px; text-decoration: none;">제목</a>
+                    <div class="d-flex justify-content" style="padding-top: 20px;">
+                        <p th:text="${gallery.name} + '(' + ${gallery.year} + '기)'" class="card-text" style="padding-right: 10px;">작성자</p>
+                        <p th:text="${gallery.regdate}" class="card-text" style="padding-left: 10px;">날짜</p>
                     </div>
                     <div class="d-flex justify-content">
-                        <p th:text="${gallery.comment}" class="card-text"><small class="text-muted">댓글수</small></p>
-                        <p th:text="${gallery.hit}" class="card-text"><small class="text-muted">조회수</small></p>
+                        <p>댓글수</p><p th:text="${gallery.comment}" class="card-text"><small class="text-muted" style="padding-right: 10px;">댓글수</small></p>
+                        <p style="padding-left: 10px;">조회수</p><p th:text="${gallery.hit}" class="card-text"><small class="text-muted" >조회수</small></p>
                     </div>
                 </div>
             </div>
