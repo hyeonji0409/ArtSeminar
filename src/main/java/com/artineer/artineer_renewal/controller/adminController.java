@@ -4,6 +4,7 @@ import com.artineer.artineer_renewal.dto.UserDto;
 import com.artineer.artineer_renewal.dto.UserSearchDTO;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.UserRepository;
+import com.artineer.artineer_renewal.service.AdminService;
 import com.artineer.artineer_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class adminController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private UserService userService;
+    private AdminService adminService;
     @Autowired
     private HttpServletRequest request;
     @Autowired
@@ -48,34 +49,14 @@ public class adminController {
         String username = authentication.getName();
 
         User user = userRepository.findByUsername(username);
-        model.addAttribute("user", user);
 
         System.out.println(userSearchDTO.toString());
 
-        String queryValue = userSearchDTO.getQueryValue().orElse("");
-        String sex = userSearchDTO.getSex().orElse("");
-        String role = userSearchDTO.getRole().orElse("");
-        String sortProperty =  userSearchDTO.getSort().orElse("name");
-        Sort.Direction direction = userSearchDTO.getOrder().orElse("ASC").equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Pageable pageable = PageRequest.of(
-                userSearchDTO.getPage().orElse(page) - 1,
-                userSearchDTO.getPageSize().orElse(pageSize),
-                Sort.by(direction, sortProperty));
-
-        Page<User> users =
-                switch (userSearchDTO.getQuery().orElse("")) {
-                    case "name" -> userRepository.findByNameContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
-                    case "username" -> userRepository.findByUsernameContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
-                    case "email" -> userRepository.findByEmailContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
-                    case "tel" -> userRepository.findByTelContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
-                    case "address" -> userRepository.findByRoadAddressContainingAndSexStartingWithAndRoleContainingOrDetailAddressContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, queryValue, sex, role, pageable);
-                    default -> userRepository.findByNameContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
-                };
-
+        Page<User> users = adminService.paginationByQuery(userSearchDTO, page, pageSize);
         if (userSearchDTO.getPage().isEmpty()) { userSearchDTO.setPage(Optional.of(page==null?1:page)); }
         if (userSearchDTO.getPageSize().isEmpty()) { userSearchDTO.setPageSize(Optional.of(pageSize==null?10:pageSize)); }
 
-
+        model.addAttribute("user", user);
         model.addAttribute("users", users);
         model.addAttribute("userSearchDTO", userSearchDTO);
 
@@ -90,36 +71,7 @@ public class adminController {
     public ResponseEntity<String> checkSignUpValue(@PathVariable(name = "valueName") String valueName,
                                                    @RequestBody Map<String, String> payload) {
 
-//        Todo 이하 2종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
-//        org.hibernate.NonUniqueResultException: Query did not return a unique result: 9 results were returned
-        User foundUser = switch (valueName) {
-            case "email" -> userRepository.findByEmail(payload.get("value"));
-            case "tel" -> userRepository.findByTel(payload.get("value"));
-            default -> null;
-        };
-
-        System.out.println("sign-up check: "+ valueName);
-        System.out.println(payload);
-        System.out.println(
-                (foundUser ==
-                        null ?
-                        "It is possible to register a new user...\n null" :
-                        "submitted value is already exist in database...\n" + foundUser.toString()
-                ) + "\n-------------------------------------------------\n"
-        );
-
-        if (foundUser != null && foundUser.equals(userRepository.findByUsername(payload.get("username")))) {
-            foundUser = null;
-        }
-
-
-        if (foundUser != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("invalid");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.OK).body("valid");
-        }
-
+        return adminService.checkSignUpValue(valueName, payload);
     }
 
 

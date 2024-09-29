@@ -58,7 +58,6 @@ public class UserController {
         // Todo js에서도 포멧하면 좋은가
         String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
 
-
         User user = new User(
                 null,
                 userDto.getUsername(),
@@ -100,33 +99,7 @@ public class UserController {
     public ResponseEntity<String> checkSignUpValue(@PathVariable(name = "valueName") String valueName,
                                                    @RequestBody Map<String, String> payload) {
 
-//        Todo 이하 3종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
-//        org.hibernate.NonUniqueResultException: Query did not return a unique result: 9 results were returned
-        User foundUser = switch (valueName) {
-            case "username" -> userRepository.findByUsername(payload.get("value"));
-            case "email" -> userRepository.findByEmail(payload.get("value"));
-            case "tel" -> userRepository.findByTel(payload.get("value"));
-            default -> null;
-        };
-
-        System.out.println("sign-up check: "+ valueName);
-        System.out.println(payload);
-        System.out.println(
-                (foundUser ==
-                        null ?
-                        "It is possible to register a new user...\n null" :
-                        "submitted value is already exist in database...\n" + foundUser.toString()
-                ) + "\n-------------------------------------------------\n"
-        );
-
-
-        if (foundUser != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("invalid");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.OK).body("valid");
-        }
-
+        return userService.checkSignUpValue(valueName, payload);
     }
 
 
