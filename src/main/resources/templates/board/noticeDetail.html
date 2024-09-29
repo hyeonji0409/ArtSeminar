@@ -11,7 +11,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<div class="container text-center mt-5">
+<div class="container mt-5">
     <h1 th:text="${notice.title}">Notice Title</h1>
     <div th:utext="${notice.story}">Notice Story</div>
     <div th:each="fileName: ${notice.file}">
@@ -28,22 +28,21 @@
 
 
 
-
+    <h2>댓글 목록</h2>
     <h2>댓글 동작 안함</h2>
     <form th:action="@{/comments/add}" method="post">
-        <input type="hidden" name="bbsname" th:value="${bbsName}" />
+        <input type="hidden" name="bbsname" th:value="${bbsname}" />
         <input type="hidden" name="bbsNo" th:value="${bbsNo}" />
         <input type="hidden" name="username" th:value="${username}" />
-        <input type="hidden" name="replys" th:value="${replys}" />
+        <input type="hidden" name="bbsno" th:value="${bbsno}" />
+        <input name="replys" th:value="${null}" />
         <input type="text" name="memo" placeholder="댓글을 입력하세요." required />
         <button type="submit">등록</button>
     </form>
 
-    <h2>댓글 목록</h2>
-    <!--<div th:each="comment : ${notice.comment}">
-        <p th:text="${comment.memo}"></p>
-        <p th:text="${comment.regdate}"></p>
-    </div>-->
+
+        </div>
+    </div>
 
 
     <div class="btn-group" sec:authorize="isAuthenticated()">

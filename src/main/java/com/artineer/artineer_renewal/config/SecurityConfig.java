@@ -1,7 +1,6 @@
 package com.artineer.artineer_renewal.config;
 
 
-import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.security.CustomAuthenticationFailureHandler;
 import com.artineer.artineer_renewal.security.CustomAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,18 +23,13 @@ import java.util.Map;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-//    private final UserRepository userRepository;
-//
-//    public SecurityConfig(UserRepository userRepository) {
-//        this.userRepository = userRepository;
-//    }
 
     // MD5 방식으로 암호화
     @Bean
     public PasswordEncoder passwordEncoder() throws NoSuchAlgorithmException {
         String encodingId = "bcrypt";
         Map<String, PasswordEncoder> encoders = new HashMap<>();
-        // Todo salt?
+
         encoders.put(null, new MessageDigestPasswordEncoder("MD5"));
         encoders.put("MD5", new MessageDigestPasswordEncoder("MD5"));
         encoders.put("bcrypt", new BCryptPasswordEncoder());
@@ -49,7 +42,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         /* grades, signUp, gallery에 관해서는 user의 권한을 주지 않고 접속이 가능하게 한다. 그 외의 모든 요청은 인증을 필요로 함 */
-                        auth.requestMatchers("/loginForm", "/join", "/",
+                        auth.requestMatchers("/",
                                         "/css/**", "/static/assets/**", "/js/**", "/images/**", "/webjars/**", "/static/**").permitAll()
                                 .requestMatchers("/notice/delete/**", "/notice/edit/**").authenticated()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")

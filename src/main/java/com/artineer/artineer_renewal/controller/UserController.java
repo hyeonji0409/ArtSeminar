@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
@@ -33,18 +37,8 @@ public class UserController {
     private HttpServletRequest request;
 
 
-//    @GetMapping("/user/sign-in/")
-//    public String loginForm(Model model,
-//                            @RequestParam(value = "error", required = false) String error) {
-//
-//        System.out.println("주소");e
-//        model.addAttribute("error", error);
-//
-//        return "/user/sign-in";
-//    }
-
     @RequestMapping("/user/sign-in")
-    public String login(Model model,
+    public String signIn(Model model,
                         @RequestParam(value = "error", required = false) String error) {
 
         model.addAttribute("error", error);
@@ -67,7 +61,6 @@ public class UserController {
 
         // Todo js에서도 포멧하면 좋은가
         String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
-
 
         User user = new User(
                 null,
@@ -93,8 +86,8 @@ public class UserController {
         return  "redirect:/user/sign-in";
     }
 
-    @RequestMapping("/user/sign-up")
-    public String join() {
+    @GetMapping("/user/sign-up")
+    public String signUp() {
         return "/user/sign-up";
     }
 
@@ -110,111 +103,75 @@ public class UserController {
     public ResponseEntity<String> checkSignUpValue(@PathVariable(name = "valueName") String valueName,
                                                    @RequestBody Map<String, String> payload) {
 
-//        Todo 이하 4종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
-//        org.hibernate.NonUniqueResultException: Query did not return a unique result: 9 results were returned
-        User foundUser = switch (valueName) {
-            case "username" -> userRepository.findByUsername(payload.get("value"));
-            case "password" -> userRepository.findByPassword(payload.get("value"));
-            case "email" -> userRepository.findByEmail(payload.get("value"));
-            case "tel" -> userRepository.findByTel(payload.get("value"));
-            default -> null;
-        };
-
-        System.out.println("sign-up check: "+ valueName);
-        System.out.println(payload);
-        System.out.println(
-                (foundUser ==
-                        null ?
-                        "It is possible to register a new user...\n null" :
-                        "submitted value is already exist in database...\n" + foundUser.toString()
-                ) + "\n-------------------------------------------------\n"
-        );
-
-
-        if (foundUser != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("invalid");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.OK).body("valid");
-        }
-
+        return userService.checkSignUpValue(valueName, payload);
     }
 
 
-    @PostMapping("/user/update")
-    public String updateUser(UserDto userDto) {
-        // IP 주소 가져오기
-        String clientIp = request.getRemoteAddr();
-        System.out.println("Client IP: " + clientIp);
+    /* 아이디/비밀번호 찾기 */
+    @GetMapping("/user/sign-find/{what}")
+    public String signFind(@PathVariable String what,
+                           Model model) {
 
-        // 현재 시간 가져오기
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd (HH:mm)");
-        String formattedDate = now.format(formatter);
-        String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
+        if (what.equals("id")) {
+            model.addAttribute("what", "id");
+        } else if (what.equals("pw")) {
+            model.addAttribute("what", "pw");
+        }
+
+        return "/user/sign-find";
+    }
 
 
-        System.out.println("수정요청 받음");
+    @GetMapping("/user/sign-withdrawal")
+    public String withdrawal() {
+        return "/user/sign-withdrawal";
+    }
+    @PostMapping("/user/sign-withdrawal")
+    public String PostWithdrawal() {
+        return "redirect:/";
+    }
 
-        User user = userRepository.findByUsername(userDto.getUsername());
-
-        user.setPassword( passwordEncoder.encode(userDto.getPassword()));
-        user.setName(userDto.getName());
-        user.setSex(userDto.getSex());
-        user.setBirth(formattedBirth);
-        user.setTel(userDto.getTel());
-        user.setEmail(userDto.getEmail());
-        user.setZipcode(userDto.getZipcode());
-        user.setRoadAddress(userDto.getRoadAddress());
-        user.setDetailAddress(userDto.getDetailAddress());
-        user.setYear(userDto.getYear());
-        user.setRole(userDto.getRole());
-
-        userRepository.save(user);
-        System.out.println(user);
-
-        return  "redirect:/";
+    @GetMapping("/user/sign-withdrawalConfirm")
+    public String withdrawalConfirm() {
+        return "/user/sign-withdrawalConfirm";
     }
 
 
 
-//    /* 아이디/비밀번호 찾기 */
-//    @GetMapping("/sign-find/{what}")
-//    public String signFind(@PathVariable String what,
-//                           Model model) {
-//
-//        if (what.equals("id")) {
-//            model.addAttribute("what", "id");
-//        } else if (what.equals("pw")) {
-//            model.addAttribute("what", "pw");
-//        }
-//
-//        return "/userLog/sign-find";
-//    }
-//
-//
-//    @GetMapping("/sign-withdrawal")
-//    public String withdrawal() {
-//
-//        return "/userLog/sign-withdrawal";
-//    }
-//    @PostMapping("/sign-withdrawal")
-//    public String PostWithdrawal() {
-//
-//        return "redirect:/";
-//    }
-//
-//    @GetMapping("/sign-withdrawalConfirm")
-//    public String withdrawalConfirm() {
-//
-//        return "/userLog/sign-withdrawalConfirm";
-//    }
-//
 //    @PostMapping("/sign-withdrawalConfirm")
 //    public String PostWithdrawalConfirm() {
 //        // Todo 회원정보 삭제화
 //        return "redirect:/";
 //    }
 
+    @PostMapping("/user/withdrawal")
+    public ResponseEntity<String> PostWithdrawal(@RequestBody Map<String, Object> payload) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+
+        if (username.equals("anonymousUser")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("not");
+        } else {
+            User requestedUser = userRepository.findByUsername(username);
+
+            if (!userService.isAdmin(requestedUser.getUsername())
+                    && !requestedUser.getUsername().equals( (String) payload.get("username"))
+            ) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("not");
+        }
+
+        System.out.println("다음 아이디가 삭제될 예정:\n" + payload.get("username"));
+
+        User user = null;
+        try {
+            user = userRepository.findByUsername((String) payload.get("username"));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notFound");
+        }
+
+        userRepository.deleteById(user.getNo());
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
 
 }

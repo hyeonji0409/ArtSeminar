@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>아티니어::관리자</title>
   <meta name="description" content="관리자 페이지">
-  <meta name="keywords" content="">
+  <meta name="keywords" content="회원정보 수정">
 
   <!-- Favicons -->
-  <link th:href="@{/image/favicon.ico}" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="/image/favicon.ico" type="image/x-icon" rel="icon">
+<!--  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">-->
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -18,15 +18,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <!-- Vendor CSS Files -->
-  <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link th:href="@{assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
   <link th:href="@{assets/vendor/aos/aos.css}" rel="stylesheet">
   <link th:href="@{assets/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
-  <link th:href="@{assets/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
   <link th:href="@{/css/admin.css}" rel="stylesheet">
 
   <!-- Main CSS File -->
   <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 
   <!-- =======================================================
@@ -65,63 +66,62 @@
         <h1 class="text-center mb-4 fw-bold form">회원 관리</h1>
 
         <!-- 검색 필터 -->
-        <div class="row mb-4">
+        <div class="table-responsive row mb-4">
           <div class="col-md-8 offset-md-2">
-            <form id="search-form" class="row" style="min-width: 768px;" th:action="@{/admin}" method="post">
-              <div class="row justify-content-start mb-3">
-                <select class="col-2 form-select me-2" style="width: 15%" name="query">
+            <form id="search-form" class="row" style="margin-left: 0;" th:action="@{/admin}" method="post">
+              <div class="row justify-content-between mb-3">
+                <select class="col-2 form-select me-2" style="width: 7rem" name="query">
                   <option value="">검색항목</option>
                   <option value="username">아이디</option>
                   <option value="name">이름</option>
                   <option value="tel">연락처</option>
-                  <option value="address">거주지</option>
-                  <option value="year">기수</option>
+                  <option value="address">자택 주소</option>
+                  <option value="year">기수(비활성화)</option>
                 </select>
-                <input type="text" class="col-10 form-control col-10" name="queryValue" th:value="${userSearchDTO.getQueryValue().orElse(null)}" style="width: 83%" placeholder="조건을 입력하세요.">
+                <input type="text" class="col-10 form-control col-10" name="queryValue" th:value="${userSearchDTO.getQueryValue().orElse(null)}" style="width: calc(100% - 8rem)" placeholder="조건을 입력하세요.">
               </div>
-              <div class="row justify-content-start mb-3">
-                <select class="form-select col-1 me-2" style="width: 15%" name="sex">
+              <div class="row d-flex justify-content-between mb-3">
+                <div class="col-8 d-flex flex flex-wrap">
+                <select class="form-select col me-2" style="width: 8rem" name="sex">
                   <option value="">모든 성별</option>
                   <option value="male">남성</option>
                   <option value="female">여성</option>
                 </select>
-                  <input type="number" class="form-control bi-border-right col-1" style="width: 15%" name="minBirth" placeholder="최소 나이">
-                ~
-                <input type="number" class="form-control col-1 me-2" style="width: 15%" name="maxBirth" placeholder="최대 나이">
-                <select class="form-select col-1 me-2" style="width: 20%" name="role">
-                  <option value="">모든 등급</option>
-                  <option value="ROLE_GUEST">user</option>
-                  <option value="ROLE_ADMIN">admin</option>
+<!--                  <input type="number" class="form-control bi-border-right col-1" style="width: 15%" name="minBirth" placeholder="최소 나이(비활성화)">-->
+<!--                ~-->
+<!--                <input type="number" class="form-control col-1 me-2" style="width: 15%" name="maxBirth" placeholder="최대 나이(비활성화)">-->
+                <select class="form-select col me-2" style="width: 8rem" name="role">
+                  <option value="">모든 권한</option>
+                  <option value="ROLE_GUEST">일반사용자</option>
+                  <option value="ROLE_ADMIN">관리자</option>
                 </select>
 
-                <select class="form-select me-2 col-1" style="width: 15%" name="sort">
+                <select class="form-select me-2 col" style="width: 8rem" name="sort">
                   <option value="name">정렬기준</option>
                   <option value="name">이름</option>
                   <option value="birth">나이</option>
-                  <option value="regDate">가입일</option>
+                  <option value="regdate">가입일</option>
                   <option value="year">기수</option>
                 </select>
-                <select class="col-1 form-select" style="width: 12%; padding: 0" name="order">
+                <select class="col d-flex form-select" style="width: 8rem;" name="order">
                   <option value="ASC">오름차순</option>
                   <option value="DESC">내림차순</option>
                 </select>
-                <span class="material-symbols-outlined form-check col-1" style="width: fit-content; height: fit-content; font-size: 16px; padding: 1px; writing-mode: vertical-lr; display: inline;">sync_alt</span>
-              </div>
-              <div class="row justify-content-end">
-                <button type="submit" class="btn btn-primary col-1" style="width: 10%">검색</button>
+                </div>
+
+                <div class="col-2 d-flex justify-content-end">
+                  <a th:href="@{/admin}" class="btn btn-secondary col-1 me-2 align-content-center" style="width: fit-content">초기화</a>
+                  <button type="submit" class="btn btn-primary col-1" style="width: fit-content">검색</button>
+                </div>
+<!--                <span class="material-symbols-outlined form-check col-1" style="width: fit-content; height: fit-content; font-size: 30px; padding: 1px; writing-mode: vertical-lr; display: inline;">sync_alt</span>-->
               </div>
 <!--              <div class="row justify-content-end">-->
-<!--                <select class="form-select me-2 col-1" style="width: 15%" name="sort">-->
-<!--                  <option value="name">정렬기준</option>-->
-<!--                  <option value="name">이름</option>-->
-<!--                  <option value="birth">나이</option>-->
-<!--                  <option value="regDate">가입일</option>-->
-<!--                </select>-->
-<!--                <button type="submit" class="btn btn-primary col-1" style="width: 16%">검색</button>-->
+<!--                <a th:href="@{/admin}" class="btn btn-secondary col-1 me-2" style="width: 10%">초기화</a>-->
+<!--                <button type="submit" class="btn btn-primary col-1" style="width: 10%">검색</button>-->
 <!--              </div>-->
 
-<!--              <input type="hidden" th:if="${userSearchDTO!=null}" th:value="${userSearchDTO.getPage()}" name="page">-->
-<!--              <input type="hidden" th:if="${userSearchDTO!=null}" th:value="${userSearchDTO.getPageSize()}" name="pageSize">-->
+              <input type="hidden" th:if="${userSearchDTO.getPage()!=null}" th:value="${userSearchDTO.getPage().get()}" name="page">
+              <input type="hidden" th:if="${userSearchDTO.getPageSize()!=null}" th:value="${userSearchDTO.getPageSize().get()}" name="pageSize">
             </form>
           </div>
         </div>
@@ -129,8 +129,8 @@
 
         <!-- 회원 목록 테이블 -->
         <div class="table-responsive">
-          <table class="table table-striped table-hover">
-            <thead>
+          <table class="table table-striped table-hover table-light table-bordered">
+            <thead class="table-secondary">
             <tr>
               <th>연번</th>
               <th>아이디</th>
@@ -138,57 +138,70 @@
               <th>성별</th>
               <th>나이(연)</th>
               <th>연락처</th>
-              <th>거주지</th>
+              <th>자택 주소</th>
               <th>가입일</th>
               <th>기수</th>
-              <th>등급</th>
+              <th>권한</th>
               <th>수정</th>
             </tr>
             </thead>
             <tbody>
+            <tr th:if="${users.getTotalPages()==0}"><td colspan="11" class="fs-2 text-center">찾으시는 사용자가 없습니다.</td></tr>
             <tr th:each="eachUser, iterStat : ${users}">
-<!--              <td th:text="${eachUser.getNo()}">DB인덱스</td>-->
-              <td th:text="${users.getNumber()*users.getNumberOfElements() + iterStat.index+1}">출력인데스</td>
+              <td th:text="${users.getNumber()*userSearchDTO.getPageSize().orElse(10) + iterStat.index+1}">출력인데스</td>
               <td th:text="${eachUser.getUsername()}">아이디</td>
               <td th:text="${eachUser.getName()}">홍길동(이름)</td>
               <td th:text="${eachUser.getSex() == 'male' ? '남자' : '여자' }">남녀</td>
-<!--              <td th:text="${eachUser.getBirth()}">30</td>-->
               <td th:text="${(eachUser.getBirth() != null ?
               T(java.time.Period).between(T(java.time.LocalDate).parse(eachUser.getBirth(), T(java.time.format.DateTimeFormatter).ofPattern('yyyy/MM/dd')), T(java.time.LocalDate).now()).getYears() :
               '')
               +'세('+ eachUser.getBirth() +')'}"></td>
               <td th:text="${eachUser.getTel()}">010-0000-0000</td>
-              <td th:text="|${eachUser.getRoadAddress() + ', ' + eachUser.getDetailAddress()}|">익산광역시 영등구 동서로175길 14, 조은빌라 114호</td>
+<!--              <td th:utext="|${eachUser.getRoadAddress() + ',<br>' + eachUser.getDetailAddress()}|">익산광역시 영등구 동서로175길 14, 조은빌라 114호</td>-->
+              <td th:utext="|${eachUser.getRoadAddress() +', '+ eachUser.getDetailAddress()}|" class="text-truncate" style="max-width: 150px;">익산광역시 영등구 동서로175길 12</td>
               <td th:text="${eachUser.getRegdate()}">1999/11/25 (11:27)</td>
               <td th:text="${eachUser.getYear()}">1</td>
               <td th:text="${eachUser.getRole()}">admin</td>
-              <td><button class="btn btn-sm btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" data-member-id="1">수정</button></td>
+              <td><button class="btn btn-sm btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" th:data-member-id="${iterStat.index}">수정</button></td>
             </tr>
             </tbody>
           </table>
         </div>
 
         <!-- 페이지네이션 -->
+        <!--          users.number 가 0부터 시작!!!!!!-->
         <nav aria-label="Page navigation">
           <ul class="pagination justify-content-center">
             <li th:classappend="${users.number <= 0} ? 'disabled'" class="page-item">
-              <a class="page-link" th:href="@{|?page=${users.number}|}" tabindex="-1" aria-disabled="true">이전</a>
+              <button id="previous-page" class="page-link" tabindex="-1" aria-disabled="true">이전</button>
             </li>
-<!--          users.number 가 0부터 시작!!!!!!-->
+
+<!--            1번 모드: n페이지 단위씩 보이고 현재 페이지 위치는 매번 다름-->
+<!--            <li :each="page : ${#numbers.sequence(1, users.totalPages)} "-->
+<!--                :if="${ ((users.number)/5)*5 + 1 <= page and page <= ((users.number)/5)*5 + 5 }"-->
+<!--                :classappend="${page == users.number + 1 } ? 'active'" class="page-item"-->
+<!--                style="width: 3%;">-->
+<!--              <a class="page-link"  :href="@{|?page=${page}|}" :text="${page}">1</a>-->
+<!--            </li>-->
+
+<!--            2번 모드: 현재 페이지가 항상 가운데-->
             <li th:each="page : ${#numbers.sequence(1, users.totalPages)} "
-                th:if="${ ((users.number)/5)*5 + 1 <= page and page <= ((users.number)/5)*5 + 5 }"
-                th:classappend="${page == users.number + 1 } ? 'active'" class="page-item"
-                style="width: 3%;">
+                th:if="${(
+                  ( (users.getNumber() -2 < page) and (page < users.getNumber() +4) )
+                  or
+                  ( users.getNumber() < 2 and page <6 )
+                  or
+                  (  users.getNumber() > users.getTotalPages()-3 and page > users.getTotalPages() -5  )
+                  )
+                  and users.getTotalPages()!=0
+                }"
+                th:classappend="${page == users.number + 1 } ? 'active'" class="page-item">
               <a class="page-link"  th:href="@{|?page=${page}|}" th:text="${page}">1</a>
             </li>
-            <script>
-              console.log("현재 페이지네이션의 넘버는 " + [[${users.number}]])
-            </script>
+
 
               <li th:classappend="${users.number + 1 >= users.totalPages} ? 'disabled'" class="page-item">
-<!--              <button type="submit" class="page-link" th:action="@{|?page=${users.number + 2}|}" form="search-form">다음</button>-->
-                <button type="button" class="page-link" th:onclick="|console.log(${userSearchDTO.getPage()})|" form="search-form">다음</button>
-
+                <button id="next-page" class="page-link" >다음</button>
               </li>
           </ul>
         </nav>
@@ -196,14 +209,14 @@
 
       <!-- 회원 정보 수정 모달 -->
       <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog mt-5 pt-5" >
+        <div class="modal-dialog mt-5">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="editModalLabel">회원 정보 수정</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form onsubmit="return true" name="form" id="form" action="/user/sign-up" method="post">
+              <form name="form" id="form" action="/user/update" method="post">
                 <div id="usernameBox" class="inputBox">
                   <input id="userId" type="text" name="username" readonly>
                   <label for="userId">아이디</label>
@@ -257,7 +270,7 @@
                   <div class="error-msg"></div>
                 </div>
 
-                <input id="zipcode" type="number" name="zipcode" value="" style="display: none;">
+                <input type="hidden" id="zipcode" name="zipcode" value="">
                 <div id="roadAddressBox" class="inputBox">
                   <div>
                     <input id="roadAddress" type="text" name="roadAddress" tabindex="-1" readonly>
@@ -269,10 +282,16 @@
                   </div>
                   <div class="error-msg"></div>
                 </div>
+                <div id="roleBox" class="inputBox">
+                  <input id="role" type="text" name="role">
+                  <label for="role">권한</label>
+                  <div class="error-msg"></div>
+                </div>
               </form>
             </div>
             <div class="modal-footer" style="justify-content: center">
-              <button type="submit" class="btn btn-primary" id="save-changes" onclick="{confirm('수정하시겠습니까?') ? (this.submit()&&alert('수정되었습니다.')) : null }" form="form" style="width: 40%">저장</button>
+              <button type="button" class="btn btn-primary" id="save-changes" form="form" style="width: 40%">저장</button>
+              <button type="button" class="btn btn-danger" id="delete" style="width: 14%">제거</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 40%">취소</button>
             </div>
           </div>
@@ -291,18 +310,53 @@
 <!--  <div id="preloader"></div>-->
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script th:src="@{/js/userEdit.js}"></script>
+<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+<script th:src="@{/assets/vendor/aos/aos.js}"></script>
+<script th:src="@{/assets/vendor/glightbox/js/glightbox.min.js}"></script>
+<script th:src="@{/assets/vendor/swiper/swiper-bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/waypoints/noframework.waypoints.js}"></script>
+<script th:src="@{/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/assets/vendor/isotope-layout/isotope.pkgd.min.js}"></script>
+<!--<script th:inline="javascript">-->
+<!--  var list = /*[[${list}]]*/ [];-->
+<!--</script>-->
+  <script  th:inline="javascript">
+    // console.log([[${userSearchDTO.getRole().orElse('si')}]])
+    role = [[${userSearchDTO.getRole().orElse('')}]]
+    query = [[${userSearchDTO.getQuery().orElse('')}]]
+    sex = [[${userSearchDTO.getSex().orElse('')}]]
+    sort = [[${userSearchDTO.getSort().orElse('')}]]
+    order = [[${userSearchDTO.getOrder().orElse('ASC')}]]
+
+    userForEdit = /*[[${users}]]*/ [];
+  </script>
+
+  <script th:src="@{/js/admin.js}"></script>
+
+<script>
+  // daum api 사용
+  function openZipSearch() {
+    new daum.Postcode({
+      oncomplete: function (data) {
+        // 우편번호와 주소 정보 필드에 넣기
+        document.getElementById('zipcode').value = data.zonecode;
+        document.getElementById('roadAddress').value = data.roadAddress;
+        // document.getElementById('detailAddr').value = data.detailAddress;
+        // 상세 주소로 커서 이동
+        document.getElementById('detailAddress').focus();
+        checkValidation("roadAddress", roadFullAddrInput);
+        roadFullAddrInput.dispatchEvent(new Event('change'));
+      },
+      popupTitle: "아티니어::나의 주소 찾기",
+      left: `${(window.screen.width-570)/2}`,
+      top: `${(window.screen.height-570)/2}`
+    }).open();
+  }
+</script>
 
   <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script th:src="@{assets/js/main.js}"></script>
 
 </body>
 
