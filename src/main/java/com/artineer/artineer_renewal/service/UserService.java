@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -86,23 +90,25 @@ public class UserService {
         System.out.println("Client IP: " + clientIp);
 
         // 생년월일 포멧
-        String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
+        DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
 
         System.out.println("수정요청 받음");
 
         User oldUser = userRepository.findByUsername(userDto.getUsername());
 
         if (!userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
-        oldUser.setName(userDto.getName());
-        oldUser.setSex(userDto.getSex());
-        oldUser.setBirth(formattedBirth);
-        oldUser.setTel(userDto.getTel());
-        oldUser.setEmail(userDto.getEmail());
-        oldUser.setZipcode(userDto.getZipcode());
-        oldUser.setRoadAddress(userDto.getRoadAddress());
-        oldUser.setDetailAddress(userDto.getDetailAddress());
-        oldUser.setYear(userDto.getYear());
-        oldUser.setRole(userDto.getRole());
+        if (userDto.getName()!=null) oldUser.setName(userDto.getName());
+        if (userDto.getSex()!=null) oldUser.setSex(userDto.getSex());
+        if (userDto.getBirth()!=null) oldUser.setBirth(formattedBirth);
+        if (userDto.getTel()!=null) oldUser.setTel(userDto.getTel());
+        if (userDto.getEmail()!=null) oldUser.setEmail(userDto.getEmail());
+        if (userDto.getZipcode()!=null) oldUser.setZipcode(userDto.getZipcode());
+        if (userDto.getRoadAddress()!=null) oldUser.setRoadAddress(userDto.getRoadAddress());
+        if (userDto.getDetailAddress()!=null) oldUser.setDetailAddress(userDto.getDetailAddress());
+        if (userDto.getYear()!=null) oldUser.setYear(userDto.getYear());
+        if (userDto.getRole()!=null) oldUser.setRole(userDto.getRole());
 
         userRepository.save(oldUser);
     }

@@ -30,7 +30,7 @@ public class UserDto {
     private String detailAddress;
 
 
-    private int year;
+    private Integer year;
     private String role;
     private String regdate;
     private String ip;

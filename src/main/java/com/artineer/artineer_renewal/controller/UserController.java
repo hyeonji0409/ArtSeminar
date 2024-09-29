@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -47,10 +48,6 @@ public class UserController {
         return "/user/sign-in";
     }
 
-//    @RequestMapping("/user/sign-in")
-//    public String login() {
-//        return "user/sign-in";
-//    }
 
     @PostMapping("/user/sign-up")
     public String saveUser(UserDto userDto) {
@@ -66,7 +63,9 @@ public class UserController {
 
 
         // Todo js에서도 포멧하면 좋은가
-        String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
+        DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
 
         User user = new User(
                 null,
