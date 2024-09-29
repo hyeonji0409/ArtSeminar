@@ -58,6 +58,28 @@
     });
   });
 
+   /**
+   * login dropdowns - login, sign
+   */
+
+  function toggleDropdown() {
+      const dropdownMenu = document.getElementById("dropdown-menu");
+      dropdownMenu.classList.toggle("show");
+  }
+
+  // 드롭다운 외부 클릭 시 닫기
+  window.onclick = function(event) {
+      if (!event.target.matches('#login-button')) {
+          const dropdowns = document.getElementById("dropdown-menu");
+          if (dropdowns.classList.contains('show')) {
+              dropdowns.classList.remove('show');
+          }
+      }
+  }
+
+
+
+
   /**
    * Preloader
    */

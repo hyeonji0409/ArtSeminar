@@ -37,6 +37,7 @@ public class UserController {
     private HttpServletRequest request;
 
 
+
     @RequestMapping("/user/sign-in")
     public String signIn(Model model,
                         @RequestParam(value = "error", required = false) String error) {
@@ -45,6 +46,11 @@ public class UserController {
 
         return "/user/sign-in";
     }
+
+//    @RequestMapping("/user/sign-in")
+//    public String login() {
+//        return "user/sign-in";
+//    }
 
     @PostMapping("/user/sign-up")
     public String saveUser(UserDto userDto) {
@@ -173,5 +179,8 @@ public class UserController {
         userRepository.deleteById(user.getNo());
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
+
+
+
 
 }

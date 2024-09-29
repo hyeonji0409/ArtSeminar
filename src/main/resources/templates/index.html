@@ -12,9 +12,6 @@
     <meta name="description" content="아티니어 홈페이지">
     <meta name="keywords" content="">
 
-    <!-- Favicons -->
-    <link href="/img/favicon.png" rel="icon">
-    <link href="/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -48,7 +45,7 @@
 
 <body class="index-page">
 
-<!--<header 부분은 /fragments/header.html로 분리 -->
+<!--<header 부분은 templetes/header.html로 분리-->
 <div th:replace="~{header :: header}"></div>
 
 
@@ -131,6 +128,7 @@
                     <div class="swiper-slide"><img src="image/img/clients/Artineer-5.png" class="img-fluid" alt=""></div>
                     <div class="swiper-slide"><img src="image/img/clients/Artineer-6.png" class="img-fluid" alt=""></div>
                     <div class="swiper-slide"><img src="image/img/clients/Artineer-7.png" class="img-fluid" alt=""></div>
+
                 </div>
             </div>
 
@@ -267,15 +265,14 @@
 
 
 </main>
-<!--<footer 부분은 /fragments/header.html로 분리-->
-<!--<footer th:replace="~{/fragments/footerFragment :: footerFragment}"></footer>-->
-<div th:replace="~{footer::footer}"></div>
+<!--<footer 부분은 templetes/footer.html로 분리-->
+<div th:replace="~{footer::footer}"></div>>
 
 <!-- Scroll Top -->
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Preloader -->
-<div id="preloader"></div>
+<!--<div id="preloader"></div>-->
 
 <!-- Vendor JS Files -->
 
@@ -294,5 +291,4 @@
 
 
 </body>
-
 </html>
