@@ -29,6 +29,12 @@ body {
     height: auto;
     width: 100%;
 }
+
+a {
+    text-decoration : none;
+    color: black;
+}
+
 .myPage__main {
     display: flex;
     flex-direction: column;
@@ -40,8 +46,18 @@ body {
     width: 30rem;
 }
 
+.logo_a:link {
+    text-decoration : none;
+    color: var(--color-blue)
+}
+
+.logo_a:visited {
+    text-decoration : none;
+    color: var(--color-blue)
+}
+
 .logo {
-    color: var(--color-blue);
+    color: var(--color-blue) !important;
     font-weight: bold;
     margin-left: 2rem;
 }
@@ -65,28 +81,29 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 3rem;
+    padding: 3rem 3rem 1.5rem 3rem;
 }
 
 .side__icon {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    background-color: #0a58ca;
+    /*background-color: #0a58ca;*/
     margin: 1rem;
 }
 
 .section__title {
-    margin-left: 1rem;
+    padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+
 }
 
 .myPage__section {
-    width: 60%;
-    margin-left: 1.5rem;
-    margin-bottom: 1rem;
-    margin-top: 0.5rem;
-    font-size: large;
-    font-weight: bold;
+    width: 40%;
+    padding: 0.8rem 0.5rem 0.8rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    border-radius: 0 10px 10px 0;
+    text-align: start;
 
 }
 
@@ -141,10 +158,27 @@ li {
 }
 
 .accountInfo {
-    margin: 1rem;
+    margin-bottom: 1rem;
 }
 
 .test_text {
     width: 60%;
 
+}
+
+.logout:link {
+    text-decoration : none;
+    color: black;
+}
+
+.logout:visited {
+    text-decoration : none;
+    color: black;
+}
+
+.logout {
+    font-size: large;
+    font-weight: 500;
+    margin: 1rem 1rem ;
+    padding: 1rem;
 }

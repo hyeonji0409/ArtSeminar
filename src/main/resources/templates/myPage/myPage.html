@@ -10,44 +10,61 @@
     <div class="myPage__main" >
         <div>
 
-            <h1 class="logo"><a>ARTINEER</a></h1>
+            <h1 class="logo"><a class="logo_a" href="/">ARTINEER</a></h1>
         </div>
         <div class="info__list">
-            <div class="text" style="font-size: xx-large">회원 정보
+            <div class="text" style="font-size: xx-large; padding: 1rem">회원 정보
             </div>
-            <div class="accountInfo">
-                <div class="info__items">
-                    <input type="text" value="아이디" disabled>
+            <form id="form" name="from" action="/user/update" method="post">
+                <div class="accountInfo">
+                    <div class="info__items">
+                        <input type="text" th:value="${user.username}" name="username" readonly>
+                    </div>
+                    <div class="info__items">
+                        <input type="password" placeholder="비밀번호" name="password" readonly>
+                    </div>
+                    <div class="info__items">
+                        <input type="password" placeholder="비밀번호 확인" readonly>
+                    </div>
                 </div>
-                <div class="info__items">
-                    <input type="password" placeholder="비밀번호" disabled>
-                </div>
-                <div class="info__items">
-                    <input type="password" placeholder="비밀번호 확인" disabled>
-                </div>
-            </div>
 
-            <div class="info__items">
-                <input type="text" value="장준호" placeholder="이름" disabled>
-            </div>
-            <div class="info__items">
-                <input type="text" value="20050103" placeholder="생년월일" disabled>
-            </div>
-            <div class="info__items">
-                <input type="text" value="afdadfdf@sadasd.asd" placeholder="이메일" disabled>
-            </div>
-            <div class="info__items">
-                <input type="text" value="나ㅣ어머ㅏㅣㄴ" placeholder="주소" disabled>
-            </div>
-            <div class="info__items">
-                <input type="text" value="아이디" disabled>
-            </div>
+                <div class="info__items">
+                    <input type="text" th:value="${user.name}" placeholder="이름" name="name" readonly>
+                </div>
+                <div id="sexBox" class="gender-selection inputBox" style="display: flex">
+                    <div class="sex-box inputBox">
+                        <input type="radio" id="male" name="sex" value="male" >
+                        <label class="gender" for="male">남자</label>
+                        <div class="error-msg"></div>
+                    </div>
+                    <div class="sex-box inputBox" >
+                        <input type="radio" id="female" name="sex" value="female">
+                        <label class="gender" for="female">여자</label>
+                        <div class="error-msg"></div>
+                    </div>
+                    <div class="error-msg"></div>
+                </div>
+                <div class="info__items">
+                    <input type="text" th:value="${user.birth}" placeholder="생년월일" name="birth" readonly>
+                </div>
+                <div class="info__items">
+                    <input type="text" th:value="${user.email}" placeholder="이메일" name="email" readonly>
+                </div>
+                <div class="info__items">
+                    <input type="text" th:value="${user.year}" placeholder="기수"  name="year" readonly>
+                </div>
+                <div class="info__items">
+                    <input type="text" th:value="${user.addr}" placeholder="주소" name="addr" readonly>
+                </div>
+
+            </form>
+
         </div>
 
         <div class="button__list">
             <button id="editbtn">수정</button>
             <div class="editPageBtn">
-                <button id="savebtn">완료</button>
+                <button type="submit" form="form"   id="savebtn">완료</button>
                 <button id="canclebtn">취소</button>
             </div>
 
@@ -59,24 +76,25 @@
 
     <div class="side__bar">
         <div class="profile">
-<!--            <img class="side__icon" src="../../static/image/profileimg.png" height="308" width="300"/>-->
-            <div class="side__icon"></div>
+            <img class="side__icon" src="/image/profileimg.png" height="308" width="300"/>
             <h2 class="side__page__name">이름(n기)</h2>
         </div>
 
         <div class="side__items" >
             <h2 class="section__title">계정</h2>
-            <div class="myPage__section">회원 정보</div>
+            <div class="myPage__section" style="background-color: #f4f5fa">회원 정보</div>
             <h2 class="section__title">활동</h2>
-            <div class="myPage__section">작성한 글</div>
+            <div class="myPage__section"><a href="/mypage/activity1">작성한 글</a></div>
             <div class="myPage__section">댓글단 글</div>
-            <div class="test_text" style="background-color: darkgray">test text</div>
+            <div><a class="logout" href="/logout"> 로그아웃</a></div>
         </div>
-        <div>
-            <button>로그아웃</button>
-        </div>
+<!--        <div style="width: 100%; align-items: center; display: flex">-->
+<!--            <button>로그아웃</button>-->
+<!--        </div>-->
     </div>
 </div>
+
+<!--usertest 1234-->
 
 <script src="js/myinfoEdit.js"></script>
 

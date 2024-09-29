@@ -146,6 +146,7 @@ public class UserController {
         // IP 주소 가져오기
         String clientIp = request.getRemoteAddr();
         System.out.println("Client IP: " + clientIp);
+        System.out.println(userDto.toString());
 
         // 현재 시간 가져오기
         LocalDateTime now = LocalDateTime.now();
@@ -155,6 +156,7 @@ public class UserController {
 
 
         System.out.println("수정요청 받음");
+
 
         User user = userRepository.findByUsername(userDto.getUsername());
 
@@ -173,8 +175,9 @@ public class UserController {
         userRepository.save(user);
         System.out.println(user);
 
-        return  "redirect:/";
+        return  "redirect:/mypage";
     }
+
 
 
 
