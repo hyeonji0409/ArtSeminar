@@ -21,5 +21,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findByUsernameContainingAndSexStartingWithAndRoleContaining(String username, String sex, String role, Pageable pageable);
     Page<User> findByEmailContainingAndSexStartingWithAndRoleContaining(String email, String sex, String role, Pageable pageable);
     Page<User> findByTelContainingAndSexStartingWithAndRoleContaining(String tel, String sex, String role, Pageable pageable);
-    Page<User> findByRoadAddressContainingOrDetailAddressContainingAndSexStartingWithAndRoleContaining(String roadAddress, String detailAddress, String sex, String role, Pageable pageable);
+    Page<User> findByRoadAddressContainingAndSexStartingWithAndRoleContainingOrDetailAddressContainingAndSexStartingWithAndRoleContaining(String addr, String sex, String role, String addr2, String sex2, String role2, Pageable pageable);
 }

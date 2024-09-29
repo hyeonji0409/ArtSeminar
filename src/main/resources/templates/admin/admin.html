@@ -129,8 +129,8 @@
 
         <!-- 회원 목록 테이블 -->
         <div class="table-responsive">
-          <table class="table table-striped table-hover">
-            <thead>
+          <table class="table table-striped table-hover table-light table-bordered">
+            <thead class="table-secondary">
             <tr>
               <th>연번</th>
               <th>아이디</th>
@@ -146,10 +146,9 @@
             </tr>
             </thead>
             <tbody>
+            <tr th:if="${users.getTotalPages()==0}"><td colspan="11" class="fs-2 text-center">찾으시는 사용자가 없습니다.</td></tr>
             <tr th:each="eachUser, iterStat : ${users}">
-<!--              <td th:text="${eachUser.getNo()}">DB인덱스</td>-->
               <td th:text="${users.getNumber()*userSearchDTO.getPageSize().orElse(10) + iterStat.index+1}">출력인데스</td>
-<!--              <td th:text="|${users.getNumber()} + ${userSearchDTO.getPageSize().orElse(10)} + ${iterStat.index+1}|">출력인데스</td>-->
               <td th:text="${eachUser.getUsername()}">아이디</td>
               <td th:text="${eachUser.getName()}">홍길동(이름)</td>
               <td th:text="${eachUser.getSex() == 'male' ? '남자' : '여자' }">남녀</td>
@@ -159,7 +158,7 @@
               +'세('+ eachUser.getBirth() +')'}"></td>
               <td th:text="${eachUser.getTel()}">010-0000-0000</td>
 <!--              <td th:utext="|${eachUser.getRoadAddress() + ',<br>' + eachUser.getDetailAddress()}|">익산광역시 영등구 동서로175길 14, 조은빌라 114호</td>-->
-              <td th:utext="|${eachUser.getRoadAddress()}|">익산광역시 영등구 동서로175길 12</td>
+              <td th:utext="|${eachUser.getRoadAddress() +', '+ eachUser.getDetailAddress()}|" class="text-truncate" style="max-width: 150px;">익산광역시 영등구 동서로175길 12</td>
               <td th:text="${eachUser.getRegdate()}">1999/11/25 (11:27)</td>
               <td th:text="${eachUser.getYear()}">1</td>
               <td th:text="${eachUser.getRole()}">admin</td>
@@ -188,15 +187,16 @@
 
 <!--            2번 모드: 현재 페이지가 항상 가운데-->
             <li th:each="page : ${#numbers.sequence(1, users.totalPages)} "
-                th:if="${
+                th:if="${(
                   ( (users.getNumber() -2 < page) and (page < users.getNumber() +4) )
                   or
                   ( users.getNumber() < 2 and page <6 )
                   or
                   (  users.getNumber() > users.getTotalPages()-3 and page > users.getTotalPages() -5  )
+                  )
+                  and users.getTotalPages()!=0
                 }"
-                th:classappend="${page == users.number + 1 } ? 'active'" class="page-item"
-                style="width: 3%;">
+                th:classappend="${page == users.number + 1 } ? 'active'" class="page-item">
               <a class="page-link"  th:href="@{|?page=${page}|}" th:text="${page}">1</a>
             </li>
 

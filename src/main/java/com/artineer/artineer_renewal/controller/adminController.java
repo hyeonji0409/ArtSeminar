@@ -38,8 +38,8 @@ public class adminController {
 
     @RequestMapping("/admin")
     public String adminPage(Model model,
-                            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                            @RequestParam(name = "size", required = false, defaultValue = "10") int pageSize,
+                            @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
+                            @RequestParam(name = "size", required = false, defaultValue = "10") Integer pageSize,
                             @ModelAttribute UserSearchDTO userSearchDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -74,11 +74,11 @@ public class adminController {
             users = userRepository.findByTelContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, pageable);
         } else if (userSearchDTO.getQuery().get().equals("address")) {
             System.out.println("address" + sex);
-            users = userRepository.findByRoadAddressContainingAndSexStartingWithAndRoleContainingOrDetailAddressContaining(queryValue, sex, role, queryValue, pageable);
+            users = userRepository.findByRoadAddressContainingAndSexStartingWithAndRoleContainingOrDetailAddressContainingAndSexStartingWithAndRoleContaining(queryValue, sex, role, queryValue, sex, role, pageable);
         }
 
-        if (userSearchDTO.getPage().isEmpty()) { userSearchDTO.setPage(Optional.of(1)); }
-        if (userSearchDTO.getPageSize().isEmpty()) { userSearchDTO.setPageSize(Optional.of(10)); }
+        if (userSearchDTO.getPage().isEmpty()) { userSearchDTO.setPage(Optional.of(page==null?1:page)); }
+        if (userSearchDTO.getPageSize().isEmpty()) { userSearchDTO.setPageSize(Optional.of(pageSize==null?10:pageSize)); }
 
 
         model.addAttribute("users", users);
