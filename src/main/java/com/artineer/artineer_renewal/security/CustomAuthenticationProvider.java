@@ -62,8 +62,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             userService.updatePasswordEncoder(user, password);
         }
 
-        System.out.println(user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(", ")));
-        
+
+//        유저의 권한 출력해보기
+//        System.out.println(user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(", ")));
+
         // 인증 완료 후 객체 리턴
         return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
     }

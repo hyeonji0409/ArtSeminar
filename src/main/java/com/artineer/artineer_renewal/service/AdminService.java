@@ -13,10 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
 
@@ -25,16 +21,16 @@ import java.util.Map;
 public class AdminService {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     // 회원정보 갱신
-    public ResponseEntity<String> checkSignUpValue(String valueName,
-                                                   Map<String, String> payload) {
+    public ResponseEntity<String> checkUserValue(String valueName,
+                                                 Map<String, String> payload) {
 
 //        Todo 이하 2종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
 //        org.hibernate.NonUniqueResultException: Query did not return a unique result: 9 results were returned
         User foundUser = switch (valueName) {
+//            아이디는 고정값임.
+//            case "username" -> userRepository.findByUsername(payload.get("value"));
             case "email" -> userRepository.findByEmail(payload.get("value"));
             case "tel" -> userRepository.findByTel(payload.get("value"));
             default -> null;

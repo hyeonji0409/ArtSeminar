@@ -114,27 +114,13 @@ public class UserController {
 
 
 
+
+
     @PostMapping("/user/update")
     public String updateUser(UserDto userDto) {
         // IP 주소 가져오기
         String clientIp = request.getRemoteAddr();
-        System.out.println("Client IP: " + clientIp);
-        System.out.println(userDto.toString());
-
-        // 현재 시간 가져오기
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd (HH:mm)");
-        String formattedDate = now.format(formatter);
-        String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
-
-
-        if (what.equals("id")) {
-            model.addAttribute("what", "id");
-        } else if (what.equals("pw")) {
-            model.addAttribute("what", "pw");
-        }
-
-        User user = userRepository.findByUsername(userDto.getUsername());
+        userService.updateUser(userDto, clientIp);
 
         return "/user/sign-find";
     }
@@ -183,17 +169,12 @@ public class UserController {
 //        return "/userLog/sign-withdrawalConfirm";
 //    }
 //
-    @GetMapping("/user/sign-withdrawalConfirm")
-    public String withdrawalConfirm() {
-        return "/user/sign-withdrawalConfirm";
-    }
-
-
-//    @PostMapping("/sign-withdrawalConfirm")
-//    public String PostWithdrawalConfirm() {
-//        // Todo 회원정보 삭제화
-//        return "redirect:/";
+//    @GetMapping("/user/sign-withdrawalConfirm")
+//    public String withdrawalConfirm() {
+//        return "/user/sign-withdrawalConfirm";
 //    }
+
+
 
     @PostMapping("/user/withdrawal")
     public ResponseEntity<String> PostWithdrawal(@RequestBody Map<String, Object> payload) {
@@ -201,31 +182,8 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-
-        if (username.equals("anonymousUser")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("not");
-        } else {
-            User requestedUser = userRepository.findByUsername(username);
-
-            if (!userService.isAdmin(requestedUser.getUsername())
-                    && !requestedUser.getUsername().equals( (String) payload.get("username"))
-            ) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("not");
-        }
-
-        System.out.println("다음 아이디가 삭제될 예정:\n" + payload.get("username"));
-
-        User user = null;
-        try {
-            user = userRepository.findByUsername((String) payload.get("username"));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notFound");
-        }
-
-        userRepository.deleteById(user.getNo());
-        return ResponseEntity.status(HttpStatus.OK).body("success");
+        return userService.PostWithdrawal(payload, username);
     }
-
-
 
 
 }

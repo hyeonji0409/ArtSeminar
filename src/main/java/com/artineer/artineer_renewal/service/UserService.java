@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -18,13 +20,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 @Component
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -103,6 +105,35 @@ public class UserService {
         oldUser.setRole(userDto.getRole());
 
         userRepository.save(oldUser);
+    }
+
+
+
+    public ResponseEntity<String> PostWithdrawal(@RequestBody Map<String, Object> payload,
+                                                 String username) {
+
+//        시큐리티에서 권한검사해도 될 거 같은데
+        if (username.equals("anonymousUser")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        } else {
+            User requestedUser = userRepository.findByUsername(username);
+
+            if (!isAdmin(requestedUser.getUsername())
+                    && !requestedUser.getUsername().equals( (String) payload.get("username"))
+            ) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        System.out.println("다음 아이디가 삭제될 예정:\n" + payload.get("username"));
+
+        User user = null;
+        try {
+            user = userRepository.findByUsername((String) payload.get("username"));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notFound");
+        }
+
+        userRepository.deleteById(user.getNo());
+        return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
 

@@ -1,9 +1,7 @@
 package com.artineer.artineer_renewal.controller;
 
-import com.artineer.artineer_renewal.entity.Comment;
 import com.artineer.artineer_renewal.repository.CommentRepository;
 import com.artineer.artineer_renewal.service.CommentService;
-import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

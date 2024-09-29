@@ -1,6 +1,5 @@
 package com.artineer.artineer_renewal.controller;
 
-import com.artineer.artineer_renewal.dto.UserDto;
 import com.artineer.artineer_renewal.dto.UserSearchDTO;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.UserRepository;
@@ -16,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 import java.util.Optional;
@@ -27,13 +25,7 @@ public class adminController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private UserService userService;
-    @Autowired
     private AdminService adminService;
-    @Autowired
-    private HttpServletRequest request;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
 
     // 관리자의 사용자 정보 쿼리 화면
@@ -68,16 +60,6 @@ public class adminController {
     public ResponseEntity<String> checkSignUpValue(@PathVariable(name = "valueName") String valueName,
                                                    @RequestBody Map<String, String> payload) {
 
-        return adminService.checkSignUpValue(valueName, payload);
-    }
-
-
-    @PostMapping("/user/update")
-    public String updateUser(UserDto userDto) {
-
-        String clientIp = request.getRemoteAddr();
-        userService.updateUser(userDto, clientIp);
-
-        return "redirect:/admin";
+        return adminService.checkUserValue(valueName, payload);
     }
 }
