@@ -1,5 +1,6 @@
 package com.artineer.artineer_renewal.service;
 
+import com.artineer.artineer_renewal.dto.UserDto;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
@@ -73,6 +75,34 @@ public class UserService {
         else {
             return ResponseEntity.status(HttpStatus.OK).body("valid");
         }
+    }
+
+
+
+    public void updateUser(UserDto userDto, String clientIp) {
+        // IP 주소 가져오기
+        System.out.println("Client IP: " + clientIp);
+
+        // 생년월일 포멧
+        String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
+
+        System.out.println("수정요청 받음");
+
+        User oldUser = userRepository.findByUsername(userDto.getUsername());
+
+        if (!userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
+        oldUser.setName(userDto.getName());
+        oldUser.setSex(userDto.getSex());
+        oldUser.setBirth(formattedBirth);
+        oldUser.setTel(userDto.getTel());
+        oldUser.setEmail(userDto.getEmail());
+        oldUser.setZipcode(userDto.getZipcode());
+        oldUser.setRoadAddress(userDto.getRoadAddress());
+        oldUser.setDetailAddress(userDto.getDetailAddress());
+        oldUser.setYear(userDto.getYear());
+        oldUser.setRole(userDto.getRole());
+
+        userRepository.save(oldUser);
     }
 
 

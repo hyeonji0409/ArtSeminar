@@ -5,6 +5,7 @@ import com.artineer.artineer_renewal.dto.UserSearchDTO;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.AdminService;
+import com.artineer.artineer_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,8 @@ public class adminController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
     @Autowired
     private AdminService adminService;
     @Autowired
@@ -70,32 +73,10 @@ public class adminController {
 
 
     @PostMapping("/user/update")
-    public String updateUser(UserDto userDto,
-                             RedirectAttributes redirectAttributes ) {
-        // IP 주소 가져오기
+    public String updateUser(UserDto userDto) {
+
         String clientIp = request.getRemoteAddr();
-        System.out.println("Client IP: " + clientIp);
-
-        // 생년월일 포멧
-        String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
-
-        System.out.println("수정요청 받음");
-
-        User oldUser = userRepository.findByUsername(userDto.getUsername());
-
-        if (!userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
-        oldUser.setName(userDto.getName());
-        oldUser.setSex(userDto.getSex());
-        oldUser.setBirth(formattedBirth);
-        oldUser.setTel(userDto.getTel());
-        oldUser.setEmail(userDto.getEmail());
-        oldUser.setZipcode(userDto.getZipcode());
-        oldUser.setRoadAddress(userDto.getRoadAddress());
-        oldUser.setDetailAddress(userDto.getDetailAddress());
-        oldUser.setYear(userDto.getYear());
-        oldUser.setRole(userDto.getRole());
-
-        userRepository.save(oldUser);
+        userService.updateUser(userDto, clientIp);
 
         return "redirect:/admin";
     }

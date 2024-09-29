@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
@@ -144,6 +147,20 @@ public class UserController {
     @PostMapping("/user/withdrawal")
     public ResponseEntity<String> PostWithdrawal(@RequestBody Map<String, Object> payload) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+
+        if (username.equals("anonymousUser")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("not");
+        } else {
+            User requestedUser = userRepository.findByUsername(username);
+
+            if (!userService.isAdmin(requestedUser.getUsername())
+                    && !requestedUser.getUsername().equals( (String) payload.get("username"))
+            ) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("not");
+        }
+
         System.out.println("다음 아이디가 삭제될 예정:\n" + payload.get("username"));
 
         User user = null;
@@ -156,6 +173,5 @@ public class UserController {
         userRepository.deleteById(user.getNo());
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
-
 
 }
