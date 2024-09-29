@@ -1,4 +1,22 @@
-<div id="header" class="header d-flex align-items-center fixed-top" th:fragment="header">
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+
+<header id="header" class="header d-flex align-items-center fixed-top" th:fragment="header">
+
+<!--    <p>권한: <span th:text="${#authentication.authorities}"></span></p>-->
+
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
         <a href="/" class="logo d-flex align-items-center me-auto">
@@ -8,7 +26,7 @@
 
         <nav id="navmenu" class="navmenu">
             <ul>
-                <li><a href="#about">ABOUT</a></li>
+                <li><a href="/about">ABOUT</a></li>
                 <li class="dropdown"><a href="#"><span>NOTICE</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                     <ul>
                         <li><a href="/notice">공지사항</a></li>
@@ -21,7 +39,7 @@
                     <ul>
                         <li><a href="#">스터디</a></li>
                         <li><a href="#">프로젝트</a></li>
-                        <li><a href="#">갤러리</a></li>
+                        <li><a href="/gallery">갤러리</a></li>
                     </ul>
                 </li>
 
@@ -32,17 +50,46 @@
                     </ul>
                 </li>
 
-                <li class="btn-getstarted" id="login-dropdown">
-                    <a href="#" id="login-button"><span>LOGIN</span></a>
-                    <ul id="dropdown-menu" style="display: none;">
-                        <li><a href="/login">로그인</a></li>
-                        <li><a href="#">회원가입</a></li>
-                    </ul>
-                </li>
-
-
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </ul>
         </nav>
 
+        <div id="login-dropdown" th:if="${user == 'anonymousUser'}">
+            <a id="login-button" class="btn-getstarted" href="#">로그인</a>
+            <ul id="dropdown-menu">
+                <li><a th:href="@{/user/sign-in}">로그인</a></li>
+                <li><a th:href="@{/user/sign-up}">회원가입</a></li>
+            </ul>
+        </div>
+
+        <div id="account-dropdown">
+            <a th:if="${user != 'anonymousUser'}" th:text="|${user.getName()}(${user.getYear()}기)|" id="account-button" class="btn-getstarted">내 계정</a>
+            <ul id="account-menu">
+                <li><a th:href="@{/mypage}">마이페이지</a></li>
+
+                <!--&lt;!&ndash; 관리자인 경우에만 관리자 페이지 링크 표시 &ndash;&gt;
+                <li sec:authorize="hasAuthority('ROLE_ADMIN')">
+                    <a th:href="@{/admin}">관리자페이지</a>
+                </li>-->
+
+                <li><a th:href="@{/logout}">로그아웃</a></li>
+            </ul>
+        </div>
+
+
+
+
+
+
+        <!--                <a th:if="${user=='anonymousUser'}" class="btn-getstarted" th:href="@{/user/sign-in}">로그인</a>-->
+<!--        &lt;!&ndash;        todo 마이프로필 연결&ndash;&gt;-->
+<!--        <a th:if="${user!='anonymousUser'}" th:text="|${user.getName()}(${user.getYear()}기)|" class="btn-getstarted" th:href="@{/logout}">내 계정</a>-->
+
     </div>
-</div>
+</header>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</html>

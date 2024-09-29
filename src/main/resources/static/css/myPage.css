@@ -1,3 +1,4 @@
+
 /*colors*/
 :root {
     --color-accent: var(--color-blue);
@@ -181,4 +182,127 @@ li {
     font-weight: 500;
     margin: 1rem 1rem ;
     padding: 1rem;
+=======
+/*colors*/
+:root {
+    --color-accent: var(--color-blue);
+    --color-bg: var(--color-gray) ;
+
+    --color-blue: #00CED1;
+    --color-gray: #f4f5fa;
+
+    /*size*/
+    /*--size-max-width: 1400px;*/
+}
+html {
+    background-color: #f4f5fa;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100%;
+    min-width: 100%;
+    display: flex;
+}
+
+.container {
+    /*max-width: var(--size-max-width);*/
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+    width: 100%;
+}
+.myPage__main {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.all {
+    display: flex;
+    width: 30rem;
+}
+
+.logo {
+    color: var(--color-blue);
+    font-weight: bold;
+    margin-left: 2rem;
+}
+.side__bar {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    height: 100%;
+    width: 20%;
+
+}
+
+.side__items {
+    justify-content: start;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem;
+}
+
+.side__icon {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 1rem;
+}
+
+.side__page__name {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.section__title {
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+
+
+.info__list {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.button__list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info__items {
+    background-color: white;
+    margin: 3px;
+}
+
+.info__items input {
+    padding: 10px;
+    width: 20rem;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+ul {
+    padding-inline-start: 0;
+}
+
+li {
+    padding: 1rem;
+}
+
+.eidtPageBtn {
+    display: none;
 }

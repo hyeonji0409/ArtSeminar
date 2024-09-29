@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -11,14 +11,24 @@
 </head>
 <body>
 
-<h3>login Form</h3>
 
-<form th:action="@{/authenticate}" method="post">
-    <input type="text" name="username" placeholder="username"/> <br/>
-    <input type="password" name="password" placeholder="password"/> <br/>
-    <button>로그인</button>
-</form>
-<a th:href = "@{/join}"> 회원가입 하기</a> <!-- 이후 회원가입에 사용 -->
+<!-- todo 고비용인가-->
+<div th:each="comment, iterStat :  ${comments}"  th:fragment="comment(comments)">
+
+    <div style="margin-left: 40px">
+
+        <div th:text="${comment.getUser().getName()} + '(' + ${comment.getUser().getYear()} + '기)'">작성자</div>
+        <span th:text="${comment.getNo() + comment.memo}">content</span>
+        <div><a th:text="${comment.regdate}">날짜</a><a href="#" role="button">답글 작성</a></div>
+
+        <div th:if="${!comment.getComments().isEmpty()}">
+            <div th:replace="~{/fragments/commentFragment :: comment(comments=${comment.getComments()})}"></div>
+        </div>
+
+    </div>
+
+</div>
+
 
 
 </body>

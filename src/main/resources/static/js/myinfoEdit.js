@@ -1,3 +1,4 @@
+
 // '수정' 버튼 클릭 시 disabled 해제
 document.getElementById('editbtn').addEventListener('click', function() {
     // 모든 input 요소를 선택
@@ -43,3 +44,4 @@ document.getElementById('canclebtn').addEventListener('click', function() {
     document.getElementById('editbtn').style.display = 'block';
     document.querySelector('.editPageBtn').style.display = 'none';
 });
+
