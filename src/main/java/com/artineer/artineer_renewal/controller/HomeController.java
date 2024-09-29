@@ -1,16 +1,14 @@
 package com.artineer.artineer_renewal.controller;
 
+import com.artineer.artineer_renewal.dto.PopupDTO;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.UserRepository;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.logging.Logger;
 
 @Controller
 public class HomeController {
@@ -29,11 +27,14 @@ public class HomeController {
 
         if (username.equals("anonymousUser")) {
             model.addAttribute("user", username);
-
         } else{
             User user = userRepository.findByUsername(username);
             model.addAttribute("user", user);
         }
+
+
+        PopupDTO popup = new PopupDTO(121414L, "공지사항", "/assets/img/IMG_5885.png", "무슨벨류");
+        model.addAttribute("popup", popup);
 
         return "index";
     }
