@@ -25,6 +25,14 @@ public class GalleryDto {
     private String ip;
 
 
+    public GalleryDto(Long no, String title, String story, int hit, List<String> file) {
+        this.no = no;
+        this.title = title;
+        this.story = story;
+        this.hit = hit;
+        this.file = file;
+    }
+
     // file 처리
     public List<String> getFile(List<String> file) {
         return file;
