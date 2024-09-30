@@ -18,6 +18,7 @@ inputBoxes.forEach(v => v.addEventListener("change", (e) => {
 const form = document.querySelector('#form');
 const saveButton = document.querySelector('#save-changes');
 const deleteButton = document.querySelector('#delete');
+const pkInput = document.querySelector('input[name="pk"]');
 const idInput = document.querySelector('input[name="username"]');
 const passwordInput = document.querySelector('input[name="password"]');
 const emailInput = document.querySelector('input[name="email"]');
@@ -303,6 +304,8 @@ editButtons.forEach(v => v.addEventListener("click", (e) => {
     console.log(userForEdit.content[e.target.dataset.memberId]);
     let eachUser = userForEdit.content[e.target.dataset.memberId];
 
+
+    pkInput.value = eachUser.no
     idInput.value = eachUser.username
     emailInput.value = eachUser.email
     nameInput.value = eachUser.name

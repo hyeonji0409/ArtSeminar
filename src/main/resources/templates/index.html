@@ -274,18 +274,21 @@
             <div class="modal-content p-0" style="position: fixed; top: calc(100vh * 0.1); left: calc(100vw * 0.3); width: 500px; margin: 0">
                 <div class="modal-header p-1">
                     <h5 class="modal-title" id="modalLabel1" th:text="${popup.getTitle()}">공지사항</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" onclick="((e)=>{((e.target.parentElement.parentElement.remove()));})(event)" adata-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0">
                     <img th:src="${popup.getImageSrc()}" th:alt="${popup.getDescription()}" style="width: 100%">
                 </div>
                 <div class="modal-footer p-1" style="position: absolute; right: 0; bottom: 0;">
-                    <button type="button" class="btn btn-secondary" onclick="((e)=>{((e.target.parentElement.parentElement.parentElement.parentElement.style.display='none')); makeCookie();})(event)">7초 동안 보지 않기</button>
-                    <button type="button" class="btn btn-primary" onclick="((e)=>{((e.target.parentElement.parentElement.parentElement.parentElement.style.display='none'));})(event)" adata-bs-dismiss="modal">확인</button>
+                    <button type="button" class="btn btn-secondary" onclick="((e)=>{((e.target.parentElement.parentElement.parentElement.parentElement.remove())); makeCookie();})(event)">7초 동안 보지 않기</button>
+                    <button type="button" class="btn btn-primary" onclick="((e)=>{((e.target.parentElement.parentElement.parentElement.parentElement.remove()));})(event)" adata-bs-dismiss="modal">확인</button>
                 </div>
             </div>
         </div>
     </div>
+
+
+
 
 
 

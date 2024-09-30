@@ -1,6 +1,7 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns="http://www.w3.org/1999/html"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>My Page</title>
@@ -34,12 +35,12 @@
                 </div>
                 <div id="sexBox" class="gender-selection inputBox" style="display: flex">
                     <div class="sex-box inputBox">
-                        <input type="radio" id="male" name="sex" value="male" >
+                        <input type="radio" id="male" name="sex" value="male" th:checked="${user.getSex()=='male'}">
                         <label class="gender" for="male">남자</label>
                         <div class="error-msg"></div>
                     </div>
                     <div class="sex-box inputBox" >
-                        <input type="radio" id="female" name="sex" value="female">
+                        <input type="radio" id="female" name="sex" value="female" th:checked="${user.getSex()=='female'}">
                         <label class="gender" for="female">여자</label>
                         <div class="error-msg"></div>
                     </div>

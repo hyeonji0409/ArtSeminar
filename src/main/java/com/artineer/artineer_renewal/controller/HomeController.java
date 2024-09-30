@@ -33,7 +33,7 @@ public class HomeController {
         }
 
 //        todo db 등에 영속저장해야 할 듯
-        PopupDTO popup = new PopupDTO(121414L, "첫팝업", "공지사항", "부원모집","/assets/img/IMG_5885.png");
+        PopupDTO popup = new PopupDTO(121414L, "", "공지사항", "2024 하반기 부원모집 안내","/data/IMG_5885.png");
         model.addAttribute("popup", popup);
 
         return "index";

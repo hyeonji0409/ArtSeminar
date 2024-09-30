@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -85,14 +86,24 @@ public class UserService {
 
 
 
-    public void updateUser(UserDto userDto, String clientIp) {
+    public boolean updateUser(String logInUsername, UserDto userDto, String clientIp) {
         // IP 주소 가져오기
         System.out.println("Client IP: " + clientIp);
 
+        if (!(
+                logInUsername.equals( userDto.getUsername() )
+                || isAdmin(logInUsername))
+        ) return false;
+
         // 생년월일 포멧
-        DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        String formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
+        String formattedBirth = null;
+        try {
+            DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
+        } catch (DateTimeParseException e) {
+            return false;
+        }
 
         System.out.println("수정요청 받음");
 
@@ -108,9 +119,16 @@ public class UserService {
         if (userDto.getRoadAddress()!=null) oldUser.setRoadAddress(userDto.getRoadAddress());
         if (userDto.getDetailAddress()!=null) oldUser.setDetailAddress(userDto.getDetailAddress());
         if (userDto.getYear()!=null) oldUser.setYear(userDto.getYear());
-        if (userDto.getRole()!=null) oldUser.setRole(userDto.getRole());
+        if (userDto.getRole()!=null
+                && (
+                        logInUsername.equals( userDto.getUsername() )
+                        || isAdmin(logInUsername)
+                )
+        ) oldUser.setRole(userDto.getRole());
 
         userRepository.save(oldUser);
+
+        return true;
     }
 
 
@@ -118,7 +136,6 @@ public class UserService {
     public ResponseEntity<String> PostWithdrawal(@RequestBody Map<String, Object> payload,
                                                  String username) {
 
-//        시큐리티에서 권한검사해도 될 거 같은데
         if (username.equals("anonymousUser")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         } else {
