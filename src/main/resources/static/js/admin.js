@@ -114,6 +114,8 @@ deleteButton.addEventListener("click", async () => {
 
     let flag = confirm("삭제된 계정은 DB에서 완전히 제거됩니다.\n정말 삭제하시겠습니까?")
     if (!flag) return
+    let confirmText = prompt("삭제하려는 사용자의 아이디를 정확히 입력해주세요.", '아이디를 제출하는 즉시, 계정이 "삭제"됩니다.')
+    if( confirmText !== idInput.value) { alert("올바르지 않습니다."); return; }
 
     let response = await fetch("user/withdrawal", {
             method: "POST",
@@ -249,7 +251,7 @@ const errMsg = {
 // 검색 결과 시 모델속성 값 유지 처리에 관한 코드
 
 // 필터 검색 시 페이지는 1로 하고 조건들을 보냄
-document.querySelector("#search-form > div.row.d-flex.justify-content-between.mb-3 > div.col-2.d-flex.justify-content-end > button").addEventListener("click", (e) => {
+document.querySelector("#reset-button").addEventListener("click", (e) => {
     e.preventDefault()
     document.querySelector("#search-form > input[name='page']").value = 1
     document.querySelector("#search-form").submit()

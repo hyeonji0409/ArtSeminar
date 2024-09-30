@@ -22,7 +22,7 @@ public class AdminService {
     @Autowired
     private UserRepository userRepository;
 
-    // 회원정보 갱신
+    // 회원정보 값 유효성 검사
     public ResponseEntity<String> checkUserValue(String valueName,
                                                  Map<String, String> payload) {
 
@@ -46,6 +46,7 @@ public class AdminService {
                 ) + "\n-------------------------------------------------\n"
         );
 
+        // 검사를 요청한 정보로 찾은 foundUser 가 요청을 보낸 유저와 같을 경우, 중복허용
         if (foundUser != null && foundUser.equals(userRepository.findByUsername(payload.get("username")))) {
             foundUser = null;
         }

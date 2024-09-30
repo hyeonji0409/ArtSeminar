@@ -109,7 +109,7 @@ public class UserService {
 
         User oldUser = userRepository.findByUsername(userDto.getUsername());
 
-        if (!userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
+        if (userDto.getPassword()!=null) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
         if (userDto.getName()!=null) oldUser.setName(userDto.getName());
         if (userDto.getSex()!=null) oldUser.setSex(userDto.getSex());
         if (userDto.getBirth()!=null) oldUser.setBirth(formattedBirth);
@@ -119,12 +119,7 @@ public class UserService {
         if (userDto.getRoadAddress()!=null) oldUser.setRoadAddress(userDto.getRoadAddress());
         if (userDto.getDetailAddress()!=null) oldUser.setDetailAddress(userDto.getDetailAddress());
         if (userDto.getYear()!=null) oldUser.setYear(userDto.getYear());
-        if (userDto.getRole()!=null
-                && (
-                        logInUsername.equals( userDto.getUsername() )
-                        || isAdmin(logInUsername)
-                )
-        ) oldUser.setRole(userDto.getRole());
+        if (userDto.getRole()!=null && isAdmin(logInUsername)) oldUser.setRole(userDto.getRole());
 
         userRepository.save(oldUser);
 
@@ -133,7 +128,7 @@ public class UserService {
 
 
 
-    public ResponseEntity<String> PostWithdrawal(@RequestBody Map<String, Object> payload,
+    public ResponseEntity<String> PostWithdrawal(Map<String, Object> payload,
                                                  String username) {
 
         if (username.equals("anonymousUser")) {

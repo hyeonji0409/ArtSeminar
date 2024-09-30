@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -57,9 +58,14 @@ public class UserController {
 
 
         // Todo js에서도 포멧하면 좋은가
-        DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyyMMdd");
-        DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        String formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
+        String formattedBirth = null;
+        try {
+            DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyyMMdd");
+            DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
+        } catch (DateTimeParseException e) {
+            return "/user/errorPage";
+        }
 
         User user = new User(
                 null,
@@ -140,20 +146,20 @@ public class UserController {
     }
 
 
-//    /* 아이디/비밀번호 찾기 */
-//    @GetMapping("/sign-find/{what}")
-//    public String signFind(@PathVariable String what,
-//                           Model model) {
-//
-//        if (what.equals("id")) {
-//            model.addAttribute("what", "id");
-//        } else if (what.equals("pw")) {
-//            model.addAttribute("what", "pw");
-//        }
-//
-//        return "/userLog/sign-find";
-//    }
-//
+    /* 아이디/비밀번호 찾기 */
+    @GetMapping("/user/sign-find/{what}")
+    public String signFind(@PathVariable String what,
+                           Model model) {
+
+        if (what.equals("id")) {
+            model.addAttribute("what", "id");
+        } else if (what.equals("pw")) {
+            model.addAttribute("what", "pw");
+        }
+
+        return "/user/sign-find";
+    }
+
 //
 //    @GetMapping("/sign-withdrawal")
 //    public String withdrawal() {

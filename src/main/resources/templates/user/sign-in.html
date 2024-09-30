@@ -76,7 +76,7 @@
 <!--        <p>Use this page as a starter for your own custom pages.</p>-->
         <form name="form" id="form" th:action="@{/authenticate}"  method="post" >
           <div id="usernameBox" class="inputBox">
-            <input id="userId" type="text" name="username">
+            <input id="userId" type="text" th:value="${inputId}" name="username">
             <label for="userId">아이디</label>
             <div class="error-msg"></div>
           </div>

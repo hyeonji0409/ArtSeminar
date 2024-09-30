@@ -346,10 +346,15 @@ if (value==null) {
 // 모달 외부 클릭시 모달 꺼짐
 document.addEventListener('click', function (event) {
   let modal = document.querySelector("#modal1 > div > div")
-  let insideModal = modal.contains(event.target);
 
-  if (!insideModal && myModal1._isShown) {
-    myModal1.hide();
+  try {
+    let insideModal = modal.contains(event.target);
+    if (!insideModal && myModal1._isShown) {
+      // myModal1.hide();
+      document.getElementById('modal1').remove();
+    }
+  } catch (e) {
+    document.onclick = null;
   }
 })
 
