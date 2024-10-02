@@ -268,23 +268,38 @@
 
 
     <!-- Modal -->
-    <div th:if="${popup!=null}"
-            class="popupModal" id="modal1" tabindex="-1" aria-labelledby="modalLabel1" aria-hidden="true" data-bs-backdrop="false">
-        <div class="modal-dialog" style="position: sticky; left: 10px; top: 20px">
+    <div class="d-flex flex-wrap  justify-content-center"
+        style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1050;
+            width: 100vw;
+            height: 100vh;
+
+            overflow-y: auto;
+            /*height: fit-content;*/">
+    <div th:if="${popups!=null}" th:each="popup : ${popups}"
+            class="popupModal" th:id="${popup.getNo()}"
+         tabindex="-1" aria-labelledby="modalLabel1" aria-hidden="true" data-bs-backdrop="false"
+         style="width: fit-content; height: fit-content"
+    >
+        <div class="modal-dialog" >
             <div class="modal-content p-0" style="width: 500px; max-width: 95vw; margin: 0">
                 <div class="modal-header p-1">
                     <h5 class="modal-title" id="modalLabel1" th:text="${popup.getTitle()}">공지사항</h5>
                     <button type="button" class="btn-close" onclick="((e)=>{((e.target.parentElement.parentElement.parentElement.parentElement.remove()));})(event)" adata-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0">
-                    <img th:src="${popup.getImageSrc()}" th:alt="${popup.getDescription()}" style="width: 100%">
+                    <img th:src="${popup.getLink()}" th:alt="${popup.getDescription()}" style="width: 100%">
                 </div>
                 <div class="modal-footer p-1" style="position: absolute; right: 0; bottom: 0;">
-                    <button type="button" class="btn btn-secondary" onclick="((e)=>{((e.target.parentElement.parentElement.parentElement.parentElement.remove())); makeCookie();})(event)">7초 동안 보지 않기</button>
+                    <button type="button" class="btn btn-secondary" onclick="((e)=>{((e.target.parentElement.parentElement.parentElement.parentElement.remove())); makeCookie(e);})(event)" th:data-index-number="${popup.getNo()}">7초 동안 보지 않기</button>
                     <button type="button" class="btn btn-primary" onclick="((e)=>{((e.target.parentElement.parentElement.parentElement.parentElement.remove()));})(event)" adata-bs-dismiss="modal">확인</button>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 
@@ -320,9 +335,8 @@
 
 
 <script th:inline="javascript">
-    let popupId = [[${popup.getNo()}]]
-    // console.log(popupId)
-    let popupValue = [[${popup.getPopupValue()}]]
+    let popups = /*[[${popups}]]*/ []
+    console.log(popups)
 </script>
 <!-- Main JS File -->
 <script src="assets/js/main.js"></script>

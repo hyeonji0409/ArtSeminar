@@ -1352,9 +1352,10 @@ header {
   --bs-modal-footer-bg: ;
   --bs-modal-footer-border-color: var(--bs-border-color);
   --bs-modal-footer-border-width: var(--bs-border-width);
-  position: fixed;
-  top: 0;
-  left: 0;
+  /*position: fixed;*/
+  /*top: 0;*/
+  /*left: 0;*/
+  margin: 10px;
   z-index: var(--bs-modal-zindex);
   display: none;
   width: 100%;
