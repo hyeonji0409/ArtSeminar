@@ -116,14 +116,15 @@ public class UserController {
 
 
     @PostMapping("/user/update")
-    public String updateUser(Model model, UserDto userDto) {
+    public String updateUser(Model model,
+                             UserDto userDto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
         // IP 주소 가져오기
         String clientIp = request.getRemoteAddr();
-        boolean isSuccess = userService.updateUser(username,userDto, clientIp);
+        boolean isSuccess = userService.updateUser(username, userDto, clientIp);
         if (!isSuccess) {
             model.addAttribute("errorCode", 400);
             return "/user/errorPage";

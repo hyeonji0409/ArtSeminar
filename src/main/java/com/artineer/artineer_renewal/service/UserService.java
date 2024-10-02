@@ -105,21 +105,23 @@ public class UserService {
             return false;
         }
 
-        System.out.println("수정요청 받음");
+        System.out.println("수정요청 받음" +  userDto.toString());
+
 
         User oldUser = userRepository.findByUsername(userDto.getUsername());
 
-        if (userDto.getPassword()!=null) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
-        if (userDto.getName()!=null) oldUser.setName(userDto.getName());
-        if (userDto.getSex()!=null) oldUser.setSex(userDto.getSex());
-        if (userDto.getBirth()!=null) oldUser.setBirth(formattedBirth);
-        if (userDto.getTel()!=null) oldUser.setTel(userDto.getTel());
-        if (userDto.getEmail()!=null) oldUser.setEmail(userDto.getEmail());
-        if (userDto.getZipcode()!=null) oldUser.setZipcode(userDto.getZipcode());
-        if (userDto.getRoadAddress()!=null) oldUser.setRoadAddress(userDto.getRoadAddress());
-        if (userDto.getDetailAddress()!=null) oldUser.setDetailAddress(userDto.getDetailAddress());
+        // todo 예외처리
+        if (userDto.getPassword()!=null && !userDto.getPassword().isEmpty())oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
+        if (userDto.getName()!=null && !userDto.getName().isEmpty()) oldUser.setName(userDto.getName());
+        if (userDto.getSex()!=null && !userDto.getSex().isEmpty()) oldUser.setSex(userDto.getSex());
+        if (userDto.getBirth()!=null && !userDto.getBirth().isEmpty()) oldUser.setBirth(formattedBirth);
+        if (userDto.getTel()!=null && !userDto.getTel().isEmpty()) oldUser.setTel(userDto.getTel());
+        if (userDto.getEmail()!=null && !userDto.getEmail().isEmpty()) oldUser.setEmail(userDto.getEmail());
+        if (userDto.getZipcode()!=null && !userDto.getZipcode().isEmpty()) oldUser.setZipcode(userDto.getZipcode());
+        if (userDto.getRoadAddress()!=null && !userDto.getRoadAddress().isEmpty()) oldUser.setRoadAddress(userDto.getRoadAddress());
+        if (userDto.getDetailAddress()!=null && !userDto.getDetailAddress().isEmpty()) oldUser.setDetailAddress(userDto.getDetailAddress());
         if (userDto.getYear()!=null) oldUser.setYear(userDto.getYear());
-        if (userDto.getRole()!=null && isAdmin(logInUsername)) oldUser.setRole(userDto.getRole());
+        if (userDto.getRole()!=null && !userDto.getRole().isEmpty() && isAdmin(logInUsername)) oldUser.setRole(userDto.getRole());
 
         userRepository.save(oldUser);
 
