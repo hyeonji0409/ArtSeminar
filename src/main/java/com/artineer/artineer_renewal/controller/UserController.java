@@ -128,11 +128,11 @@ public class UserController {
         String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
 
 
-        if (what.equals("id")) {
-            model.addAttribute("what", "id");
-        } else if (what.equals("pw")) {
-            model.addAttribute("what", "pw");
-        }
+//        if (what.equals("id")) {
+//            model.addAttribute("what", "id");
+//        } else if (what.equals("pw")) {
+//            model.addAttribute("what", "pw");
+//        }
 
         User user = userRepository.findByUsername(userDto.getUsername());
 
