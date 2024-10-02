@@ -16,6 +16,7 @@ inputBoxes.forEach(v => v.addEventListener("change", (e) => {
 
 /* check submit form validation */
 const form = document.querySelector('#form');
+const querySubmitButton = document.querySelector('#querySubmit');
 const saveButton = document.querySelector('#save-changes');
 const deleteButton = document.querySelector('#delete');
 const pkInput = document.querySelector('input[name="pk"]');
@@ -250,7 +251,17 @@ const errMsg = {
 
 // 검색 결과 시 모델속성 값 유지 처리에 관한 코드
 
+
+
+
 // 필터 검색 시 페이지는 1로 하고 조건들을 보냄
+
+querySubmitButton.addEventListener("click", (e) => {
+    e.preventDefault()
+    document.querySelector("#search-form > input[name='page']").value = 1
+    document.querySelector("#search-form").submit()
+})
+
 document.querySelector("#reset-button").addEventListener("click", (e) => {
     e.preventDefault()
     document.querySelector("#search-form > input[name='page']").value = 1

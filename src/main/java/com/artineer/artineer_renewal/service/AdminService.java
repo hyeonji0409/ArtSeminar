@@ -26,7 +26,7 @@ public class AdminService {
     public ResponseEntity<String> checkUserValue(String valueName,
                                                  Map<String, String> payload) {
 
-//        Todo 이하 2종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
+//        Todo 이하 2종목이 유니크하지 않을 떄 오류 발생(오류발생)
 //        org.hibernate.NonUniqueResultException: Query did not return a unique result: 9 results were returned
         User foundUser = switch (valueName) {
 //            아이디는 고정값임.

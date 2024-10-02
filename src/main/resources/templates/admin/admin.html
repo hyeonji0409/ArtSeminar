@@ -111,7 +111,7 @@
 
                 <div class=" d-flex flex-wrap justify-content-end align-content-center ms-0">
                   <a id="reset-button" th:href="@{/admin}" class="btn btn-secondary col-1 me-2 align-content-center" style="width: fit-content; min-width: 90px">초기화</a>
-                  <button type="submit" class="btn btn-primary col-1 me-2" style="width: fit-content; min-width: 90px">검색</button>
+                  <button id="querySubmit" class="btn btn-primary col-1 me-2" style="width: fit-content; min-width: 90px">검색</button>
                 </div>
 <!--                <span class="material-symbols-outlined form-check col-1" style="width: fit-content; height: fit-content; font-size: 30px; padding: 1px; writing-mode: vertical-lr; display: inline;">sync_alt</span>-->
               </div>
@@ -343,7 +343,7 @@
         // 우편번호와 주소 정보 필드에 넣기
         document.getElementById('zipcode').value = data.zonecode;
         document.getElementById('roadAddress').value = data.roadAddress;
-        // document.getElementById('detailAddr').value = data.detailAddress;
+        // document.getElementById('detailAddr').value = data.detailAddress; //이거는 다음 말고 일반도로명주소API에서 쓰이는거
         // 상세 주소로 커서 이동
         document.getElementById('detailAddress').focus();
         checkValidation("roadAddress", roadFullAddrInput);
