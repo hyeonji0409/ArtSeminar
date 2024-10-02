@@ -71,13 +71,4 @@ public class adminController {
         return adminService.checkSignUpValue(valueName, payload);
     }
 
-
-    @PostMapping("/user/update")
-    public String updateUser(UserDto userDto) {
-
-        String clientIp = request.getRemoteAddr();
-        userService.updateUser(userDto, clientIp);
-
-        return "redirect:/admin";
-    }
 }
