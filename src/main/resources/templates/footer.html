@@ -1,46 +1,73 @@
 
-<div id="footer" class="footer" th:fragment="footer">
-
-
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+<footer id="footer" class="footer py-3 mt-auto" th:fragment="footer">
+    <hr class="divider">
     <div class="container footer-top">
         <div class="row gy-4">
+            <!-- 좌측: 아티니어 정보 -->
             <div class="col-lg-4 col-md-6 footer-about">
-                <a href="index.html" class="d-flex align-items-center">
+                <a href="@{/}" class="d-flex align-items-center">
                     <span class="sitename">Artineer_renewal</span>
                 </a>
                 <div class="footer-contact pt-3">
-                    <p>460, Iksan-daero</p>
-                    <p>Iksan-si, Republic of Korea 54538</p>
-                    <p class="mt-3"><strong>Phone:</strong> <span>063-850-5114</span></p>
-                    <p><strong>Email:</strong> <span>Artineer24@wku.com</span></p>
+                    <p>전북특별자치도 익산시 익산대로 460</p>
+                    <p>창의공과대학 5층 LINK+ 동아리실 (원광대학교)</p>
+                    <p class="mt-3"><strong>TEL::</strong> <span>063-850-5114(수정 필요)</span></p>
+                    <p><strong>Email:</strong> <span>artineer24@google.com</span></p>
                 </div>
             </div>
 
-
-
-            <div class="col-lg-4 col-md-12">
-                <h4>Follow Us</h4>
-                <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p>
-                <div class="social-links d-flex">
-                    <a href=""><i class="bi bi-twitter-x"></i></a>
-                    <a href=""><i class="bi bi-facebook"></i></a>
-                    <a href=""><i class="bi bi-instagram"></i></a>
-                    <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
+            <!-- 중앙: 유용한 링크 -->
+            <div class="col-lg-4 col-md-6 footer-links">
+                <h4>유용한 링크</h4>
+                <ul>
+                    <li><i class="bi bi-chevron-right"></i> <a href="https://cafe.naver.com/artineer24">아티니어 홈페이지</a></li>
+                    <li><i class="bi bi-chevron-right"></i> <a href="https://intra.wku.ac.kr/">교내 웹정보서비스</a></li>
+                    <li><i class="bi bi-chevron-right"></i> <a href="https://computer.wku.ac.kr/">소속학과 홈페이지</a></li>
+                    <li><i class="bi bi-chevron-right"></i> <a href="#">이용약관</a></li>
+                </ul>
             </div>
 
+            <!-- 우측: 찾아오시는 길 (카카오맵) -->
+            <div class="col-lg-4 col-md-6 footer-map">
+                <h4>찾아오시는 길</h4>
+                <div id="daumRoughmapContainer1725096417636" class="root_daum_roughmap root_daum_roughmap_landing" style="width: 100%; height: 270px"></div>
+            </div>
         </div>
     </div>
+
+    <!-- 카카오맵 스크립트 -->
+    <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+    <script charset="UTF-8">
+        new daum.roughmap.Lander({
+          "timestamp": "1725096417636",
+          "key": "2ki7e",
+        }).render();
+    </script>
 
     <div class="container copyright text-center mt-4">
         <p>© <span>Copyright</span> <strong class="px-1 sitename">Artineer_renewal</strong> <span>All Rights Reserved</span></p>
         <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you've purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-            Designed by <a href="https://bootstrapmade.com/">Artineer_renewalteam</a>
+            Designed by <a href="https://bootstrapmade.com/">Arsha&BootstrapMade</a>
         </div>
     </div>
+</footer>
 
-</div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+</html>

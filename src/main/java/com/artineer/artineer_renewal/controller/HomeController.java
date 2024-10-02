@@ -20,22 +20,6 @@ public class HomeController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/old")
-    public String oldHome(Long no, Model model) {
-        // 현재 인증된 사용자 정보 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-
-        if (username.equals("anonymousUser")) {
-            model.addAttribute("user", username);
-
-        } else{
-            User user = userRepository.findByUsername(username);
-            model.addAttribute("user", user);
-        }
-
-        return "oldIndex";
-    }
 
     @GetMapping("/")
     public String home(Model model) {
@@ -54,8 +38,25 @@ public class HomeController {
         return "index";
     }
 
+
     @RequestMapping("/denied")
     public String denied() {
         return "/user/access-denied";
+    }
+
+    @RequestMapping("/about")
+    public String about(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        if (username.equals("anonymousUser")) {
+            model.addAttribute("user", username);
+
+        } else{
+            User user = userRepository.findByUsername(username);
+            model.addAttribute("user", user);
+        }
+
+        return "about/about";
     }
 }

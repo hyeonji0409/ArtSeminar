@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>아티니어</title>
-  <meta name="description" content="아티니어 계정 찾기">
+  <title>아티니어::페이지명</title>
+  <meta name="description" content="페이지 설명">
   <meta name="keywords" content="">
 
   <!-- Favicons -->
@@ -18,15 +18,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="/assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link th:href="@{/css/signUpIn.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{assets/vendor/aos/aos.css}" rel="stylesheet">
+  <link th:href="@{assets/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+  <link th:href="@{assets/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link href="/assets/css/main.css" rel="stylesheet">
+  <link th:href="@{/assets/css/main.css}" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Arsha
@@ -35,20 +34,15 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-
-  <script th:inline="javascript">
-    const whatWillFind = [[${what}]];
-  </script>
-
 </head>
 
 <body class="starter-page-page d-flex flex-column min-vh-100">
 
-  <header id="header" class="header d-flex align-items-center sticky-top">
-    <div class="container-fluid container-xl position-relative d-flex align-items-center">
-      <a th:replace="~{/fragments/headerFragment :: headerLogo}"></a>
-    </div>
-  </header>
+<header id="header" class="header d-flex align-items-center sticky-top">
+  <div class="container-fluid container-xl position-relative d-flex align-items-center">
+    <a th:replace="~{/fragments/headerFragment :: headerFragment(${user})}"></a>
+  </div>
+</header>
 
   <main class="main">
 
@@ -56,15 +50,13 @@
     <div class="page-title" style="
     top: 60px;
     margin-bottom: 0;
-    padding-bottom: 0">
+    padding-bottom: 0;
+    background-color: white">
       <div class="container" style="
       display: flex;
-      flex-direction: column;
       justify-content: center; /* 수평 가운데 정렬 */
       align-items: center;">
-        <h1 style="font-size: 60px" >나의 계정 찾기</h1>
-        <p style="font-size: 40px;">(점검 중...)</p>
-        <p style="font-size: 18px;">계정을 찾으려면 사이트 관리자에게 문의해주세요.</p>
+        <h1 style="font-size: 60px" >기본 페이지</h1>
       </div>
     </div><!-- End Page Title -->
 
@@ -74,34 +66,34 @@
       <div class="container" style="
       margin-top: 0;
       display: flex;
-      justify-content: center;">
-        <a id="idAddr" th:href="@{/user/sign-find/id}" style="display:none;">아이디 error</a>
-        <a id="pwAddr" th:href="@{/user/sign-find/pw}" style="display:none;">비밀번호 error</a>
+      justify-content: center;
+      border: #0a58ca solid 5px;
+      width: 50%; height: 1000px">
+        <button class="btn btn-sm btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" >수정</button>
 
-<!--        <p>Use this page as a starter for your own custom pages.</p>-->
-<!--        <form name="form" id="form">-->
-<!--          <div style="-->
-<!--          margin-top: 0;-->
-<!--          display: flex;-->
-<!--          justify-content: center;">-->
-<!--            <a th:href="@{/sign-find/id}">아이디 찾기</a>&nbsp&nbsp/&nbsp&nbsp<a th:href="@{/sign-find/pw}">비밀번호 찾기</a>-->
-<!--          </div>-->
+        <div class="">여기에 콘텐츠를 넣기</div>
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+          <div class="modal-dialog mt-5 pt-5" >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">모달 제목</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form name="form" id="form" action="/user/update" method="post">
+                  모달 내용
+                </form>
+              </div>
+              <div class="modal-footer" style="justify-content: center">
+                <button type="button" class="btn btn-primary" id="save-changes" form="form" style="width: 40%">진행</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 40%">취소</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-<!--          <div id="nameBox">-->
-<!--            <input id="name" type="text" name="name">-->
-<!--            <label for="name">이름</label>-->
-<!--            <div class="error-msg"></div>-->
-<!--          </div>-->
-<!--          <div id="contactNumberBox">-->
-<!--            <input id="contactNumber" type="text" name="contactNumber">-->
-<!--            <label for="contactNumber">휴대전화 번호</label>-->
-<!--            <div class="error-msg"></div>-->
-<!--          </div>-->
 
-<!--          <div style="text-align: center;">-->
-<!--            <button type="submit">아이디 찾기</button>-->
-<!--          </div>-->
-<!--        </form>-->
+
       </div>
 
     </section><!-- /Starter Section Section -->
@@ -125,7 +117,6 @@
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
   <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script th:src="@{/js/signFind.js}"></script>
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>

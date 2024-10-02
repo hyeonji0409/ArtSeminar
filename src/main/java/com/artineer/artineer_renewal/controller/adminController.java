@@ -1,23 +1,25 @@
 package com.artineer.artineer_renewal.controller;
 
+import com.artineer.artineer_renewal.dto.UserDto;
+import com.artineer.artineer_renewal.dto.UserSearchDTO;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.UserRepository;
+import com.artineer.artineer_renewal.service.AdminService;
 import com.artineer.artineer_renewal.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class adminController {
@@ -26,26 +28,56 @@ public class adminController {
     private UserRepository userRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AdminService adminService;
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/admin")
+
+    // 관리자의 사용자 정보 쿼리 화면
+    @RequestMapping("/admin")
     public String adminPage(Model model,
-                            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                            @RequestParam(name = "size", required = false, defaultValue = "10") int pageSize) {
+                            @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
+                            @RequestParam(name = "size", required = false, defaultValue = "10") Integer pageSize,
+                            @ModelAttribute UserSearchDTO userSearchDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
 
-        if (username.equals("anonymousUser")) {
-            model.addAttribute("user", username);
+        System.out.println(userSearchDTO.toString());
 
-        } else {
-            User user = userRepository.findByUsername(username);
-            model.addAttribute("user", user);
-        }
+        Page<User> users = adminService.paginationByQuery(userSearchDTO, page, pageSize);
+        if (userSearchDTO.getPage().isEmpty()) { userSearchDTO.setPage(Optional.of(page==null?1:page)); }
+        if (userSearchDTO.getPageSize().isEmpty()) { userSearchDTO.setPageSize(Optional.of(pageSize==null?10:pageSize)); }
 
-        Page<User> users = userService.paginationFindUsers(page, pageSize, Sort.by(Sort.Direction.ASC, "name"));
+        model.addAttribute("user", user);
         model.addAttribute("users", users);
+        model.addAttribute("userSearchDTO", userSearchDTO);
 
         return "/admin/admin";
+    }
+
+
+
+    // 회원정보 갱신
+    @PostMapping("/user/update/check-{valueName}")
+    @ResponseBody
+    public ResponseEntity<String> checkSignUpValue(@PathVariable(name = "valueName") String valueName,
+                                                   @RequestBody Map<String, String> payload) {
+
+        return adminService.checkSignUpValue(valueName, payload);
+    }
+
+
+    @PostMapping("/user/update")
+    public String updateUser(UserDto userDto) {
+
+        String clientIp = request.getRemoteAddr();
+        userService.updateUser(userDto, clientIp);
+
+        return "redirect:/admin";
     }
 }

@@ -42,7 +42,7 @@
 
 <body class="service-details-page">
 
-  <header th:replace="~{/fragments/headerFragment :: headerFragment}"></header>
+  <header th:replace="~{/fragments/headerFragment :: headerFragment(user=${user})}"></header>
 
   <main class="main">
 
@@ -125,8 +125,8 @@
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 
   <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
-
+<!--  <script src="assets/js/main.js"></script>-->
+  <script th:src="assets/js/main.js"></script>
 </body>
 
 </html>
