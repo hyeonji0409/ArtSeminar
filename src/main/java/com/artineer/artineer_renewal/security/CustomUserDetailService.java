@@ -28,15 +28,6 @@ public class CustomUserDetailService implements UserDetailsService{
             throw new UsernameNotFoundException(username + "Not exist");
         }
 
-        // GrantedAuthority로 권한 설정
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        if(user.getRole() != null && !user.getRole().isEmpty()) {
-            authorities.add(new SimpleGrantedAuthority(user.getRole())); // "ROLE_ADMIN"
-        } else {
-            throw  new IllegalArgumentException("User Role 없음");
-        }
-
-
         return user;
     }
 }
