@@ -113,16 +113,28 @@ public class UserController {
     }
 
 
-    /* 아이디/비밀번호 찾기 */
-    @GetMapping("/user/sign-find/{what}")
-    public String signFind(@PathVariable String what,
-                           Model model) {
+
+    @PostMapping("/user/update")
+    public String updateUser(UserDto userDto) {
+        // IP 주소 가져오기
+        String clientIp = request.getRemoteAddr();
+        System.out.println("Client IP: " + clientIp);
+        System.out.println(userDto.toString());
+
+        // 현재 시간 가져오기
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd (HH:mm)");
+        String formattedDate = now.format(formatter);
+        String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
+
 
         if (what.equals("id")) {
             model.addAttribute("what", "id");
         } else if (what.equals("pw")) {
             model.addAttribute("what", "pw");
         }
+
+        User user = userRepository.findByUsername(userDto.getUsername());
 
         return "/user/sign-find";
     }
@@ -132,16 +144,49 @@ public class UserController {
     public String withdrawal() {
         return "/user/sign-withdrawal";
     }
+  
     @PostMapping("/user/sign-withdrawal")
     public String PostWithdrawal() {
-        return "redirect:/";
+        return "redirect:/mypage";
     }
 
+
+//    /* 아이디/비밀번호 찾기 */
+//    @GetMapping("/sign-find/{what}")
+//    public String signFind(@PathVariable String what,
+//                           Model model) {
+//
+//        if (what.equals("id")) {
+//            model.addAttribute("what", "id");
+//        } else if (what.equals("pw")) {
+//            model.addAttribute("what", "pw");
+//        }
+//
+//        return "/userLog/sign-find";
+//    }
+//
+//
+//    @GetMapping("/sign-withdrawal")
+//    public String withdrawal() {
+//
+//        return "/userLog/sign-withdrawal";
+//    }
+//    @PostMapping("/sign-withdrawal")
+//    public String PostWithdrawal() {
+//
+//        return "redirect:/";
+//    }
+//
+//    @GetMapping("/sign-withdrawalConfirm")
+//    public String withdrawalConfirm() {
+//
+//        return "/userLog/sign-withdrawalConfirm";
+//    }
+//
     @GetMapping("/user/sign-withdrawalConfirm")
     public String withdrawalConfirm() {
         return "/user/sign-withdrawalConfirm";
     }
-
 
 
 //    @PostMapping("/sign-withdrawalConfirm")
