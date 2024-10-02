@@ -264,8 +264,8 @@ querySubmitButton.addEventListener("click", (e) => {
 
 document.querySelector("#reset-button").addEventListener("click", (e) => {
     e.preventDefault()
-    document.querySelector("#search-form > input[name='page']").value = 1
-    document.querySelector("#search-form").submit()
+    // location.pathname 은 /admin 이라는 가정
+    location.href = location.pathname
 })
 
 document.querySelectorAll("#previous-page, #next-page").forEach(v => v.addEventListener("click", (e) => {
