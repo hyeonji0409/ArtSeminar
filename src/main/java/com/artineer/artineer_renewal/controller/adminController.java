@@ -72,12 +72,5 @@ public class adminController {
     }
 
 
-    @PostMapping("/user/update")
-    public String updateUser(UserDto userDto) {
 
-        String clientIp = request.getRemoteAddr();
-        userService.updateUser(userDto, clientIp);
-
-        return "redirect:/admin";
-    }
 }
