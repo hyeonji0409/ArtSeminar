@@ -33,19 +33,10 @@ public class UserController {
     private HttpServletRequest request;
 
 
-//    @GetMapping("/user/sign-in/")
-//    public String loginForm(Model model,
-//                            @RequestParam(value = "error", required = false) String error) {
-//
-//        System.out.println("주소");e
-//        model.addAttribute("error", error);
-//
-//        return "/user/sign-in";
-//    }
 
-    @GetMapping("/user/sign-in")
-    public String loginForm(Model model,
-                        @RequestParam(value = "error", required = false) String error) {
+    @RequestMapping("/user/sign-in")
+    public String signIn(Model model,
+                         @RequestParam(value = "error", required = false) String error) {
 
         model.addAttribute("error", error);
 
@@ -76,7 +67,6 @@ public class UserController {
             return "/user/errorPage";
         }
 
-
         User user = new User(
                 null,
                 userDto.getUsername(),
@@ -102,7 +92,7 @@ public class UserController {
     }
 
     @GetMapping("/user/sign-up")
-    public String join() {
+    public String signUp() {
         return "/user/sign-up";
     }
 
@@ -112,51 +102,25 @@ public class UserController {
     }
 
 
-//     회원가입 폼 유효성 검사하기
+    //     회원가입 폼 유효성 검사하기
     @PostMapping("/sign-up/check-{valueName}")
     @ResponseBody
     public ResponseEntity<String> checkSignUpValue(@PathVariable(name = "valueName") String valueName,
                                                    @RequestBody Map<String, String> payload) {
 
-//        Todo 이하 4종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
-//        org.hibernate.NonUniqueResultException: Query did not return a unique result: 9 results were returned
-        User foundUser = switch (valueName) {
-            case "username" -> userRepository.findByUsername(payload.get("value"));
-            case "password" -> userRepository.findByPassword(payload.get("value"));
-            case "email" -> userRepository.findByEmail(payload.get("value"));
-            case "tel" -> userRepository.findByTel(payload.get("value"));
-            default -> null;
-        };
-
-        System.out.println("sign-up check: "+ valueName);
-        System.out.println(payload);
-        System.out.println(
-                (foundUser ==
-                        null ?
-                        "It is possible to register a new user...\n null" :
-                        "submitted value is already exist in database...\n" + foundUser.toString()
-                ) + "\n-------------------------------------------------\n"
-        );
-
-
-        if (foundUser != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("invalid");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.OK).body("valid");
-        }
-
+        return userService.checkSignUpValue(valueName, payload);
     }
+
+
 
 
 
     @PostMapping("/user/update")
     public String updateUser(Model model,
                              UserDto userDto) {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-
-        System.out.println("수정요청 받음");
 
         // IP 주소 가져오기
         String clientIp = request.getRemoteAddr();
@@ -170,27 +134,13 @@ public class UserController {
         System.out.println(redirectAddress);
         return "redirect:" + redirectAddress;
     }
-        user.setPassword( passwordEncoder.encode(userDto.getPassword()));
-        user.setName(userDto.getName());
-        user.setSex(userDto.getSex());
-        user.setBirth(formattedBirth);
-        user.setTel(userDto.getTel());
-        user.setEmail(userDto.getEmail());
-        user.setZipcode(userDto.getZipcode());
-        user.setRoadAddress(userDto.getRoadAddress());
-        user.setDetailAddress(userDto.getDetailAddress());
-        user.setYear(userDto.getYear());
-        user.setRole(userDto.getRole());
-
-        userRepository.save(user);
-        System.out.println(user);
 
 
     @GetMapping("/user/sign-withdrawal")
     public String withdrawal() {
         return "/user/sign-withdrawal";
     }
-  
+
     @PostMapping("/user/sign-withdrawal")
     public String PostWithdrawal() {
         return "redirect:/";
@@ -211,15 +161,28 @@ public class UserController {
         return "/user/sign-find";
     }
 
-        return  "redirect:/";
-    }
-
-
-
-//    @GetMapping("/user/sign-withdrawalConfirm")
-//    public String withdrawalConfirm() {
-//        return "/user/sign-withdrawalConfirm";
-//    }
+    //
+    //    @GetMapping("/sign-withdrawal")
+    //    public String withdrawal() {
+    //
+    //        return "/userLog/sign-withdrawal";
+    //    }
+    //    @PostMapping("/sign-withdrawal")
+    //    public String PostWithdrawal() {
+    //
+    //        return "redirect:/";
+    //    }
+    //
+    //    @GetMapping("/sign-withdrawalConfirm")
+    //    public String withdrawalConfirm() {
+    //
+    //        return "/userLog/sign-withdrawalConfirm";
+    //    }
+    //
+    //    @GetMapping("/user/sign-withdrawalConfirm")
+    //    public String withdrawalConfirm() {
+    //        return "/user/sign-withdrawalConfirm";
+    //    }
 
 
 
@@ -231,13 +194,6 @@ public class UserController {
 
         return userService.PostWithdrawal(payload, username);
     }
-
-//    @PostMapping("/sign-withdrawalConfirm")
-//    public String PostWithdrawalConfirm() {
-//        // Todo 회원정보 삭제화
-//        return "redirect:/";
-//    }
-
 
 
 }
