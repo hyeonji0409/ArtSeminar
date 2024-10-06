@@ -49,29 +49,39 @@
 <body>
 <div th:insert="~{header :: header}"></div>
 <div style="margin-top: 150px;">
-<div class="container text-center mt-5" >
-    <div>
-        <h1 th:text="${gallery.title}">Gallery Title</h1>
-        <div th:utext="${gallery.story}">Gallery Story</div>
-        <div th:each="fileName: ${gallery.file}">
-            <img th:src="@{'/data/' + ${fileName}}" height="570">
-        </div>
+    <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px;" >
+        <div class="border-bottom pb-3">
+        <h1 th:text="${gallery.title}" style="padding-top: 20px">Gallery Title</h1>
+            <div class="border-bottom pb-3">
+                <a >작성자: </a><a th:text="${gallery.name} + '(' + ${gallery.year} + '기)'" style="padding-right: 20px">작성자</a>
+                <a>날짜: </a><a th:text="${gallery.regdate}" style="padding-right: 20px">날짜</a>
+                <a>조회수: </a><a th:text="${gallery.hit}">조회수</a>
+            </div>
+            <div class="d-flex justify-content-center pt-3 pb-3">
+                <div class="d-flex justify-content-start" style="width: 800px; height: 500px;">
+                    <div th:utext="${gallery.story}">Gallery Story</div>
+                    <div th:each="fileName: ${gallery.file}" class="pt-5">
+                        <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px;">
+                    </div>
+                </div>
+            </div>
 
-        <div th:each="fileName: ${gallery.file}">
+        <div th:each="fileName: ${gallery.file}" class="pt-3">
             <a th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image"></a>
         </div>
-
-        <div class="d-flex justify-content-between">
-            <a href="/gallery" class="btn btn-outline-info custom-btn">목록</a>
-            <div class="btn-group" sec:authorize="isAuthenticated()">
-                <a type="button" class="btn btn-outline-info custom-btn"
-                   th:href="@{/gallery/edit/{no}(no=${gallery.no})}">수정</a>
-                <a type="button" class="btn btn-outline-info custom-btn"
-                   th:href="@{/gallery/delete/{no}(no=${gallery.no})}">삭제</a>
+            <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-between" style="width: 800px">
+                    <a href="/gallery" class="btn btn-outline-info custom-btn">목록</a>
+                    <div class="btn-group" sec:authorize="isAuthenticated()">
+                        <a type="button" class="btn btn-outline-info custom-btn"
+                           th:href="@{/gallery/edit/{no}(no=${gallery.no})}">수정</a>
+                        <a type="button" class="btn btn-outline-info custom-btn"
+                           th:href="@{/gallery/delete/{no}(no=${gallery.no})}">삭제</a>
+                    </div>
+                </div>
             </div>
-        </div>
 
-    </div>
+        </div>
 
 
 
@@ -94,7 +104,7 @@
     </div>-->
 
 
-</div>
+    </div>
 </div>
 
 <div th:insert="~{footer :: footer}"></div>

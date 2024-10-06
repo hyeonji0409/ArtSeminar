@@ -25,6 +25,11 @@ public class GalleryDto {
     private String ip;
 
 
+    private String username;
+    private String name;
+    private int year;
+
+
     public GalleryDto(Long no, String title, String story, int hit, List<String> file) {
         this.no = no;
         this.title = title;
