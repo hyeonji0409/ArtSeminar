@@ -1,7 +1,11 @@
 package com.artineer.artineer_renewal.service;
 
+import com.artineer.artineer_renewal.dto.CalendarEventDTO;
+import com.artineer.artineer_renewal.dto.UserDto;
 import com.artineer.artineer_renewal.dto.UserSearchDTO;
+import com.artineer.artineer_renewal.entity.CalendarEvent;
 import com.artineer.artineer_renewal.entity.User;
+import com.artineer.artineer_renewal.repository.CalendarEventRepository;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +18,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 
 @Service
@@ -21,6 +33,11 @@ import java.util.Map;
 public class AdminService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private CalendarEventRepository eventRepository;
+
 
     // 회원정보 값 유효성 검사
     public ResponseEntity<String> checkUserValue(String valueName,
@@ -84,6 +101,83 @@ public class AdminService {
                 };
 
         return users;
+    }
+
+
+
+    public Page<CalendarEvent> calenderPaginationByQuery(CalendarEventDTO calendarEventDTO, Integer page, Integer pageSize) {
+        LocalDate startDate = null;
+        if (calendarEventDTO.getStart().isEmpty()) {
+            startDate = LocalDate.of(1000, 1, 1);  // MySQL의 최소 허용 날짜로 설정
+        } else {
+            startDate = calendarEventDTO.getStart()
+                    .map(instant -> instant.atZone(ZoneId.systemDefault()).toLocalDate())
+                    .orElse(LocalDate.of(1000, 1, 1)); // 만약 값이 없으면 기본 날짜로 설정
+        }
+
+        LocalDate endDate = null;
+        if (calendarEventDTO.getStart().isEmpty()) {
+            endDate = LocalDate.of(9999, 12, 31);  // MySQL의 최소 허용 날짜로 설정
+        } else {
+            endDate = calendarEventDTO.getEnd()
+                    .map(instant -> instant.atZone(ZoneId.systemDefault()).toLocalDate())
+                    .orElse(LocalDate.of(9999, 1, 1)); ;
+        }
+
+        System.out.println("캐스팅한 시간" + startDate);
+        System.out.println("캐스팅한 시간2" + endDate);
+
+
+        String sortProperty =  calendarEventDTO.getSort().orElse("endDate");
+        Sort.Direction direction = calendarEventDTO.getOrder().orElse("ASC").equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
+
+        Pageable pageable = PageRequest.of(
+                calendarEventDTO.getPage().orElse(page) - 1,
+                calendarEventDTO.getPageSize().orElse(pageSize),
+                Sort.by(direction, sortProperty));
+
+        String queryValue = calendarEventDTO.getQueryValue().orElse("");
+
+        Page<CalendarEvent> calenderEventList =
+                switch (calendarEventDTO.getQuery().orElse("")) {
+                    case "title" -> eventRepository.findAllByTitleContainingAndStartDateGreaterThanEqualAndEndDateLessThanEqual(queryValue, startDate, endDate, pageable);
+                    case "description" -> eventRepository.findAllByDescriptionContainingAndStartDateGreaterThanEqualAndEndDateLessThanEqual(queryValue, startDate, endDate, pageable);
+                    default -> eventRepository.findAllByTitleContainingAndStartDateGreaterThanEqualAndEndDateLessThanEqualOrDescriptionContainingAndStartDateGreaterThanEqualAndEndDateLessThanEqual(queryValue, startDate, endDate, queryValue, startDate, endDate, pageable);
+                };
+
+
+        return calenderEventList;
+    }
+
+
+
+    public boolean updateCalendarEvent(String logInUsername, CalendarEventDTO calendarEventDTO, String clientIp) {
+        // IP 주소 가져오기
+        System.out.println("Client IP: " + clientIp);
+
+        if (!userService.isAdmin(logInUsername)) return false;
+
+
+        System.out.println("수정요청 받음" +  calendarEventDTO.toString());
+
+
+        CalendarEvent calendarEvent = eventRepository.findByNo(calendarEventDTO.getNo());
+        System.out.println("디비서 가져온 " + calendarEvent.toString());
+
+        // todo 예외처리
+        if (calendarEventDTO.getTitle()!=null && !calendarEvent.getTitle().isEmpty()) calendarEvent.setTitle(calendarEventDTO.getTitle());
+        if (calendarEventDTO.getDescription()!=null && !calendarEvent.getDescription().isEmpty()) calendarEvent.setDescription(calendarEventDTO.getDescription());
+        if (calendarEventDTO.getStartDate()!=null ) calendarEvent.setStartDate(calendarEventDTO.getStartDate());
+        if (calendarEventDTO.getStartTime()!=null ) calendarEvent.setStartTime(calendarEventDTO.getStartTime());
+//        if (calendarEventDTO.getStartTime()!=null ) System.out.println("왜 스타트가 뉼이 아니애" + (calendarEvent.getStartTime()!=null));
+        if (calendarEventDTO.getEndDate()!=null) calendarEvent.setEndDate(calendarEventDTO.getEndDate());
+        if (calendarEventDTO.getEndTime()!=null ) calendarEvent.setEndTime(calendarEventDTO.getEndTime());
+        if (calendarEventDTO.getIsAllDay()!=null ) calendarEvent.setIsAllDay(calendarEventDTO.getIsAllDay());
+        // todo utc 기준
+        calendarEvent.setUpdatedAt(Instant.now());
+        eventRepository.save(calendarEvent);
+
+        return true;
     }
 
 
