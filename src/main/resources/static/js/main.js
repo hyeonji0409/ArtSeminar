@@ -64,15 +64,6 @@
 
 
 
-  /**
-   * Preloader
-   */
-  const preloader = document.querySelector('#preloader');
-  if (preloader) {
-    window.addEventListener('load', () => {
-      preloader.remove();
-    });
-  }
 
   /**
    * Scroll top button
@@ -223,3 +214,30 @@
   document.addEventListener('scroll', navmenuScrollspy);
 
 })();
+
+/**
+   * calendar modal
+   */
+        // 모달 요소 가져오기
+        var modal = document.getElementById("calendarModal");
+        var btn = document.getElementById("openModal");
+        var span = document.getElementsByClassName("close")[0];
+
+        // 버튼 클릭 시 모달 열기
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // X 버튼 클릭 시 모달 닫기
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // 모달 바깥 클릭 시 모달 닫기
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+
