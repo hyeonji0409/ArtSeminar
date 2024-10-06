@@ -77,6 +77,7 @@ public class NoticeService {
                 String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
                 try {
                     Path path = Paths.get(fileDir + fileName);
+                    System.out.println(path.toAbsolutePath());
                     Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                     fileNames.add(fileName);
                 } catch (IOException e) {
