@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>아티니어::관리자</title>
+  <meta name="description" content="관리자 페이지">
+  <meta name="keywords" content="일정 관리">
+
+  <!-- Favicons -->
+  <link href="/image/favicon.ico" type="image/x-icon" rel="icon">
+<!--  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">-->
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <!-- Vendor CSS Files -->
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link th:href="@{../assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{../assets/vendor/aos/aos.css}" rel="stylesheet">
+  <link th:href="@{../assets/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+  <link th:href="@{../assets/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+  <link th:href="@{../css/admin.css}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link th:href="@{../assets/css/main.css}" rel="stylesheet">
+
+
+  <!-- =======================================================
+  * Template Name: Arsha
+  * Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
+  * Updated: Aug 07 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="starter-page-page d-flex flex-column min-vh-100">
+
+<header th:replace="~{/fragments/headerFragment :: headerFragment(user=${user})}"></header>
+
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title" style="
+    top: 60px;
+    margin-bottom: 0;
+    padding-bottom: 0"
+    >
+<!--      <div class="container" style="-->
+<!--      display: flex;-->
+<!--      justify-content: center; /* 수평 가운데 정렬 */-->
+<!--      align-items: center;">-->
+<!--        <h1 style="font-size: 60px" >로그인</h1>-->
+<!--      </div>-->
+    </div>
+    <!-- End Page Title -->
+
+    <!-- Starter Section Section -->
+    <section id="starter-section" class="starter-section section mt-5">
+      <div class="container">
+        <h1 class="text-center mb-4 fw-bold form">일정 관리</h1>
+
+        <!-- 검색 필터 -->
+        <div class="table-responsive row mb-4">
+          <div class="col-md-8 offset-md-2">
+            <form id="search-form" class="row" style="margin-left: 0;" th:action="@{/admin/calendar}" method="post">
+              <div class="row justify-content-between mb-3">
+                <select class="col-2 form-select me-2" style="width: 7rem" name="query">
+                  <option value="">검색항목</option>
+                  <option value="title">팝업명</option>
+                  <option value="description">설명</option>
+<!--                  <option value="tel">연락처</option>-->
+<!--                  <option value="address">자택 주소</option>-->
+<!--                  <option value="year">기수(비활성화)</option>-->
+                </select>
+                <input type="text" class="col-10 form-control col-10" name="queryValue" th:value="${(null)}" style="width: calc(100% - 8rem)" placeholder="조건을 입력하세요.">
+              </div>
+              <div class=" d-flex justify-content-between mb-3">
+                <div class=" d-flex flex flex-wrap me-auto" style="width: 768px;">
+<!--                <select class="form-select col me-2" style="width: 8rem" name="sex">-->
+<!--                  <option value="">모든 성별</option>-->
+<!--                  <option value="male">남성</option>-->
+<!--                  <option value="female">여성</option>-->
+<!--                </select>-->
+                  <input type="datetime-local" class="form-control" placeholder="gggg" name="start">
+                  <input type="datetime-local" class="form-control" name="end">
+
+
+                <select class="form-select me-2 col" style="width: 8rem" name="sort">
+                  <option value="endDate">정렬기준</option>
+                  <option value="startDate">시작일</option>
+                  <option value="endDate">종료일</option>
+                  <option value="updatedAt">수정일</option>
+                </select>
+                <select class="col d-flex form-select" style="width: 8rem;" name="order">
+                  <option value="ASC">오름차순</option>
+                  <option value="DESC">내림차순</option>
+                </select>
+                </div>
+
+                <div class=" d-flex flex-wrap justify-content-end align-content-center ms-0">
+                  <a id="reset-button" th:href="@{/admin}" class="btn btn-secondary col-1 me-2 align-content-center" style="width: fit-content; min-width: 90px">초기화</a>
+                  <button id="querySubmit" class="btn btn-primary col-1 me-2" style="width: fit-content; min-width: 90px">검색</button>
+                </div>
+<!--                <span class="material-symbols-outlined form-check col-1" style="width: fit-content; height: fit-content; font-size: 30px; padding: 1px; writing-mode: vertical-lr; display: inline;">sync_alt</span>-->
+              </div>
+
+<!--              <input type="hidden" th:if="${popupPageable.getPage()!=null}" th:value="${popupPageable.getPage().get()}" name="page">-->
+<!--              <input type="hidden" th:if="${popupPageable.getPageSize()!=null}" th:value="${popupPageable.getPageSize().get()}" name="pageSize">-->
+            </form>
+          </div>
+        </div>
+<!--        <p th:if="${users}">검색결과 00 명이 검색됨.</p>-->
+
+        <!-- 회원 목록 테이블 -->
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-light table-bordered">
+            <thead class="table-secondary">
+            <tr>
+              <th>연번</th>
+              <th>팝업명</th>
+              <th>설명(alt)</th>
+              <th>공지시작시간</th>
+              <th>공지종료시간</th>
+              <th>작성일</th>
+              <th style="max-width: 100px" >링크</th>
+              <th>수정</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${popupPageable.getTotalPages()==0}"><td colspan="11" class="fs-2 text-center">찾으시는 사용자가 없습니다.</td></tr>
+            <tr th:each="eachUser, iterStat : ${popupPageable}">
+              <td th:text="${popupPageable.getNumber() + iterStat.index+1}">출력인데스</td>
+
+              <td th:text="${eachUser.getTitle()}" class="text-truncate" style="max-width: 150px">일정이름</td>
+              <td th:text="${eachUser.getDescription()}" class="text-truncate" style="max-width: 200px">설명</td>
+              <td th:text="${eachUser.getStartDate()}">시작일</td>
+              <td th:text="${eachUser.getEndDate()}">종료일</td>
+              <td th:text="${eachUser.getCreatedAt()}">언메만든</td>
+              <td><img th:src="${eachUser.getLink()}" style="max-width: 100px"></td>
+
+              <td><button class="btn btn-sm btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" th:data-member-id="${iterStat.index}">수정</button></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <!--          users.number 가 0부터 시작!!!!!!-->
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            <li th:classappend="${popupPageable.number <= 0} ? 'disabled'" class="page-item">
+              <button id="previous-page" class="page-link" tabindex="-1" aria-disabled="true">이전</button>
+            </li>
+
+<!--            1번 모드: n페이지 단위씩 보이고 현재 페이지 위치는 매번 다름-->
+<!--            <li :each="page : ${#numbers.sequence(1, users.totalPages)} "-->
+<!--                :if="${ ((users.number)/5)*5 + 1 <= page and page <= ((users.number)/5)*5 + 5 }"-->
+<!--                :classappend="${page == users.number + 1 } ? 'active'" class="page-item"-->
+<!--                style="width: 3%;">-->
+<!--              <a class="page-link"  :href="@{|?page=${page}|}" :text="${page}">1</a>-->
+<!--            </li>-->
+
+<!--            2번 모드: 현재 페이지가 항상 가운데-->
+            <li th:each="page : ${#numbers.sequence(1, popupPageable.totalPages)} "
+                th:if="${(
+                  ( (popupPageable.getNumber() -2 < page) and (page < popupPageable.getNumber() +4) )
+                  or
+                  ( popupPageable.getNumber() < 2 and page <6 )
+                  or
+                  (  popupPageable.getNumber() > popupPageable.getTotalPages()-3 and page > popupPageable.getTotalPages() -5  )
+                  )
+                  and popupPageable.getTotalPages()!=0
+                }"
+                th:classappend="${page == popupPageable.number + 1 } ? 'active'" class="page-item">
+              <a class="page-link"  th:href="@{|?page=${page}|}" th:text="${page}">1</a>
+            </li>
+
+
+              <li th:classappend="${popupPageable.number + 1 >= popupPageable.totalPages} ? 'disabled'" class="page-item">
+                <button id="next-page" class="page-link" >다음</button>
+              </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- 회원 정보 수정 모달 -->
+      <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog mt-5">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editModalLabel">일정 정보 수정</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form name="form" id="form" action="/popup/update" method="post">
+                <div id="usernameBox" class="inputBox">
+                  <input id="title" type="text" name="title">
+                  <label for="title">일정명</label>
+                  <div class="error-msg"></div>
+                </div>
+                <div id="passwordBox" class="inputBox">
+                  <input id="description" type="text" name="description">
+                  <label for="description">일정상세</label>
+                  <div class="error-msg"></div>
+                </div>
+                <div id="birthBox" class="inputBox">
+                  <input id="startDate" type="date" name="startDate">
+                  <label for="startDate">시작일</label>
+                  <div class="error-msg"></div>
+                </div>
+                <div id="eeweBox" class="inputBox">
+                  <input id="startTime" type="time" name="startTime">
+                  <label for="endDate">시작시</label>
+                  <div class="error-msg"></div>
+                </div>
+                <div id="qqqBox" class="inputBox">
+                  <input id="endDate" type="date" name="endDate">
+                  <label for="endDate">종료일</label>
+                  <div class="error-msg"></div>
+                </div>
+                <div id="eeBox" class="inputBox">
+                  <input id="endTime" type="time" name="endTime">
+                  <label for="endDate">종료시</label>
+                  <div class="error-msg"></div>
+                </div>
+
+                <div id="sexBox" class="gender-selection inputBox">
+                  <div class="sex-box inputBox">
+                    <input type="radio" id="male" name="isAllDay" value="true">
+                    <label class="gender" for="male">하루종일</label>
+                    <div class="error-msg"></div>
+                  </div>
+                  <div class="sex-box inputBox" >
+                    <input type="radio" id="female" name="isAllDay" value="false">
+                    <label class="gender" for="female">하루일부</label>
+                    <div class="error-msg"></div>
+                  </div>
+                  <div class="error-msg"></div>
+                </div>
+
+<!--                <div id="yearBox" class="inputBox">-->
+<!--                  &lt;!&ndash;            TODO 페이지 렌더링 모델?에 현재 가입 가능 기수 최대 값을 max 에 넣기&ndash;&gt;-->
+<!--                  <input id="cohort" type="number" name="year" min="1" max="9">-->
+<!--                  <label for="cohort">가입 기수</label>-->
+<!--                  <div class="error-msg"></div>-->
+<!--                </div>-->
+
+                <input type="hidden" id="no" name="no">
+              </form>
+            </div>
+            <div class="modal-footer" style="justify-content: center">
+              <button type="button" class="btn btn-primary" id="save-changes" form="form" style="width: 40%">저장</button>
+              <button type="button" class="btn btn-danger" id="delete" style="width: 14%; min-width: fit-content">제거</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 40%">취소</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="footer" class="footer" th:replace="~{/fragments/footerFragment :: siteInfoFooterFragment}"></footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+<!--  <div id="preloader"></div>-->
+
+  <!-- Vendor JS Files -->
+<script th:src="@{../assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{../assets/vendor/php-email-form/validate.js}"></script>
+<script th:src="@{../assets/vendor/aos/aos.js}"></script>
+<script th:src="@{../assets/vendor/glightbox/js/glightbox.min.js}"></script>
+<script th:src="@{../assets/vendor/swiper/swiper-bundle.min.js}"></script>
+<script th:src="@{../assets/vendor/waypoints/noframework.waypoints.js}"></script>
+<script th:src="@{../assets/vendor/imagesloaded/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{../assets/vendor/isotope-layout/isotope.pkgd.min.js}"></script>
+<!--<script th:inline="javascript">-->
+<!--  var list = /*[[${list}]]*/ [];-->
+<!--</script>-->
+  <script th:inline="javascript">
+
+
+    popupForEdit = /*[[${popupPageable}]]*/ [];
+  </script>
+
+  <script th:src="@{/js/adminPopup.js}"></script>
+
+  <!-- Main JS File -->
+  <script th:src="@{../assets/js/main.js}"></script>
+
+</body>
+
+</html>

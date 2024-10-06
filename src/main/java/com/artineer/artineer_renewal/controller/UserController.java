@@ -5,10 +5,8 @@ import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,8 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -52,10 +52,6 @@ public class UserController {
         return "/user/sign-in";
     }
 
-//    @RequestMapping("/user/sign-in")
-//    public String login() {
-//        return "user/sign-in";
-//    }
 
     @PostMapping("/user/sign-up")
     public String saveUser(UserDto userDto) {
@@ -71,7 +67,14 @@ public class UserController {
 
 
         // Todo js에서도 포멧하면 좋은가
-        String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
+        String formattedBirth = null;
+        try {
+            DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyyMMdd");
+            DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
+        } catch (DateTimeParseException e) {
+            return "/user/errorPage";
+        }
 
 
         User user = new User(
@@ -146,23 +149,27 @@ public class UserController {
     }
 
 
+
     @PostMapping("/user/update")
-    public String updateUser(UserDto userDto) {
-        // IP 주소 가져오기
-        String clientIp = request.getRemoteAddr();
-        System.out.println("Client IP: " + clientIp);
-
-        // 현재 시간 가져오기
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd (HH:mm)");
-        String formattedDate = now.format(formatter);
-        String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
-
+    public String updateUser(Model model,
+                             UserDto userDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
 
         System.out.println("수정요청 받음");
 
-        User user = userRepository.findByUsername(userDto.getUsername());
+        // IP 주소 가져오기
+        String clientIp = request.getRemoteAddr();
+        boolean isSuccess = userService.updateUser(username, userDto, clientIp);
+        if (!isSuccess) {
+            model.addAttribute("errorCode", 400);
+            return "/user/errorPage";
+        }
 
+        String redirectAddress =  request.getHeader("Referer");
+        System.out.println(redirectAddress);
+        return "redirect:" + redirectAddress;
+    }
         user.setPassword( passwordEncoder.encode(userDto.getPassword()));
         user.setName(userDto.getName());
         user.setSex(userDto.getSex());
@@ -178,50 +185,58 @@ public class UserController {
         userRepository.save(user);
         System.out.println(user);
 
+
+    @GetMapping("/user/sign-withdrawal")
+    public String withdrawal() {
+        return "/user/sign-withdrawal";
+    }
+  
+    @PostMapping("/user/sign-withdrawal")
+    public String PostWithdrawal() {
+        return "redirect:/";
+    }
+
+
+    /* 아이디/비밀번호 찾기 */
+    @GetMapping("/user/sign-find/{what}")
+    public String signFind(@PathVariable String what,
+                           Model model) {
+
+        if (what.equals("id")) {
+            model.addAttribute("what", "id");
+        } else if (what.equals("pw")) {
+            model.addAttribute("what", "pw");
+        }
+
+        return "/user/sign-find";
+    }
+
         return  "redirect:/";
     }
 
 
 
-//    /* 아이디/비밀번호 찾기 */
-//    @GetMapping("/sign-find/{what}")
-//    public String signFind(@PathVariable String what,
-//                           Model model) {
-//
-//        if (what.equals("id")) {
-//            model.addAttribute("what", "id");
-//        } else if (what.equals("pw")) {
-//            model.addAttribute("what", "pw");
-//        }
-//
-//        return "/userLog/sign-find";
-//    }
-//
-//
-//    @GetMapping("/sign-withdrawal")
-//    public String withdrawal() {
-//
-//        return "/userLog/sign-withdrawal";
-//    }
-//    @PostMapping("/sign-withdrawal")
-//    public String PostWithdrawal() {
-//
-//        return "redirect:/";
-//    }
-//
-//    @GetMapping("/sign-withdrawalConfirm")
+//    @GetMapping("/user/sign-withdrawalConfirm")
 //    public String withdrawalConfirm() {
-//
-//        return "/userLog/sign-withdrawalConfirm";
+//        return "/user/sign-withdrawalConfirm";
 //    }
-//
+
+
+
+    @PostMapping("/user/withdrawal")
+    public ResponseEntity<String> PostWithdrawal(@RequestBody Map<String, Object> payload) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        return userService.PostWithdrawal(payload, username);
+    }
+
 //    @PostMapping("/sign-withdrawalConfirm")
 //    public String PostWithdrawalConfirm() {
 //        // Todo 회원정보 삭제화
 //        return "redirect:/";
 //    }
-
-
 
 
 

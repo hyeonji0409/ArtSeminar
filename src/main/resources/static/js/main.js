@@ -215,6 +215,66 @@
 
 })();
 
+
+
+/* 광고팝업에 관한 코드 */
+// const myModal1 = new bootstrap.Modal(document.getElementById('modal1'), {
+//   backdrop: false,  // 백드롭 비활성화 (모달 외부 클릭 가능)
+//   scrollable: true  // 페이지 스크롤 허용
+// });
+
+const selectModals = document.querySelectorAll('.popupModal')
+
+const myModals = [...selectModals].map( (element) =>
+    new bootstrap.Modal(element, {
+      backdrop: false,  // 백드롭 비활성화 (모달 외부 클릭 가능)
+      scrollable: true  // 페이지 스크롤 허용
+    })
+)
+
+myModals.forEach( (modal, idx) => {
+  let value = document.cookie.match('(^|;) ?' + popups[idx].no + '=([^;]*)(;|$)');
+  if (value == null) {
+    modal.show();
+    console.log("xkqdms: " + (Number(selectModals[idx!==0?idx-1:0].firstElementChild.style.top.split('px')[0]) + 300) + 'px')
+    // selectModals[idx].firstElementChild.style.top = (Number(selectModals[idx!==0?idx-1:0].firstElementChild.style.top.split('px')[0]) + 300) + 'px';
+    document.body.classList.remove('modal-open');
+    document.body.style.overflow = null
+    document.body.style.paddingRight = null
+  }
+})
+
+// 모달 외부 클릭시 모달 꺼짐
+// document.addEventListener('click', function (event) {
+//
+//   selectModals.forEach( (modal, idx) => {
+//     let modalBox = modal.firstElementChild.firstElementChild
+//
+//     try {
+//       let insideModal = modalBox.contains(event.target);
+//       if (!insideModal && myModals[idx]._isShown) {
+//         // myModal1.hide();
+//         selectModals[idx].remove();
+//       }
+//     } catch (e) {
+//       document.onclick = null;
+//     }
+//   })
+//
+// })
+
+
+const makeCookie = (e) => {
+  const popupId = e.target.dataset.indexNumber;
+  const expirationDate = new Date();
+  // expirationDate.setDate(expirationDate.getDate() + 7); //쿠키 만료
+  expirationDate.setSeconds(expirationDate.getSeconds() + 7);
+  const path = "/"; // 설정된 경로 및 하위경로에서만 쿠키 접근이 가능합니다.
+  const domain = "example.com"; //해당 도메인에서만 쿠키 접근이 가능합니다.
+  const secure = false; //true 로 설정할 시 http2 로만 쿠키에 접근할 수 있습니다.
+  document.cookie = `${popupId}=${popupId}; expires=${expirationDate.toUTCString()}; path=${path};`;
+}
+/* 광고팝업에 관한 코드 -끝- */
 /**
    * calendar modal
    */
@@ -239,5 +299,4 @@
                 modal.style.display = "none";
             }
         }
-
 

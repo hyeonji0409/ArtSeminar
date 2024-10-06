@@ -51,12 +51,15 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         /* grades, signUp, gallery에 관해서는 user의 권한을 주지 않고 접속이 가능하게 한다. 그 외의 모든 요청은 인증을 필요로 함 */
-                        auth.requestMatchers("/", "/user/sign-up",
-                                        "/css/**", "/js/**", "/images/**", "/image/**", "/assets/**", "/vendor/**").permitAll()
-                                .requestMatchers("/uploadImage").authenticated()
-                                .requestMatchers( "/notice/delete/**", "/notice/edit/**").permitAll()
-                                .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
-                                .anyRequest().authenticated()
+
+                        auth.requestMatchers("/",
+                                        "/static/**", "/static/assets/**",
+                                        "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+                                .requestMatchers("/notice/delete/**", "/notice/edit/**").authenticated()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/mypage/**").authenticated()
+                                .anyRequest().permitAll()
+
                 )
                 .formLogin(form -> form
                         .loginPage("/user/sign-in")

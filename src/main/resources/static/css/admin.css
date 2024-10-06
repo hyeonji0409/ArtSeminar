@@ -7,6 +7,12 @@
 
 
 
+@media (max-width: 768px) {
+    #search-form > div.d-flex.justify-content-between.mb-3 {
+        flex-wrap: wrap !important;
+    }
+}
+
 
 form {
     width: 100%;

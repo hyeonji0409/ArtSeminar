@@ -46,6 +46,11 @@
                     <ul>
                         <li><a href="#">회의자료</a></li>
                         <li><a href="#">족보자료</a></li>
+<!--                        테스트입니다 지우세요-->
+                        <li><a href="/user/sign-in">로그인</a></li>
+                        <li><a href="/admin">관리자</a></li>
+                        <li><a href="/about">어바웃</a></li>
+<!--                        -->
                     </ul>
                 </li>
 
@@ -69,6 +74,7 @@
 <!--                &lt;!&ndash; 관리자인 경우에만 관리자 페이지 링크 표시 &ndash;&gt;-->
                 <li sec:authorize="hasRole('ROLE_ADMIN')">
                     <a th:href="@{/admin}">관리자페이지</a>
+
                 </li>
 
                 <li><a th:href="@{/logout}">로그아웃</a></li>

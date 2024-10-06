@@ -20,6 +20,7 @@ const idInput = document.querySelector('input[name="username"]');
 const passwordInput = document.querySelector('input[name="password"]');
 // const submitBtn = document.querySelector('button[type="submit"]');
 
+idInput.focus()
 
 // form.addEventListener('submit', async (e) => {
 //     e.preventDefault();
