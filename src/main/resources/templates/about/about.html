@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="kr" xmlns="http://www.w3.org/1999/html"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
 
 
 <head>
@@ -17,14 +16,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="/vendor/aos/aos.css" rel="stylesheet">
-    <link href="/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Main CSS File -->
-    <link rel="stylesheet" href="/css/main.css" />
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/about.css" rel="stylesheet">
 
 
 </head>
@@ -32,7 +32,7 @@
 <body class="index-page">
 
 
-<!--<header 부분은 /fragments/header.html로 분리-->
+<!--<header 부분은 templetes/header.html로 분리-->
 <div th:replace="~{header :: header}"></div>
 
 
@@ -42,39 +42,138 @@
     <!-- About Section -->
     <section id="about" class="about section">
         <!-- Section Title -->
-        <div class="container section-title">
-            <h3>
-                <a href="/about" style="text-decoration: none; color: inherit;">About</a>
-            </h3>
-        </div><!-- End Section Title -->
+        <!-- End Section Title -->
 
-        <div style="text-align: center;">
-            <img src="image/logo.png" alt="Artineer Logo" style="width: 150px; height: auto;"><br>
-        </div>
+
+        <section id="About-introduce" class="About introduce section dark-background">
+            <img th:src="@{/assets/img/프라임관_전경.jpg}" alt="">
+            <div class="container section-title">
+                <h3>
+                    <a href="" style="text-decoration: none; color: inherit;">소개</a>
+                </h3>
+            </div>
+        </section>
+
 
         <div class="container">
-            <div class="row gy-4">
-                <div>
-                    <p style="font-size: 24px; line-height: 1.8; text-align: center;">
-                        <strong>WE ARE ARTINEER.<br><br>
-                            Wonkwang Univ. Department of Computer Science<br>
-                            SOFTWARE PROJECT GROUP<br>
-                            SINCE 2017.<br><br>
-                            IKSAN DAERO 460, IKSAN-SI, JEOLLABUK-DO, KOREA<br>
-                            COLLEGE OF ENGINEERING.</strong>
-                    </p>
-                    <br>
+            <div class="btn-container">
+                <div class="btn" onclick="showContent('greeting')">인사말</div>
+            </div>
+            <div class="btn-container">
+                <div class="btn" onclick="showContent('event')">학습 / 행사</div>
+            </div>
+        </div>
+
+        <!-- Section for content -->
+        <div id="greeting" class="content-section" style="display: none;">
+            <div class="container">
+
+                <div class="row gy-4">
+
+                    <div data-aos="fade-up" data-aos-delay="100">
+                        <div style="text-align: center;">
+                            <strong style="font-size: 40px;">"WE ARE ARTINEER"<br><br></strong>
+                            <p style="font-size: 21px; line-height: 1.8; text-align: left;">
+                                ARTINEER 는 "Artist + Engineer"의 합성어로,<br>
+                                단순히 공학의 기술적인 면에 집중한 것만이 아니라 하나의 또 다른 창조성을 지닌 예술성까지 지닌 사람들이 모인 <br>
+                                원광대학교 컴퓨터 소프트웨어 공학과의 학술 동아리입니다.
+                                아티니어는 컴퓨터에 대해 더 공부하고 싶은 분들께 여러 분야에 맞는 지식을 공유할 수 있도록 도움을 주고 있습니다.<br><br>
+                            </p>
+                        </div>
+                        <br>
+                        <div style="text-align: center;">
+                            <img src="assets/img/aboutimage-2.png" alt="about image2" style="max-width: 60%; height: auto; margin: 20px 0;">
+                            <p style="font-size: 18px; line-height: 1.8; text-align: center;">
+                            - 2024년 Artineer 회식 - (수정예정)
+                            </p>
+                        </div>
+                        <br><br>
+                        <div style="text-align: center;">
+                            <strong style="font-size: 32px;">"시작의 발판을 ARTINEER와 함께"<br><br></strong>
+                            <p style="font-size: 21px; line-height: 1.8; text-align: left;">
+                                ARTINEER는 프로그래밍에 관심이 있으신 분들이 재밌고,<br>
+                                컴퓨터 분야에 쉽게 입문할 수 있도록 다양한 분야의 스터디와 멘토 멘티 시스템을 진행하고 있습니다.(수정예정)<br>
+                            </p>
+                        </div>
+                        <br><br>
+
+                    </div>
+
+
+                    <div class="row gy-4 justify-content-center bg-gallery">
+                        <h2>둘러보기</h2>
+                        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+                            <div class="gallery-item position-relative" onclick="openModal('assets/img/aboutmodalimage3.png')">
+                                <div class="image">
+                                    <img src="assets/img/aboutmodalimage3.png" alt="" class="img-fluid equal-image">
+                                </div>
+                                <p>- 프라임관 -</p>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
+                            <div class="gallery-item position-relative" onclick="openModal('assets/img/aboutmodalimage2.png')">
+                                <div class="image">
+                                    <img src="assets/img/aboutmodalimage2.png" alt="" class="img-fluid equal-image">
+                                </div>
+                                <p>- 아티니어 동아리방 위치 -</p>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
+                            <div class="gallery-item position-relative" onclick="openModal('assets/img/aboutmodalimage1.jpg')">
+                                <div class="image">
+                                    <img src="assets/img/aboutmodalimage1.jpg" alt="" class="img-fluid equal-image">
+                                </div>
+                                <p>- 동아리방 내부 -</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- 모달 구조 -->
+                    <div id="imageModal" class="modal">
+                        <img class="modal-content" id="modalImage">
+                        <button class="close" onclick="closeModal()">X</button> <!-- span을 button으로 변경 -->
+                    </div>
+
+
+
+
+
+
                 </div>
             </div>
         </div>
+
+
+        <div id="event" class="content-section" style="display: none;">
+            <h2>학습 / 행사</h2>
+            <p>여기에 학습 / 행사 관련 내용을 추가하세요.</p>
+        </div>
+
+
+
+        <script>
+            const targetList = document.querySelectorAll(".btn");
+
+            targetList.forEach((btn) => {
+              btn.addEventListener("click", (e) => {
+                targetList.forEach((t) => {
+                  t.classList.remove("active");
+                });
+
+                e.target.classList.add("active");
+              });
+            });
+        </script>
+
     </section><!-- /About Section -->
 
 </main>
 
 
 
-<!--<footer 부분은 /fragments/header.html로 분리-->
-<div th:replace="~{footer::footer}"></div>>
+<!--<footer 부분은 templetes/footer.html로 분리-->
+<div th:replace="~{footer::footer}"></div>
 
 
 
@@ -85,17 +184,19 @@
 <div id="preloader"></div>
 
 <!-- Vendor JS Files -->
-<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/vendor/php-email-form/validate.js"></script>
-<script src="/vendor/aos/aos.js"></script>
-<script src="/vendor/glightbox/js/glightbox.min.js"></script>
-<script src="/vendor/swiper/swiper-bundle.min.js"></script>
-<script src="/vendor/waypoints/noframework.waypoints.js"></script>
-<script src="/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-<script src="/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 
 <!-- Main JS File -->
-<script src="/js/main.js"></script>
+<script src="assets/js/main.js"></script>
+<!-- Main JS File -->
+<script src="/js/about.js"></script>
 
 
 </body>

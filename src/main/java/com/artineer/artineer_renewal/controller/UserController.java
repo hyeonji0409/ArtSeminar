@@ -43,14 +43,19 @@ public class UserController {
 //        return "/user/sign-in";
 //    }
 
-    @RequestMapping("/user/sign-in")
-    public String login(Model model,
+    @GetMapping("/user/sign-in")
+    public String loginForm(Model model,
                         @RequestParam(value = "error", required = false) String error) {
 
         model.addAttribute("error", error);
 
         return "/user/sign-in";
     }
+
+//    @RequestMapping("/user/sign-in")
+//    public String login() {
+//        return "user/sign-in";
+//    }
 
     @PostMapping("/user/sign-up")
     public String saveUser(UserDto userDto) {
@@ -93,7 +98,7 @@ public class UserController {
         return  "redirect:/user/sign-in";
     }
 
-    @RequestMapping("/user/sign-up")
+    @GetMapping("/user/sign-up")
     public String join() {
         return "/user/sign-up";
     }
@@ -215,6 +220,9 @@ public class UserController {
 //        // Todo 회원정보 삭제화
 //        return "redirect:/";
 //    }
+
+
+
 
 
 }

@@ -54,27 +54,12 @@ public class HomeController {
         return "index";
     }
 
-    // about 페이지 매핑
-    @GetMapping("/about")
-    public String about(Model model) {
-        // 인증된 사용자 정보 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-
-        if (username.equals("anonymousUser")) {
-            model.addAttribute("user", username);
-        } else {
-            User user = userRepository.findByUsername(username);
-            model.addAttribute("user", user);
-        }
-
-        return "about/about"; // about.html 반환
-    }
 
     @RequestMapping("/denied")
     public String denied() {
         return "/user/access-denied";
     }
+
 
     @RequestMapping("/about")
     public String about(Model model) {
@@ -89,6 +74,6 @@ public class HomeController {
             model.addAttribute("user", user);
         }
 
-        return "about";
+        return "about/about";
     }
 }
