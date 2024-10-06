@@ -7,6 +7,7 @@ import com.artineer.artineer_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -108,7 +109,34 @@ public class UserController {
     public ResponseEntity<String> checkSignUpValue(@PathVariable(name = "valueName") String valueName,
                                                    @RequestBody Map<String, String> payload) {
 
-        return userService.checkSignUpValue(valueName, payload);
+        //        Todo 이하 4종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
+        //        org.hibernate.NonUniqueResultException: Query did not return a unique result: 9 results were returned
+        User foundUser = switch (valueName) {
+            case "username" -> userRepository.findByUsername(payload.get("value"));
+            case "password" -> userRepository.findByPassword(payload.get("value"));
+            case "email" -> userRepository.findByEmail(payload.get("value"));
+            case "tel" -> userRepository.findByTel(payload.get("value"));
+            default -> null;
+        };
+
+        System.out.println("sign-up check: "+ valueName);
+        System.out.println(payload);
+        System.out.println(
+                (foundUser ==
+                        null ?
+                        "It is possible to register a new user...\n null" :
+                        "submitted value is already exist in database...\n" + foundUser.toString()
+                ) + "\n-------------------------------------------------\n"
+        );
+
+
+        if (foundUser != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("invalid");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.OK).body("valid");
+        }
+
     }
 
 
@@ -122,6 +150,8 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
+        System.out.println("수정요청 받음");
+
         // IP 주소 가져오기
         String clientIp = request.getRemoteAddr();
         boolean isSuccess = userService.updateUser(username, userDto, clientIp);
@@ -130,9 +160,29 @@ public class UserController {
             return "/user/errorPage";
         }
 
+
         String redirectAddress =  request.getHeader("Referer");
         System.out.println(redirectAddress);
         return "redirect:" + redirectAddress;
+
+//        User user = userRepository.findByUsername(userDto.getUsername());
+//        user.setPassword( passwordEncoder.encode(userDto.getPassword()));
+//        user.setName(userDto.getName());
+//        user.setSex(userDto.getSex());
+//        user.setBirth(formattedBirth);
+//        user.setTel(userDto.getTel());
+//        user.setEmail(userDto.getEmail());
+//        user.setZipcode(userDto.getZipcode());
+//        user.setRoadAddress(userDto.getRoadAddress());
+//        user.setDetailAddress(userDto.getDetailAddress());
+//        user.setYear(userDto.getYear());
+//        user.setRole(userDto.getRole());
+//
+//        userRepository.save(user);
+//        System.out.println(user);
+
+
+
     }
 
 
