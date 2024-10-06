@@ -71,13 +71,13 @@
               <div class="row justify-content-between mb-3">
                 <select class="col-2 form-select me-2" style="width: 7rem" name="query">
                   <option value="">검색항목</option>
-                  <option value="title">일정명</option>
+                  <option value="title">팝업명</option>
                   <option value="description">설명</option>
 <!--                  <option value="tel">연락처</option>-->
 <!--                  <option value="address">자택 주소</option>-->
 <!--                  <option value="year">기수(비활성화)</option>-->
                 </select>
-                <input type="text" class="col-10 form-control col-10" name="queryValue" th:value="${calendarEventDTO.getQueryValue().orElse(null)}" style="width: calc(100% - 8rem)" placeholder="조건을 입력하세요.">
+                <input type="text" class="col-10 form-control col-10" name="queryValue" th:value="${(null)}" style="width: calc(100% - 8rem)" placeholder="조건을 입력하세요.">
               </div>
               <div class=" d-flex justify-content-between mb-3">
                 <div class=" d-flex flex flex-wrap me-auto" style="width: 768px;">
@@ -104,18 +104,13 @@
 
                 <div class=" d-flex flex-wrap justify-content-end align-content-center ms-0">
                   <a id="reset-button" th:href="@{/admin}" class="btn btn-secondary col-1 me-2 align-content-center" style="width: fit-content; min-width: 90px">초기화</a>
-                  <button type="button" id="new" class="btn btn-secondary col-1 me-2" style="width: fit-content; min-width: 90px" data-bs-toggle="modal" data-bs-target="#editModal">추가</button>
                   <button id="querySubmit" class="btn btn-primary col-1 me-2" style="width: fit-content; min-width: 90px">검색</button>
                 </div>
 <!--                <span class="material-symbols-outlined form-check col-1" style="width: fit-content; height: fit-content; font-size: 30px; padding: 1px; writing-mode: vertical-lr; display: inline;">sync_alt</span>-->
               </div>
-<!--              <div class="row justify-content-end">-->
-<!--                <a th:href="@{/admin}" class="btn btn-secondary col-1 me-2" style="width: 10%">초기화</a>-->
-<!--                <button type="submit" class="btn btn-primary col-1" style="width: 10%">검색</button>-->
-<!--              </div>-->
 
-              <input type="hidden" th:if="${calendarEventDTO.getPage()!=null}" th:value="${calendarEventDTO.getPage().get()}" name="page">
-              <input type="hidden" th:if="${calendarEventDTO.getPageSize()!=null}" th:value="${calendarEventDTO.getPageSize().get()}" name="pageSize">
+<!--              <input type="hidden" th:if="${popupPageable.getPage()!=null}" th:value="${popupPageable.getPage().get()}" name="page">-->
+<!--              <input type="hidden" th:if="${popupPageable.getPageSize()!=null}" th:value="${popupPageable.getPageSize().get()}" name="pageSize">-->
             </form>
           </div>
         </div>
@@ -127,32 +122,26 @@
             <thead class="table-secondary">
             <tr>
               <th>연번</th>
-              <th>일정명</th>
-              <th>설명</th>
-              <th>시작일</th>
-              <th>시작시간</th>
-              <th>종료일</th>
-              <th style="width: auto" >종료시간</th>
-              <th>하루종일?</th>
-              <th>최초작성일</th>
-              <th>최종수정일</th>
+              <th>팝업명</th>
+              <th>설명(alt)</th>
+              <th>공지시작시간</th>
+              <th>공지종료시간</th>
+              <th>작성일</th>
+              <th style="max-width: 100px" >링크</th>
               <th>수정</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:if="${calenderEventList.getTotalPages()==0}"><td colspan="11" class="fs-2 text-center">찾으시는 사용자가 없습니다.</td></tr>
-            <tr th:each="eachUser, iterStat : ${calenderEventList}">
-              <td th:text="${calenderEventList.getNumber()*calendarEventDTO.getPageSize().orElse(10) + iterStat.index+1}">출력인데스</td>
+            <tr th:if="${popupPageable.getTotalPages()==0}"><td colspan="11" class="fs-2 text-center">찾으시는 사용자가 없습니다.</td></tr>
+            <tr th:each="eachUser, iterStat : ${popupPageable}">
+              <td th:text="${popupPageable.getNumber() + iterStat.index+1}">출력인데스</td>
 
               <td th:text="${eachUser.getTitle()}" class="text-truncate" style="max-width: 150px">일정이름</td>
               <td th:text="${eachUser.getDescription()}" class="text-truncate" style="max-width: 200px">설명</td>
               <td th:text="${eachUser.getStartDate()}">시작일</td>
-              <td th:text="${eachUser.getStartTime()}">시작시간</td>
               <td th:text="${eachUser.getEndDate()}">종료일</td>
-              <td th:text="${eachUser.getEndTime()}">종료시간</td>
-              <td th:text="${eachUser.getIsAllDay()}">하루종일?</td>
               <td th:text="${eachUser.getCreatedAt()}">언메만든</td>
-              <td th:text="${eachUser.getUpdatedAt()}">언제수정?</td>
+              <td><img th:src="${eachUser.getLink()}" style="max-width: 100px"></td>
 
               <td><button class="btn btn-sm btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" th:data-member-id="${iterStat.index}">수정</button></td>
             </tr>
@@ -164,7 +153,7 @@
         <!--          users.number 가 0부터 시작!!!!!!-->
         <nav aria-label="Page navigation">
           <ul class="pagination justify-content-center">
-            <li th:classappend="${calenderEventList.number <= 0} ? 'disabled'" class="page-item">
+            <li th:classappend="${popupPageable.number <= 0} ? 'disabled'" class="page-item">
               <button id="previous-page" class="page-link" tabindex="-1" aria-disabled="true">이전</button>
             </li>
 
@@ -177,22 +166,22 @@
 <!--            </li>-->
 
 <!--            2번 모드: 현재 페이지가 항상 가운데-->
-            <li th:each="page : ${#numbers.sequence(1, calenderEventList.totalPages)} "
+            <li th:each="page : ${#numbers.sequence(1, popupPageable.totalPages)} "
                 th:if="${(
-                  ( (calenderEventList.getNumber() -2 < page) and (page < calenderEventList.getNumber() +4) )
+                  ( (popupPageable.getNumber() -2 < page) and (page < popupPageable.getNumber() +4) )
                   or
-                  ( calenderEventList.getNumber() < 2 and page <6 )
+                  ( popupPageable.getNumber() < 2 and page <6 )
                   or
-                  (  calenderEventList.getNumber() > calenderEventList.getTotalPages()-3 and page > calenderEventList.getTotalPages() -5  )
+                  (  popupPageable.getNumber() > popupPageable.getTotalPages()-3 and page > popupPageable.getTotalPages() -5  )
                   )
-                  and calenderEventList.getTotalPages()!=0
+                  and popupPageable.getTotalPages()!=0
                 }"
-                th:classappend="${page == calenderEventList.number + 1 } ? 'active'" class="page-item">
+                th:classappend="${page == popupPageable.number + 1 } ? 'active'" class="page-item">
               <a class="page-link"  th:href="@{|?page=${page}|}" th:text="${page}">1</a>
             </li>
 
 
-              <li th:classappend="${calenderEventList.number + 1 >= calenderEventList.totalPages} ? 'disabled'" class="page-item">
+              <li th:classappend="${popupPageable.number + 1 >= popupPageable.totalPages} ? 'disabled'" class="page-item">
                 <button id="next-page" class="page-link" >다음</button>
               </li>
           </ul>
@@ -208,7 +197,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form name="form" id="form" action="/calendar/update" method="post">
+              <form name="form" id="form" action="/popup/update" method="post">
                 <div id="usernameBox" class="inputBox">
                   <input id="title" type="text" name="title">
                   <label for="title">일정명</label>
@@ -297,17 +286,12 @@
 <!--  var list = /*[[${list}]]*/ [];-->
 <!--</script>-->
   <script th:inline="javascript">
-    query = [[${calendarEventDTO.getQuery().orElse('')}]]
-    startDateTime = [[${calendarEventDTO.getStart().orElse(null)}]]
-    endDateTime = [[${calendarEventDTO.getEnd().orElse(null)}]]
-    sort = [[${calendarEventDTO.getSort().orElse('endDate')}]]
-    order = [[${calendarEventDTO.getOrder().orElse('ASC')}]]
 
 
-    eventForEdit = /*[[${calenderEventList}]]*/ [];
+    popupForEdit = /*[[${popupPageable}]]*/ [];
   </script>
 
-  <script th:src="@{/js/adminCalendar.js}"></script>
+  <script th:src="@{/js/adminPopup.js}"></script>
 
   <!-- Main JS File -->
   <script th:src="@{../assets/js/main.js}"></script>

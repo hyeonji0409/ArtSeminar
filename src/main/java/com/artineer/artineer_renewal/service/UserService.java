@@ -133,6 +133,8 @@ public class UserService {
     public ResponseEntity<String> PostWithdrawal(Map<String, Object> payload,
                                                  String username) {
 
+        System.out.println("아이디가 삭제될 예정" + payload);
+
         if (username.equals("anonymousUser")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         } else {
@@ -142,8 +144,6 @@ public class UserService {
                     && !requestedUser.getUsername().equals( (String) payload.get("username"))
             ) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
-
-        System.out.println("다음 아이디가 삭제될 예정:\n" + payload.get("username"));
 
         User user = null;
         try {

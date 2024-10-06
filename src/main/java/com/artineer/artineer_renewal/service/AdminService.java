@@ -124,10 +124,6 @@ public class AdminService {
                     .orElse(LocalDate.of(9999, 1, 1)); ;
         }
 
-        System.out.println("캐스팅한 시간" + startDate);
-        System.out.println("캐스팅한 시간2" + endDate);
-
-
         String sortProperty =  calendarEventDTO.getSort().orElse("endDate");
         Sort.Direction direction = calendarEventDTO.getOrder().orElse("ASC").equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
 
@@ -162,23 +158,40 @@ public class AdminService {
 
 
         CalendarEvent calendarEvent = eventRepository.findByNo(calendarEventDTO.getNo());
-        System.out.println("디비서 가져온 " + calendarEvent.toString());
+        System.out.println(calendarEventDTO.getNo()+ "가죠요요요" + calendarEvent);
+        if (calendarEvent != null) {
+            System.out.println("디비서 가져온 " + calendarEvent);
 
-        // todo 예외처리
-        if (calendarEventDTO.getTitle()!=null && !calendarEvent.getTitle().isEmpty()) calendarEvent.setTitle(calendarEventDTO.getTitle());
-        if (calendarEventDTO.getDescription()!=null && !calendarEvent.getDescription().isEmpty()) calendarEvent.setDescription(calendarEventDTO.getDescription());
-        if (calendarEventDTO.getStartDate()!=null ) calendarEvent.setStartDate(calendarEventDTO.getStartDate());
-        if (calendarEventDTO.getStartTime()!=null ) calendarEvent.setStartTime(calendarEventDTO.getStartTime());
-//        if (calendarEventDTO.getStartTime()!=null ) System.out.println("왜 스타트가 뉼이 아니애" + (calendarEvent.getStartTime()!=null));
-        if (calendarEventDTO.getEndDate()!=null) calendarEvent.setEndDate(calendarEventDTO.getEndDate());
-        if (calendarEventDTO.getEndTime()!=null ) calendarEvent.setEndTime(calendarEventDTO.getEndTime());
-        if (calendarEventDTO.getIsAllDay()!=null ) calendarEvent.setIsAllDay(calendarEventDTO.getIsAllDay());
-        // todo utc 기준
-        calendarEvent.setUpdatedAt(Instant.now());
+            // todo 예외처리
+            if (calendarEventDTO.getTitle()!=null && !calendarEvent.getTitle().isEmpty()) calendarEvent.setTitle(calendarEventDTO.getTitle());
+            if (calendarEventDTO.getDescription()!=null && !calendarEvent.getDescription().isEmpty()) calendarEvent.setDescription(calendarEventDTO.getDescription());
+            if (calendarEventDTO.getStartDate()!=null ) calendarEvent.setStartDate(calendarEventDTO.getStartDate());
+            if (calendarEventDTO.getStartTime()!=null ) calendarEvent.setStartTime(calendarEventDTO.getStartTime());
+    //        if (calendarEventDTO.getStartTime()!=null ) System.out.println("왜 스타트가 뉼이 아니애" + (calendarEvent.getStartTime()!=null));
+            if (calendarEventDTO.getEndDate()!=null) calendarEvent.setEndDate(calendarEventDTO.getEndDate());
+            if (calendarEventDTO.getEndTime()!=null ) calendarEvent.setEndTime(calendarEventDTO.getEndTime());
+            if (calendarEventDTO.getIsAllDay()!=null ) calendarEvent.setIsAllDay(calendarEventDTO.getIsAllDay());
+            // todo utc 기준
+            calendarEvent.setUpdatedAt(Instant.now());
+        } else {
+            calendarEvent = new CalendarEvent();
+            calendarEvent.setTitle(calendarEventDTO.getTitle());
+            calendarEvent.setDescription(calendarEventDTO.getDescription());
+            calendarEvent.setStartDate(calendarEventDTO.getStartDate());
+            calendarEvent.setStartTime(calendarEventDTO.getStartTime());
+            calendarEvent.setEndDate(calendarEventDTO.getEndDate());
+            calendarEvent.setEndTime(calendarEventDTO.getEndTime());
+            calendarEvent.setIsAllDay(calendarEventDTO.getIsAllDay());
+        }
+
         eventRepository.save(calendarEvent);
 
         return true;
     }
+
+
+
+
 
 
 }
