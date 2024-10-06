@@ -54,20 +54,20 @@
         <div class="border-bottom pb-3">
             <h1 th:text="${notice.title}" style="padding-top: 20px">Notice Title</h1>
             <div class="border-bottom pb-3">
-                <a th:text="${notice.name} + '(' + ${notice.year} + '기)'" style="padding-right: 20px">작성자</a>
-                <a th:text="${notice.regdate}" style="padding-right: 20px">날짜</a>
-                <a th:text="${notice.hit}">조회수</a>
+                <a >작성자: </a><a th:text="${notice.name} + '(' + ${notice.year} + '기)'" style="padding-right: 20px">작성자</a>
+                <a>날짜: </a><a th:text="${notice.regdate}" style="padding-right: 20px">날짜</a>
+                <a>조회수: </a><a th:text="${notice.hit}">조회수</a>
             </div>
-            <div class="d-flex justify-content-center pt-3">
+            <div class="d-flex justify-content-center pt-3 pb-3">
                 <div class="d-flex justify-content-start" style="width: 800px; height: 500px;">
                     <div th:utext="${notice.story}">Notice Story</div>
-                    <div th:each="fileName: ${notice.file}">
-                        <img th:src="@{'/data/' + ${fileName}}" height="570">
+                    <div th:each="fileName: ${notice.file}" class="pt-5">
+                        <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px;">
                     </div>
                 </div>
             </div>
 
-            <div th:each="fileName: ${notice.file}">
+            <div th:each="fileName: ${notice.file}" class="pt-3">
                 <a th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image"></a>
             </div>
 
@@ -105,11 +105,6 @@
         </div>-->
 
 
-
-
-        <div>
-
-        </div>
     </div>
 </div>
 

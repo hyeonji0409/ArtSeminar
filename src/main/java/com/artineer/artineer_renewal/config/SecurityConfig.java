@@ -1,6 +1,7 @@
 package com.artineer.artineer_renewal.config;
 
 
+import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.security.CustomAuthenticationFailureHandler;
 import com.artineer.artineer_renewal.security.CustomAuthenticationSuccessHandler;
 import com.artineer.artineer_renewal.security.CustomUserDetailService;
@@ -16,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +38,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         String encodingId = "bcrypt";
         Map<String, PasswordEncoder> encoders = new HashMap<>();
-
+        // Todo salt?
         encoders.put(null, new MessageDigestPasswordEncoder("MD5"));
         encoders.put("MD5", new MessageDigestPasswordEncoder("MD5"));
         encoders.put("bcrypt", new BCryptPasswordEncoder());

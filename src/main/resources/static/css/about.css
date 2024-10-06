@@ -1,0 +1,186 @@
+/*--------------------------------------------------------------
+# About introduce Section
+--------------------------------------------------------------*/
+.About-introduce {
+  padding: 120px 0;
+  position: relative;
+  clip-path: inset(0);
+}
+
+.About-introduce img {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.About-introduce:before {
+  content: "";
+  background: color-mix(in srgb, var(--background-color), transparent 35%);
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.About-introduce .container {
+  position: relative;
+  z-index: 3;
+}
+
+.About-introduce h3 {
+  color: var(--default-color);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.About-introduce p {
+  color: var(--default-color);
+}
+
+.About-introduce .cta-btn {
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 12px 40px;
+  border-radius: 50px;
+  transition: 0.5s;
+  margin: 10px;
+  border: 2px solid var(--contrast-color);
+  color: var(--contrast-color);
+}
+
+.About-introduce .cta-btn:hover {
+  background: var(--accent-color);
+  border: 2px solid var(--accent-color);
+}
+
+/*--------------------------------------------------------------
+# (소개글, 학습/행사) Button section
+--------------------------------------------------------------*/
+
+body {
+        background-color: #111111;
+      }
+      .container {
+        max-width: 1180px;
+        display: flex;
+        justify-content: center;
+        margin: 50px auto 0 auto;
+      }
+
+      .btn-container:not(:first-child) {
+        border-left: 1px solid rgba(240, 240, 240, 0.3);
+      }
+
+      .btn {
+        opacity: 80%;
+        color: #f0f0f0;
+        font-size: 20px;
+        font-weight: 600;
+        padding: 0 20px;
+        transition: all 0.3s;
+      }
+
+      .btn:hover {
+        opacity: 100%;
+        cursor: pointer;
+      }
+
+      .active {
+        opacity: 100%;
+        color: #c3201f;
+      }
+    }
+
+/*--------------------------------------------------------------
+# 둘러보기 section
+--------------------------------------------------------------*/
+/* 배경색과 여백 설정 */
+.bg-gallery {
+    background-color: #f0f0f0; /* 원하는 배경색 */
+    padding: 20px; /* 여백 추가 (선택사항) */
+    border-radius: 10px; /* 모서리 둥글게 (선택사항) */
+}
+
+/* 갤러리 아이템 설정 */
+.gallery-item {
+    width: 265.33px; /* 고정 너비 */
+    height: 212.5px; /* 고정 높이 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* 자식 요소가 부모를 넘을 경우 숨김 */
+}
+
+/* 이미지 설정 */
+.gallery-item .image {
+    width: 100%; /* 이미지 부모 요소의 너비에 맞춤 */
+    height: 100%; /* 이미지 부모 요소의 높이에 맞춤 */
+    overflow: hidden; /* 자식 요소가 부모를 넘을 경우 숨김 */
+}
+
+.equal-image {
+    width: 100%; /* 부모 요소의 너비에 맞춤 */
+    height: 100%; /* 부모 요소의 높이에 맞춤 */
+    object-fit: cover; /* 이미지를 부모 요소의 비율에 맞게 잘라서 맞춤 */
+    border-radius: 5px; /* 이미지 모서리 둥글게 (선택사항) */
+}
+
+
+/* 반응형 설정 */
+@media (max-width: 768px) {
+    .gallery-item {
+        width: 100%; /* 작은 화면에서는 너비 100% */
+    }
+}
+
+
+.modal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed; /* 화면에 고정 */
+    z-index: 999; /* 다른 요소 위에 표시 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 전체 너비 */
+    height: 100%; /* 전체 높이 */
+    overflow: auto; /* 스크롤 가능 */
+    background-color: rgba(0, 0, 0, 0.8); /* 배경 반투명 블랙 */
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    max-width: 70%;
+    max-height: 70%;
+    margin-top: 50px; /* 상단 여백 */
+}
+
+.close {
+    display: block; /* 블록 요소로 설정 */
+    color: white; /* 글자 색상 */
+    background-color: transparent; /* 배경 색상 투명 */
+    border: none; /* 테두리 제거 */
+    font-size: 20px; /* 폰트 크기 */
+    cursor: pointer; /* 커서 모양 변경 */
+    position: absolute; /* 절대 위치 설정 */
+    top: 10px; /* 상단 여백 */
+    right: 10px; /* 우측 여백 */
+    transition: color 0.3s; /* 호버 효과 전환 */
+}
+
+.close:hover {
+    color: #ff5555; /* 호버 시 색상 변경 */
+}
+
+
+
+
+
+

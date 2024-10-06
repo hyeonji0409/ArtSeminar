@@ -90,9 +90,6 @@ public class NoticeController {
         }
 
 
-        model.addAttribute("bbsno", no);
-        model.addAttribute("bbsname", "notice");
-        model.addAttribute("username", username);
         model.addAttribute("notice", notice);
 
         return "board/noticeDetail";
