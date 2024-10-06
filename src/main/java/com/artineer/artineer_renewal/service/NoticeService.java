@@ -75,6 +75,12 @@ public class NoticeService {
             if(!file.isEmpty()) {
                 String originalFilename = file.getOriginalFilename();
                 String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
+//                File directory = new File(fileDir);
+//                if (!directory.exists()) {
+//                    directory.mkdirs(); // 디렉터리 생성
+//                }
+
+
                 try {
                     Path path = Paths.get(fileDir + fileName);
                     System.out.println(path.toAbsolutePath());
