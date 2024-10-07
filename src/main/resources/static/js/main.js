@@ -52,18 +52,29 @@
     });
   });
 
-   document.getElementById('login-button').addEventListener('click', function(event) {
-       event.preventDefault();
-       var dropdownMenu = document.getElementById('dropdown-menu');
-       if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
-           dropdownMenu.style.display = 'block';
-       } else {
-           dropdownMenu.style.display = 'none';
-       }
-   });
+try {
+  document.getElementById('login-button').addEventListener('click', function (event) {
+    event.preventDefault();
+    var dropdownMenu = document.getElementById('dropdown-menu');
+    if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
+      dropdownMenu.style.display = 'block';
+    } else {
+      dropdownMenu.style.display = 'none';
+    }
+  });
+} catch (e) {}
 
 
 
+  /**
+   * Preloader
+   */
+  const preloader = document.querySelector('#preloader');
+  if (preloader) {
+    window.addEventListener('load', () => {
+      preloader.remove();
+    });
+  }
 
   /**
    * Scroll top button

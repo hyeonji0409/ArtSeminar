@@ -46,7 +46,7 @@
     </style>
 </head>
 <body>
-<div th:replace="~{header :: header}"></div>
+<div th:replace="~{header :: header(user=${user})}"></div>
 
 <div class="container text-center" style="margin-top: 150px;">
     <h2 class="text-info fw-bold">공지 사항</h2>

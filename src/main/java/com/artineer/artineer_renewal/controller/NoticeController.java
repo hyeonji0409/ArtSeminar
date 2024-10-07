@@ -3,8 +3,10 @@ package com.artineer.artineer_renewal.controller;
 import com.artineer.artineer_renewal.dto.NoticeDto;
 import com.artineer.artineer_renewal.entity.Comment;
 import com.artineer.artineer_renewal.entity.Notice;
+import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.CommentRepository;
 import com.artineer.artineer_renewal.repository.NoticeRepository;
+import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.NoticeService;
 import com.artineer.artineer_renewal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,8 @@ public class NoticeController {
     private UserService userService;
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public NoticeController(NoticeRepository noticeRepository) {
         this.noticeRepository = noticeRepository;
@@ -49,6 +53,15 @@ public class NoticeController {
 
     @GetMapping("/notice")
     public String notices(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        if (username.equals("anonymousUser")) {
+            model.addAttribute("user", username);
+        } else{
+            User user = userRepository.findByUsername(username);
+            model.addAttribute("user", user);
+        }
+
         List<Notice> noticeList = noticeRepository.findAllNotice();
         model.addAttribute("notices", noticeList);
         return "board/notice";
@@ -80,6 +93,13 @@ public class NoticeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
+        if (username.equals("anonymousUser")) {
+            model.addAttribute("user", username);
+        } else{
+            User user = userRepository.findByUsername(username);
+            model.addAttribute("user", user);
+        }
+
         // 조회수 증가
         noticeService.increaseHitCount(no);
 
@@ -88,7 +108,6 @@ public class NoticeController {
         if (notice == null) {
             throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
         }
-
 
         model.addAttribute("notice", notice);
 
