@@ -4,8 +4,10 @@ import com.artineer.artineer_renewal.dto.CalendarEventDTO;
 import com.artineer.artineer_renewal.dto.UserDto;
 import com.artineer.artineer_renewal.dto.UserSearchDTO;
 import com.artineer.artineer_renewal.entity.CalendarEvent;
+import com.artineer.artineer_renewal.entity.Popup;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.CalendarEventRepository;
+import com.artineer.artineer_renewal.repository.PopupRepository;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,6 +39,8 @@ public class AdminService {
     private UserService userService;
     @Autowired
     private CalendarEventRepository eventRepository;
+    @Autowired
+    private PopupRepository popupRepository;
 
 
     // 회원정보 값 유효성 검사
@@ -167,7 +171,6 @@ public class AdminService {
             if (calendarEventDTO.getDescription()!=null && !calendarEvent.getDescription().isEmpty()) calendarEvent.setDescription(calendarEventDTO.getDescription());
             if (calendarEventDTO.getStartDate()!=null ) calendarEvent.setStartDate(calendarEventDTO.getStartDate());
             if (calendarEventDTO.getStartTime()!=null ) calendarEvent.setStartTime(calendarEventDTO.getStartTime());
-    //        if (calendarEventDTO.getStartTime()!=null ) System.out.println("왜 스타트가 뉼이 아니애" + (calendarEvent.getStartTime()!=null));
             if (calendarEventDTO.getEndDate()!=null) calendarEvent.setEndDate(calendarEventDTO.getEndDate());
             if (calendarEventDTO.getEndTime()!=null ) calendarEvent.setEndTime(calendarEventDTO.getEndTime());
             if (calendarEventDTO.getIsAllDay()!=null ) calendarEvent.setIsAllDay(calendarEventDTO.getIsAllDay());
@@ -185,6 +188,44 @@ public class AdminService {
         }
 
         eventRepository.save(calendarEvent);
+
+        return true;
+    }
+
+
+    public boolean updatePopup(String logInUsername, Popup popup, String clientIp) {
+        // IP 주소 가져오기
+        System.out.println("Client IP: " + clientIp);
+
+        if (!userService.isAdmin(logInUsername)) return false;
+
+
+        System.out.println("수정요청 받음" +  popup.toString());
+
+
+        Popup foundPopup = popupRepository.findByNo(popup.getNo());
+
+        if (foundPopup != null) {
+            System.out.println("디비서 가져온 " + foundPopup);
+
+            // todo 예외처리
+            if (popup.getTitle()!=null && !foundPopup.getTitle().isEmpty()) foundPopup.setTitle(popup.getTitle());
+            if (popup.getDescription()!=null && !foundPopup.getDescription().isEmpty()) foundPopup.setDescription(popup.getDescription());
+            if (popup.getStartDate()!=null ) foundPopup.setStartDate(popup.getStartDate());
+            if (popup.getEndDate()!=null) foundPopup.setEndDate(popup.getEndDate());
+            if (popup.getIsVisible()!=null ) foundPopup.setIsVisible(popup.getIsVisible());
+            if (popup.getLink()!=null) foundPopup.setLink(popup.getLink());
+        } else {
+            foundPopup = new Popup();
+            foundPopup.setTitle(popup.getTitle());
+            foundPopup.setDescription(popup.getDescription());
+            foundPopup.setStartDate(popup.getStartDate());
+            foundPopup.setEndDate(popup.getEndDate());
+            foundPopup.setIsVisible(popup.getIsVisible());
+            foundPopup.setLink(popup.getLink());
+        }
+
+        popupRepository.save(foundPopup);
 
         return true;
     }

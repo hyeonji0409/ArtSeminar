@@ -5,7 +5,6 @@ import com.artineer.artineer_renewal.entity.Popup;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.PopupRepository;
 import com.artineer.artineer_renewal.repository.UserRepository;
-import com.artineer.artineer_renewal.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -40,8 +40,7 @@ public class HomeController {
         }
 
 //        todo db 등에
-        List<Popup>  popups = popupRepository.findAll();
-        System.out.println(popups.toString());
+        List<Popup>  popups = popupRepository.findAllByStartDateLessThanEqualAndEndDateGreaterThanEqualAndIsVisible(LocalDateTime.now(), LocalDateTime.now(), true);
         model.addAttribute("popups", popups);
 //        PopupDTO tempPopup = new PopupDTO(121414L, "", "공지사항", "2024 하반기 부원모집 안내","/data/IMG_5885.png");
 //        model.addAttribute("popup", tempPopup);

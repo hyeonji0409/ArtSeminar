@@ -12,6 +12,7 @@ import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.AdminService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,11 +24,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 public class adminController {
@@ -42,6 +51,9 @@ public class adminController {
     private HttpServletRequest request;
     @Autowired
     private PopupRepository popupRepository;
+
+    @Value("${file.dir}")
+    private String fileDir;
 
 
     // 관리자의 사용자 정보 쿼리 화면
@@ -182,5 +194,56 @@ public class adminController {
         model.addAttribute("popupPageable", popupPageable);
 
         return "/admin/popupManage";
+    }
+
+    @PostMapping("/admin/popup/update")
+    public String updatePopup(Model model,
+                              Popup popup,
+                              @RequestParam("image") MultipartFile file) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+
+        System.out.println("zzzzzzzzzzzzzzzzzzzzz\n"+ popup.toString());
+
+        String fileName;
+
+        if(!file.isEmpty()) {
+            String originalFilename = file.getOriginalFilename();
+            fileName = UUID.randomUUID().toString() + "_" + originalFilename;
+
+            File directory = new File(fileDir);
+            if (!directory.exists()) {
+                directory.mkdirs(); // 디렉터리 생성
+            }
+
+
+            try {
+                Path path = Paths.get(fileDir + fileName);
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                popup.setLink("/data/" + fileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                        .body("파일 업로드 실패");
+            }
+
+        }
+
+
+
+
+        // IP 주소 가져오기
+        String clientIp = request.getRemoteAddr();
+        boolean isSuccess = adminService.updatePopup(username, popup, clientIp);
+        if (!isSuccess) {
+            model.addAttribute("errorCode", 400);
+            return "/user/errorPage";
+        }
+
+        String redirectAddress =  request.getHeader("Referer");
+        System.out.println(redirectAddress);
+        return "redirect:" + redirectAddress;
     }
 }

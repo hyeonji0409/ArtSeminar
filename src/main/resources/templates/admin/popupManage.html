@@ -62,7 +62,12 @@
     <!-- Starter Section Section -->
     <section id="starter-section" class="starter-section section mt-5">
       <div class="container">
-        <h1 class="text-center mb-4 fw-bold form">일정 관리</h1>
+        <div class="offset-md-2" style="margin-top: 75px">
+          <a th:href="@{/admin}">회원관리</a> /
+          <a th:href="@{/admin/calendar}">일정관리</a> /
+          <a th:href="@{/admin/popup}">팝업관리</a>
+        </div>
+        <h1 class="text-center mb-4 fw-bold form" style="margin-top: 5px">팝업 관리</h1>
 
         <!-- 검색 필터 -->
         <div class="table-responsive row mb-4">
@@ -104,6 +109,7 @@
 
                 <div class=" d-flex flex-wrap justify-content-end align-content-center ms-0">
                   <a id="reset-button" th:href="@{/admin}" class="btn btn-secondary col-1 me-2 align-content-center" style="width: fit-content; min-width: 90px">초기화</a>
+                  <button type="button" id="new" class="btn btn-secondary col-1 me-2" style="width: fit-content; min-width: 90px" data-bs-toggle="modal" data-bs-target="#editModal">추가</button>
                   <button id="querySubmit" class="btn btn-primary col-1 me-2" style="width: fit-content; min-width: 90px">검색</button>
                 </div>
 <!--                <span class="material-symbols-outlined form-check col-1" style="width: fit-content; height: fit-content; font-size: 30px; padding: 1px; writing-mode: vertical-lr; display: inline;">sync_alt</span>-->
@@ -126,6 +132,7 @@
               <th>설명(alt)</th>
               <th>공지시작시간</th>
               <th>공지종료시간</th>
+              <th>개시여부</th>
               <th>작성일</th>
               <th style="max-width: 100px" >링크</th>
               <th>수정</th>
@@ -140,6 +147,7 @@
               <td th:text="${eachUser.getDescription()}" class="text-truncate" style="max-width: 200px">설명</td>
               <td th:text="${eachUser.getStartDate()}">시작일</td>
               <td th:text="${eachUser.getEndDate()}">종료일</td>
+              <td th:text="${eachUser.getIsVisible()}">비공개</td>
               <td th:text="${eachUser.getCreatedAt()}">언메만든</td>
               <td><img th:src="${eachUser.getLink()}" style="max-width: 100px"></td>
 
@@ -193,11 +201,11 @@
         <div class="modal-dialog mt-5">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="editModalLabel">일정 정보 수정</h5>
+              <h5 class="modal-title" id="editModalLabel">팝업 정보 수정</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form name="form" id="form" action="/popup/update" method="post">
+              <form name="form" id="form" action="/admin/popup/update" method="post" enctype="multipart/form-data">
                 <div id="usernameBox" class="inputBox">
                   <input id="title" type="text" name="title">
                   <label for="title">일정명</label>
@@ -209,35 +217,30 @@
                   <div class="error-msg"></div>
                 </div>
                 <div id="birthBox" class="inputBox">
-                  <input id="startDate" type="date" name="startDate">
+                  <input id="startDate" type="datetime-local" name="startDate">
                   <label for="startDate">시작일</label>
                   <div class="error-msg"></div>
                 </div>
-                <div id="eeweBox" class="inputBox">
-                  <input id="startTime" type="time" name="startTime">
-                  <label for="endDate">시작시</label>
-                  <div class="error-msg"></div>
-                </div>
                 <div id="qqqBox" class="inputBox">
-                  <input id="endDate" type="date" name="endDate">
+                  <input id="endDate" type="datetime-local" name="endDate">
                   <label for="endDate">종료일</label>
                   <div class="error-msg"></div>
                 </div>
-                <div id="eeBox" class="inputBox">
-                  <input id="endTime" type="time" name="endTime">
-                  <label for="endDate">종료시</label>
+                <div id="qBox" class="inputBox">
+                  <input type="file" id="link" name="image">
+                  <label for="endDate">이미지</label>
                   <div class="error-msg"></div>
                 </div>
 
                 <div id="sexBox" class="gender-selection inputBox">
                   <div class="sex-box inputBox">
-                    <input type="radio" id="male" name="isAllDay" value="true">
-                    <label class="gender" for="male">하루종일</label>
+                    <input type="radio" id="male" name="isVisible" value="true">
+                    <label class="gender" for="male">활성화</label>
                     <div class="error-msg"></div>
                   </div>
                   <div class="sex-box inputBox" >
-                    <input type="radio" id="female" name="isAllDay" value="false">
-                    <label class="gender" for="female">하루일부</label>
+                    <input type="radio" id="female" name="isVisible" value="false">
+                    <label class="gender" for="female">비활성화</label>
                     <div class="error-msg"></div>
                   </div>
                   <div class="error-msg"></div>
@@ -282,9 +285,8 @@
 <script th:src="@{../assets/vendor/waypoints/noframework.waypoints.js}"></script>
 <script th:src="@{../assets/vendor/imagesloaded/imagesloaded.pkgd.min.js}"></script>
 <script th:src="@{../assets/vendor/isotope-layout/isotope.pkgd.min.js}"></script>
-<!--<script th:inline="javascript">-->
-<!--  var list = /*[[${list}]]*/ [];-->
-<!--</script>-->
+
+
   <script th:inline="javascript">
 
 
