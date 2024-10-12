@@ -127,16 +127,29 @@ public class UserController {
         String formattedDate = now.format(formatter);
         String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
 
-
-//        if (what.equals("id")) {
-//            model.addAttribute("what", "id");
-//        } else if (what.equals("pw")) {
-//            model.addAttribute("what", "pw");
-//        }
-
         User user = userRepository.findByUsername(userDto.getUsername());
 
-        return "/user/sign-find";
+        if (user != null) {
+            // User 객체 업데이트
+            user.setName(userDto.getName());
+            user.setBirth(formattedBirth); // 포맷된 생년월일로 저장
+            user.setEmail(userDto.getEmail());
+            user.setYear(userDto.getYear());
+            user.setAddr(userDto.getAddr());
+            // 비밀번호가 변경된 경우에만 업데이트
+            if (!userDto.getPassword().isEmpty()) {
+                user.setPassword(passwordEncoder.encode(userDto.getPassword()));  // 비밀번호 암호화 후 저장
+            }
+
+            // 변경된 정보를 데이터베이스에 저장
+            userRepository.save(user);
+        } else {
+            // 유저가 없으면 에러 처리
+            System.out.println("User not found!");
+        }
+
+        String redirectAddress = request.getHeader("Referer");
+        return "redirect:" + redirectAddress;
     }
 
 
