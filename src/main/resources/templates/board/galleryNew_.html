@@ -9,7 +9,7 @@
   <!-- 넓이 높이 조절 -->
   <style>
     .ck.ck-editor {
-      max-width: 800px;
+      max-width: 1000px;
     }
     .ck-editor__editable {
       min-height: 400px;
@@ -19,6 +19,25 @@
       color: white; /* 글자 색상 하얀색 */
       background-color: #47b2e4; /* 배경색 */
       border-color: #47b2e4; /* 테두리 색상 */
+    }
+
+
+    @media (min-width: 1200px) { /* xl: 1200px 이상 */
+      .custom-width {
+        max-width: 800px;
+      }
+    }
+
+    @media (min-width: 992px) and (max-width: 1199.98px) { /* lg: 992px ~ 1199px */
+      .custom-width {
+        max-width: 600px;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 991.98px) { /* md: 768px ~ 991px */
+      .custom-width {
+        max-width: 400px;
+      }
     }
   </style>
 
@@ -55,7 +74,7 @@
   ======================================================== -->
 </head>
 
-<body class="starter-page-page d-flex flex-column min-vh-100">
+<body >
 
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
@@ -65,20 +84,19 @@
 
 
 
-    <div class="d-flex justify-content-center" style="margin-bottom: 100px;">
-      <div class="d-flex justify-content-center">
-        <form class="container mt-5" th:action="@{/gallery/new}" method="post" enctype="multipart/form-data" >
-          <select class="form-select mb-3" aria-label="Default select example" style="width: 500px">
+  <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 100px;">
+    <div class="d-flex justify-content-center container custom-width" style="max-width: 1000px">
+    <form class="container mt-5" th:action="@{/gallery/new}" method="post" enctype="multipart/form-data" >
+          <select class="form-select mb-3" aria-label="Default select example" >
             <option selected>등록할 게시판을 고르시오.</option>
             <option value="1">공지사항 (notice)</option>
             <option value="2">갤러리 (gallery)</option>
           </select>
-
-          <input type="text" id="title" name="title" required style="width: 500px" placeholder="Title"><br><br>
+          <input type="text" id="title" name="title" required class="container custom-width" placeholder="Title"><br><br>
 
           <textarea name="story" id="story"></textarea>
 
-          <input class="border-bottom" type="file" id="file" name="file" multiple>
+          <input type="file" id="file" name="file" multiple >
 
           <script>
             ClassicEditor
@@ -92,6 +110,7 @@
           <button type="submit" class="btn btn-outline-info custom-btn">등록</button>
           </div>
         </form>
+    </div>
 
         <!-- CKEditor 적용 -->
         <script type="module">
@@ -133,7 +152,7 @@
                 console.error(error);
             });
         </script>-->
-      </div>
+
     </div>
 
 

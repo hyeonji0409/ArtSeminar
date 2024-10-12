@@ -80,8 +80,8 @@
                 </select>
                 <input type="text" class="col-10 form-control col-10" name="queryValue" th:value="${userSearchDTO.getQueryValue().orElse(null)}" style="width: calc(100% - 8rem)" placeholder="조건을 입력하세요.">
               </div>
-              <div class="row d-flex justify-content-between mb-3">
-                <div class="col-8 d-flex flex flex-wrap">
+              <div class=" d-flex justify-content-between mb-3">
+                <div class=" d-flex flex flex-wrap me-auto" style="width: 768px;">
                 <select class="form-select col me-2" style="width: 8rem" name="sex">
                   <option value="">모든 성별</option>
                   <option value="male">남성</option>
@@ -109,9 +109,9 @@
                 </select>
                 </div>
 
-                <div class="col-2 d-flex justify-content-end">
-                  <a th:href="@{/admin}" class="btn btn-secondary col-1 me-2 align-content-center" style="width: fit-content">초기화</a>
-                  <button type="submit" class="btn btn-primary col-1" style="width: fit-content">검색</button>
+                <div class=" d-flex flex-wrap justify-content-end align-content-center ms-0">
+                  <a id="reset-button" th:href="@{/admin}" class="btn btn-secondary col-1 me-2 align-content-center" style="width: fit-content; min-width: 90px">초기화</a>
+                  <button id="querySubmit" class="btn btn-primary col-1 me-2" style="width: fit-content; min-width: 90px">검색</button>
                 </div>
 <!--                <span class="material-symbols-outlined form-check col-1" style="width: fit-content; height: fit-content; font-size: 30px; padding: 1px; writing-mode: vertical-lr; display: inline;">sync_alt</span>-->
               </div>
@@ -287,11 +287,12 @@
                   <label for="role">권한</label>
                   <div class="error-msg"></div>
                 </div>
+                <input type="hidden" id="pk" name="pk">
               </form>
             </div>
             <div class="modal-footer" style="justify-content: center">
               <button type="button" class="btn btn-primary" id="save-changes" form="form" style="width: 40%">저장</button>
-              <button type="button" class="btn btn-danger" id="delete" style="width: 14%">제거</button>
+              <button type="button" class="btn btn-danger" id="delete" style="width: 14%; min-width: fit-content">제거</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 40%">취소</button>
             </div>
           </div>
@@ -321,7 +322,7 @@
 <!--<script th:inline="javascript">-->
 <!--  var list = /*[[${list}]]*/ [];-->
 <!--</script>-->
-  <script  th:inline="javascript">
+  <script th:inline="javascript">
     // console.log([[${userSearchDTO.getRole().orElse('si')}]])
     role = [[${userSearchDTO.getRole().orElse('')}]]
     query = [[${userSearchDTO.getQuery().orElse('')}]]
@@ -342,7 +343,7 @@
         // 우편번호와 주소 정보 필드에 넣기
         document.getElementById('zipcode').value = data.zonecode;
         document.getElementById('roadAddress').value = data.roadAddress;
-        // document.getElementById('detailAddr').value = data.detailAddress;
+        // document.getElementById('detailAddr').value = data.detailAddress; //이거는 다음 말고 일반도로명주소API에서 쓰이는거
         // 상세 주소로 커서 이동
         document.getElementById('detailAddress').focus();
         checkValidation("roadAddress", roadFullAddrInput);

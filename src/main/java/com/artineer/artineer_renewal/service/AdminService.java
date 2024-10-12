@@ -1,7 +1,11 @@
 package com.artineer.artineer_renewal.service;
 
+import com.artineer.artineer_renewal.dto.CalendarEventDTO;
+import com.artineer.artineer_renewal.dto.UserDto;
 import com.artineer.artineer_renewal.dto.UserSearchDTO;
+import com.artineer.artineer_renewal.entity.CalendarEvent;
 import com.artineer.artineer_renewal.entity.User;
+import com.artineer.artineer_renewal.repository.CalendarEventRepository;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,11 +17,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 
 @Service
@@ -26,15 +34,20 @@ public class AdminService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UserService userService;
+    @Autowired
+    private CalendarEventRepository eventRepository;
 
-    // 회원정보 갱신
-    public ResponseEntity<String> checkSignUpValue(String valueName,
-                                                   Map<String, String> payload) {
 
-//        Todo 이하 2종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
+    // 회원정보 값 유효성 검사
+    public ResponseEntity<String> checkUserValue(String valueName,
+                                                 Map<String, String> payload) {
+
+//        Todo 이하 2종목이 유니크하지 않을 떄 오류 발생(오류발생)
 //        org.hibernate.NonUniqueResultException: Query did not return a unique result: 9 results were returned
         User foundUser = switch (valueName) {
+//            아이디는 고정값임.
+//            case "username" -> userRepository.findByUsername(payload.get("value"));
             case "email" -> userRepository.findByEmail(payload.get("value"));
             case "tel" -> userRepository.findByTel(payload.get("value"));
             default -> null;
@@ -50,6 +63,7 @@ public class AdminService {
                 ) + "\n-------------------------------------------------\n"
         );
 
+        // 검사를 요청한 정보로 찾은 foundUser 가 요청을 보낸 유저와 같을 경우, 중복허용
         if (foundUser != null && foundUser.equals(userRepository.findByUsername(payload.get("username")))) {
             foundUser = null;
         }
@@ -88,6 +102,96 @@ public class AdminService {
 
         return users;
     }
+
+
+
+    public Page<CalendarEvent> calenderPaginationByQuery(CalendarEventDTO calendarEventDTO, Integer page, Integer pageSize) {
+        LocalDate startDate = null;
+        if (calendarEventDTO.getStart().isEmpty()) {
+            startDate = LocalDate.of(1000, 1, 1);  // MySQL의 최소 허용 날짜로 설정
+        } else {
+            startDate = calendarEventDTO.getStart()
+                    .map(instant -> instant.atZone(ZoneId.systemDefault()).toLocalDate())
+                    .orElse(LocalDate.of(1000, 1, 1)); // 만약 값이 없으면 기본 날짜로 설정
+        }
+
+        LocalDate endDate = null;
+        if (calendarEventDTO.getStart().isEmpty()) {
+            endDate = LocalDate.of(9999, 12, 31);  // MySQL의 최소 허용 날짜로 설정
+        } else {
+            endDate = calendarEventDTO.getEnd()
+                    .map(instant -> instant.atZone(ZoneId.systemDefault()).toLocalDate())
+                    .orElse(LocalDate.of(9999, 1, 1)); ;
+        }
+
+        String sortProperty =  calendarEventDTO.getSort().orElse("endDate");
+        Sort.Direction direction = calendarEventDTO.getOrder().orElse("ASC").equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
+
+        Pageable pageable = PageRequest.of(
+                calendarEventDTO.getPage().orElse(page) - 1,
+                calendarEventDTO.getPageSize().orElse(pageSize),
+                Sort.by(direction, sortProperty));
+
+        String queryValue = calendarEventDTO.getQueryValue().orElse("");
+
+        Page<CalendarEvent> calenderEventList =
+                switch (calendarEventDTO.getQuery().orElse("")) {
+                    case "title" -> eventRepository.findAllByTitleContainingAndStartDateGreaterThanEqualAndEndDateLessThanEqual(queryValue, startDate, endDate, pageable);
+                    case "description" -> eventRepository.findAllByDescriptionContainingAndStartDateGreaterThanEqualAndEndDateLessThanEqual(queryValue, startDate, endDate, pageable);
+                    default -> eventRepository.findAllByTitleContainingAndStartDateGreaterThanEqualAndEndDateLessThanEqualOrDescriptionContainingAndStartDateGreaterThanEqualAndEndDateLessThanEqual(queryValue, startDate, endDate, queryValue, startDate, endDate, pageable);
+                };
+
+
+        return calenderEventList;
+    }
+
+
+
+    public boolean updateCalendarEvent(String logInUsername, CalendarEventDTO calendarEventDTO, String clientIp) {
+        // IP 주소 가져오기
+        System.out.println("Client IP: " + clientIp);
+
+        if (!userService.isAdmin(logInUsername)) return false;
+
+
+        System.out.println("수정요청 받음" +  calendarEventDTO.toString());
+
+
+        CalendarEvent calendarEvent = eventRepository.findByNo(calendarEventDTO.getNo());
+        System.out.println(calendarEventDTO.getNo()+ "가죠요요요" + calendarEvent);
+        if (calendarEvent != null) {
+            System.out.println("디비서 가져온 " + calendarEvent);
+
+            // todo 예외처리
+            if (calendarEventDTO.getTitle()!=null && !calendarEvent.getTitle().isEmpty()) calendarEvent.setTitle(calendarEventDTO.getTitle());
+            if (calendarEventDTO.getDescription()!=null && !calendarEvent.getDescription().isEmpty()) calendarEvent.setDescription(calendarEventDTO.getDescription());
+            if (calendarEventDTO.getStartDate()!=null ) calendarEvent.setStartDate(calendarEventDTO.getStartDate());
+            if (calendarEventDTO.getStartTime()!=null ) calendarEvent.setStartTime(calendarEventDTO.getStartTime());
+    //        if (calendarEventDTO.getStartTime()!=null ) System.out.println("왜 스타트가 뉼이 아니애" + (calendarEvent.getStartTime()!=null));
+            if (calendarEventDTO.getEndDate()!=null) calendarEvent.setEndDate(calendarEventDTO.getEndDate());
+            if (calendarEventDTO.getEndTime()!=null ) calendarEvent.setEndTime(calendarEventDTO.getEndTime());
+            if (calendarEventDTO.getIsAllDay()!=null ) calendarEvent.setIsAllDay(calendarEventDTO.getIsAllDay());
+            // todo utc 기준
+            calendarEvent.setUpdatedAt(Instant.now());
+        } else {
+            calendarEvent = new CalendarEvent();
+            calendarEvent.setTitle(calendarEventDTO.getTitle());
+            calendarEvent.setDescription(calendarEventDTO.getDescription());
+            calendarEvent.setStartDate(calendarEventDTO.getStartDate());
+            calendarEvent.setStartTime(calendarEventDTO.getStartTime());
+            calendarEvent.setEndDate(calendarEventDTO.getEndDate());
+            calendarEvent.setEndTime(calendarEventDTO.getEndTime());
+            calendarEvent.setIsAllDay(calendarEventDTO.getIsAllDay());
+        }
+
+        eventRepository.save(calendarEvent);
+
+        return true;
+    }
+
+
+
+
 
 
 }

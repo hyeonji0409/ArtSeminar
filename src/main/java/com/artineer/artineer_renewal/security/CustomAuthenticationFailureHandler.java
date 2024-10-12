@@ -19,10 +19,13 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
                                         AuthenticationException exception) throws IOException, ServletException {
         if (exception instanceof BadCredentialsException) {
             // pw 틀림
-            response.sendRedirect("/user/sign-in?error=invalid");
+//            아이디와 비번 중 틀린 것을 알리지 않음 유저에게
+//            response.sendRedirect("/user/sign-in?error=invalid");
+            response.sendRedirect("/user/sign-in?error=");
         } else if (exception instanceof UsernameNotFoundException) {
             // 계정 X
-            response.sendRedirect("/user/sign-in?error=account");
+//            response.sendRedirect("/user/sign-in?error=account");
+            response.sendRedirect("/user/sign-in?error=");
         } else if (exception instanceof LockedException) {
             response.sendRedirect("/user/sign-in?error=lock");
         } else {

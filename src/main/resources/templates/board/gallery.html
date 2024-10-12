@@ -79,8 +79,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <img src="favicon.ico" class="img-fluid rounded-start" alt="...">
+            <div class="col-md-4 container d-flex justify-content-center" th:each="fileName: ${gallery.file}">
+                    <img  th:src="@{'/data/' + ${fileName}}" style="max-height: 200px;">
             </div>
             </div>
         </div>
@@ -91,7 +91,7 @@
 <!--                <th scope="col">번호</th>-->
 <!--                <th scope="col">제목</th>-->
 <!--                <th scope="col">댓글수</th>-->
-<!--                <th scope="col">작성자</th>-->
+<!--                <th scope="col">작성자</th>--
 <!--                <th scope="col">날짜</th>-->
 <!--                <th scope="col">조회수</th>-->
 <!--            </tr>-->

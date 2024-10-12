@@ -33,7 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @SpringBootTest
-@Transactional
 @AutoConfigureMockMvc
 class ArtineerPageApplicationTests {
 
@@ -112,7 +111,6 @@ class ArtineerPageApplicationTests {
 
 
 
-	@Transactional
 	@Test
 	void passwordEncoderChangeTest() throws Exception {
 		//회원가입

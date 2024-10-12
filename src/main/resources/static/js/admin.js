@@ -16,8 +16,10 @@ inputBoxes.forEach(v => v.addEventListener("change", (e) => {
 
 /* check submit form validation */
 const form = document.querySelector('#form');
+const querySubmitButton = document.querySelector('#querySubmit');
 const saveButton = document.querySelector('#save-changes');
 const deleteButton = document.querySelector('#delete');
+const pkInput = document.querySelector('input[name="pk"]');
 const idInput = document.querySelector('input[name="username"]');
 const passwordInput = document.querySelector('input[name="password"]');
 const emailInput = document.querySelector('input[name="email"]');
@@ -113,6 +115,8 @@ deleteButton.addEventListener("click", async () => {
 
     let flag = confirm("삭제된 계정은 DB에서 완전히 제거됩니다.\n정말 삭제하시겠습니까?")
     if (!flag) return
+    let confirmText = prompt("삭제하려는 사용자의 아이디를 정확히 입력해주세요.", '아이디를 제출하는 즉시, 계정이 "삭제"됩니다.')
+    if( confirmText !== idInput.value) { alert("올바르지 않습니다."); return; }
 
     let response = await fetch("user/withdrawal", {
             method: "POST",
@@ -207,7 +211,7 @@ const errMsg = {
         fail: "이름을 작성해 주세요.fail"
     },
     birth: {
-        pattern: /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/,
+        pattern: /^(19|20)\d{2}\/(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])$/,
         invalid: "올바른 생년월일 8자리를 입력해 주세요.",
         fail: "올바른 생년월일 8자리를 입력해 주세요.fail"
     },
@@ -247,11 +251,21 @@ const errMsg = {
 
 // 검색 결과 시 모델속성 값 유지 처리에 관한 코드
 
+
+
+
 // 필터 검색 시 페이지는 1로 하고 조건들을 보냄
-document.querySelector("#search-form > div.row.d-flex.justify-content-between.mb-3 > div.col-2.d-flex.justify-content-end > button").addEventListener("click", (e) => {
+
+querySubmitButton.addEventListener("click", (e) => {
     e.preventDefault()
     document.querySelector("#search-form > input[name='page']").value = 1
     document.querySelector("#search-form").submit()
+})
+
+document.querySelector("#reset-button").addEventListener("click", (e) => {
+    e.preventDefault()
+    // location.pathname 은 /admin 이라는 가정
+    location.href = location.pathname
 })
 
 document.querySelectorAll("#previous-page, #next-page").forEach(v => v.addEventListener("click", (e) => {
@@ -303,6 +317,8 @@ editButtons.forEach(v => v.addEventListener("click", (e) => {
     console.log(userForEdit.content[e.target.dataset.memberId]);
     let eachUser = userForEdit.content[e.target.dataset.memberId];
 
+
+    pkInput.value = eachUser.no
     idInput.value = eachUser.username
     emailInput.value = eachUser.email
     nameInput.value = eachUser.name

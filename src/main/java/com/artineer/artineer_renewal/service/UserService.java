@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -17,14 +19,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 @Component
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -79,30 +86,74 @@ public class UserService {
 
 
 
-    public void updateUser(UserDto userDto, String clientIp) {
+    public boolean updateUser(String logInUsername, UserDto userDto, String clientIp) {
         // IP 주소 가져오기
         System.out.println("Client IP: " + clientIp);
 
-        // 생년월일 포멧
-        String formattedBirth = userDto.getBirth().substring(0,4) + '/' + userDto.getBirth().substring(4,6) + '/' + userDto.getBirth().substring(6,8);
+        if (!(
+                logInUsername.equals( userDto.getUsername() )
+                || isAdmin(logInUsername))
+        ) return false;
 
-        System.out.println("수정요청 받음");
+        // 생년월일 포멧
+        String formattedBirth = null;
+        try {
+            DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+
+        System.out.println("수정요청 받음" +  userDto.toString());
+
 
         User oldUser = userRepository.findByUsername(userDto.getUsername());
 
-        if (!userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
-        oldUser.setName(userDto.getName());
-        oldUser.setSex(userDto.getSex());
-        oldUser.setBirth(formattedBirth);
-        oldUser.setTel(userDto.getTel());
-        oldUser.setEmail(userDto.getEmail());
-        oldUser.setZipcode(userDto.getZipcode());
-        oldUser.setRoadAddress(userDto.getRoadAddress());
-        oldUser.setDetailAddress(userDto.getDetailAddress());
-        oldUser.setYear(userDto.getYear());
-        oldUser.setRole(userDto.getRole());
+        // todo 예외처리
+        if (userDto.getPassword()!=null && !userDto.getPassword().isEmpty())oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
+        if (userDto.getName()!=null && !userDto.getName().isEmpty()) oldUser.setName(userDto.getName());
+        if (userDto.getSex()!=null && !userDto.getSex().isEmpty()) oldUser.setSex(userDto.getSex());
+        if (userDto.getBirth()!=null && !userDto.getBirth().isEmpty()) oldUser.setBirth(formattedBirth);
+        if (userDto.getTel()!=null && !userDto.getTel().isEmpty()) oldUser.setTel(userDto.getTel());
+        if (userDto.getEmail()!=null && !userDto.getEmail().isEmpty()) oldUser.setEmail(userDto.getEmail());
+        if (userDto.getZipcode()!=null && !userDto.getZipcode().isEmpty()) oldUser.setZipcode(userDto.getZipcode());
+        if (userDto.getRoadAddress()!=null && !userDto.getRoadAddress().isEmpty()) oldUser.setRoadAddress(userDto.getRoadAddress());
+        if (userDto.getDetailAddress()!=null && !userDto.getDetailAddress().isEmpty()) oldUser.setDetailAddress(userDto.getDetailAddress());
+        if (userDto.getYear()!=null) oldUser.setYear(userDto.getYear());
+        if (userDto.getRole()!=null && !userDto.getRole().isEmpty() && isAdmin(logInUsername)) oldUser.setRole(userDto.getRole());
 
         userRepository.save(oldUser);
+
+        return true;
+    }
+
+
+
+    public ResponseEntity<String> PostWithdrawal(Map<String, Object> payload,
+                                                 String username) {
+
+        System.out.println("아이디가 삭제될 예정" + payload);
+
+        if (username.equals("anonymousUser")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        } else {
+            User requestedUser = userRepository.findByUsername(username);
+
+            if (!isAdmin(requestedUser.getUsername())
+                    && !requestedUser.getUsername().equals( (String) payload.get("username"))
+            ) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        User user = null;
+        try {
+            user = userRepository.findByUsername((String) payload.get("username"));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notFound");
+        }
+
+        userRepository.deleteById(user.getNo());
+        return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
 

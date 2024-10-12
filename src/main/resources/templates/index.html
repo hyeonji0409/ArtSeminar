@@ -26,8 +26,8 @@
     <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Main CSS File -->
-    <!--    <link href="assets/css/main.css" rel="stylesheet">-->
-    <link href="css/main.css" rel="stylesheet">
+
+    <link href="/css/main.css" rel="stylesheet">
 
     <!-- FullCalendar CSS -->
     <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
@@ -37,6 +37,7 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
 </head>
@@ -193,7 +194,7 @@
                             <img src="image/img/MainBackGround-1.jpg" alt="" class="img-fluid equal-image">
                         </div>
                         <h4 class="mt-3"><a href="" class="stretched-link">분야별 스터디</a></h4>
-                        <p>웹, AI, 게임, 네트워크 보안, 개별 등의 분야별 스터디를 진행합니다</p>
+                        <p>웹, AI, 게임, 네트워크 보안, 개별 등의 분야별 스터디를 진행합니다.</p>
                     </div>
                 </div><!-- End Service Item -->
 
@@ -215,7 +216,7 @@
                             <img src="image/img/MainBackGround-3.jpg" alt="" class="img-fluid equal-image">
                         </div>
                         <h4><a href="" class="stretched-link">자체 강의 진행</a></h4>
-                        <p>기본적인 개념을 다잡고, 응용하여 심화 단계까지 학습 및 실습을 진행합니다</p>
+                        <p>기본적인 개념을 다잡고, 응용하여 심화 단계까지 학습 및 실습을 진행합니다.</p>
                     </div>
                 </div><!-- End Service Item -->
             </div>
@@ -235,32 +236,69 @@
                     <div id="calendar" style="display: none;"></div>
                 </div>
                 <div class="col-xl-3 cta-btn-container text-center">
-                    <a class="cta-btn align-middle" href="#" id="openModal">자세히 보기</a>
+                    <a class="cta-btn align-middle" href="javascript:void(0)" id="openModal">자세히 보기</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 모달 구조 -->
-    <div id="calendarModal" class="modal">
+    <div id="calendarModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h3>아티니어 캘린더</h3>
-            <div id="calendarModalContent" style="display: block;"></div> <!-- ID 변경 -->
+            <div id="calendarModalContent" style="display: block;"></div>
         </div>
     </div>
+
 
 
     <!-- Artineer calender Section -->
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('show-calendar').addEventListener('click', function(e) {
-                e.preventDefault(); // 기본 동작 방지
-                window.open('popup-calendar.html', 'Calendar', 'width=800,height=600'); // 팝업 창 열기
-            });
+            // document.getElementById('show-calendar').addEventListener('click', function(e) {
+            //     e.preventDefault(); // 기본 동작 방지
+            //     window.open('popup-calendar.html', 'Calendar', 'width=800,height=600'); // 팝업 창 열기
+            // });
         });
     </script>
+
+
+    <!-- Modal -->
+    <div class="d-flex flex-wrap  justify-content-center"
+        style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1050;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            overflow-y: auto;
+            /*height: fit-content;*/">
+    <div th:if="${popups!=null}" th:each="popup : ${popups}"
+            class="popupModal" th:id="${popup.getNo()}"
+         tabindex="-1" aria-labelledby="modalLabel1" aria-hidden="true" data-bs-backdrop="false"
+         style="width: fit-content; height: fit-content"
+    >
+        <div class="modal-dialog" >
+            <div class="modal-content p-0" style="width: 500px; max-width: 95vw; margin: 0">
+                <div class="modal-header p-1">
+                    <h5 class="modal-title" id="modalLabel1" th:text="${popup.getTitle()}">공지사항</h5>
+                    <button type="button" class="btn-close" onclick="((e)=>{((e.target.parentElement.parentElement.parentElement.parentElement.remove()));})(event)" adata-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <img th:src="${popup.getLink()}" th:alt="${popup.getDescription()}" style="width: 100%">
+                </div>
+                <div class="modal-footer p-1" style="position: absolute; right: 0; bottom: 0;">
+                    <button type="button" class="btn btn-secondary" onclick="((e)=>{((e.target.parentElement.parentElement.parentElement.parentElement.remove())); makeCookie(e);})(event)" th:data-index-number="${popup.getNo()}">7초 동안 보지 않기</button>
+                    <button type="button" class="btn btn-primary" onclick="((e)=>{((e.target.parentElement.parentElement.parentElement.parentElement.remove()));})(event)" adata-bs-dismiss="modal">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 
 
 
@@ -270,6 +308,7 @@
 
 <!-- Scroll Top -->
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
 
 <!-- Preloader -->
 <!--<div id="preloader"></div>-->
@@ -285,9 +324,17 @@
 <script src="/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
 <script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 
+
+<script th:inline="javascript">
+    let popups = /*[[${popups}]]*/ []
+    console.log(popups)
+</script>
 <!-- Main JS File -->
 <script src="/js/main.js"></script>
 
+<!-- Bootstrap 5 JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 
 </body>
