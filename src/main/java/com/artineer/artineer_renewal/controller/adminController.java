@@ -9,6 +9,7 @@ import com.artineer.artineer_renewal.repository.CalendarEventRepository;
 import com.artineer.artineer_renewal.repository.PopupRepository;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.AdminService;
+import com.artineer.artineer_renewal.service.FileService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,6 +51,8 @@ public class adminController {
 
     @Value("${file.dir}")
     private String fileDir;
+    @Autowired
+    private FileService fileService;
 
 
     // 관리자의 사용자 정보 쿼리 화면
@@ -132,7 +135,7 @@ public class adminController {
         boolean isSuccess = adminService.updateCalendarEvent(username, calendarEventDTO, clientIp);
         if (!isSuccess) {
             model.addAttribute("errorCode", 400);
-            return "/user/errorPage";
+            return "/error/errorPage";
         }
 
         String redirectAddress =  request.getHeader("Referer");
@@ -200,34 +203,8 @@ public class adminController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-
-        System.out.println("zzzzzzzzzzzzzzzzzzzzz\n"+ popup.toString());
-
-        String fileName;
-
-        if(!file.isEmpty()) {
-            String originalFilename = file.getOriginalFilename();
-            fileName = UUID.randomUUID().toString() + "_" + originalFilename;
-
-            File directory = new File(fileDir);
-            if (!directory.exists()) {
-                directory.mkdirs(); // 디렉터리 생성
-            }
-
-
-            try {
-                Path path = Paths.get(fileDir + fileName);
-                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-                popup.setLink("/data/" + fileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                        .body("파일 업로드 실패");
-            }
-
-        }
-
-
+        String fileName = fileService.uploadMultipartFile(file);
+        popup.setLink("/data/" + fileName);
 
 
         // IP 주소 가져오기
@@ -235,7 +212,7 @@ public class adminController {
         boolean isSuccess = adminService.updatePopup(username, popup, clientIp);
         if (!isSuccess) {
             model.addAttribute("errorCode", 400);
-            return "/user/errorPage";
+            return "/error/errorPage";
         }
 
         String redirectAddress =  request.getHeader("Referer");

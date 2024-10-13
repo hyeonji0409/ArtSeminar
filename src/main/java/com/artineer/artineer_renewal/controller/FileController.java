@@ -2,6 +2,8 @@ package com.artineer.artineer_renewal.controller;
 
 import com.artineer.artineer_renewal.entity.Notice;
 import com.artineer.artineer_renewal.entity.User;
+import com.artineer.artineer_renewal.service.FileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -35,6 +37,10 @@ import java.util.*;
 public class FileController {
     @Value("${file.dir}")
     private String fileDir;
+
+
+    @Autowired
+    private FileService fileService;
 
     // 파일 다운로드
     @GetMapping("/downloads/{file}")
@@ -107,6 +113,18 @@ public class FileController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .build();
         }
+    }
+
+
+    @PostMapping("/data/upload")
+    public Map<String, String> uploadFile(MultipartHttpServletRequest request) {
+        Map<String, String> res = new HashMap<>();
+
+        MultipartFile file = request.getFile("upload");
+        String fileName = fileService.uploadMultipartFile(file);
+
+        res.put("url", "/data/" + fileName);
+        return res;
     }
 
 }

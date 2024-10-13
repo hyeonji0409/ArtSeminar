@@ -223,6 +223,7 @@ public class AdminService {
             foundPopup.setEndDate(popup.getEndDate());
             foundPopup.setIsVisible(popup.getIsVisible());
             foundPopup.setLink(popup.getLink());
+            foundPopup.setCreatedAt(Instant.now());
         }
 
         popupRepository.save(foundPopup);

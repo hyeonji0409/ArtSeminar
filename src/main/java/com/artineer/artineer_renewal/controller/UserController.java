@@ -65,7 +65,7 @@ public class UserController {
             DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
         } catch (DateTimeParseException e) {
-            return "/user/errorPage";
+            return "/error/errorPage";
         }
 
         User user = new User(
