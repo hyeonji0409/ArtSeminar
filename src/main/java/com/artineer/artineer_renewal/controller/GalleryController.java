@@ -2,12 +2,11 @@ package com.artineer.artineer_renewal.controller;
 
 import com.artineer.artineer_renewal.dto.GalleryDto;
 import com.artineer.artineer_renewal.entity.Gallery;
-import com.artineer.artineer_renewal.entity.Notice;
+import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.GalleryRepository;
+import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.GalleryService;
 import com.artineer.artineer_renewal.service.UserService;
-import jakarta.annotation.PostConstruct;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -33,15 +32,30 @@ public class GalleryController {
     private final GalleryRepository galleryRepository;
 
     @Autowired
+    private final UserRepository userRepository;
+
+    @Autowired
     private GalleryService galleryService;
 
     @Autowired
     private UserService userService;
 
-    public GalleryController(GalleryRepository galleryRepository){this.galleryRepository = galleryRepository;}
+    public GalleryController(GalleryRepository galleryRepository, UserRepository userRepository)
+    {this.galleryRepository = galleryRepository;
+        this.userRepository = userRepository;
+    }
 
     @GetMapping("/gallery")
     public String gallerys(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        if (username.equals("anonymousUser")) {
+            model.addAttribute("user", username);
+        } else{
+            User user = userRepository.findByUsername(username);
+            model.addAttribute("user", user);
+        }
         List<Gallery> galleryList = galleryRepository.findAllGallery();
         model.addAttribute("gallerys", galleryList);
         return "board/gallery";
@@ -67,6 +81,16 @@ public class GalleryController {
     /* 글 세부 내용 조회 */
     @GetMapping("/gallery/{no}")
     public String showGalleryDetail(@PathVariable("no") Long no, Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        if (username.equals("anonymousUser")) {
+            model.addAttribute("user", username);
+        } else{
+            User user = userRepository.findByUsername(username);
+            model.addAttribute("user", user);
+        }
+
         galleryService.increaseHitCount(no);
 
         GalleryDto gallery = galleryService.getGalleryByNo(no);

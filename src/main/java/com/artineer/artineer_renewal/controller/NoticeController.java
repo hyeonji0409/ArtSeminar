@@ -1,16 +1,16 @@
 package com.artineer.artineer_renewal.controller;
 
 import com.artineer.artineer_renewal.dto.NoticeDto;
-import com.artineer.artineer_renewal.entity.Comment;
 import com.artineer.artineer_renewal.entity.Notice;
+import com.artineer.artineer_renewal.entity.Popup;
+import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.CommentRepository;
 import com.artineer.artineer_renewal.repository.NoticeRepository;
+import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.NoticeService;
 import com.artineer.artineer_renewal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,14 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.expression.Arrays;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
-import java.util.stream.Collectors;
 
 @Controller
 public class NoticeController {
@@ -36,6 +31,9 @@ public class NoticeController {
     private final NoticeRepository noticeRepository;
 
     @Autowired
+    private final UserRepository userRepository;
+
+    @Autowired
     private NoticeService noticeService;
 
     @Autowired
@@ -43,14 +41,27 @@ public class NoticeController {
     @Autowired
     private CommentRepository commentRepository;
 
-    public NoticeController(NoticeRepository noticeRepository) {
+    public NoticeController(NoticeRepository noticeRepository, UserRepository userRepository) {
         this.noticeRepository = noticeRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/notice")
     public String notices(Model model) {
         List<Notice> noticeList = noticeRepository.findAllNotice();
         model.addAttribute("notices", noticeList);
+
+        // 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        if (username.equals("anonymousUser")) {
+            model.addAttribute("user", username);
+        } else{
+            User user = userRepository.findByUsername(username);
+            model.addAttribute("user", user);
+        }
+
         return "board/notice";
     }
 
@@ -79,6 +90,13 @@ public class NoticeController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
+
+        if (username.equals("anonymousUser")) {
+            model.addAttribute("user", username);
+        } else{
+            User user = userRepository.findByUsername(username);
+            model.addAttribute("user", user);
+        }
 
         // 조회수 증가
         noticeService.increaseHitCount(no);
