@@ -1,5 +1,5 @@
 /* input placeholder animation*/
-const inputBoxes = document.querySelectorAll('input[type="text"]:not([name="queryValue"]), input[type="number"], input[type="date"], input[type="time"]');
+const inputBoxes = document.querySelectorAll('#editModal input:not([type=radio])');
 
 inputBoxes.forEach(v => {
     v.parentElement.querySelector("label").classList.add('focused-label')
@@ -125,16 +125,16 @@ deleteButton.addEventListener("click", async () => {
 
     let flag = confirm("삭제된 계정은 DB에서 완전히 제거됩니다.\n정말 삭제하시겠습니까?")
     if (!flag) return
-    let confirmText = prompt("삭제하려는 사용자의 아이디를 정확히 입력해주세요.", '아이디를 제출하는 즉시, 계정이 "삭제"됩니다.')
-    if( confirmText !== titleInput.value) { alert("올바르지 않습니다."); return; }
 
-    let response = await fetch("user/withdrawal", {
+    let no = document.querySelector("#no").value
+
+    let response = await fetch("/admin/popup/delete", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                "username": titleInput.value
+                "no": no
             })
         }
     )
@@ -146,7 +146,7 @@ deleteButton.addEventListener("click", async () => {
         alert("알 수 없는 문제가 발생하였다.")
     }
 
-    location.href = "/admin"
+    location.reload()
 })
 //
 // // 서버에 유효한 값인지 판별 요청

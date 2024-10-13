@@ -46,7 +46,7 @@
 
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
-      <a th:replace="~{/fragments/headerFragment :: headerLogo}"></a>
+      <a th:replace="~{header :: headerLogo}"></a>
     </div>
   </header>
 
@@ -108,7 +108,7 @@
 
   </main>
 
-  <footer id="footer" class="footer" th:replace="~{/fragments/footerFragment :: siteInfoFooterFragment}"></footer>
+  <footer th:replace="~{footer :: footerInfo}"></footer>
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

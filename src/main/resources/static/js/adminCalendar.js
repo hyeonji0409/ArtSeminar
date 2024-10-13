@@ -1,5 +1,5 @@
 /* input placeholder animation*/
-const inputBoxes = document.querySelectorAll('input[type="text"]:not([name="queryValue"]), input[type="number"], input[type="date"], input[type="time"]');
+const inputBoxes = document.querySelectorAll('#editModal input:not([type=radio])');
 
 inputBoxes.forEach(v => {
     v.parentElement.querySelector("label").classList.add('focused-label')
@@ -127,9 +127,8 @@ deleteButton.addEventListener("click", async () => {
     if (!flag) return
 
     let no = document.querySelector("#no").value
-    alert(no)
 
-    let response = await fetch("calendar/delete", {
+    let response = await fetch("/admin/calendar/delete", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -147,7 +146,7 @@ deleteButton.addEventListener("click", async () => {
         alert("알 수 없는 문제가 발생하였다.")
     }
 
-    location.href = "/admin/calendar"
+    location.reload()
 })
 //
 // // 서버에 유효한 값인지 판별 요청

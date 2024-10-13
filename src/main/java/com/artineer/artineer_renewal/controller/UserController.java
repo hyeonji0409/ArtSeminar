@@ -98,7 +98,7 @@ public class UserController {
 
     @GetMapping("/access-denied")
     public String accessDenied() {
-        return "user/access-denied";
+        return "error/access-denied";
     }
 
 
@@ -125,10 +125,6 @@ public class UserController {
         // IP 주소 가져오기
         String clientIp = request.getRemoteAddr();
         boolean isSuccess = userService.updateUser(username, userDto, clientIp);
-        if (!isSuccess) {
-            model.addAttribute("errorCode", 400);
-            return "/user/errorPage";
-        }
 
         String redirectAddress =  request.getHeader("Referer");
         System.out.println(redirectAddress);

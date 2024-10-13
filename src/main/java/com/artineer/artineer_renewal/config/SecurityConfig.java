@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.security.MessageDigest;
@@ -75,7 +76,16 @@ public class SecurityConfig {
                         .invalidateHttpSession(true) // 세션 무효화
                         .permitAll()
                 )
-                .exceptionHandling(exception -> exception.accessDeniedPage("/denied"));
+//                .exceptionHandling(exception -> exception.accessDeniedHandler(customAccessDeniedHandler()));
+                .exceptionHandling(exception -> exception.accessDeniedPage("/access-denied"));
         return http.build();
     }
+
+//    public AccessDeniedHandler customAccessDeniedHandler() {
+//        return (request, response, accessDeniedException) -> {
+//            request.setAttribute("errorCode", 403);
+//            request.setAttribute("errorMessage", "접근 권한이 없습니다.");
+//            response.sendRedirect("error/errorPage");
+//        };
+//    }
 }

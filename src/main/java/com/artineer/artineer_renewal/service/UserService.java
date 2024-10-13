@@ -88,7 +88,7 @@ public class UserService {
 
     public boolean updateUser(String logInUsername, UserDto userDto, String clientIp) {
         // IP 주소 가져오기
-        System.out.println("Client IP: " + clientIp);
+//        System.out.println("Client IP: " + clientIp);
 
         if (!(
                 logInUsername.equals( userDto.getUsername() )
@@ -102,16 +102,16 @@ public class UserService {
             DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
         } catch (DateTimeParseException e) {
-            return false;
+            throw new IllegalArgumentException("잘못된 입력입니다.");
         }
 
-        System.out.println("수정요청 받음" +  userDto.toString());
+//        System.out.println("수정요청 받음" +  userDto.toString());
 
 
         User oldUser = userRepository.findByUsername(userDto.getUsername());
 
         // todo 예외처리
-        if (userDto.getPassword()!=null && !userDto.getPassword().isEmpty())oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
+        if (userDto.getPassword()!=null && !userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
         if (userDto.getName()!=null && !userDto.getName().isEmpty()) oldUser.setName(userDto.getName());
         if (userDto.getSex()!=null && !userDto.getSex().isEmpty()) oldUser.setSex(userDto.getSex());
         if (userDto.getBirth()!=null && !userDto.getBirth().isEmpty()) oldUser.setBirth(formattedBirth);
@@ -137,15 +137,18 @@ public class UserService {
 
         if (username.equals("anonymousUser")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        } else {
-            User requestedUser = userRepository.findByUsername(username);
+        }
 
-            if (!isAdmin(requestedUser.getUsername())
-                    && !requestedUser.getUsername().equals( (String) payload.get("username"))
-            ) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        User requestedUser = userRepository.findByUsername(username);
+
+        if (!isAdmin(requestedUser.getUsername())
+                && !requestedUser.getUsername().equals( payload.get("username") )
+        ) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
         User user = null;
+
         try {
             user = userRepository.findByUsername((String) payload.get("username"));
         } catch (NoSuchElementException e) {

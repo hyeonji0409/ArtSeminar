@@ -1,7 +1,6 @@
 package com.artineer.artineer_renewal.controller;
 
 import com.artineer.artineer_renewal.dto.CalendarEventDTO;
-import com.artineer.artineer_renewal.dto.UserDto;
 import com.artineer.artineer_renewal.dto.UserSearchDTO;
 import com.artineer.artineer_renewal.entity.CalendarEvent;
 import com.artineer.artineer_renewal.entity.Popup;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -32,8 +30,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -144,7 +140,7 @@ public class adminController {
         return "redirect:" + redirectAddress;
     }
 
-    @PostMapping("admin/calendar/delete")
+    @PostMapping("/admin/calendar/delete")
     public ResponseEntity<String> deleteCalendar(Model model,
                                                  @RequestBody Map<String, Object> payload) {
 
@@ -245,5 +241,34 @@ public class adminController {
         String redirectAddress =  request.getHeader("Referer");
         System.out.println(redirectAddress);
         return "redirect:" + redirectAddress;
+    }
+
+
+
+    @PostMapping("/admin/popup/delete")
+    public ResponseEntity<String> deletePopup(Model model,
+                                                 @RequestBody Map<String, Object> payload) {
+
+        System.out.println("일정을 삭제" + payload.toString());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // IP 주소 가져오기
+        String clientIp = request.getRemoteAddr();
+        Integer no = Integer.parseInt((String) payload.get("no"));
+
+        Popup popup = popupRepository.findByNo(no);
+        popupRepository.delete(popup);
+
+//        boolean isSuccess = adminService.updateCalendarEvent(username, calendarEventDTO, clientIp);
+//        if (!isSuccess) {
+//            model.addAttribute("errorCode", 400);
+//            return "/user/errorPage";
+//        }
+
+        String redirectAddress =  request.getHeader("Referer");
+        System.out.println(redirectAddress);
+        return ResponseEntity.status(HttpStatus.OK).body("good");
     }
 }
