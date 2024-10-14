@@ -97,6 +97,8 @@ public class UserController {
         return "/user/sign-up";
     }
 
+
+    // todo @RequestMapping("/denied") 랑 동일함.
     @GetMapping("/access-denied")
     public String accessDenied() {
         return "error/access-denied";

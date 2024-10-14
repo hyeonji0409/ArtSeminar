@@ -204,7 +204,7 @@ public class adminController {
         String username = authentication.getName();
 
         String fileName = fileService.uploadMultipartFile(file);
-        popup.setLink("/data/" + fileName);
+        if (fileName!=null) popup.setLink(fileName);
 
 
         // IP 주소 가져오기
@@ -216,7 +216,6 @@ public class adminController {
         }
 
         String redirectAddress =  request.getHeader("Referer");
-        System.out.println(redirectAddress);
         return "redirect:" + redirectAddress;
     }
 
@@ -236,6 +235,9 @@ public class adminController {
         Integer no = Integer.parseInt((String) payload.get("no"));
 
         Popup popup = popupRepository.findByNo(no);
+        String filePath = popup.getLink();
+        fileService.deleteFile(filePath);
+
         popupRepository.delete(popup);
 
 //        boolean isSuccess = adminService.updateCalendarEvent(username, calendarEventDTO, clientIp);

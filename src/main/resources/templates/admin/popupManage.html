@@ -158,7 +158,7 @@
               <td th:text="${eachUser.getEndDate()}">종료일</td>
               <td th:text="${eachUser.getIsVisible()}">비공개</td>
               <td th:text="${eachUser.getCreatedAt()}">언메만든</td>
-              <td><img th:src="${eachUser.getLink()}" style="max-width: 100px"></td>
+              <td><img th:src="${'/data/' + eachUser.getLink()}" style="max-width: 100px"></td>
 
               <td><button class="btn btn-sm btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" th:data-member-id="${iterStat.index}">수정</button></td>
             </tr>

@@ -19,6 +19,13 @@ public class GlobalExceptionHandler {
             return "error/errorPage";
         }
 
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex, Model model) {
+            model.addAttribute("errorCode", 500);
+            model.addAttribute("errorMessage", "알 수 없는 문제가 발생했습니다.");
+            return "error/errorPage";
+    }
+
 //    public AccessDeniedHandler customAccessDeniedHandler() {
 //        return (request, response, accessDeniedException) -> {
 //            request.setAttribute("errorCode", 403);

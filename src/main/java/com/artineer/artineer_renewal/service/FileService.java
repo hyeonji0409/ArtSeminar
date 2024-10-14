@@ -8,16 +8,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.UUID;
 
 @Service
 public class FileService {
     @Value("${file.dir}")
     private String fileDir;
+
 
     public String uploadMultipartFile(MultipartFile file) {
         if(file==null || file.isEmpty()) return null;
@@ -41,5 +39,22 @@ public class FileService {
 
 
         return fileName;
+    }
+
+
+    // todo 게시글, 팝업 등 파일 업로드 기능이 구현된 곳에서 이 로직을 추가할 필요성
+    public boolean deleteFile(String fileName) {
+        boolean flag = false;
+
+        try {
+            Path path = Paths.get(fileDir + fileName);
+            Files.delete(path);
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return flag;
+        }
+
+        return flag;
     }
 }

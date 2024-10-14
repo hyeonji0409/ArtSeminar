@@ -41,6 +41,8 @@ public class AdminService {
     private CalendarEventRepository eventRepository;
     @Autowired
     private PopupRepository popupRepository;
+    @Autowired
+    private FileService fileService;
 
 
     // 회원정보 값 유효성 검사
@@ -195,7 +197,7 @@ public class AdminService {
 
     public boolean updatePopup(String logInUsername, Popup popup, String clientIp) {
         // IP 주소 가져오기
-        System.out.println("Client IP: " + clientIp);
+//        System.out.println("Client IP: " + clientIp);
 
         if (!userService.isAdmin(logInUsername)) return false;
 
@@ -214,7 +216,11 @@ public class AdminService {
             if (popup.getStartDate()!=null ) foundPopup.setStartDate(popup.getStartDate());
             if (popup.getEndDate()!=null) foundPopup.setEndDate(popup.getEndDate());
             if (popup.getIsVisible()!=null ) foundPopup.setIsVisible(popup.getIsVisible());
-            if (popup.getLink()!=null) foundPopup.setLink(popup.getLink());
+            if (popup.getLink()!=null) {
+                String oldLink = foundPopup.getLink();
+                if (oldLink != null) fileService.deleteFile(oldLink);
+                foundPopup.setLink(popup.getLink());
+            }
         } else {
             foundPopup = new Popup();
             foundPopup.setTitle(popup.getTitle());
@@ -223,6 +229,7 @@ public class AdminService {
             foundPopup.setEndDate(popup.getEndDate());
             foundPopup.setIsVisible(popup.getIsVisible());
             foundPopup.setLink(popup.getLink());
+            // todo 서버는 utc이고 클라 인풋폼은 localtime이라서 문제발생
             foundPopup.setCreatedAt(Instant.now());
         }
 
