@@ -28,10 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -202,7 +199,7 @@ public class adminController {
     @PostMapping("/admin/popup/update")
     public String updatePopup(Model model,
                               Popup popup,
-                              @RequestParam("image") MultipartFile file) {
+                              @RequestParam("image") MultipartFile file) throws AccessDeniedException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -213,11 +210,7 @@ public class adminController {
 
         // IP 주소 가져오기
         String clientIp = request.getRemoteAddr();
-        boolean isSuccess = adminService.updatePopup(username, popup, clientIp);
-        if (!isSuccess) {
-            model.addAttribute("errorCode", 400);
-            return "/error/errorPage";
-        }
+        adminService.updatePopup(username, popup, clientIp);
 
         String redirectAddress =  request.getHeader("Referer");
         return "redirect:" + redirectAddress;

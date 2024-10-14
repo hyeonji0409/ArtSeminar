@@ -1,5 +1,6 @@
 package com.artineer.artineer_renewal.service;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +17,25 @@ public class FileService {
     @Value("${file.dir}")
     private String fileDir;
 
+//    FileService() {
+
+//    }
+
+    // @Value는 인스턴스 생성 단계에서 주입되지 않음.
+//    @PostConstruct
+//    public void init() {
+//        File directory = new File(fileDir);
+//        if (!directory.exists()) {
+//            directory.mkdirs(); // 디렉토리 생성
+//        }
+//    }
+
 
     public String uploadMultipartFile(MultipartFile file) {
         if(file==null || file.isEmpty()) return null;
 
         String originalFilename = file.getOriginalFilename();
         String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
-//        File directory = new File(fileDir);
-//        if (!directory.exists()) {
-//            directory.mkdirs(); // 디렉터리 생성
-//        }
 
         try {
             Path path = Paths.get(fileDir + fileName);
@@ -43,6 +53,13 @@ public class FileService {
 
 
     // todo 게시글, 팝업 등 파일 업로드 기능이 구현된 곳에서 이 로직을 추가할 필요성
+    /**
+     * 파일 경로를 받아와 삭제하는 메서드,
+     * 전역 프로퍼티의 경로가 기본 경로이다.
+     * @param fileName 기본 설정 경로 하위에 있는 파일명
+     *                 확장자까지 포함한다.
+     * @return 삭제 성공 여부
+     */
     public boolean deleteFile(String fileName) {
         boolean flag = false;
 

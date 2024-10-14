@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -192,9 +193,9 @@ public class AdminService {
     }
 
 
-    public boolean updatePopup(String logInUsername, Popup popup, String clientIp) {
+    public boolean updatePopup(String logInUsername, Popup popup, String clientIp) throws AccessDeniedException {
 
-        if (!userService.isAdmin(logInUsername)) return false;
+        if (!userService.isAdmin(logInUsername)) throw new AccessDeniedException("관리자만 수정가능합니다.");
 
         System.out.println("수정요청 받음" +  popup.toString());
 
