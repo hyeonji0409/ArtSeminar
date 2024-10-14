@@ -11,6 +11,7 @@ import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.AdminService;
 import com.artineer.artineer_renewal.service.FileService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -36,6 +37,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
+@Slf4j
 public class adminController {
 
     @Autowired
@@ -61,6 +63,8 @@ public class adminController {
                             @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
                             @RequestParam(name = "size", required = false, defaultValue = "10") Integer pageSize,
                             @ModelAttribute UserSearchDTO userSearchDTO) {
+
+        log.info("admin page access");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();

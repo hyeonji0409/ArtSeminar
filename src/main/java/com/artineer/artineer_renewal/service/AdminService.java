@@ -155,7 +155,7 @@ public class AdminService {
 
     public boolean updateCalendarEvent(String logInUsername, CalendarEventDTO calendarEventDTO, String clientIp) {
         // IP 주소 가져오기
-        System.out.println("Client IP: " + clientIp);
+//        System.out.println("Client IP: " + clientIp);
 
         if (!userService.isAdmin(logInUsername)) return false;
 
@@ -164,10 +164,7 @@ public class AdminService {
 
 
         CalendarEvent calendarEvent = eventRepository.findByNo(calendarEventDTO.getNo());
-        System.out.println(calendarEventDTO.getNo()+ "가죠요요요" + calendarEvent);
         if (calendarEvent != null) {
-            System.out.println("디비서 가져온 " + calendarEvent);
-
             // todo 예외처리
             if (calendarEventDTO.getTitle()!=null && !calendarEvent.getTitle().isEmpty()) calendarEvent.setTitle(calendarEventDTO.getTitle());
             if (calendarEventDTO.getDescription()!=null && !calendarEvent.getDescription().isEmpty()) calendarEvent.setDescription(calendarEventDTO.getDescription());
@@ -196,14 +193,10 @@ public class AdminService {
 
 
     public boolean updatePopup(String logInUsername, Popup popup, String clientIp) {
-        // IP 주소 가져오기
-//        System.out.println("Client IP: " + clientIp);
 
         if (!userService.isAdmin(logInUsername)) return false;
 
-
         System.out.println("수정요청 받음" +  popup.toString());
-
 
         Popup foundPopup = popupRepository.findByNo(popup.getNo());
 
