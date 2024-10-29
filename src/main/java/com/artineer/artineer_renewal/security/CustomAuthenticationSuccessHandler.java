@@ -21,15 +21,23 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-//        // 회원정보 최신화 요구 (db 콘셉에 의한)
-//        User user = (User) authentication.getPrincipal();
-//        if ( user.getRoadAddress().isBlank() || user.getDetailAddress().isBlank() ) {
-//
-//        }
-
 
         // 세션에서 저장된 SavedRequest 가져오기
         SavedRequest savedRequest = (SavedRequest) request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+
+
+        // 회원정보 최신화 요구 (db에 의한)
+        User user = (User) authentication.getPrincipal();
+        if (    user.getRoadAddress() == null ||
+                user.getDetailAddress() == null ||
+                user.getRoadAddress().isBlank() ||
+                user.getDetailAddress().isBlank() ) {
+
+            request.getSession().setAttribute("redirectUrl", '/');
+            redirectStrategy.sendRedirect(request, response, "/user/update-info");
+            return;
+        }
+
 
         // 만약 SavedRequest가 있으면, 원래 요청한 URL로 리다이렉트
         if (savedRequest != null) {

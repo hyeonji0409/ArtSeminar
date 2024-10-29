@@ -98,14 +98,16 @@ public class UserService {
         // 생년월일 포멧
         String formattedBirth = null;
         try {
-            DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
+            if (userDto.getBirth() != null) {
+                DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
+            }
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("잘못된 입력입니다.");
         }
 
-//        System.out.println("수정요청 받음" +  userDto.toString());
+        System.out.println("수정요청 받음" +  userDto.toString());
 
 
         User oldUser = userRepository.findByUsername(userDto.getUsername());

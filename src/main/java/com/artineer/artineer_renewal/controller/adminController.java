@@ -55,7 +55,7 @@ public class adminController {
 
 
     // 관리자의 사용자 정보 쿼리 화면
-    @RequestMapping("/admin")
+    @RequestMapping({"/admin","/admin/member"})
     public String adminPage(Model model,
                             @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
                             @RequestParam(name = "size", required = false, defaultValue = "10") Integer pageSize,

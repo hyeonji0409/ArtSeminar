@@ -45,6 +45,7 @@ public class GlobalExceptionHandler {
 
         String requestURI = request.getRequestURI();
         String decodedURI = URLDecoder.decode(requestURI, StandardCharsets.UTF_8);
+
         if (ex instanceof NoResourceFoundException) {
             model.addAttribute("errorMessage", "\"" +decodedURI+ "\" 에 대한 페이지를 찾을 수 없습니다.");
         } else if (ex instanceof RuntimeException) {

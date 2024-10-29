@@ -122,6 +122,8 @@ public class UserController {
     public String updateUser(Model model,
                              UserDto userDto) {
 
+        System.out.println("/user/update");
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
@@ -129,9 +131,25 @@ public class UserController {
         String clientIp = request.getRemoteAddr();
         boolean isSuccess = userService.updateUser(username, userDto, clientIp);
 
-        String redirectAddress =  request.getHeader("Referer");
-        System.out.println(redirectAddress);
+        String redirectAddress =
+                request.getSession().getAttribute("redirectUrl") != null ?
+                        (String) request.getSession().getAttribute("redirectUrl") :
+                        request.getHeader("Referer");
+
+        System.out.println("리다이렉 주소는 " + redirectAddress);
         return "redirect:" + redirectAddress;
+    }
+
+    @GetMapping("/user/update-info")
+    public String updateUserInfo(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+//        User user = userRepository.findByUsername(username);
+
+        model.addAttribute("username", username);
+
+        return "/user/update-info";
     }
 
 
@@ -144,6 +162,7 @@ public class UserController {
     public String PostWithdrawal() {
         return "redirect:/";
     }
+
 
 
     /* 아이디/비밀번호 찾기 */
