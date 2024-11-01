@@ -29,6 +29,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -108,6 +109,31 @@ public class AdminService {
                 };
 
         return users;
+    }
+
+
+
+    public List<CalendarEvent> calenderByPeriod(CalendarEventDTO calendarEventDTO) {
+        LocalDate startDate = null;
+        if (calendarEventDTO.getStart().isEmpty()) {
+            startDate = LocalDate.of(1000, 1, 1);  // MySQL의 최소 허용 날짜로 설정
+        } else {
+            startDate = calendarEventDTO.getStart()
+                    .map(instant -> instant.atZone(ZoneId.systemDefault()).toLocalDate())
+                    .orElse(LocalDate.of(1000, 1, 1)); // 만약 값이 없으면 기본 날짜로 설정
+        }
+
+        LocalDate endDate = null;
+        if (calendarEventDTO.getStart().isEmpty()) {
+            endDate = LocalDate.of(9999, 12, 31);  // MySQL의 최소 허용 날짜로 설정
+        } else {
+            endDate = calendarEventDTO.getEnd()
+                    .map(instant -> instant.atZone(ZoneId.systemDefault()).toLocalDate())
+                    .orElse(LocalDate.of(9999, 1, 1)); ;
+        }
+
+
+        return eventRepository.findAllByStartDateGreaterThanEqualAndEndDateLessThanEqual(startDate, endDate);
     }
 
 

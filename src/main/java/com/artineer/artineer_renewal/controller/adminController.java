@@ -29,6 +29,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -96,6 +99,17 @@ public class adminController {
 
 
     // 관리자의 사용자 정보 쿼리 화면
+    @GetMapping("/api/admin/calendar")
+    @ResponseBody
+    public List<CalendarEvent> getCalendar(@RequestParam Map<String, String> params,
+                           Model model) {
+        CalendarEventDTO calendarEventDTO = new CalendarEventDTO(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+        calendarEventDTO.setStart( Optional.of(LocalDateTime.of(1000, 1, 1, 0 ,0 )) );
+        calendarEventDTO.setEnd( Optional.of(LocalDateTime.of(2033, 1, 1, 0 ,0 )) );
+
+        return adminService.calenderByPeriod(calendarEventDTO);
+    }
+
     @RequestMapping("/admin/calendar")
     public String calendarManagePage(Model model,
                             @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
@@ -108,12 +122,10 @@ public class adminController {
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
 
-        System.out.println(calendarEventDTO.toString());
 
         Page<CalendarEvent> calenderEventList = adminService.calenderPaginationByQuery(calendarEventDTO, page, pageSize);
         System.out.println("일정을 출력" + calenderEventList.getTotalElements());
 
-        Page<CalendarEvent> users = adminService.calenderPaginationByQuery(calendarEventDTO, page, pageSize);
         if (calendarEventDTO.getPage().isEmpty()) { calendarEventDTO.setPage(Optional.of(page==null?1:page)); }
         if (calendarEventDTO.getPageSize().isEmpty()) { calendarEventDTO.setPageSize(Optional.of(pageSize==null?10:pageSize)); }
 
