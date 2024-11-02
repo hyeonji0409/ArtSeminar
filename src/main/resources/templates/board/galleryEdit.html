@@ -63,19 +63,15 @@
 
 
     <!-- Main CSS File -->
-    <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
 
 
 </head>
-<body>
+<body class="starter-page-page d-flex flex-column min-vh-100">
 
-<header id="header" class="header d-flex align-items-center sticky-top">
-    <div class="container-fluid container-xl position-relative d-flex align-items-center">
-        <a th:replace="~{header :: headerLogo}"></a>
-    </div>
-</header>
+<div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
 
-<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 100px;">
+<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 100px; margin-top: 150px; ">
     <div class="d-flex justify-content-center container custom-width" style="max-width: 1000px">
         <form class="container mt-5" th:action="@{/gallery/edit}" method="post" >
             <input type="hidden" name="no" th:value="${gallery.no}" />
@@ -117,7 +113,7 @@
     CKEditor.replace('story'); // story id를 가진 textarea에 CKEditor 적용
 </script>
 </div>
-<footer th:replace="~{footer :: footer}"></footer>
+<footer id="footer" th:insert="~{fragments/footerFragment :: footerInfo}" class="footer py-3 mt-auto"></footer>
 
 <!-- Scroll Top -->
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

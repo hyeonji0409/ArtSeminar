@@ -19,13 +19,8 @@ public class MyPageController {
     public String myPage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-
-        if (username.equals("anonymousUser")) {
-            model.addAttribute("user", username);
-        } else {
-            User user = userRepository.findByUsername(username);
-            model.addAttribute("user", user);
-        }
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
 
         return "myPage/myPage";
     }

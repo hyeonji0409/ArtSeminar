@@ -3,13 +3,17 @@ package com.artineer.artineer_renewal.controller;
 import com.artineer.artineer_renewal.dto.GalleryDto;
 import com.artineer.artineer_renewal.entity.Gallery;
 import com.artineer.artineer_renewal.entity.Notice;
+import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.GalleryRepository;
+import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.GalleryService;
+import com.artineer.artineer_renewal.service.NoticeService;
 import com.artineer.artineer_renewal.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -38,11 +42,20 @@ public class GalleryController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public GalleryController(GalleryRepository galleryRepository){this.galleryRepository = galleryRepository;}
 
     @GetMapping("/gallery")
     public String gallerys(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
         List<Gallery> galleryList = galleryRepository.findAllGallery();
+
+        model.addAttribute("user", user);
         model.addAttribute("gallerys", galleryList);
         return "board/gallery";
     }
@@ -60,20 +73,31 @@ public class GalleryController {
 
     /* 새 글 작성 */
     @GetMapping("/gallery/new")
-    public String showNewGallery() {
+    public String showNewGallery(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
+        model.addAttribute("user", user);
         return "board/galleryNew_";
     }
 
     /* 글 세부 내용 조회 */
     @GetMapping("/gallery/{no}")
     public String showGalleryDetail(@PathVariable("no") Long no, Model model){
-        galleryService.increaseHitCount(no);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
 
         GalleryDto gallery = galleryService.getGalleryByNo(no);
 
         if (gallery == null) {
             throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
         }
+
+        galleryService.increaseHitCount(no);
+
+        model.addAttribute("user", user);
         model.addAttribute("gallery",gallery);
         return "board/galleryDetail";
     }
@@ -83,22 +107,26 @@ public class GalleryController {
    @GetMapping("/gallery/edit/{no}")
    public String showEditGalleryFrom(@PathVariable Long no, Model model){
        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-       String loggedInUsername = authentication.getName();
+       String username = authentication.getName();
+       User user = userRepository.findByUsername(username);
 
        Gallery gallery = galleryRepository.findById(no).orElse(null);
+       if (!isAuthorizedUser(gallery, username)) throw new AccessDeniedException("수정권한이 없습니다.");
 
-       if(isAuthorizedUser(gallery, loggedInUsername)){
-           model.addAttribute("gallery",gallery);
-           return  "board/galleryEdit";
-       }
-       else {
-           return "redirect:/access-denied";
-       }
+       model.addAttribute("user", user);
+       model.addAttribute("gallery",gallery);
+       return  "board/galleryEdit";
    }
 
     @PostMapping("/gallery/edit")
-    public String updateGallery(@RequestParam Long no, @RequestParam String title,@RequestParam String story){
+    public String updateGallery(@RequestParam Long no, @RequestParam String title,@RequestParam String story, Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
        galleryService.updateGallery(no,title, story);
+
+       model.addAttribute("user", user);
        return "redirect:/gallery/"+no;
     }
 

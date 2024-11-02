@@ -49,7 +49,7 @@
 
 <body class="starter-page-page d-flex flex-column min-vh-100">
 
-<header th:replace="~{header :: header(user=${user})}"></header>
+<header th:replace="~{fragments/headerFragment :: header(user=${user})}"></header>
 
   <main class="main">
 
@@ -290,7 +290,7 @@
 
   </main>
 
-  <footer th:replace="~{footer :: footerInfo}"></footer>
+<footer id="footer" th:insert="~{fragments/footerFragment :: footerInfo}" class="footer py-3 mt-auto"></footer>
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

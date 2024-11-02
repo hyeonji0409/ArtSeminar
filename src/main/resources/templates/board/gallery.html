@@ -26,8 +26,6 @@
     <link href="/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-    <!-- Main CSS File -->
-    <link rel="stylesheet" href="/css/main.css" />
 
     <!-- FullCalendar CSS -->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
@@ -39,17 +37,13 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<!--    <style>-->
-<!--        .ck.ck-editor {-->
-<!--            max-width: 600px;-->
-<!--        }-->
-<!--        .ck-editor__editable {-->
-<!--            min-height: 400px;-->
-<!--        }-->
-<!--    </style>-->
+
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="/css/main.css" />
+
 </head>
-<body>
-<div th:insert="~{header :: header(user=${user})}"></div>
+<body class="starter-page-page d-flex flex-column min-vh-100">
+<div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
 
 <div class="container text-center" style="margin-top: 150px;">
     <h2 class="text-info fw-bold">갤러리</h2>
@@ -127,7 +121,7 @@
         </nav>
     </div>
 </div>
-<div th:insert="~{footer :: footer}"></div>
+<footer id="footer" th:insert="~{fragments/footerFragment :: footerInfo}" class="footer py-3 mt-auto"></footer>
 
 <!-- Scroll Top -->
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

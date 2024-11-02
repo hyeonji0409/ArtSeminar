@@ -12,6 +12,8 @@
     <meta name="description" content="아티니어 홈페이지">
     <meta name="keywords" content="">
 
+    <!-- Favicons -->
+    <link href="/image/favicon.ico" type="image/x-icon" rel="icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -33,16 +35,6 @@
 
     <!-- FullCalendar JS -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-    <!-- Load Popper.js (UMD version for compatibility) -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-
-    <!-- Development -->
-    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
-    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
-
-<!--    &lt;!&ndash; Production &ndash;&gt;-->
-<!--    <script src="https://unpkg.com/@popperjs/core@2"></script>-->
-<!--    <script src="https://unpkg.com/tippy.js@6"></script>-->
 
     <!-- Main CSS File -->
     <link href="/css/main.css" rel="stylesheet">
@@ -56,7 +48,7 @@
 <body class="index-page">
 
 <!--<header 부분은 templetes/header.html로 분리-->
-<div th:replace="~{header :: header(user=${user})}"></div>
+<div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
 
 
 <main class="main">
@@ -253,8 +245,8 @@
     </section>
 
     <!-- 모달 구조 -->
-    <div id="calendarModal" class="modal" style="display: none;">
-        <div class="modal-content pt-2 mt-5" style="width: fit-content">
+    <div id="calendarModal" class="modal" style="display: none; overflow: hidden">
+        <div class="modal-content" style="width: fit-content;">
             <div class="modal-header p-0">
                 <h3 class="modal-title">아티니어 캘린더</h3>
                 <span class="close">&times;</span>
@@ -317,7 +309,7 @@
 
 </main>
 <!--<footer 부분은 templetes/footer.html로 분리-->
-<div th:replace="~{footer::footer}"></div>>
+<div th:replace="~{fragments/footerFragment::footer}"></div>>
 
 <!-- Scroll Top -->
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -347,6 +339,13 @@
 <script src="/js/main.js"></script>
 
 <!-- Bootstrap 5 JS and Popper.js -->
+<!-- Development -->
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+
+<!--    &lt;!&ndash; Production &ndash;&gt;-->
+<!--    <script src="https://unpkg.com/@popperjs/core@2"></script>-->
+<!--    <script src="https://unpkg.com/tippy.js@6"></script>-->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
@@ -365,12 +364,12 @@
                 console.log(res)
 
                 res.forEach(v=> {
-                    var s = new Date(v.startDate[0], v.startDate[1] - 1, v.startDate[2] + 1)
+                    var s = new Date(v.startDate[0], v.startDate[1] - 1, v.startDate[2])
                     if (v.startTime) {
                         s.setHours(v.startTime[0])
                         s.setMinutes(v.startTime[1])
                     }
-                    var e = v.isAllDay ? new Date(v.endDate[0], v.endDate[1]-1, v.endDate[2]+2) : new Date(v.endDate[0], v.endDate[1]-1, v.endDate[2]+1)
+                        var e = v.isAllDay ? new Date(v.endDate[0], v.endDate[1]-1, v.endDate[2]+1) : new Date(v.endDate[0], v.endDate[1]-1, v.endDate[2])
                     if (v.endTime) {
                         e.setHours(v.endTime[0])
                         e.setMinutes(v.endTime[1])
@@ -381,7 +380,7 @@
                         description: v.description,
                         start: s.toISOString(),
                         end: e.toISOString(),
-                        isAllDay: v.isAllDay
+                        allDay: v.isAllDay
 
                     })
                 })
@@ -402,7 +401,7 @@
 
                         if (info.event.start && info.event.start.getHours()) s = info.event.start.getHours().toString().padStart(2, '0') + ':' + info.event.start.getMinutes().toString().padStart(2, '0');
                         if (info.event.end && info.event.end.getHours()) e = info.event.end.getHours().toString().padStart(2, '0') + ':' + info.event.end.getMinutes().toString().padStart(2, '0');
-                        if (info.event.extendedProps.isAllDay) timeDetail = "AllDay";
+                        if (info.event.allDay) timeDetail = "하루종일";
                         else timeDetail = s + " ~ " + e
 
                         tippy(info.el, {

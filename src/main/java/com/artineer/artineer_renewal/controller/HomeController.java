@@ -31,13 +31,8 @@ public class HomeController {
         // 현재 인증된 사용자 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-
-        if (username.equals("anonymousUser")) {
-            model.addAttribute("user", username);
-        } else{
-            User user = userRepository.findByUsername(username);
-            model.addAttribute("user", user);
-        }
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
 
 //        todo db 등에
         List<Popup>  popups = popupRepository.findAllByStartDateLessThanEqualAndEndDateGreaterThanEqualAndIsVisible(LocalDateTime.now(), LocalDateTime.now(), true);
@@ -59,15 +54,20 @@ public class HomeController {
     public String about(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-
-        if (username.equals("anonymousUser")) {
-            model.addAttribute("user", username);
-
-        } else{
-            User user = userRepository.findByUsername(username);
-            model.addAttribute("user", user);
-        }
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
 
         return "about/about";
+    }
+
+
+    @RequestMapping("/base")
+    public String base(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
+        model.addAttribute("user", user);
+        return "basePage";
     }
 }
