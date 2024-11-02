@@ -23,7 +23,7 @@ public class CommentService {
     private UserRepository userRepository;
 
     // 댓글 작성
-    public String createComment(String bbsname, Integer replys, String memo) {
+    public String createComment(String bbsname, Integer bbsNo, Integer replys, String memo) {
         // user 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loggedInUsername = authentication.getName();
@@ -43,6 +43,7 @@ public class CommentService {
 
         comment.setUser(user);
         comment.setBbsname(bbsname);
+        comment.setBbsNo(bbsNo);
         comment.setName(user.getName());
         comment.setYear(user.getYear());
         comment.setReplys(replys);

@@ -1,5 +1,6 @@
 package com.artineer.artineer_renewal.dto;
 
+import com.artineer.artineer_renewal.entity.Comment;
 import jakarta.persistence.ElementCollection;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,9 @@ public class NoticeDto {
     private List<String> file;
 
     private int comment;
+
+    private List<Comment> comments;
+
     private String regdate;
     private String ip;
 
@@ -30,12 +34,13 @@ public class NoticeDto {
     private int year;
 
     @Builder
-    public NoticeDto(Long no, String title, String story, int hit, List<String> file) {
+    public NoticeDto(Long no, String title, String story, int hit, List<String> file, List<Comment> comments) {
         this.no = no;
         this.title = title;
         this.story = story;
         this.hit = hit;
         this.file = file;
+        this.comments = comments;
     }
 
     public List<String> getFile(List<String> file) {

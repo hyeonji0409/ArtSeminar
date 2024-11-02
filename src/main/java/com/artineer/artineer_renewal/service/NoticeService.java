@@ -117,7 +117,8 @@ public class NoticeService {
                 notice.getTitle(),
                 notice.getStory(),
                 notice.getHit(),
-                fileNames);
+                fileNames,
+                notice.getComments());
     }
 
     // 글 수정

@@ -100,15 +100,16 @@ public class NoticeController {
         User user = userRepository.findByUsername(username);
         model.addAttribute("user", user);
 
+        NoticeDto notice = noticeService.getNoticeByNo(no);
+        if (notice == null)  throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
+//        (new List<Integer>).
+        System.out.println("WLWL" + notice.getComments().size());
+
         // 조회수 증가
         noticeService.increaseHitCount(no);
 
-        NoticeDto notice = noticeService.getNoticeByNo(no);
-
-        if (notice == null) {
-            throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
-        }
-
+        model.addAttribute("bbsName", "notice");
+        model.addAttribute("bbsNo", no);
         model.addAttribute("notice", notice);
 
         return "board/noticeDetail";

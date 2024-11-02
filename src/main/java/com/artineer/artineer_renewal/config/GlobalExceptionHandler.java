@@ -32,25 +32,20 @@ public class GlobalExceptionHandler {
         return "error/errorPage";
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public String handleNotFoundException(NotFoundException ex, Model model) {
-        model.addAttribute("errorCode", 404);
-        model.addAttribute("errorMessage", ex.getMessage());
-        return "error/errorPage";
-    }
-
-    @ExceptionHandler({NoResourceFoundException.class, RuntimeException.class})
-    public String handleNoResourceFoundException(Exception  ex, Model model, HttpServletRequest request) {
-        model.addAttribute("errorCode", 404);
-
+    @ExceptionHandler({NotFoundException.class, NoResourceFoundException.class})
+    public String handleNotFoundException(NotFoundException ex, Model model, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         String decodedURI = URLDecoder.decode(requestURI, StandardCharsets.UTF_8);
 
-        if (ex instanceof NoResourceFoundException) {
-            model.addAttribute("errorMessage", "\"" +decodedURI+ "\" 에 대한 페이지를 찾을 수 없습니다.");
-        } else if (ex instanceof RuntimeException) {
-            model.addAttribute("errorMessage", "\"" +decodedURI+ "\" 에 대한 게시글이 삭제되거나 접근 권한이 없을 수 있습니다.");
-        }
+        model.addAttribute("errorCode", 404);
+        model.addAttribute("errorMessage", "\"" +decodedURI+ "\" 에 대한 결과를 찾을 수 없습니다.\n" + ex.getMessage());
+        return "error/errorPage";
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public String handleNoResourceFoundException(Exception  ex, Model model, HttpServletRequest request) {
+        model.addAttribute("errorCode", 500);
+        model.addAttribute("errorMessage", "\n작업을 수행하는 도중에 문제가 발생했습니다.\n" + ex.getMessage());
         return "error/errorPage";
     }
 

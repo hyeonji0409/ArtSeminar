@@ -31,6 +31,12 @@ public class FileService {
 //    }
 
 
+    /**
+     * 파일를 받아와 저장하는 메서드
+     * 필수숙지! 본 경로가 포함되지 않는 오직 파일명과 그 확장자의 단일 문자열을 반환한다. 업로드가 실패하면 null 이 반환된다.
+     * @param file 멀티파트파일만을 입력 받는다.
+     * @return 확장자를 포함한 단일 파일명 문자열을 반환한다. 업로드가 실패하면 null 이 반환된다.
+     */
     public String uploadMultipartFile(MultipartFile file) {
         if(file==null || file.isEmpty()) return null;
 

@@ -19,15 +19,15 @@ public class CommentController {
 
 
     @PostMapping("/comments/add")
-    public String addComment(@RequestParam String bbsname,
-                             @RequestParam String bbsno,
+    public String addComment(@RequestParam String bbsName,
+                             @RequestParam Integer bbsNo,
                              @RequestParam String username,
                              @RequestParam(required = false) Integer replys,
                              @RequestParam String memo) {
 
-        commentService.createComment(bbsname, replys, memo);
+        commentService.createComment(bbsName, bbsNo, replys, memo);
 
-        return "redirect:/notice";
+        return "redirect:/" + bbsName + "/" + bbsNo;
     }
 
 

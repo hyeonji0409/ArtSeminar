@@ -245,7 +245,7 @@
     </section>
 
     <!-- 모달 구조 -->
-    <div id="calendarModal" class="modal" style="display: none; overflow: hidden">
+    <div id="calendarModal" class="modal" style="display: none; overflow-y: hidden">
         <div class="modal-content" style="width: fit-content;">
             <div class="modal-header p-0">
                 <h3 class="modal-title">아티니어 캘린더</h3>
@@ -294,7 +294,7 @@
                     <button type="button" class="btn-close" onclick="((e)=>{((e.target.parentElement.parentElement.parentElement.parentElement.remove()));})(event)" adata-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0">
-                    <img th:src="${popup.getLink()}" th:alt="${popup.getDescription()}" style="width: 100%">
+                    <img th:src="'/data/' + ${popup.getLink()}" th:alt="${popup.getDescription()}" style="width: 100%">
                 </div>
                 <div class="modal-footer p-1" style="position: absolute; right: 0; bottom: 0;">
                     <button type="button" class="btn btn-secondary" onclick="((e)=>{((e.target.parentElement.parentElement.parentElement.parentElement.remove())); makeCookie(e);})(event)" th:data-index-number="${popup.getNo()}">7초 동안 보지 않기</button>
