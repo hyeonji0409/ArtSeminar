@@ -2,7 +2,6 @@ package com.artineer.artineer_renewal.controller;
 
 import com.artineer.artineer_renewal.dto.NoticeDto;
 import com.artineer.artineer_renewal.entity.Notice;
-import com.artineer.artineer_renewal.entity.Popup;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.CommentRepository;
 import com.artineer.artineer_renewal.repository.NoticeRepository;
@@ -11,6 +10,11 @@ import com.artineer.artineer_renewal.service.NoticeService;
 import com.artineer.artineer_renewal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,10 +32,7 @@ public class NoticeController {
     private String uploadDir;
 
     @Autowired
-    private final NoticeRepository noticeRepository;
-
-    @Autowired
-    private final UserRepository userRepository;
+    private NoticeRepository noticeRepository;
 
     @Autowired
     private NoticeService noticeService;
@@ -40,28 +41,28 @@ public class NoticeController {
     private UserService userService;
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public NoticeController(NoticeRepository noticeRepository, UserRepository userRepository) {
-        this.noticeRepository = noticeRepository;
-        this.userRepository = userRepository;
-    }
 
     @GetMapping("/notice")
-    public String notices(Model model) {
-        List<Notice> noticeList = noticeRepository.findAllNotice();
-        model.addAttribute("notices", noticeList);
+    public String notices(Model model,
+                          @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
+                          @RequestParam(name = "size", required = false, defaultValue = "10") Integer pageSize) {
 
-        // 현재 인증된 사용자 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
 
-        if (username.equals("anonymousUser")) {
-            model.addAttribute("user", username);
-        } else{
-            User user = userRepository.findByUsername(username);
-            model.addAttribute("user", user);
-        }
+        Pageable pageable = PageRequest.of(
+                page - 1,
+                pageSize,
+                Sort.by(Sort.Direction.DESC, "regdate"));
 
+        Page<Notice> pagination = noticeRepository.findAll(pageable);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("pagination", pagination);
         return "board/notice";
     }
 
@@ -80,7 +81,12 @@ public class NoticeController {
 
     /* 새 글 작성 */
     @GetMapping("/notice/new")
-    public String showNewNotice() {
+    public String showNewNotice(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
+        model.addAttribute("user", user);
         return "board/noticeNew";
     }
 
@@ -91,23 +97,19 @@ public class NoticeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        if (username.equals("anonymousUser")) {
-            model.addAttribute("user", username);
-        } else{
-            User user = userRepository.findByUsername(username);
-            model.addAttribute("user", user);
-        }
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
+
+        NoticeDto notice = noticeService.getNoticeByNo(no);
+        if (notice == null)  throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
+//        (new List<Integer>).
+        System.out.println("WLWL" + notice.getComments().size());
 
         // 조회수 증가
         noticeService.increaseHitCount(no);
 
-        NoticeDto notice = noticeService.getNoticeByNo(no);
-
-        if (notice == null) {
-            throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
-        }
-
-
+        model.addAttribute("bbsName", "notice");
+        model.addAttribute("bbsNo", no);
         model.addAttribute("notice", notice);
 
         return "board/noticeDetail";
@@ -118,17 +120,16 @@ public class NoticeController {
     public String showEditNoticeForm(@PathVariable Long no, Model model) {
         // User 정보 확인
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String loggedInUsername = authentication.getName();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
 
         Notice notice = noticeRepository.findById(no).orElse(null);
+        if(!isAuthorizedUser(notice, username)) throw new AccessDeniedException("수정권한이 없습니다.");
 
-        if(isAuthorizedUser(notice, loggedInUsername)) {
-            model.addAttribute("notice", notice);
-            return "board/noticeEdit";
-        } else {
-            return "redirect:/access-denied";
-        }
-
+        model.addAttribute("user", user);
+        model.addAttribute("notice", notice);
+        return "board/noticeEdit";
     }
 
     @PostMapping("/notice/edit")

@@ -11,6 +11,7 @@ import java.util.List;
 public interface CalendarEventRepository extends JpaRepository<CalendarEvent, Long> {
 
     CalendarEvent findByNo(Integer No);
+    List<CalendarEvent> findAllByStartDateGreaterThanEqualAndEndDateLessThanEqual(LocalDate startDate, LocalDate endDate);
     Page<CalendarEvent> findAllByTitleContainingAndStartDateGreaterThanEqualAndEndDateLessThanEqual(String title, LocalDate startDate, LocalDate endDate, Pageable pageable);
     Page<CalendarEvent> findAllByDescriptionContainingAndStartDateGreaterThanEqualAndEndDateLessThanEqual(String description, LocalDate startDate, LocalDate endDate, Pageable pageable);
     Page<CalendarEvent> findAllByStartDateGreaterThanEqualAndEndDateLessThanEqual(LocalDate startDate, LocalDate endDate, Pageable pageable);

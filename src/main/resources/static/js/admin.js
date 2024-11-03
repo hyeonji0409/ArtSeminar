@@ -109,6 +109,11 @@ saveButton.addEventListener('click', async (e) => {
         form.submit();
         alert("수정이 완료되었습니다.");
     }
+    else {
+        if (!confirm("일부 항목의 포멧이 올바르지 않습니다.\n이러한 문제는 추후에 심각한 오류를 일으킬 수 있습니다.\n정말 제출하시겠습니까?")) return;
+        form.submit();
+        alert("수정이 완료되었습니다.");
+    }
 })
 
 deleteButton.addEventListener("click", async () => {
@@ -310,7 +315,7 @@ try {
 
 /* 회원정보 수정하기 */
 rows = document.querySelectorAll("#starter-section > div.container > div:nth-child(3) > table > tbody > tr")
-editButtons = document.querySelectorAll("#starter-section > div.container > div:nth-child(3) > table > tbody > tr > td:nth-child(11) > button")
+editButtons = document.querySelectorAll(".edit-btn")
 
 
 editButtons.forEach(v => v.addEventListener("click", (e) => {

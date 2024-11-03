@@ -42,6 +42,9 @@ public class NoticeService {
     private UserRepository userRepository;
 
     @Autowired
+    private FileService fileService;
+
+    @Autowired
     private HttpServletRequest request;
 
     // 글 작성
@@ -72,27 +75,8 @@ public class NoticeService {
 
         // 파일 처리
         for( MultipartFile file : files) {
-            if(!file.isEmpty()) {
-                String originalFilename = file.getOriginalFilename();
-                String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
-//                File directory = new File(fileDir);
-//                if (!directory.exists()) {
-//                    directory.mkdirs(); // 디렉터리 생성
-//                }
-
-
-                try {
-                    Path path = Paths.get(fileDir + fileName);
-                    System.out.println(path.toAbsolutePath());
-                    Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-                    fileNames.add(fileName);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                            .body("파일 업로드 실패");
-                }
-
-            }
+            String fileName = fileService.uploadMultipartFile(file);
+            if (fileName!=null) fileNames.add(fileName);
         }
 
         String fileNameString = String.join(",", fileNames);
@@ -133,7 +117,8 @@ public class NoticeService {
                 notice.getTitle(),
                 notice.getStory(),
                 notice.getHit(),
-                fileNames);
+                fileNames,
+                notice.getComments());
     }
 
     // 글 수정

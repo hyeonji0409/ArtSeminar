@@ -56,9 +56,11 @@
     background-color: white">
       <div class="container" style="
       display: flex;
+      flex-direction: column;
       justify-content: center; /* 수평 가운데 정렬 */
       align-items: center;">
-        <h1 style="font-size: 60px" >회원가입</h1>
+        <h1 style="font-size: 60px" >주소 변경</h1>
+        <p>홈페이지 전산시스템 변경으로 인해 새 주소지 입력이 필요합니다.</p>
       </div>
     </div><!-- End Page Title -->
 
@@ -71,57 +73,10 @@
       justify-content: center;">
 
 <!--        <p>Use this page as a starter for your own custom pages.</p>-->
-        <form name="form" id="form" action="/user/sign-up" method="post">
+        <form name="form" id="form" action="/user/update" method="post">
           <div id="usernameBox" class="inputBox">
-            <input id="userId" type="text" name="username">
+            <input id="userId" type="text" name="username" th:value="${username}" readonly>
             <label for="userId">아이디</label>
-            <div class="error-msg"></div>
-          </div>
-          <div id="passwordBox" class="inputBox">
-            <input id="password" type="password" name="password">
-            <label for="password">비밀번호</label>
-            <div class="error-msg"></div>
-          </div>
-          <div id="emailBox" class="inputBox">
-            <input id="email" type="email" name="email">
-            <label for="email">이메일</label>
-            <div class="error-msg"></div>
-          </div>
-          <div id="nameBox" class="inputBox">
-            <input id="name" type="text" name="name">
-            <label for="name">이름</label>
-            <div class="error-msg"></div>
-          </div>
-          <div id="birthBox" class="inputBox">
-            <input id="birthday" type="text" name="birth">
-            <label for="birthday">생년월일(8자리)</label>
-            <div class="error-msg"></div>
-          </div>
-          <!-- Todo 블러되면 하이픈 넣는 작업-->
-          <div id="telBox" class="inputBox">
-            <input id="contactNumber" type="text" name="tel">
-            <label for="contactNumber">휴대전화 번호</label>
-            <div class="error-msg"></div>
-          </div>
-
-          <div id="sexBox" class="gender-selection inputBox">
-            <div class="sex-box inputBox">
-              <input type="radio" id="male" name="sex" value="male">
-              <label class="gender" for="male">남자</label>
-              <div class="error-msg"></div>
-            </div>
-            <div class="sex-box inputBox">
-              <input type="radio" id="female" name="sex" value="female">
-              <label class="gender" for="female">여자</label>
-              <div class="error-msg"></div>
-            </div>
-            <div class="error-msg"></div>
-          </div>
-
-          <div id="yearBox" class="inputBox">
-<!--            TODO 페이지 렌더링 모델?에 현재 가입 가능 기수 최대 값을 max 에 넣기-->
-            <input id="cohort" type="number" name="year" min="1" max="9">
-            <label for="cohort">가입 기수</label>
             <div class="error-msg"></div>
           </div>
 
@@ -138,7 +93,7 @@
               <div class="error-msg"></div>
           </div>
           <div class="inputBox" style="text-align: center;">
-            <button type="submit">가입하기</button>
+            <button type="submit">변경하기</button>
           </div>
         </form>
       </div>
@@ -164,7 +119,7 @@
 <script th:src="@{/assets/vendor/waypoints/noframework.waypoints.js}"></script>
 <script th:src="@{/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js}"></script>
 <script th:src="@{/assets/vendor/isotope-layout/isotope.pkgd.min.js}"></script>
-  <script th:src="@{/js/signUp.js}"></script>
+  <script th:src="@{/js/update-info.js}"></script>
 
   <script>
     // daum api 사용
