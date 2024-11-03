@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <title>My Page</title>
     <link rel="stylesheet" href="/css/myPage.css">
-
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 </head>
 <body>
@@ -31,7 +31,7 @@
                         <div class="error-msg"></div>
                     </div>
                     <div class="info__items" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px">
-                        <input id="password2" type="password" name="password" placeholder="비밀번호 확인" readonly>
+                        <input id="password2" type="password" name="passwordch" placeholder="비밀번호 확인" readonly>
                         <div class="error-msg"></div>
                     </div>
                 </div>
@@ -71,10 +71,11 @@
 
                 <div id="roadAddressBox" class="inputBox">
                     <div>
-                        <input id="roadAddress" style="width: 100%" type="text" name="roadAddress" tabindex="-1" th:value="${user.roadAddress}" readonly>
+                        <input id="zipcode" type="number" name="zipcode" value="" style="display: none;">
+                        <input id="roadAddress" style="width: 80%" type="text" name="roadAddress" tabindex="-1" th:value="${user.roadAddress}" readonly>
                         <input type="button" onClick="openZipSearch();" class="roadFullAddr" tabindex="0">
                         <hr>
-                        <input id="detailAddress" type="text" name="detailAddress" th:value="${user.detailAddress}" placeholder="상세주소(000동 000호)" >
+                        <input id="detailAddress" style="width: 80%" type="text" name="detailAddress" th:value="${user.detailAddress}" placeholder="상세주소(000동 000호)" >
                         <label for="roadAddress">자택 주소</label>
                         <label for="detailAddress"></label>
                     </div>
@@ -123,7 +124,42 @@
 
 <!--usertest 1234-->
 
+
 <script src="js/myinfoEdit.js"></script>
+<!-- Vendor JS Files -->
+<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+<script th:src="@{/assets/vendor/aos/aos.js}"></script>
+<script th:src="@{/assets/vendor/glightbox/js/glightbox.min.js}"></script>
+<script th:src="@{/assets/vendor/swiper/swiper-bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/waypoints/noframework.waypoints.js}"></script>
+<script th:src="@{/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/assets/vendor/isotope-layout/isotope.pkgd.min.js}"></script>
+<script th:src="@{/js/signUp.js}"></script>
+
+<script>
+    // daum api 사용
+    function openZipSearch() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                // 우편번호와 주소 정보 필드에 넣기
+                document.getElementById('zipcode').value = data.zonecode;
+                document.getElementById('roadAddress').value = data.roadAddress;
+                // document.getElementById('detailAddr').value = data.detailAddress;
+                // 상세 주소로 커서 이동
+                document.getElementById('detailAddress').focus();
+                checkValidation("roadAddress", roadFullAddrInput);
+                roadFullAddrInput.dispatchEvent(new Event('change'));
+            },
+            popupTitle: "아티니어::나의 주소 찾기",
+            left: `${(window.screen.width-570)/2}`,
+            top: `${(window.screen.height-570)/2}`
+        }).open();
+    }
+</script>
+
+<!-- Main JS File -->
+<script th:src="@{/assets/js/main.js}"></script>
 
 </body>
 </html>

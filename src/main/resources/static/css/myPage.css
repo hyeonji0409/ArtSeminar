@@ -317,3 +317,26 @@ li {
     color: white;
 }
 
+.inputBox {
+    background-color: white;
+    margin: 3px;
+}
+
+.roadAddress {
+    font-size: 18px;
+}
+
+.roadFullAddr {
+    top: 3px;
+    left: 310px;
+    display: inline;
+    width: 10%;
+    border-style: none;
+    background: url("../assets/img/address-icon.svg") no-repeat center;
+    background-size: 90%;
+    opacity: 0.6;
+
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    /*outline: 3px solid var(--subtle);*/
+}
