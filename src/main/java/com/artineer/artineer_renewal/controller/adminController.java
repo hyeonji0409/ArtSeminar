@@ -50,9 +50,6 @@ public class adminController {
     private HttpServletRequest request;
     @Autowired
     private PopupRepository popupRepository;
-
-    @Value("${file.dir}")
-    private String fileDir;
     @Autowired
     private FileService fileService;
 
