@@ -76,7 +76,7 @@
                 <td th:text="${notice.getNo()}">게시글 넘버</td>
                 <td><a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}" class="a-color" style="text-decoration: none;"></a></td>
                 <td th:text="${notice.comment}">댓글수</td>
-                <th th:text="${notices.size() - iterStat.index}">1</th>
+                <th th:text="${pagination.getSize() - iterStat.index}">1</th>
                 <td><div class="d-flex align-items-center">
                     <a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}"
                        class="a-color d-flex justify-content-start" style="text-decoration: none;"></a>
