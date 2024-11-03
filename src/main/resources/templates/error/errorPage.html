@@ -29,7 +29,7 @@
 
 <script>
     function backPage() {
-        if (document.referrer === '' || document.referrer.startsWith(window.location.origin)) {
+        if (document.referrer.startsWith(window.location.origin)) {
             window.history.back()
         }
         else {
