@@ -56,8 +56,9 @@
             <div class="d-flex justify-content-center pt-3 pb-3">
                 <div class="d-flex justify-content-start" style="width: 800px; height: 500px;">
                     <div th:utext="${notice.story}">Notice Story</div>
+
                     <div th:each="fileName: ${notice.file}" class="pt-5">
-                        <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px;">
+                        <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">
                     </div>
                 </div>
             </div>
