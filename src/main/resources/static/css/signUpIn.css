@@ -295,8 +295,8 @@ a {
     color: darkgray !important;
 }
 
-a:hover {
-    text-decoration: underline !important;
+#starter-section > div:nth-child(2) > a:hover {
+    text-decoration: underline;
 }
 
 

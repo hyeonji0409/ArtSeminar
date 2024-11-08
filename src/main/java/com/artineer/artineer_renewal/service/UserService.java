@@ -130,6 +130,11 @@ public class UserService {
         return true;
     }
 
+    public void changePassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
 
 
     public ResponseEntity<String> PostWithdrawal(Map<String, Object> payload,

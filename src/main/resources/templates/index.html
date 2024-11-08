@@ -311,7 +311,7 @@
 
 </main>
 <!--<footer 부분은 templetes/footer.html로 분리-->
-<div th:replace="~{fragments/footerFragment::footer}"></div>>
+<div th:replace="~{fragments/footerFragment::footer}"></div>
 
 <!-- Scroll Top -->
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -319,9 +319,9 @@
 
 <!-- Preloader -->
 <!--<div id="preloader"></div>-->
+</body>
 
 <!-- Vendor JS Files -->
-
 <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/vendor/php-email-form/validate.js"></script>
 <script src="/assets/vendor/aos/aos.js"></script>
@@ -371,7 +371,7 @@
                         s.setHours(v.startTime[0])
                         s.setMinutes(v.startTime[1])
                     }
-                        var e = v.isAllDay ? new Date(v.endDate[0], v.endDate[1]-1, v.endDate[2]+1) : new Date(v.endDate[0], v.endDate[1]-1, v.endDate[2])
+                    var e = v.isAllDay ? new Date(v.endDate[0], v.endDate[1]-1, v.endDate[2]+1) : new Date(v.endDate[0], v.endDate[1]-1, v.endDate[2])
                     if (v.endTime) {
                         e.setHours(v.endTime[0])
                         e.setMinutes(v.endTime[1])
@@ -387,40 +387,40 @@
                     })
                 })
 
-        })
+            })
     }
 
     openModal.addEventListener("click", function () {
         setTimeout(function() {
-                var calendarEl = document.getElementById('calendar');
-                calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    // initialDate: '2024-10-01', // 캘린더를 10월 초로 설정
-                    height: 640,
-                    eventDidMount: function(info) {
-                        const description = info.event.extendedProps.description
-                        let timeDetail = "시긴미정", s="NA", e="NA"
+            var calendarEl = document.getElementById('calendar');
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                // initialDate: '2024-10-01', // 캘린더를 10월 초로 설정
+                height: 640,
+                eventDidMount: function(info) {
+                    const description = info.event.extendedProps.description
+                    let timeDetail = "시긴미정", s="NA", e="NA"
 
-                        if (info.event.start && info.event.start.getHours()) s = info.event.start.getHours().toString().padStart(2, '0') + ':' + info.event.start.getMinutes().toString().padStart(2, '0');
-                        if (info.event.end && info.event.end.getHours()) e = info.event.end.getHours().toString().padStart(2, '0') + ':' + info.event.end.getMinutes().toString().padStart(2, '0');
-                        if (info.event.allDay) timeDetail = "하루종일";
-                        else timeDetail = s + " ~ " + e
+                    if (info.event.start && info.event.start.getHours()) s = info.event.start.getHours().toString().padStart(2, '0') + ':' + info.event.start.getMinutes().toString().padStart(2, '0');
+                    if (info.event.end && info.event.end.getHours()) e = info.event.end.getHours().toString().padStart(2, '0') + ':' + info.event.end.getMinutes().toString().padStart(2, '0');
+                    if (info.event.allDay) timeDetail = "하루종일";
+                    else timeDetail = s + " ~ " + e
 
-                        tippy(info.el, {
-                            // content:  info.event.title//이벤트 타이틀을 툴팁으로 가져옵니다.
-                            // content: '<strong>Bolded <span style="color: aqua;">content</span></strong>',
-                            content:  `<h7>${description}</h7><p>${timeDetail}</p>`,//이벤트 디스크립션을 툴팁으로
-                            allowHTML: true,
-                        });
+                    tippy(info.el, {
+                        // content:  info.event.title//이벤트 타이틀을 툴팁으로 가져옵니다.
+                        // content: '<strong>Bolded <span style="color: aqua;">content</span></strong>',
+                        content:  `<h7>${description}</h7><p>${timeDetail}</p>`,//이벤트 디스크립션을 툴팁으로
+                        allowHTML: true,
+                    });
+                },
+                events: [
+                    {
+                        title: '가짜 일정',
+                        start: '2021-07-01',
                     },
-                    events: [
-                        {
-                            title: '가짜 일정',
-                            start: '2021-07-01',
-                        },
-                    ]
-                },);
-                calendar.render();
+                ]
+            },);
+            calendar.render();
         }, 5);
 
         FetchCalendarEvents();
@@ -428,6 +428,4 @@
 
 </script>
 
-
-</body>
 </html>

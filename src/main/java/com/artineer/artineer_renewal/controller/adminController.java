@@ -246,12 +246,6 @@ public class adminController {
 
         popupRepository.delete(popup);
 
-//        boolean isSuccess = adminService.updateCalendarEvent(username, calendarEventDTO, clientIp);
-//        if (!isSuccess) {
-//            model.addAttribute("errorCode", 400);
-//            return "/user/errorPage";
-//        }
-
         String redirectAddress =  request.getHeader("Referer");
         System.out.println(redirectAddress);
         return ResponseEntity.status(HttpStatus.OK).body("good");

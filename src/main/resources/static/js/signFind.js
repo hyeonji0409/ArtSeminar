@@ -17,7 +17,39 @@ function element(whatWillFind) {
     // pw는 아이디만 입력하면 기록된 db에서 email에 인증번호 발송
     if (whatWillFind === 'id') {
         inner = `
-            <form name="form" id="form">
+            <form name="form" id="form" action="/email/verification" method="post">
+          <div style="
+          margin-top: 0;
+          display: flex;
+          justify-content: center;">
+            <a href=${idAddr.href}>아이디 찾기</a>&nbsp&nbsp/&nbsp&nbsp<a href=${pwAddr.href}>비밀번호 찾기</a>
+          </div>
+          <div id="nameBox" class="inputBox">
+            <input id="name" type="text" name="name">
+            <label for="name">이름</label>
+            <div class="error-msg"></div>
+          </div>
+          <div id="emailBox" class="inputBox">
+            <input id="email" type="text" name="email">
+            <label for="email">이메일</label>
+            <div class="error-msg"></div>
+          </div>
+          
+<!--          <div id="emailBox" class="inputBox">-->
+<!--            <input id="injeungBox" type="text" name="injeung">-->
+<!--            <label for="injeung">인증번호</label>-->
+<!--            <div class="error-msg"></div>-->
+<!--          </div>-->
+
+          <div style="text-align: center;" class="inputBox">
+          <input type="hidden" name="what" value="username">
+            <button id="formBtn" type="button">아이디 찾기</button>
+          </div>
+        </form>
+        `;
+    } else {
+        inner = `
+            <form name="form" id="form" action="/email/verification" method="post">
           <div style="
           margin-top: 0;
           display: flex;
@@ -31,8 +63,9 @@ function element(whatWillFind) {
             <div class="error-msg"></div>
           </div>
           <div id="emailBox" class="inputBox">
-            <input id="email" type="text" name="email">
+            <input id="email" type="text" name="email" style="width: 75%">
             <label for="email">이메일</label>
+            <button id="sendBtn" type="button" style="display: inline; width: fit-content">발송</button>
             <div class="error-msg"></div>
           </div>
           
@@ -43,33 +76,8 @@ function element(whatWillFind) {
           </div>
 
           <div style="text-align: center;" class="inputBox">
-            <button type="submit">아이디 찾기</button>
-          </div>
-        </form>
-        `;
-    } else {
-        inner = `
-            <form name="form" id="form">
-          <div style="
-          margin-top: 0;
-          display: flex;
-          justify-content: center;">
-            <a href=${idAddr.href}>아이디 찾기</a>&nbsp&nbsp/&nbsp&nbsp<a href=${pwAddr.href}>비밀번호 찾기</a>
-          </div>\
-
-          <div id="nameBox" class="inputBox">
-            <input id="userIdBox" type="text" name="userId">
-            <label for="userId">아이디</label>
-            <div class="error-msg"></div>
-          </div>
-          <div id="emailBox" class="inputBox">
-            <input id="injeungBox" type="text" name="injeung">
-            <label for="injeung">인증번호</label>
-            <div class="error-msg"></div>
-          </div>
-
-          <div style="text-align: center;" class="inputBox">
-            <button type="submit">비밀번호 찾기</button>
+          <input type="hidden" name="what" value="password">
+            <button id="formBtn" type="button">비밀번호 찾기</button>
           </div>
         </form>
         `;
@@ -112,34 +120,55 @@ const passwordInput = document.querySelector('input[name="password"]');
 // const submitBtn = document.querySelector('button[type="submit"]');
 
 
+formBtn = document.querySelector("#formBtn");
 
-// form.addEventListener('submit', async (e) => {
-//     e.preventDefault();
-//
-//     fetch(
-//         "sign-in",
-//         {
-//             method: "POST",
-//             headers: {
-//                 'Content-Type': 'application/json'  // Ensure the server understands the content type
-//             },
-//             body: JSON.stringify({userId: idInput.value, password: passwordInput.value})
-//         })
-//         .then(res => {
-//         if (res.status === 200) {
-//             // 로그인 실패
-//             return res.text();
-//         }
-//         else if (res.status === 409) {
-//             // 불가능
-//             return res.text();
-//         }
-//         else throw new Error(`Status Code is ${res.status} : ${res.statusText}`);
-//     })
-//
-//     form.submit();
-//
-// })
+sendBtn = document.querySelector("#sendBtn");
+try {
+    sendBtn.addEventListener('click', (e) => {
+
+        const formdata = new FormData(form);
+
+        fetch("/email/send", {
+            method: "POST",
+            body: formdata
+        }).then(res=> {
+            console.log(res);
+            if (res.status === 200) {
+                alert(`${123}으로 인증번호가 발송되었습니다.`)
+            }
+            else {
+                alert("회원 정보를 찾을 수 없습니다.")
+            }
+
+        })
+    })
+} catch (e) {}
+
+
+formBtn.addEventListener('click', (e) => {
+
+    const formdata = new FormData(form);
+
+    fetch("/email/verification", {
+        method: "POST",
+        body: formdata
+    }).then(res=> res.json()
+    ).then(data => {
+        console.log(data);
+        if (data.username) {
+            alert(`아이디는 "${data.username}" 입니다.`);
+            return;
+        }
+        if (data.code === 200) {
+            alert(`"${data.password}"으로 임시 비밀번호가 설정되었습니다.`)
+        }
+        else {
+            alert("인증번호가 올바르지 않습니다.")
+        }
+
+    })
+})
+
 
 
 // 에러 메세지 객체들

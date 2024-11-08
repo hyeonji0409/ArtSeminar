@@ -39,7 +39,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         String encodingId = "bcrypt";
         Map<String, PasswordEncoder> encoders = new HashMap<>();
-        // Todo salt?
+
         encoders.put(null, new MessageDigestPasswordEncoder("MD5"));
         encoders.put("MD5", new MessageDigestPasswordEncoder("MD5"));
         encoders.put("bcrypt", new BCryptPasswordEncoder());
