@@ -1,5 +1,11 @@
 package com.artineer.artineer_renewal.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAmount;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class EmailService {
     private final JavaMailSender emailSender;
-    private final ConcurrentHashMap<String, String> verificationStore = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Verification> verificationStore = new ConcurrentHashMap<>();
 
     public void sendEmail(String toEmail,
                           String title,
@@ -46,24 +52,56 @@ public class EmailService {
 
     public String createVerificationCode(String email) {
 
+        // 유효한 이메일 인증시도가 있다면 지우고 다시 생성
+        if (!verificationStore.containsKey(email)) {
+            this.removeVerificationCode(email);
+        }
+
         String randomString = new Random().ints(48, 122)
                 .filter(i -> Character.isLetterOrDigit(i))
                 .limit(5)
                 .mapToObj(i -> String.valueOf((char) i))
                 .collect(Collectors.joining());
 
-        verificationStore.put(email, randomString);
+        Verification ve = new Verification(email, randomString, LocalDateTime.now().plusMinutes(5));
+
+        verificationStore.put(email, ve);
 
         return randomString;
     }
 
+
     public String getVerificationCode(String email) {
-        return verificationStore.get(email);
+        Verification ve = verificationStore.get(email);
+        if (ve == null || ve.expirationDateTime.isAfter(LocalDateTime.now())) {
+            return null;
+        }
+        removeVerificationCode(email);
+        return ve.randomString;
     }
 
     public void removeVerificationCode(String email) {
         verificationStore.remove(email);
     }
 
+    public List<String> getVerificationMapToList() {
+        List<String> list = new ArrayList<>(verificationStore.keySet());
+        for (Map.Entry<String, Verification> v: verificationStore.entrySet()) {
+            list.add(v.getKey() +" : "+ v.getValue().randomString + "["+ v.getValue().expirationDateTime +"]");
+        }
+        return list;
+    }
 
+
+}
+
+
+class Verification {
+    final LocalDateTime expirationDateTime;
+    final String randomString;
+
+    public Verification(String email , String randomString, LocalDateTime expirationDateTime) {
+        this.randomString = randomString;
+        this.expirationDateTime = expirationDateTime;
+    }
 }

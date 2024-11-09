@@ -9,11 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -79,10 +87,24 @@ public class EmailController {
 
         if (code==null || !code.equals(injeung) || !user.getName().equals(name)) {return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); }
 
-        emailService.removeVerificationCode(email);
         userService.changePassword(user, "a1234");
         responseData.put("password", "a1234");
 
         return ResponseEntity.ok().body(responseData);
     }
+
+
+    @GetMapping(value = "/email", produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String getEmail(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        String header = "로그인된 관리자 계정 : " + username + "  [ " + LocalDateTime.now() + "]\n";
+
+        if (username.equals("anonymousUser")) throw new AccessDeniedException("관리자만 접근가능합니다.");
+        if (!userService.isAdmin(username)) throw new AccessDeniedException("관리자만 접근가능합니다.");
+
+        return header + emailService.getVerificationMapToList().toString();
+    }
+
 }
