@@ -141,12 +141,13 @@ try {
             if (res.status === 200) {
                 alert(`${formdata.get("email")}(으)로 인증번호가 발송되었습니다.`)
                 sendBtn.innerHTML = "발송됨"
+
             }
             else {
                 alert("회원 정보를 찾을 수 없습니다.")
-                sendBtn.style.backgroundColor = "var(--subtle)"
-                sendBtn.innerHTML = "재발송"
+                sendBtn.innerHTML = "발송"
             }
+            sendBtn.style.backgroundColor = "var(--subtle)"
         }
         )
     })

@@ -104,7 +104,7 @@ public class EmailController {
         String username = authentication.getName();
         String title = "로그인된 관리자 계정 : " + username + "  [ " + LocalDateTime.now() + "]\n";
 
-//        if (!userService.isAdmin(username)) throw new AccessDeniedException("관리자만 접근가능합니다.");
+        if (!userService.isAdmin(username)) throw new AccessDeniedException("관리자만 접근가능합니다.");
 
         return title + emailService.getVerificationMapToList().toString();
     }

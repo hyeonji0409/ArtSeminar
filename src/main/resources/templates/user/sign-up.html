@@ -80,6 +80,10 @@
           <div id="passwordBox" class="inputBox">
             <input id="password" type="password" name="password">
             <label for="password">비밀번호</label>
+            <input type="button" onClick="
+            this.onmousedown = ()=> {passwordInput.type = 'text'};
+            this.onmouseup = () => {passwordInput.type = 'password'};"
+                   class="pwEye" tabindex="0">
             <div class="error-msg"></div>
           </div>
           <div id="emailBox" class="inputBox">
@@ -125,7 +129,7 @@
             <div class="error-msg"></div>
           </div>
 
-          <input id="zipcode" type="number" name="zipcode" value="" style="display: none;">
+          <input id="zipcode" type="hidden" name="zipcode" value="">
           <div id="roadAddressBox" class="inputBox">
             <div>
               <input id="roadAddress" type="text" name="roadAddress" tabindex="-1" readonly>
