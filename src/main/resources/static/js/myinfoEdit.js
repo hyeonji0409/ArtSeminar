@@ -27,10 +27,10 @@ document.getElementById('savebtn').addEventListener('click', function() {
         // input.disabled = true;
     });
 
-    // 수정 버튼 숨기기
+    // 수정 버튼 보이기
     document.getElementById('editbtn').style.display = 'block';
 
-    // 필요하면 '완료'와 '취소' 버튼을 보이도록 설정
+    // 수정하면 '완료'와 '취소' 버튼 숨기기
     document.querySelector('.editPageBtn').style.display = 'none';
 });
 
@@ -45,3 +45,14 @@ document.getElementById('canclebtn').addEventListener('click', function() {
     document.querySelector('.editPageBtn').style.display = 'none';
 });
 
+var userSex = document.getElementById('userSex').value;
+
+document.addEventListener("DOMContentLoaded", function() {
+    if (userSex === 'male') {
+        document.getElementById('male').checked = true;
+        document.querySelector('label[for="male"]').style.backgroundColor = "var(--color-blue)"  // 남자 라벨 배경색 변경
+    } else if (userSex === 'female') {
+        document.getElementById('female').checked = true;
+        document.querySelector('label[for="female"]').style.backgroundColor = "var(--color-blue)";  // 여자 라벨 배경색 변경
+    }
+});

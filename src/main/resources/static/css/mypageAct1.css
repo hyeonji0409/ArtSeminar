@@ -161,7 +161,6 @@ li {
 }
 a {
     text-decoration : none;
-    color: black;
 }
 .logout:link {
     text-decoration : none;
@@ -179,3 +178,4 @@ a {
     margin: 1rem 1rem ;
     padding: 1rem;
 }
+
