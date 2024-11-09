@@ -41,15 +41,18 @@
                     <div class="error-msg"></div>
                 </div>
                 <div style="background-color: white; justify-content: center; margin: 3px; display: flex">
-                    <div id="sexBox" class="gender-selection inputBox" style="display: flex; background-color: white; align-items: center; padding: 10px; justify-content: space-between">
-                        <div class="sex-box inputBox">
-                            <input type="radio" id="male" name="sex" value="male" >
-                            <label class="gender" for="male">남자</label>
+                    <div style="display: none">
+                        <input id="userSex" type="text" th:value="${user.sex}">
+                    </div>
+                    <div id="sexBox" class="gender-selection inputBox" style="display: flex; background-color: white; align-items: center; padding: 10px; justify-content: space-between; gap: 30px">
+                        <div class="sex-box inputBox" style="justify-content: space-between">
+                            <input type="radio" id="male" name="sex" value="male" style="display: none; padding: 10px 30px" >
+                            <label class="gender" for="male" style="padding: 10px 50px; border: 2px solid">남자</label>
                             <div class="error-msg"></div>
                         </div>
                         <div class="sex-box inputBox" >
-                            <input type="radio" id="female" name="sex" value="female">
-                            <label class="gender" for="female">여자</label>
+                            <input type="radio" id="female" name="sex" value="female" style="display: none; padding: 10px 30px">
+                            <label class="gender" for="female" style="padding: 10px 50px; border: 2px solid">여자</label>
                             <div class="error-msg"></div>
                         </div>
                         <div class="error-msg"></div>
@@ -70,11 +73,13 @@
 <!--                </div>-->
 
                 <div id="roadAddressBox" class="inputBox">
-                    <div>
+                    <div style="display: flex; padding: 10px; gap: 25px">
                         <input id="zipcode" type="number" name="zipcode" value="" style="display: none;">
                         <input id="roadAddress" style="width: 80%" type="text" name="roadAddress" tabindex="-1" th:value="${user.roadAddress}" readonly>
                         <input type="button" onClick="openZipSearch();" class="roadFullAddr" tabindex="0">
-                        <hr>
+                    </div>
+                    <hr>
+                    <div style="display: flex; padding: 10px">
                         <input id="detailAddress" style="width: 80%" type="text" name="detailAddress" th:value="${user.detailAddress}" placeholder="상세주소(000동 000호)" >
                         <label for="roadAddress">자택 주소</label>
                         <label for="detailAddress"></label>
@@ -105,7 +110,9 @@
     <div class="side__bar">
         <div class="profile">
             <img class="side__icon" src="/image/profileimg.png" height="308" width="300"/>
-            <h2 class="side__page__name">이름(n기)</h2>
+            <h2 class="side__page__name" th:text="${user.name + ' (' + user.year + '기)'}">이름(n기)</h2>
+
+            <div></div>
         </div>
 
         <div class="side__items" >
