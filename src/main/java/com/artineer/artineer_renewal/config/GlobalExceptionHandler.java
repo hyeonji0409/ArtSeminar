@@ -2,16 +2,15 @@ package com.artineer.artineer_renewal.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.javassist.NotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -22,7 +21,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleIllegalArgumentException(IllegalArgumentException ex, Model model, HttpServletRequest request) {
-        loggingError(request, ex);
+        loggingWarn(request, ex);
 
         model.addAttribute("errorCode", 400);
         model.addAttribute("errorMessage", ex.getMessage());
@@ -31,16 +30,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public String handleAccessDeniedException(AccessDeniedException ex, Model model, HttpServletRequest request) {
-        loggingError(request, ex);
+        loggingWarn(request, ex);
 
         model.addAttribute("errorCode", 403);
         model.addAttribute("errorMessage", ex.getMessage());
         return "error/errorPage";
     }
 
-    @ExceptionHandler({NotFoundException.class, NoResourceFoundException.class})
-    public String handleNotFoundException(NotFoundException ex, Model model, HttpServletRequest request) {
-        loggingError(request, ex);
+    @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleNoHandlerFoundException(NoHandlerFoundException ex, HttpServletRequest request) {
+    }
+
+//NotFoundException.class,
+    @ExceptionHandler({NoResourceFoundException.class})
+    public String handleNotFoundException(Exception ex, Model model, HttpServletRequest request) {
+        loggingWarn(request, ex);
 
         String requestURI = request.getRequestURI();
         String decodedURI = URLDecoder.decode(requestURI, StandardCharsets.UTF_8);
@@ -84,6 +89,24 @@ public class GlobalExceptionHandler {
         });
 
         log.error("Exception Stack Trace: ", ex);
+
+        // 디버깅용
+        ex.printStackTrace();
+    }
+
+    public void loggingWarn(HttpServletRequest request, Exception ex) {
+        // 요청 URL, HTTP 메서드, IP 주소 등 주요 정보를 로깅
+        log.warn("Request URL: {}", request.getRequestURL());
+        log.warn("HTTP Method: {}", request.getMethod());
+        log.warn("Remote Address: {}", request.getRemoteAddr());
+        log.warn("User Agent: {}", request.getHeader("User-Agent"));
+
+        // 모든 요청 파라미터를 로깅
+        request.getParameterMap().forEach((key, values) -> {
+            log.warn("Parameter: {} = {}", key, String.join(", ", values));
+        });
+
+        log.warn("Exception Stack Trace: ", ex);
 
         // 디버깅용
         ex.printStackTrace();

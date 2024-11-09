@@ -21,7 +21,8 @@ function element(whatWillFind) {
           <div style="
           margin-top: 0;
           display: flex;
-          justify-content: center;">
+          justify-content: center;
+          width: auto">
             <a href=${idAddr.href}>아이디 찾기</a>&nbsp&nbsp/&nbsp&nbsp<a href=${pwAddr.href}>비밀번호 찾기</a>
           </div>
           <div id="nameBox" class="inputBox">
@@ -53,7 +54,8 @@ function element(whatWillFind) {
           <div style="
           margin-top: 0;
           display: flex;
-          justify-content: center;">
+          justify-content: center;
+          width: auto;">
             <a href=${idAddr.href}>아이디 찾기</a>&nbsp&nbsp/&nbsp&nbsp<a href=${pwAddr.href}>비밀번호 찾기</a>
           </div>
 
@@ -65,7 +67,7 @@ function element(whatWillFind) {
           <div id="emailBox" class="inputBox">
             <input id="email" type="text" name="email" style="width: 75%">
             <label for="email">이메일</label>
-            <button id="sendBtn" type="button" style="display: inline; width: fit-content">발송</button>
+            <button id="sendBtn" type="button" style="display: inline; width: 23%;">발송</button>
             <div class="error-msg"></div>
           </div>
           
@@ -125,6 +127,9 @@ formBtn = document.querySelector("#formBtn");
 sendBtn = document.querySelector("#sendBtn");
 try {
     sendBtn.addEventListener('click', (e) => {
+        sendBtn.style.fontSize = "16px"
+        sendBtn.innerHTML = "발송중"
+        sendBtn.style.backgroundColor = "var(--hover)"
 
         const formdata = new FormData(form);
 
@@ -134,13 +139,16 @@ try {
         }).then(res=> {
             console.log(res);
             if (res.status === 200) {
-                alert(`${123}으로 인증번호가 발송되었습니다.`)
+                alert(`${formdata.get("email")}(으)로 인증번호가 발송되었습니다.`)
+                sendBtn.innerHTML = "발송됨"
             }
             else {
                 alert("회원 정보를 찾을 수 없습니다.")
+                sendBtn.style.backgroundColor = "var(--subtle)"
+                sendBtn.innerHTML = "재발송"
             }
-
-        })
+        }
+        )
     })
 } catch (e) {}
 

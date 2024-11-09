@@ -71,24 +71,27 @@ public class EmailController {
             @RequestParam("email") String email,
             @RequestParam(value = "injeung", required = false) String injeung) {
 
-        System.out.println("Email verified");
-
-        String code = emailService.getVerificationCode(email);
+        System.out.println("Email verifiyng");
+        Map<String, Object> responseData = new HashMap<>();
         User user = userRepository.findByEmail(email);
 
-        Map<String, Object> responseData = new HashMap<>();
-        responseData.put("code", 200);
+        if (user==null || !user.getName().equals(name))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);;
 
         if (what.equals("username")) {
             responseData.put("username", user.getUsername());
             return ResponseEntity.status(HttpStatus.OK).body(responseData);
         }
 
+        String code = emailService.getVerificationCode(email);
+        if (code==null || !code.equals(injeung) || !user.getName().equals(name))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
 
-        if (code==null || !code.equals(injeung) || !user.getName().equals(name)) {return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); }
+        responseData.put("code", 200);
 
-        userService.changePassword(user, "a1234");
-        responseData.put("password", "a1234");
+        String tempPassword = emailService.getRandomString(5, false);
+        userService.changePassword(user, tempPassword);
+        responseData.put("password", tempPassword);
 
         return ResponseEntity.ok().body(responseData);
     }
@@ -99,12 +102,11 @@ public class EmailController {
     public String getEmail(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        String header = "로그인된 관리자 계정 : " + username + "  [ " + LocalDateTime.now() + "]\n";
+        String title = "로그인된 관리자 계정 : " + username + "  [ " + LocalDateTime.now() + "]\n";
 
-        if (username.equals("anonymousUser")) throw new AccessDeniedException("관리자만 접근가능합니다.");
-        if (!userService.isAdmin(username)) throw new AccessDeniedException("관리자만 접근가능합니다.");
+//        if (!userService.isAdmin(username)) throw new AccessDeniedException("관리자만 접근가능합니다.");
 
-        return header + emailService.getVerificationMapToList().toString();
+        return title + emailService.getVerificationMapToList().toString();
     }
 
 }

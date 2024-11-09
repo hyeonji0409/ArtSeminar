@@ -27,7 +27,9 @@ public class EmailService {
     public void sendEmail(String toEmail,
                           String title,
                           String text) {
+
         SimpleMailMessage emailForm = createEmailForm(toEmail, title, text);
+
         try {
             emailSender.send(emailForm);
         } catch (RuntimeException e) {
@@ -57,11 +59,7 @@ public class EmailService {
             this.removeVerificationCode(email);
         }
 
-        String randomString = new Random().ints(48, 122)
-                .filter(i -> Character.isLetterOrDigit(i))
-                .limit(5)
-                .mapToObj(i -> String.valueOf((char) i))
-                .collect(Collectors.joining());
+        String randomString = getRandomString(5, true);
 
         Verification ve = new Verification(email, randomString, LocalDateTime.now().plusMinutes(5));
 
@@ -73,10 +71,12 @@ public class EmailService {
 
     public String getVerificationCode(String email) {
         Verification ve = verificationStore.get(email);
-        if (ve == null || ve.expirationDateTime.isAfter(LocalDateTime.now())) {
+
+        if (ve == null || ve.expirationDateTime.isBefore(LocalDateTime.now())) {
+            if (ve!=null) removeVerificationCode(email);
             return null;
         }
-        removeVerificationCode(email);
+
         return ve.randomString;
     }
 
@@ -90,6 +90,17 @@ public class EmailService {
             list.add(v.getKey() +" : "+ v.getValue().randomString + "["+ v.getValue().expirationDateTime +"]");
         }
         return list;
+    }
+
+
+    public String getRandomString(int length, boolean isNeedUpperCase) {
+        String randomString = new Random().ints(48, 122)
+                .filter(i -> isNeedUpperCase? Character.isLetterOrDigit(i) : (Character.isLowerCase(i)||Character.isDigit(i)))
+                .limit(length)
+                .mapToObj(i -> String.valueOf((char) i))
+                .collect(Collectors.joining());
+
+        return randomString;
     }
 
 
