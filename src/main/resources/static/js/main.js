@@ -192,6 +192,30 @@
   });
 
   /**
+     * Mobile nav toggle
+  */
+  document.addEventListener("DOMContentLoaded", function() {
+      const slides = document.querySelectorAll("#slide3 ul li");
+      let currentIndex = 0;
+      const slideInterval = 3000; // 3초 간격으로 슬라이드 전환
+
+      function showSlide(index) {
+          slides.forEach((slide, i) => {
+              slide.classList.toggle("active", i === index);
+          });
+      }
+
+      function nextSlide() {
+          currentIndex = (currentIndex + 1) % slides.length;
+          showSlide(currentIndex);
+      }
+
+      setInterval(nextSlide, slideInterval);
+      showSlide(currentIndex);
+  });
+
+
+  /**
    * Navmenu Scrollspy
    */
   let navmenulinks = document.querySelectorAll('.navmenu a');

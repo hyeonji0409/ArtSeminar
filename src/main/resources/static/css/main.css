@@ -973,114 +973,157 @@ section,
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
-.hero {
-  width: 100%;
-  min-height: 80vh;
-  position: relative;
-  padding: 120px 0 60px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center; /* 텍스트 및 버튼을 모두 중앙 정렬 */
-  background: url('/image/img/MainBackGround-2.jpg') center center / cover no-repeat;
-  background-size: cover;
-  z-index: 1;
+
+/* #hero 섹션 스타일 */
+#hero, .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: 1;
 }
 
-
-
+/* 슬라이더 배경에 어두운 투명 효과 */
 .hero::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 2;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2;
 }
 
-.hero .container {
-  position: relative;
-  z-index: 3;
+/* 슬라이더 이미지 페이드 효과 */
+#slide3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
 }
 
-.hero h1 {
-  margin: 0;
-  font-size: 48px;
-  font-weight: 700;
-  line-height: 56px;
-  color: #fff;
-  text-align: center;
+#slide3 ul {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-.hero p {
-  color: rgba(255, 255, 255, 0.8);
-  margin: 5px 0 30px 0;
-  font-size: 22px;
-  line-height: 1.3;
-  font-weight: 600;
-  text-align: center;
+#slide3 ul li {
+    position: absolute;
+    width: 100%;  /* 이미지 가로 크기 */
+    height: 100%;  /* 이미지 세로 크기 */
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
 }
 
-.hero .btn-get-started {
-  color: #ffffff; /* 텍스트 색상 */
-  background: #3D507A; /* 기본 배경 색상 */
-  font-family: var(--heading-font);
-  font-weight: 500;
-  font-size: 15px;
-  letter-spacing: 1px;
-  display: inline-block;
-  padding: 10px 28px 12px 28px;
-  border-radius: 50px;
-  transition: background-color 0.5s, opacity 0.1s; /* 색상과 투명도 변화에 대한 전환 */
+#slide3 ul li img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.3s ease; /* 부드러운 전환 효과 */
 }
 
-.hero .btn-get-started:hover {
-  color: var(--contrast-color); /* 호버 시 텍스트 색상 변경 */
-  background: rgba(61, 80, 122, 0.85); /* 호버 시 배경 색상의 투명도 조절 */
+#slide3 ul li.active {
+    opacity: 1;
 }
 
 
 
-.hero .animated {
-  animation: up-down 2s ease-in-out infinite alternate-reverse both;
+/* #hero 섹션 내부의 텍스트와 버튼 스타일 */
+.hero .container, #hero .container {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* 수직, 수평 중앙 정렬 */
+    height: 100%; /* 텍스트와 버튼을 슬라이더 안에서 가운데 배치 */
 }
 
-/* 버튼 간격 및 중앙 정렬 추가 */
+.hero h1, #hero h1 {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 56px;
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.hero p, #hero p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 600;
+    margin: 5px 0 30px 0;
+    text-align: center;
+}
+
+.btn-get-started, .btn-watch-video {
+    color: #ffffff;
+    background: #3D507A;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 1px;
+    padding: 10px 28px;
+    border-radius: 50px;
+    transition: background-color 0.5s, opacity 0.1s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.btn-get-started:hover {
+    color: var(--contrast-color);
+    background: rgba(61, 80, 122, 0.85);
+}
+
+.btn-watch-video i {
+    margin-right: 5px;
+}
+
+/* 버튼 간격 및 중앙 정렬 */
 .hero .d-flex {
-  gap: 15px;
-  justify-content: center;
+    gap: 15px;
+    justify-content: center;
 }
 
-
-@media (max-width: 640px) {
-  .hero h1 {
-    font-size: 28px;
-    line-height: 36px;
-  }
-
-  .hero p {
-    font-size: 18px;
-    line-height: 24px;
-    margin-bottom: 30px;
-  }
-
-  .hero .btn-get-started,
-  .hero .btn-watch-video {
-    font-size: 13px;
-  }
+/* 애니메이션 효과 */
+.hero .animated {
+    animation: up-down 2s ease-in-out infinite alternate-reverse both;
 }
 
 @keyframes up-down {
-  0% {
-    transform: translateY(10px);
-  }
-
-  100% {
-    transform: translateY(-10px);
-  }
+    0% { transform: translateY(10px); }
+    100% { transform: translateY(-10px); }
 }
+
+/* 반응형 스타일 */
+@media (max-width: 640px) {
+    .hero h1, #hero h1 {
+        font-size: 28px;
+        line-height: 36px;
+    }
+
+    .hero p, #hero p {
+        font-size: 18px;
+        line-height: 24px;
+        margin-bottom: 30px;
+    }
+
+    .btn-get-started, .btn-watch-video {
+        font-size: 13px;
+    }
+}
+
 
 
 
