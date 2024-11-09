@@ -14,6 +14,9 @@
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -45,15 +48,18 @@
         <!-- End Section Title -->
 
 
-        <section id="About-introduce" class="About introduce section dark-background">
+        <section id="About-introduce" class="About-introduce section dark-background">
             <img th:src="@{/assets/img/프라임관_전경.jpg}" alt="">
             <div class="container section-title">
                 <h3>
                     <a href="" style="text-decoration: none; color: inherit;">소개</a>
                 </h3>
             </div>
-        </section>
+            <div class="spoqa-han-sans font-extralight leading-tight text-white sm:text-sm">
+                Artineer에 대해 소개합니다.
+            </div>
 
+        </section>
 
         <div class="container">
             <div class="btn-container">
@@ -129,11 +135,87 @@
                     </div>
 
 
+
                     <!-- 모달 구조 -->
                     <div id="imageModal" class="modal">
                         <img class="modal-content" id="modalImage">
                         <button class="close" onclick="closeModal()">X</button> <!-- span을 button으로 변경 -->
                     </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div id="event" class="content-section" style="display: none;">
+            <div class="container">
+
+                <div class="row gy-4">
+
+                    <div data-aos="fade-up" data-aos-delay="100">
+                        <div style="text-align: center;">
+                            <strong style="font-size: 40px;">학습<br><br></strong>
+                            <p style="font-size: 21px; line-height: 1.8; text-align: left;">
+                                아티니어는 스터디와 자체 강의를 중점으로 기본적인 개념을 다잡고 응용하여 심화 단계까지 학습 및 실습을 진행하는데<br>
+                                초점을 두고 있습니다. 강의 시간 외의 시간에도 스터디를 개별적으로 진행하며 멘토들의 적극적인 피드백을 통해 여러분의<br>
+                                더 나은 성장을 이룰 수 있도록 노력하고 있습니다.
+                                <br><br>
+                            </p>
+                        </div>
+                        <br>
+                    </div>
+
+                    <div class="mt-10 flex flex-col gap-4 py-4">
+                        <div class="group overflow-hidden rounded-xl shadow-lg">
+                            <div class="aspect-[4/2] w-full overflow-hidden bg-black">
+                                <img class="img h-full w-full rounded-t-lg object-cover" src="image/img/MainBackGround-3.jpg" alt="분야별 스터디">
+                            </div>
+                            <div class="flex w-full flex-col items-center gap-1 bg-background-3 pb-2">
+                                <div class="mt-3 flex h-[30px] w-full flex-row items-center justify-center gap-1 truncate text-left text-xl">
+                                    <div>분야별 스터디</div>
+                                </div>
+                                <div class="mt-1 w-full px-3 text-sm font-extralight leading-6">
+                                    웹, AI, 게임, 네트워크 보안, 개인 등의 각 분야별로 주제를 정하여 스터디 형식으로 진행하는 활동입니다. 매주 동아리 시간에 진행됩니다.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="group overflow-hidden rounded-xl shadow-lg">
+                            <div class="aspect-[4/2] w-full overflow-hidden bg-black">
+                                <img class="img h-full w-full rounded-t-lg object-cover" src="image/img/MainBackGround-2.jpg" alt="세미나/프로젝트">
+                            </div>
+                            <div class="flex w-full flex-col items-center gap-1 bg-background-3 pb-2">
+                                <div class="mt-3 flex h-[30px] w-full flex-row items-center justify-center gap-1 truncate text-left text-xl">
+                                    <div>세미나/프로젝트</div>
+                                </div>
+                                <div class="mt-1 w-full px-3 text-sm font-extralight leading-6">
+                                    각 분야에 맞는 사람들끼리 모여 하나의 프로젝트를 정하여 진행하는 활동입니다. 중간 점검을 통해 프로젝트의 진행 상황을 보고하는 형식으로 진행됩니다.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="group overflow-hidden rounded-xl shadow-lg">
+                            <div class="aspect-[4/2] w-full overflow-hidden bg-black">
+                                <img class="img h-full w-full rounded-t-lg object-cover" src="image/img/MainBackGround-1.jpg" alt="자체 강의">
+                            </div>
+                            <div class="flex w-full flex-col items-center gap-1 bg-background-3 pb-2">
+                                <div class="mt-3 flex h-[30px] w-full flex-row items-center justify-center gap-1 truncate text-left text-xl">
+                                    <div>자체 강의</div>
+                                </div>
+                                <div class="mt-1 w-full px-3 text-sm font-extralight leading-6">
+                                    누구나 자유롭게 개설 가능하며 같은 분야뿐만 아니라 다른 분야의 학습 경험을 도모하기 위해 진행되는 활동입니다.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -142,12 +224,6 @@
 
                 </div>
             </div>
-        </div>
-
-
-        <div id="event" class="content-section" style="display: none;">
-            <h2>학습 / 행사</h2>
-            <p>여기에 학습 / 행사 관련 내용을 추가하세요.</p>
         </div>
 
 

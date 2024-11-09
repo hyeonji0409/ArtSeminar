@@ -27,9 +27,6 @@ public class Popup {
     @Column(name = "description", nullable = false)
     private String description;
 
-//    @Column(name = "start_date", nullable = false)
-//    private Instant startDate;
-
     @Column(name = "start_date", nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime startDate;
