@@ -32,20 +32,22 @@ body {
     width: 100%;
 }
 
+.all {
+    display: flex;
+    width: 30rem;
+}
+
 a {
     text-decoration : none;
     color: black;
 }
 
-.myPage__main {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-}
+a:visited { text-decoration: none; }
 
-.all {
-    display: flex;
-    width: 30rem;
+.logo {
+    color: var(--color-blue) !important;
+    font-weight: bold;
+    margin-left: 2rem;
 }
 
 .logo_a:link {
@@ -58,11 +60,12 @@ a {
     color: var(--color-blue)
 }
 
-.logo {
-    color: var(--color-blue) !important;
-    font-weight: bold;
-    margin-left: 2rem;
+.myPage__main {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
 }
+
 .side__bar {
     display: flex;
     /*align-items: center;*/

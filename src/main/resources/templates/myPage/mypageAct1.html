@@ -11,7 +11,7 @@
     <div class="myPage__main" >
         <div>
 
-            <h1 class="logo"><a>ARTINEER</a></h1>
+            <h1 class="logo"><a class="logo_a" href="/">ARTINEER</a></h1>
         </div>
         <div class="text" style="font-size: xx-large; text-align: center">작성한 글</div>
 
@@ -28,9 +28,9 @@
             </thead>
             <tbody>
 
-            <tr th:each="notice, iterStat :  ${notices}">
+            <tr th:each="notice, iterStat :  ${articles}">
                 <!-- 전체 게시글 수에서 역순으로 표기하게 설정 -->
-                <th th:text="${notices.size() - iterStat.index}">1</th>
+                <th th:text="${articles.size() - iterStat.index}">1</th>
                 <td><a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}" class="a-color" style="text-decoration: none;"></a></td>
                 <td th:text="${notice.comment}">댓글수</td>
                 <td th:text="${notice.name} + '(' + ${notice.year} + '기)'">작성자</td>
