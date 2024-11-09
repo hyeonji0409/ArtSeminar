@@ -117,6 +117,9 @@ public class NoticeService {
                 notice.getTitle(),
                 notice.getStory(),
                 notice.getHit(),
+                notice.getName(),
+                notice.getYear(),
+                notice.getRegdate(),
                 fileNames,
                 notice.getComments());
     }
@@ -161,10 +164,11 @@ public class NoticeService {
             } else {
                 System.out.println("파일을 찾을 수 없습니다." + fileName);
             }
-
-
         }
+
     }
+
+    //댓글 삭제 기능 추가해야함
 
 
     // 조회수 증가

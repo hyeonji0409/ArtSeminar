@@ -77,17 +77,11 @@
     <div class="d-flex justify-content-center container custom-width" style="max-width: 1000px">
             <form class="container mt-5" th:action="@{/notice/new}" method="post" enctype="multipart/form-data" >
                 <div>
-                <select class="form-select mb-3" aria-label="Default select example">
-                    <option selected>등록할 게시판을 고르시오.</option>
-                    <option value="1">공지사항 (notice)</option>
-                    <option value="2">갤러리 (gallery)</option>
-                </select>
-                <input type="text" id="title" name="title" required class="container custom-width" placeholder="Title"><br><br>
+                <input type="text" id="title" name="title" required class="container custom-width fs-3 border-0 border-bottom" placeholder="Title"><br><br>
                 </div>
 
                 <textarea name="story" id="story"></textarea>
 
-                <input type="file" id="file" name="file" multiple>
 
                 <script>
                 ClassicEditor
