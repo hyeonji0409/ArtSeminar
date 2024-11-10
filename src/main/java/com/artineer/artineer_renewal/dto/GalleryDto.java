@@ -1,6 +1,8 @@
 package com.artineer.artineer_renewal.dto;
 
+import com.artineer.artineer_renewal.entity.Comment;
 import jakarta.persistence.ElementCollection;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +23,9 @@ public class GalleryDto {
     private List<String> file;
 
     private int comment;
+
+    private  List<Comment> comments;
+
     private String regdate;
     private String ip;
 
@@ -30,12 +35,17 @@ public class GalleryDto {
     private int year;
 
 
-    public GalleryDto(Long no, String title, String story, int hit, List<String> file) {
+    @Builder
+    public GalleryDto(Long no, String title, String story, int hit, String name,int year, String regdate, List<String> file, List<Comment> comments) {
         this.no = no;
         this.title = title;
         this.story = story;
         this.hit = hit;
+        this.name = name;
+        this.regdate = regdate;
+        this.year = year;
         this.file = file;
+        this.comments = comments;
     }
 
     // file 처리

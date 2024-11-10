@@ -40,21 +40,25 @@ body {
     width: 30rem;
 }
 
-.logo_a:link {
-    text-decoration : none;
-    color: var(--color-blue)
-}
-
-.logo_a:visited {
-    text-decoration : none;
-    color: var(--color-blue)
-}
 
 .logo {
     color: var(--color-blue) !important;
     font-weight: bold;
     margin-left: 2rem;
 }
+
+.logo_a:link, .logo_a:visited {
+    color: var(--color-blue) !important;
+    text-decoration : none;
+}
+a {
+    text-decoration : none;
+    color: black;
+}
+
+a:visited { text-decoration: none; }
+
+
 .side__bar {
     display: flex;
     /*align-items: center;*/
@@ -159,10 +163,7 @@ li {
     width: 60%;
 
 }
-a {
-    text-decoration : none;
-    color: black;
-}
+
 .logout:link {
     text-decoration : none;
     color: black;
@@ -179,3 +180,4 @@ a {
     margin: 1rem 1rem ;
     padding: 1rem;
 }
+

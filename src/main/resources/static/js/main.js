@@ -52,6 +52,7 @@
     });
   });
 
+
    // document.getElementById('login-button').addEventListener('click', function(event) {
    //     event.preventDefault();
    //     var dropdownMenu = document.getElementById('dropdown-menu');

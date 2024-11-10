@@ -90,7 +90,9 @@ public class UserService {
 
     public boolean updateUser(String logInUsername, UserDto userDto, String clientIp) {
         // IP 주소 가져오기
-//        System.out.println("Client IP: " + clientIp);
+        System.out.println("Client IP: " + clientIp);
+        System.out.println("회원정보수정");
+        System.out.println(userDto.toString());
 
         if (!(
                 logInUsername.equals( userDto.getUsername() )

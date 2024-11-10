@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.ErrorResponse;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -24,6 +26,11 @@ public class Gallery {
     private int hit;
     private String file;
     private int comment;
+
+    @OneToMany
+    @JoinColumn(name = "bbs_no", referencedColumnName = "no")
+    private List<Comment> comments; // 댓글 개수
+
     private String regdate;
     private String ip;
 

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko" xmlns="http://www.w3.org/1999/html"
       xmlns:th="http://www.thymeleaf.org">
@@ -6,6 +7,8 @@
     <meta charset="UTF-8">
     <title>My Page</title>
     <link rel="stylesheet" href="/css/myPage.css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 </head>
 <body>
 <div class="container">
@@ -19,35 +22,45 @@
             </div>
             <form id="form" name="from" action="/user/update" method="post">
                 <div class="accountInfo">
-                    <div class="info__items">
-                        <input type="text" th:value="${user.username}" name="username" readonly>
+                    <div id="usernameBox" class="info__items" style="border-top-left-radius: 10px; border-top-right-radius: 10px">
+                        <input id="userId" type="text"  name="username" th:value="${user.username}" readonly>
+                        <div class="error-msg"></div>
                     </div>
                     <div class="info__items">
-                        <input type="password" placeholder="비밀번호" name="password" readonly>
+                        <input id="password1" type="password" name="password" placeholder="비밀번호" readonly>
+                        <div class="error-msg"></div>
                     </div>
-                    <div class="info__items">
-                        <input type="password" placeholder="비밀번호 확인" readonly>
+                    <div class="info__items" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px">
+                        <input id="password2" type="password" name="passwordch" placeholder="비밀번호 확인" readonly>
+                        <div class="error-msg"></div>
+                    </div>
+                </div>
+
+                <div class="info__items" style="border-top-left-radius: 10px; border-top-right-radius: 10px">
+                    <input type="text" th:value="${user.name}" placeholder="이름" name="name" readonly>
+                    <div class="error-msg"></div>
+                </div>
+                <div style="background-color: white; justify-content: center; margin: 3px; display: flex">
+                    <div style="display: none">
+                        <input id="userSex" type="text" th:value="${user.sex}">
+                    </div>
+                    <div id="sexBox" class="gender-selection inputBox" style="display: flex; background-color: white; align-items: center; padding: 10px; justify-content: space-between; gap: 30px">
+                        <div class="sex-box inputBox" style="justify-content: space-between">
+                            <input type="radio" id="male" name="sex" value="male" style="display: none; padding: 10px 30px" >
+                            <label class="gender" for="male" style="padding: 10px 50px; border: 2px solid">남자</label>
+                            <div class="error-msg"></div>
+                        </div>
+                        <div class="sex-box inputBox" >
+                            <input type="radio" id="female" name="sex" value="female" style="display: none; padding: 10px 30px">
+                            <label class="gender" for="female" style="padding: 10px 50px; border: 2px solid">여자</label>
+                            <div class="error-msg"></div>
+                        </div>
+                        <div class="error-msg"></div>
                     </div>
                 </div>
 
                 <div class="info__items">
-                    <input type="text" th:value="${user.name}" placeholder="이름" name="name" readonly>
-                </div>
-                <div id="sexBox" class="gender-selection inputBox" style="display: flex">
-                    <div class="sex-box inputBox">
-                        <input type="radio" id="male" name="sex" value="male" th:checked="${user.getSex()=='male'}">
-                        <label class="gender" for="male">남자</label>
-                        <div class="error-msg"></div>
-                    </div>
-                    <div class="sex-box inputBox" >
-                        <input type="radio" id="female" name="sex" value="female" th:checked="${user.getSex()=='female'}">
-                        <label class="gender" for="female">여자</label>
-                        <div class="error-msg"></div>
-                    </div>
-                    <div class="error-msg"></div>
-                </div>
-                <div class="info__items">
-                    <input type="text" th:value="${user.birth}" placeholder="생년월일" name="birth" readonly>
+                    <input type="text" th:value="${user.birth}" placeholder="생년월일(8자리)" name="birth" readonly>
                 </div>
                 <div class="info__items">
                     <input type="text" th:value="${user.email}" placeholder="이메일" name="email" readonly>
@@ -55,8 +68,26 @@
                 <div class="info__items">
                     <input type="text" th:value="${user.year}" placeholder="기수"  name="year" readonly>
                 </div>
-                <div class="info__items">
-                    <input type="text" th:value="${user.addr}" placeholder="주소" name="addr" readonly>
+<!--                <div class="info__items">-->
+<!--                    <input type="text" th:value="${user.addr}" placeholder="주소" name="addr" readonly>-->
+<!--                </div>-->
+
+                <div id="roadAddressBox" class="inputBox">
+                    <div style="display: flex; padding: 10px; gap: 25px">
+                        <input id="zipcode" type="number" name="zipcode" value="" style="display: none;">
+                        <input id="roadAddress" style="width: 80%" type="text" name="roadAddress" tabindex="-1" th:value="${user.roadAddress}" readonly>
+                        <input type="button" onClick="openZipSearch();" class="roadFullAddr" tabindex="0">
+                    </div>
+                    <hr>
+                    <div style="display: flex; padding: 10px">
+                        <input id="detailAddress" style="width: 80%" type="text" name="detailAddress" th:value="${user.detailAddress}" placeholder="상세주소(000동 000호)" >
+                        <label for="roadAddress">자택 주소</label>
+                        <label for="detailAddress"></label>
+                    </div>
+                    <div class="error-msg"></div>
+
+
+
                 </div>
 
             </form>
@@ -64,10 +95,10 @@
         </div>
 
         <div class="button__list">
-            <button id="editbtn">수정</button>
+            <button id="editbtn" class="editbtn">수정</button>
             <div class="editPageBtn">
-                <button type="submit" form="form"   id="savebtn">완료</button>
-                <button id="canclebtn">취소</button>
+                <button type="submit" form="form"   id="savebtn" class="editbtn">완료</button>
+                <button id="canclebtn" class="editbtn">취소</button>
             </div>
 
         </div>
@@ -79,7 +110,9 @@
     <div class="side__bar">
         <div class="profile">
             <img class="side__icon" src="/image/profileimg.png" height="308" width="300"/>
-            <h2 class="side__page__name">이름(n기)</h2>
+            <h2 class="side__page__name" th:text="${user.name + ' (' + user.year + '기)'}">이름(n기)</h2>
+
+            <div></div>
         </div>
 
         <div class="side__items" >
@@ -98,7 +131,42 @@
 
 <!--usertest 1234-->
 
+
 <script src="js/myinfoEdit.js"></script>
+<!-- Vendor JS Files -->
+<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+<script th:src="@{/assets/vendor/aos/aos.js}"></script>
+<script th:src="@{/assets/vendor/glightbox/js/glightbox.min.js}"></script>
+<script th:src="@{/assets/vendor/swiper/swiper-bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/waypoints/noframework.waypoints.js}"></script>
+<script th:src="@{/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/assets/vendor/isotope-layout/isotope.pkgd.min.js}"></script>
+<script th:src="@{/js/signUp.js}"></script>
+
+<script>
+    // daum api 사용
+    function openZipSearch() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                // 우편번호와 주소 정보 필드에 넣기
+                document.getElementById('zipcode').value = data.zonecode;
+                document.getElementById('roadAddress').value = data.roadAddress;
+                // document.getElementById('detailAddr').value = data.detailAddress;
+                // 상세 주소로 커서 이동
+                document.getElementById('detailAddress').focus();
+                checkValidation("roadAddress", roadFullAddrInput);
+                roadFullAddrInput.dispatchEvent(new Event('change'));
+            },
+            popupTitle: "아티니어::나의 주소 찾기",
+            left: `${(window.screen.width-570)/2}`,
+            top: `${(window.screen.height-570)/2}`
+        }).open();
+    }
+</script>
+
+<!-- Main JS File -->
+<script th:src="@{/assets/js/main.js}"></script>
 
 </body>
 </html>

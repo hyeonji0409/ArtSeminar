@@ -42,7 +42,15 @@
             color: black; /* 기본 색상 */
         }
         .a-color:hover {
-            color: lightblue; /* hover 시 색상 */
+            color: #47b2e4; /* hover 시 색상 */
+        }
+        .btn-info {
+            background-color: #47b2e4 !important;  /* 버튼 배경 색상 */
+            border-color: #47b2e4 !important;      /* 버튼 테두리 색상 */
+        }
+        .btn-info:hover {
+            background-color: lightblue !important; /* hover 시 배경 색상 */
+            border-color: lightblue !important;     /* hover 시 테두리 색상 */
         }
     </style>
 </head>
@@ -50,7 +58,7 @@
 <div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
 
 <div class="container text-center" style="margin-top: 150px;">
-    <h2 class="text-info fw-bold">공지 사항</h2>
+    <h2 class="fw-bold" style="color: #47b2e4;">공지 사항</h2>
     <h5 class="text-muted" style="opacity: 0.5;">Notice</h5>
 </div>
 
@@ -63,7 +71,7 @@
             <thead>
             <tr>
                 <th scope="col">번호</th>
-                <th scope="col" class="d-flex justify-content-start">제목</th>
+                <th scope="col">제목</th>
                 <th scope="col">작성자</th>
                 <th scope="col">날짜</th>
                 <th scope="col">조회수</th>
@@ -74,15 +82,15 @@
             <tr th:each="notice, iterStat :  ${pagination}">
                 <!-- 전체 게시글 수에서 역순으로 표기하게 설정 -->
                 <td th:text="${notice.getNo()}">게시글 넘버</td>
-                <td><a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}" class="a-color" style="text-decoration: none;"></a></td>
-                <td th:text="${notice.comment}">댓글수</td>
-                <th th:text="${pagination.getSize() - iterStat.index}">1</th>
+<!--                <td><a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}" class="a-color" style="text-decoration: none;"></a></td>-->
+<!--                <td th:text="${notice.comment}">댓글수</td>-->
+<!--                <th th:text="${pagination.getSize() - iterStat.index}">1</th>-->
                 <td><div class="d-flex align-items-center">
                     <a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}"
                        class="a-color d-flex justify-content-start" style="text-decoration: none;"></a>
                     <div class="d-flex align-items-center text-danger fw-bold">
                     <p>[</p>
-                    <p class="d-flex justify-content-start" th:text="${notice.comment}">댓글수</p>
+                    <p class="d-flex justify-content-start" th:text="${notice.comments.size()}">댓글수</p>
                     <p>]</p>
                     </div>
                 </div>

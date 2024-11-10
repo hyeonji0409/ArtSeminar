@@ -2,27 +2,24 @@ package com.artineer.artineer_renewal.controller;
 
 import com.artineer.artineer_renewal.dto.GalleryDto;
 import com.artineer.artineer_renewal.entity.Gallery;
-import com.artineer.artineer_renewal.entity.Notice;
 import com.artineer.artineer_renewal.entity.User;
-import com.artineer.artineer_renewal.entity.User;
+import com.artineer.artineer_renewal.repository.CommentRepository;
 import com.artineer.artineer_renewal.repository.GalleryRepository;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.GalleryService;
-import com.artineer.artineer_renewal.service.NoticeService;
 import com.artineer.artineer_renewal.service.UserService;
-import jakarta.annotation.PostConstruct;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -44,21 +41,29 @@ public class GalleryController {
     private GalleryService galleryService;
 
     @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
     private UserService userService;
 
 
-    public GalleryController(GalleryRepository galleryRepository){this.galleryRepository = galleryRepository;}
-
     @GetMapping("/gallery")
-    public String gallerys(Model model) {
+    public String gallerys(Model model,
+                           @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
+                           @RequestParam(name = "size", required = false, defaultValue = "6") Integer pageSize) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
-
-        List<Gallery> galleryList = galleryRepository.findAllGallery();
-
         model.addAttribute("user", user);
-        model.addAttribute("gallerys", galleryList);
+
+        Pageable pageable = PageRequest.of(
+                page - 1,
+                pageSize,
+                Sort.by(Sort.Direction.DESC, "regdate"));
+
+        Page<Gallery> pagination = galleryRepository.findAll(pageable);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("pagination", pagination);
         return "board/gallery";
     }
 
@@ -90,22 +95,24 @@ public class GalleryController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
 
         GalleryDto gallery = galleryService.getGalleryByNo(no);
 
-        if (gallery == null) {
+        if (gallery == null)
             throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
-        }
+
+        System.out.println("WLWL" + gallery.getComments().size());
 
         galleryService.increaseHitCount(no);
 
-        model.addAttribute("user", user);
+        model.addAttribute("bbsName", "gallery");
+        model.addAttribute("bbsNo", no);
         model.addAttribute("gallery",gallery);
         return "board/galleryDetail";
     }
 
     /* 글 수정 */
-    //현재 오류 떠서 안들어가짐
    @GetMapping("/gallery/edit/{no}")
    public String showEditGalleryFrom(@PathVariable Long no, Model model){
        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -122,13 +129,9 @@ public class GalleryController {
 
     @PostMapping("/gallery/edit")
     public String updateGallery(@RequestParam Long no, @RequestParam String title,@RequestParam String story, Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username);
 
        galleryService.updateGallery(no,title, story);
 
-       model.addAttribute("user", user);
        return "redirect:/gallery/"+no;
     }
 

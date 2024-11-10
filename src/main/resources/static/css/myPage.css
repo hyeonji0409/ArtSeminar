@@ -3,6 +3,7 @@
 :root {
     --color-accent: var(--color-blue);
     --color-bg: var(--color-gray) ;
+    border: 4px solid var(--subtle);
 
     --color-blue: #00CED1;
     --color-gray: #f4f5fa;
@@ -31,20 +32,22 @@ body {
     width: 100%;
 }
 
+.all {
+    display: flex;
+    width: 30rem;
+}
+
 a {
     text-decoration : none;
     color: black;
 }
 
-.myPage__main {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-}
+a:visited { text-decoration: none; }
 
-.all {
-    display: flex;
-    width: 30rem;
+.logo {
+    color: var(--color-blue) !important;
+    font-weight: bold;
+    margin-left: 2rem;
 }
 
 .logo_a:link {
@@ -57,11 +60,12 @@ a {
     color: var(--color-blue)
 }
 
-.logo {
-    color: var(--color-blue) !important;
-    font-weight: bold;
-    margin-left: 2rem;
+.myPage__main {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
 }
+
 .side__bar {
     display: flex;
     /*align-items: center;*/
@@ -180,9 +184,10 @@ li {
 .logout {
     font-size: large;
     font-weight: 500;
-    margin: 1rem 1rem ;
+    margin: 1rem 1rem;
     padding: 1rem;
-=======
+= = = = = = =
+}
 /*colors*/
 :root {
     --color-accent: var(--color-blue);
@@ -289,7 +294,8 @@ body {
 
 .info__items input {
     padding: 10px;
-    width: 20rem;
+    width: 30rem;
+    font-size: 15px;
     background-color: white;
     border: none;
     border-radius: 5px;
@@ -303,6 +309,53 @@ li {
     padding: 1rem;
 }
 
-.eidtPageBtn {
+.editPageBtn {
     display: none;
 }
+.editbtn {
+    width: 4rem;
+    border-radius: 5px;
+    border: var(--color-blue);
+    background-color: var(--color-blue);
+    font-size: large;
+    color: white;
+}
+
+.inputBox {
+    background-color: white;
+    margin: 3px;
+    border-radius: 0 0 ;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#roadAddress {
+    font-size: 18px;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+}
+#detailAddress {
+    font-size: 18px;
+    border: none;
+}
+
+.roadFullAddr {
+    top: 3px;
+    left: 310px;
+    display: inline;
+    width: 7%;
+    border-style: none;
+    background: url("../assets/img/address-icon.svg") no-repeat center;
+    background-size: 90%;
+    opacity: 0.6;
+    align-content: center;
+    padding: 10px;
+    gap: 30px;
+    text-align: center;
+
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    /*outline: 3px solid var(--subtle);*/
+}
+

@@ -113,7 +113,12 @@ public class GalleryService {
                 gallery.getTitle(),
                 gallery.getStory(),
                 gallery.getHit(),
-                fileName);
+                gallery.getName(),
+                gallery.getYear(),
+                gallery.getRegdate(),
+                fileName,
+                gallery.getComments());
+
     }
 
     // 글 수정
