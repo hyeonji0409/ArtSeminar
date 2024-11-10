@@ -75,8 +75,30 @@ form.addEventListener('submit', async (e) => {
         ( await checkValidation("roadAddress", roadFullAddrInput) === false ? roadFullAddrInput.focus() : true) &&
         ( await checkValidation("roadAddress", detailAddrInput) === false ? detailAddrInput.focus() : true)
     ) {
-        form.submit();
-        alert("수정되었습니다.");
+
+        const formData = new FormData(e.target);
+
+        await fetch("/user/update", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                // 서버 응답을 처리하는 로직
+                console.log("Success:", data);
+                alert("수정되었습니다.");
+
+                if (document.referrer.startsWith(window.location.origin)) {
+                    window.history.go(-2);
+                }
+                else {
+                    location.href = window.location.origin
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("수정에 실패했습니다.")
+            });
     }
 
 })

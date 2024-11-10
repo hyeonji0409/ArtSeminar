@@ -117,7 +117,7 @@ public class UserController {
 
 
 
-
+    // todo 이런 특정 페이지를 요구하지 않는 작업은 클라이언트에서 js로 fetch 해서 통신하는 것이 나을 듯
     @PostMapping("/user/update")
     public String updateUser(Model model,
                              UserDto userDto) {
@@ -132,9 +132,9 @@ public class UserController {
         boolean isSuccess = userService.updateUser(username, userDto, clientIp);
 
         String redirectAddress =
-                request.getSession().getAttribute("redirectUrl") != null ?
-                        (String) request.getSession().getAttribute("redirectUrl") :
-                        request.getHeader("Referer");
+                request.getHeader("Referer") != null ?
+                        request.getHeader("Referer") :
+                        (String) request.getSession().getAttribute("redirectUrl");
 
         System.out.println("리다이렉 주소는 " + redirectAddress);
         return "redirect:" + redirectAddress;

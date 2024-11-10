@@ -25,12 +25,13 @@
 
 <script>
     function backPage() {
-        if (document.referrer === '' || document.referrer.startsWith(window.location.origin)) {
-            window.history.back()
-        }
-        else {
-            location.href = window.location.origin
-        }
+        window.history.back()
+        // if (document.referrer.startsWith(window.location.origin)) {
+        //     window.history.back()
+        // }
+        // else {
+        //     location.href = window.location.origin
+        // }
     }
 </script>
 

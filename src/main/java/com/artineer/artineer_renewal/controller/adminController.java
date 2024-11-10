@@ -50,9 +50,6 @@ public class adminController {
     private HttpServletRequest request;
     @Autowired
     private PopupRepository popupRepository;
-
-    @Value("${file.dir}")
-    private String fileDir;
     @Autowired
     private FileService fileService;
 
@@ -248,12 +245,6 @@ public class adminController {
         fileService.deleteFile(filePath);
 
         popupRepository.delete(popup);
-
-//        boolean isSuccess = adminService.updateCalendarEvent(username, calendarEventDTO, clientIp);
-//        if (!isSuccess) {
-//            model.addAttribute("errorCode", 400);
-//            return "/user/errorPage";
-//        }
 
         String redirectAddress =  request.getHeader("Referer");
         System.out.println(redirectAddress);

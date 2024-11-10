@@ -84,38 +84,38 @@ h3 {
 --------------------------------------------------------------*/
 
 body {
-        background-color: #111111;
-      }
-      .container {
-        max-width: 1180px;
-        display: flex;
-        justify-content: center;
-        margin: 50px auto 0 auto;
-      }
+    background-color: #111111;
+}
 
-      .btn-container:not(:first-child) {
-        border-left: 1px solid rgba(240, 240, 240, 0.3);
-      }
+.container {
+    max-width: 1180px;
+    display: flex;
+    justify-content: center;
+    margin: 50px auto 0 auto;
+}
 
-      .btn {
-        opacity: 80%;
-        color: #f0f0f0;
-        font-size: 20px;
-        font-weight: 600;
-        padding: 0 20px;
-        transition: all 0.3s;
-      }
+.btn-container:not(:first-child) {
+    border-left: 1px solid rgba(240, 240, 240, 0.3);
+}
 
-      .btn:hover {
-        opacity: 100%;
-        cursor: pointer;
-      }
+.btn {
+    opacity: 80%;
+    color: #f0f0f0;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 0 20px;
+    transition: all 0.3s;
+}
 
-      .active {
-        opacity: 100%;
-        color: #c3201f;
-      }
-    }
+.btn:hover {
+    opacity: 100%;
+    cursor: pointer;
+}
+
+.active {
+    opacity: 100%;
+    color: #c3201f;
+}
 
 /*--------------------------------------------------------------
 # 둘러보기 section

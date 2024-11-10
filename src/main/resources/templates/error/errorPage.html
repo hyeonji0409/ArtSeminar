@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="ko" xmlns="http://www.w3.org/1999/html"
       xmlns:th="http://www.thymeleaf.org">
 
@@ -29,12 +28,13 @@
 
 <script>
     function backPage() {
-        if (document.referrer === '' || document.referrer.startsWith(window.location.origin)) {
-            window.history.back()
-        }
-        else {
-            location.href = window.location.origin
-        }
+        window.history.back()
+        // if (document.referrer.startsWith(window.location.origin)) {
+        //     window.history.back()
+        // }
+        // else {
+        //     location.href = window.location.origin
+        // }
     }
 </script>
 

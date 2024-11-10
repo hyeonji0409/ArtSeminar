@@ -236,7 +236,7 @@ hr {
     display: inline;
     width: 10%;
     border-style: none;
-    background: url("../assets/img/address-icon.svg") no-repeat center;
+    background: url("../assets/img/material/address-icon.svg") no-repeat center;
     background-size: 90%;
     opacity: 0.6;
 

@@ -224,7 +224,23 @@ hr {
     display: inline;
     width: 10%;
     border-style: none;
-    background: url("../assets/img/address-icon.svg") no-repeat center;
+    background: url("../assets/img/material/address-icon.svg") no-repeat center;
+    background-size: 90%;
+    opacity: 0.6;
+
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    /*outline: 3px solid var(--subtle);*/
+}
+
+.pwEye {
+    position: absolute;
+    top: 3px;
+    left: 310px;
+    display: inline;
+    width: 10%;
+    border-style: none;
+    background: url("../assets/img/material/eye.svg") no-repeat center;
     background-size: 90%;
     opacity: 0.6;
 
@@ -295,8 +311,8 @@ a {
     color: darkgray !important;
 }
 
-a:hover {
-    text-decoration: underline !important;
+#starter-section > div:nth-child(2) > a:hover {
+    text-decoration: underline;
 }
 
 
