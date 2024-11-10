@@ -4,16 +4,43 @@
     <meta charset="UTF-8">
     <title>My Activity</title>
     <link rel="stylesheet" href="/css/mypageAct1.css">
+
 </head>
 <body>
 <div class="container">
     <div class="myPage__main" >
         <div>
 
-            <h1 class="logo"><a>ARTINEER</a></h1>
+            <h1 class="logo"><a class="logo_a" href="/">ARTINEER</a></h1>
         </div>
         <div class="text" style="font-size: xx-large; text-align: center">작성한 글</div>
 
+        <table class="table table-hover text-center mt-3 bg-white w-75">
+            <thead >
+            <tr>
+                <th scope="col">번호</th>
+                <th scope="col">제목</th>
+                <th scope="col">댓글수</th>
+                <th scope="col">작성자</th>
+                <th scope="col">날짜</th>
+                <th scope="col">조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="notice, iterStat :  ${articles}">
+                <!-- 전체 게시글 수에서 역순으로 표기하게 설정 -->
+                <th th:text="${articles.size() - iterStat.index}">1</th>
+                <td><a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}" class="a-color" style="text-decoration: none;"></a></td>
+                <td th:text="${notice.comment}">댓글수</td>
+                <td th:text="${notice.name} + '(' + ${notice.year} + '기)'">작성자</td>
+                <td><a th:text="${notice.regdate}">날짜</a></td>
+                <td><a th:text="${notice.hit}">조회수</a></td>
+            </tr>
+
+
+            </tbody>
+        </table>
     </div>
 
 
@@ -39,4 +66,5 @@
 
 
 </body>
+
 </html>
