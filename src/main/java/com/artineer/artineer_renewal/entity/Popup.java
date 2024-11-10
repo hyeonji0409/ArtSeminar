@@ -13,8 +13,13 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+
+// 본인 스키마 맞춰서 주석처리 하세요.
+
 @ToString
-@Table(name = "popup", schema = "artineer_renewal")
+// @Table(name = "popup", schema = "artineer_renewal")
+
+@Table(name = "popup", schema = "re_artineer")
 public class Popup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
