@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
 import java.net.URLDecoder;
@@ -37,13 +36,13 @@ public class GlobalExceptionHandler {
         return "error/errorPage";
     }
 
-    @ExceptionHandler(NoHandlerFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public void handleNoHandlerFoundException(NoHandlerFoundException ex, HttpServletRequest request) {
-    }
+    //NotFoundException.class,
+    // todo 궁금한 점 왜 핸들러에 전달은 되었는데 로깅만 되고 페이지 반환은 안 되는거냐
+    // NoResourceFoundException와 Exception은 다른 루트 클래스를 상속한다?
+    // ResponseStatus를 안하면 리스폰스 바디에 html 코드가 안 보이는 이유?
 
-//NotFoundException.class,
     @ExceptionHandler({NoResourceFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleNotFoundException(Exception ex, Model model, HttpServletRequest request) {
         loggingWarn(request, ex);
 
@@ -72,6 +71,15 @@ public class GlobalExceptionHandler {
         model.addAttribute("errorMessage", "알 수 없는 문제가 발생했습니다." + ex.getClass());
         return "error/errorPage";
     }
+
+    // 위 @ExceptionHandler(Exception.class)에서
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public void handleNoHandlerFoundException(NoHandlerFoundException ex, HttpServletRequest request) {
+        System.out.println("qp");
+    }
+
+
+
 
 
 
