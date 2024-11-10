@@ -1,8 +1,7 @@
 /* input placeholder animation*/
-const inputBoxes = document.querySelectorAll('input[type="text"]:not([name="detailAddress"]), input[type="number"], input[type="email"], input[type="password"]');
+const inputBoxes = document.querySelectorAll('input[type="text"]:not([name="detailAddress"]), input[type="number"], input[type="email"], input[type="password"], #role');
 
-
-inputBoxes.forEach(v => v.addEventListener("change", (e) => {
+inputBoxes.forEach(v => v.addEventListener("blur", (e) => {
     console.log("인풋박스에 값:" + e.target.value)
     // e.target.validity.badInput 는  number type 검사를 위함.
     if (e.target.value || e.target.validity.badInput) {
@@ -13,6 +12,8 @@ inputBoxes.forEach(v => v.addEventListener("change", (e) => {
         e.target.parentElement.querySelector("label").classList.remove('focused-label')
     }
 }))
+
+document.querySelector('select').blur()
 
 /* check submit form validation */
 const form = document.querySelector('#form');
@@ -31,7 +32,7 @@ const roadFullAddrInput = document.querySelector('input[name="roadAddress"]');
 const detailAddrInput = document.querySelector('input[name="detailAddress"]');
 // const submitBtn = document.querySelector('button[type="submit"]');
 const genderInputs = document.querySelectorAll('input[name="sex"]');
-const roleInput = document.querySelector('input[name="role"]');
+const roleInput = document.querySelector('#role');
 
 idInput.parentElement.querySelector("label").classList.add('focused-label')
 emailInput.parentElement.querySelector("label").classList.add('focused-label')
@@ -245,7 +246,7 @@ const errMsg = {
         fail: "상세주소를 입력해 주세요.fail"
     },
     role: {
-        pattern: /^(ROLE_GUEST|ROLE_ADMIN)$/,
+        pattern: /\S+/,
         invalid: "똑바로 입력해주세요.",
         fail: "똑바로 입력..fail"
     }
@@ -336,5 +337,6 @@ editButtons.forEach(v => v.addEventListener("click", (e) => {
         console.log(eachUser.sex)
         if (v.value === eachUser.sex) v.checked = true;
     });
-    roleInput.value = eachUser.role
+
+    roleInput.querySelector(`#role > option[value=${eachUser.role}]`).selected = true
 }))

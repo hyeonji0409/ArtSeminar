@@ -64,7 +64,8 @@ form div {
 form input[type="text"],
 form input[type="password"],
 form input[type="number"],
-form input[type="email"] {
+form input[type="email"],
+form select {
     width: 100%;
     box-sizing: border-box;
     border-radius: 10px;

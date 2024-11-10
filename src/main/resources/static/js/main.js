@@ -294,17 +294,6 @@ myModals.forEach( (modal, idx) => {
 //
 // })
 
-
-const makeCookie = (e) => {
-  const popupId = e.target.dataset.indexNumber;
-  const expirationDate = new Date();
-  // expirationDate.setDate(expirationDate.getDate() + 7); //쿠키 만료
-  expirationDate.setSeconds(expirationDate.getSeconds() + 7);
-  const path = "/"; // 설정된 경로 및 하위경로에서만 쿠키 접근이 가능합니다.
-  const domain = "example.com"; //해당 도메인에서만 쿠키 접근이 가능합니다.
-  const secure = false; //true 로 설정할 시 http2 로만 쿠키에 접근할 수 있습니다.
-  document.cookie = `${popupId}=${popupId}; expires=${expirationDate.toUTCString()}; path=${path};`;
-}
 /* 광고팝업에 관한 코드 -끝- */
 /**
    * calendar modal
@@ -334,3 +323,13 @@ const makeCookie = (e) => {
 })();
 
 
+const makeCookie = (e) => {
+  const popupId = e.target.dataset.indexNumber;
+  const expirationDate = new Date();
+  // expirationDate.setDate(expirationDate.getDate() + 7); //쿠키 만료
+  expirationDate.setSeconds(expirationDate.getSeconds() + 7);
+  const path = "/"; // 설정된 경로 및 하위경로에서만 쿠키 접근이 가능합니다.
+  const domain = "example.com"; //해당 도메인에서만 쿠키 접근이 가능합니다.
+  const secure = false; //true 로 설정할 시 http2 로만 쿠키에 접근할 수 있습니다.
+  document.cookie = `${popupId}=${popupId}; expires=${expirationDate.toUTCString()}; path=${path};`;
+}
