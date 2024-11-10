@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -153,18 +155,6 @@ public class UserController {
     }
 
 
-    @GetMapping("/user/sign-withdrawal")
-    public String withdrawal() {
-        return "/user/sign-withdrawal";
-    }
-  
-    @PostMapping("/user/sign-withdrawal")
-    public String PostWithdrawal() {
-        return "redirect:/";
-    }
-
-
-
     /* 아이디/비밀번호 찾기 */
     @GetMapping("/user/sign-find/{what}")
     public String signFind(@PathVariable String what,
@@ -181,27 +171,33 @@ public class UserController {
 
 
 
-//    @GetMapping("/user/sign-withdrawalConfirm")
-//    public String withdrawalConfirm() {
-//        return "/user/sign-withdrawalConfirm";
-//    }
+
+    @GetMapping("/user/sign-withdrawal")
+    public String withdrawal(Model model,
+                             @AuthenticationPrincipal User user) {
+        if (user==null) throw new AccessDeniedException("로그인 후 이용가능합니다.");
+
+        model.addAttribute("user", user);
+        return "/user/sign-withdrawal";
+    }
+
+    @GetMapping("/user/sign-withdrawalConfirm")
+    public String withdrawalConfirm(Model model,
+                                    @AuthenticationPrincipal User user) {
+        if (user==null) throw new AccessDeniedException("로그인 후 이용가능합니다.");
+
+        model.addAttribute("user", user);
+        return "/user/sign-withdrawalConfirm";
+    }
 
 
 
     @PostMapping("/user/withdrawal")
-    public ResponseEntity<String> PostWithdrawal(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<String> PostWithdrawal(@AuthenticationPrincipal User user,
+                                                 @RequestParam Map<String, Object> payload) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-
-        return userService.PostWithdrawal(payload, username);
+        return userService.PostWithdrawal(payload, user.getUsername());
     }
-
-//    @PostMapping("/sign-withdrawalConfirm")
-//    public String PostWithdrawalConfirm() {
-//        // Todo 회원정보 삭제화
-//        return "redirect:/";
-//    }
 
 
 

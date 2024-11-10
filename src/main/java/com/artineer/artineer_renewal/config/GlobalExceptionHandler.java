@@ -44,13 +44,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({NoResourceFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleNotFoundException(Exception ex, Model model, HttpServletRequest request) {
-        loggingWarn(request, ex);
-
-        String requestURI = request.getRequestURI();
-        String decodedURI = URLDecoder.decode(requestURI, StandardCharsets.UTF_8);
-
-        model.addAttribute("errorCode", 404);
-        model.addAttribute("errorMessage", "\"" +decodedURI+ "\" 에 대한 결과를 찾을 수 없습니다.\n" + ex.getMessage());
+//        loggingWarn(request, ex);
+//
+//        String requestURI = request.getRequestURI();
+//        String decodedURI = URLDecoder.decode(requestURI, StandardCharsets.UTF_8);
+//
+//        model.addAttribute("errorCode", 404);
+//        model.addAttribute("errorMessage", "\"" +decodedURI+ "\" 에 대한 결과를 찾을 수 없습니다.\n" + ex.getMessage());
         return "error/errorPage";
     }
 

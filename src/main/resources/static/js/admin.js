@@ -123,14 +123,13 @@ deleteButton.addEventListener("click", async () => {
     let confirmText = prompt("삭제하려는 사용자의 아이디를 정확히 입력해주세요.", '아이디를 제출하는 즉시, 계정이 "삭제"됩니다.')
     if( confirmText !== idInput.value) { alert("올바르지 않습니다."); return; }
 
-    let response = await fetch("user/withdrawal", {
+
+    const formData = new FormData()
+    formData.append("username",idInput.value)
+
+    let response = await fetch("/user/withdrawal", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                "username": idInput.value
-            })
+            body: formData
         }
     )
 

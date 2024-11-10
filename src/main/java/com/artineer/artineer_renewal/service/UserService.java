@@ -145,28 +145,24 @@ public class UserService {
                                                  String username) {
 
         System.out.println("아이디가 삭제될 예정" + payload);
-
-        if (username.equals("anonymousUser")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-
         User requestedUser = userRepository.findByUsername(username);
+        User toDelete = userRepository.findByUsername((String) payload.get("username"));
+        if (toDelete == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 
-        if (!isAdmin(requestedUser.getUsername())
-                && !requestedUser.getUsername().equals( payload.get("username") )
-        ) {
+        if (isAdmin(requestedUser.getUsername())) {
+            userRepository.deleteById(toDelete.getNo());
+            return ResponseEntity.status(HttpStatus.OK).body("success");
+        }
+
+        String submitPassword = (String) payload.get("password");
+        boolean isPwMatch = passwordEncoder.matches(submitPassword, toDelete.getPassword());
+
+        if ( !requestedUser.getUsername().equals( payload.get("username")) || !isPwMatch ) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        User user = null;
 
-        try {
-            user = userRepository.findByUsername((String) payload.get("username"));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notFound");
-        }
-
-        userRepository.deleteById(user.getNo());
+        userRepository.deleteById(toDelete.getNo());
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
