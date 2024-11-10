@@ -3,13 +3,22 @@ package com.artineer.artineer_renewal.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
+
+// 본인 스키마 맞춰서 주석처리 하세요.
+
+@ToString
+// @Table(name = "popup", schema = "artineer_renewal")
+
 @Table(name = "popup", schema = "re_artineer")
 public class Popup {
     @Id
@@ -23,11 +32,19 @@ public class Popup {
     @Column(name = "description", nullable = false)
     private String description;
 
+//    @Column(name = "start_date", nullable = false)
+//    private Instant startDate;
+
     @Column(name = "start_date", nullable = false)
-    private Instant startDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime startDate;
+
+//    @Column(name = "end_date", nullable = false)
+//    private Instant endDate;
 
     @Column(name = "end_date", nullable = false)
-    private Instant endDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime endDate;
 
     @ColumnDefault("1")
     @Column(name = "is_visible")

@@ -36,7 +36,7 @@
 
 
 <!--<header 부분은 templetes/header.html로 분리-->
-<div th:replace="~{header :: header}"></div>
+<div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
 
 
 <main class="main">
@@ -249,7 +249,7 @@
 
 
 <!--<footer 부분은 templetes/footer.html로 분리-->
-<div th:replace="~{footer::footer}"></div>
+<div th:replace="~{fragments/footerFragment::footer}"></div>
 
 
 

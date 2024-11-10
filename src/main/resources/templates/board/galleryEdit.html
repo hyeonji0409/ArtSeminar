@@ -63,29 +63,21 @@
 
 
     <!-- Main CSS File -->
-    <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
 
 
 </head>
-<body>
+<body class="starter-page-page d-flex flex-column min-vh-100">
 
-<header id="header" class="header d-flex align-items-center sticky-top">
-    <div class="container-fluid container-xl position-relative d-flex align-items-center">
-        <a th:replace="~{/fragments/headerFragment :: headerLogo}"></a>
-    </div>
-</header>
+<div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
 
-<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 100px;">
+<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 100px; margin-top: 150px; ">
     <div class="d-flex justify-content-center container custom-width" style="max-width: 1000px">
         <form class="container mt-5" th:action="@{/gallery/edit}" method="post" >
             <input type="hidden" name="no" th:value="${gallery.no}" />
-            <select class="form-select mb-3" aria-label="Default select example">
-                <option selected>등록할 게시판을 고르시오.</option>
-                <option value="1">공지사항 (notice)</option>
-                <option value="2">갤러리 (gallery)</option>
-            </select>
 
-            <input type="text" id="title" name="title" required th:field="${gallery.title}" class="container custom-width"><br><br>
+
+            <input type="text" id="title" name="title" required th:field="${gallery.title}" class="container custom-width fs-3 border-0 border-bottom"><br><br>
 
             <textarea name="story" id="story" th:field="${gallery.story}" ></textarea>
 
@@ -101,13 +93,13 @@
             <a th:href="@{/gallery/{no}(no=${gallery.no})}" class="btn btn-outline-info custom-btn">취소</a>
             <button type="submit" class="btn btn-outline-info custom-btn">수정</button>
         </div>
-            <div th:each="fileName: ${gallery.file}">
-                <a>등록된 파일 이름: </a>
-                <a th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image"></a>
-                <a type="button" class="btn btn-outline-danger custom-btn">파일삭제</a>
-                <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px;">
+<!--            <div th:each="fileName: ${gallery.file}">-->
+<!--                <a>등록된 파일 이름: </a>-->
+<!--                <a th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image"></a>-->
+<!--                <a type="button" class="btn btn-outline-danger custom-btn">파일삭제</a>-->
+<!--                <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px;">-->
 
-            </div>
+<!--            </div>-->
 
         </form>
     </div>
@@ -117,7 +109,7 @@
     CKEditor.replace('story'); // story id를 가진 textarea에 CKEditor 적용
 </script>
 </div>
-<footer id="footer" class="footer" th:replace="~{/fragments/footerFragment :: siteInfoFooterFragment}"></footer>
+<footer id="footer" th:insert="~{fragments/footerFragment :: footerInfo}" class="footer py-3 mt-auto"></footer>
 
 <!-- Scroll Top -->
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

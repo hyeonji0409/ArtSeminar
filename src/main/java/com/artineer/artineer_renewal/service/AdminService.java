@@ -4,8 +4,10 @@ import com.artineer.artineer_renewal.dto.CalendarEventDTO;
 import com.artineer.artineer_renewal.dto.UserDto;
 import com.artineer.artineer_renewal.dto.UserSearchDTO;
 import com.artineer.artineer_renewal.entity.CalendarEvent;
+import com.artineer.artineer_renewal.entity.Popup;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.CalendarEventRepository;
+import com.artineer.artineer_renewal.repository.PopupRepository;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -37,6 +41,10 @@ public class AdminService {
     private UserService userService;
     @Autowired
     private CalendarEventRepository eventRepository;
+    @Autowired
+    private PopupRepository popupRepository;
+    @Autowired
+    private FileService fileService;
 
 
     // 회원정보 값 유효성 검사
@@ -105,6 +113,31 @@ public class AdminService {
 
 
 
+    public List<CalendarEvent> calenderByPeriod(CalendarEventDTO calendarEventDTO) {
+        LocalDate startDate = null;
+        if (calendarEventDTO.getStart().isEmpty()) {
+            startDate = LocalDate.of(1000, 1, 1);  // MySQL의 최소 허용 날짜로 설정
+        } else {
+            startDate = calendarEventDTO.getStart()
+                    .map(instant -> instant.atZone(ZoneId.systemDefault()).toLocalDate())
+                    .orElse(LocalDate.of(1000, 1, 1)); // 만약 값이 없으면 기본 날짜로 설정
+        }
+
+        LocalDate endDate = null;
+        if (calendarEventDTO.getStart().isEmpty()) {
+            endDate = LocalDate.of(9999, 12, 31);  // MySQL의 최소 허용 날짜로 설정
+        } else {
+            endDate = calendarEventDTO.getEnd()
+                    .map(instant -> instant.atZone(ZoneId.systemDefault()).toLocalDate())
+                    .orElse(LocalDate.of(9999, 1, 1)); ;
+        }
+
+
+        return eventRepository.findAllByStartDateGreaterThanEqualAndEndDateLessThanEqual(startDate, endDate);
+    }
+
+
+
     public Page<CalendarEvent> calenderPaginationByQuery(CalendarEventDTO calendarEventDTO, Integer page, Integer pageSize) {
         LocalDate startDate = null;
         if (calendarEventDTO.getStart().isEmpty()) {
@@ -149,7 +182,7 @@ public class AdminService {
 
     public boolean updateCalendarEvent(String logInUsername, CalendarEventDTO calendarEventDTO, String clientIp) {
         // IP 주소 가져오기
-        System.out.println("Client IP: " + clientIp);
+//        System.out.println("Client IP: " + clientIp);
 
         if (!userService.isAdmin(logInUsername)) return false;
 
@@ -158,16 +191,12 @@ public class AdminService {
 
 
         CalendarEvent calendarEvent = eventRepository.findByNo(calendarEventDTO.getNo());
-        System.out.println(calendarEventDTO.getNo()+ "가죠요요요" + calendarEvent);
         if (calendarEvent != null) {
-            System.out.println("디비서 가져온 " + calendarEvent);
-
             // todo 예외처리
             if (calendarEventDTO.getTitle()!=null && !calendarEvent.getTitle().isEmpty()) calendarEvent.setTitle(calendarEventDTO.getTitle());
             if (calendarEventDTO.getDescription()!=null && !calendarEvent.getDescription().isEmpty()) calendarEvent.setDescription(calendarEventDTO.getDescription());
             if (calendarEventDTO.getStartDate()!=null ) calendarEvent.setStartDate(calendarEventDTO.getStartDate());
             if (calendarEventDTO.getStartTime()!=null ) calendarEvent.setStartTime(calendarEventDTO.getStartTime());
-    //        if (calendarEventDTO.getStartTime()!=null ) System.out.println("왜 스타트가 뉼이 아니애" + (calendarEvent.getStartTime()!=null));
             if (calendarEventDTO.getEndDate()!=null) calendarEvent.setEndDate(calendarEventDTO.getEndDate());
             if (calendarEventDTO.getEndTime()!=null ) calendarEvent.setEndTime(calendarEventDTO.getEndTime());
             if (calendarEventDTO.getIsAllDay()!=null ) calendarEvent.setIsAllDay(calendarEventDTO.getIsAllDay());
@@ -185,6 +214,46 @@ public class AdminService {
         }
 
         eventRepository.save(calendarEvent);
+
+        return true;
+    }
+
+
+    public boolean updatePopup(String logInUsername, Popup popup, String clientIp) throws AccessDeniedException {
+
+        if (!userService.isAdmin(logInUsername)) throw new AccessDeniedException("관리자만 수정가능합니다.");
+
+        System.out.println("수정요청 받음" +  popup.toString());
+
+        Popup foundPopup = popupRepository.findByNo(popup.getNo());
+
+        if (foundPopup != null) {
+            System.out.println("디비서 가져온 " + foundPopup);
+
+            // todo 예외처리
+            if (popup.getTitle()!=null && !foundPopup.getTitle().isEmpty()) foundPopup.setTitle(popup.getTitle());
+            if (popup.getDescription()!=null && !foundPopup.getDescription().isEmpty()) foundPopup.setDescription(popup.getDescription());
+            if (popup.getStartDate()!=null ) foundPopup.setStartDate(popup.getStartDate());
+            if (popup.getEndDate()!=null) foundPopup.setEndDate(popup.getEndDate());
+            if (popup.getIsVisible()!=null ) foundPopup.setIsVisible(popup.getIsVisible());
+            if (popup.getLink()!=null) {
+                String oldLink = foundPopup.getLink();
+                if (oldLink != null) fileService.deleteFile(oldLink);
+                foundPopup.setLink(popup.getLink());
+            }
+        } else {
+            foundPopup = new Popup();
+            foundPopup.setTitle(popup.getTitle());
+            foundPopup.setDescription(popup.getDescription());
+            foundPopup.setStartDate(popup.getStartDate());
+            foundPopup.setEndDate(popup.getEndDate());
+            foundPopup.setIsVisible(popup.getIsVisible());
+            foundPopup.setLink(popup.getLink());
+            // todo 서버는 utc이고 클라 인풋폼은 localtime이라서 문제발생
+            foundPopup.setCreatedAt(Instant.now());
+        }
+
+        popupRepository.save(foundPopup);
 
         return true;
     }

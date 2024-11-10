@@ -43,6 +43,8 @@ public class GalleryService {
 
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private FileService fileService;
 
     //글작성
     public ResponseEntity<String> createGallery(String title, String story, List<MultipartFile> files){
@@ -71,20 +73,8 @@ public class GalleryService {
 
         // 파일 처리
         for( MultipartFile file : files) {
-            if(!file.isEmpty()) {
-                String originalFilename = file.getOriginalFilename();
-                String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
-                try {
-                    Path path = Paths.get(fileDir + fileName);
-                    Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-                    fileNames.add(fileName);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                            .body("파일 업로드 실패");
-                }
-
-            }
+            String fileName = fileService.uploadMultipartFile(file);
+            if (fileName!=null) fileNames.add(fileName);
         }
 
         String fileNameString = String.join(",", fileNames);
@@ -123,7 +113,12 @@ public class GalleryService {
                 gallery.getTitle(),
                 gallery.getStory(),
                 gallery.getHit(),
-                fileName);
+                gallery.getName(),
+                gallery.getYear(),
+                gallery.getRegdate(),
+                fileName,
+                gallery.getComments());
+
     }
 
     // 글 수정
