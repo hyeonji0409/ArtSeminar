@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,86 +11,57 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-
-<footer id="footer" class="footer py-3 mt-auto" th:fragment="footerFragment">
-
-<!--    <div class="footer-newsletter">-->
-<!--        <div class="container">-->
-<!--            <div class="row justify-content-center text-center">-->
-<!--                <div class="col-lg-6">-->
-<!--                    <h4>Join Our Newsletter</h4>-->
-<!--                    <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>-->
-<!--                    <form action="forms/newsletter.php" method="post" class="php-email-form">-->
-<!--                        <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>-->
-<!--                        <div class="loading">Loading</div>-->
-<!--                        <div class="error-message"></div>-->
-<!--                        <div class="sent-message">Your subscription request has been sent. Thank you!</div>-->
-<!--                    </form>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
+<footer id="footer" class="footer py-3 mt-auto" th:fragment="footer">
+    <hr class="divider">
     <div class="container footer-top">
         <div class="row gy-4">
+            <!-- 좌측: 아티니어 정보 -->
             <div class="col-lg-4 col-md-6 footer-about">
-                <a th:href="@{/}" class="d-flex align-items-center">
-                    <span class="sitename">Artineer</span>
+                <a href="/" class="d-flex align-items-center">
+                    <span class="sitename">Artineer_renewal</span>
                 </a>
                 <div class="footer-contact pt-3">
                     <p>전북특별자치도 익산시 익산대로 460</p>
                     <p>창의공과대학 5층 LINK+ 동아리실 (원광대학교)</p>
-<!--                    TODO 연락처 등 확인 필요-->
-                    <p class="mt-3"><strong>TEL:</strong> <span>010-5289-3793 (동아리부장)</span></p>
+                    <p class="mt-3"><strong>TEL:</strong> <span>010-5289-3793(동아리 회장)</span></p>
                     <p><strong>Email:</strong> <span>artineer24@google.com</span></p>
                 </div>
             </div>
 
-            <div class="col-lg-2 col-md-3 footer-links">
+            <!-- 중앙: 유용한 링크 -->
+            <div class="col-lg-4 col-md-6 footer-links">
                 <h4>유용한 링크</h4>
                 <ul>
-                    <li><i class="bi bi-chevron-right"></i> <a th:href="@{/}">아티니어 홈페이지</a></li>
+                    <li><i class="bi bi-chevron-right"></i> <a href="https://cafe.naver.com/artineer24">아티니어 홈페이지</a></li>
                     <li><i class="bi bi-chevron-right"></i> <a href="https://intra.wku.ac.kr/">교내 웹정보서비스</a></li>
                     <li><i class="bi bi-chevron-right"></i> <a href="https://computer.wku.ac.kr/">소속학과 홈페이지</a></li>
                     <li><i class="bi bi-chevron-right"></i> <a href="#">이용약관</a></li>
                 </ul>
             </div>
 
-            <div class="col-lg-2 col-md-3 footer-links">
-                <h4>Our Services</h4>
-                <ul>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#">Web Design</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#">Web Development</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#">Product Management</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#">Marketing</a></li>
-                </ul>
+            <!-- 우측: 찾아오시는 길 (카카오맵) -->
+            <div class="col-lg-4 col-md-6 footer-map">
+                <h4>찾아오시는 길</h4>
+                <div id="daumRoughmapContainer1725096417636" class="root_daum_roughmap root_daum_roughmap_landing" style="width: 100%; height: 270px"></div>
             </div>
-
-            <div class="col-lg-4 col-md-12">
-                <h4>Follow Us</h4>
-                <p>"아티니어"의 SNS 계정은 계획 중 입니다.</p>
-                <div class="social-links d-flex">
-                    <a href="https://twitter.com/?lang=ko/"><i class="bi bi-twitter-x"></i></a>
-                    <a href="https://www.facebook.com/?locale=ko_KR"><i class="bi bi-facebook"></i></a>
-                    <a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a>
-                    <a href="https://kr.linkedin.com/"><i class="bi bi-linkedin"></i></a>
-                </div>
-            </div>
-
         </div>
     </div>
 
-    <div class="container copyright text-center py-3 mt-auto" th:fragment="siteInfoFooterFragment">
-        <p>© <span>Copyright</span> <strong class="px-1 sitename">Artineer</strong> <span>All Rights Reserved</span></p>
+    <!-- 카카오맵 스크립트 -->
+    <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+    <script charset="UTF-8">
+        new daum.roughmap.Lander({
+          "timestamp": "1725096417636",
+          "key": "2ki7e",
+        }).render();
+    </script>
+
+    <div class="container copyright text-center mt-4" th:fragment="footerInfo">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">F2024 Artineer_renewal</strong> <span>All Rights Reserved</span></p>
         <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you've purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
             Designed by <a href="https://bootstrapmade.com/">Arsha&BootstrapMade</a>
         </div>
     </div>
-
 </footer>
 
 </body>

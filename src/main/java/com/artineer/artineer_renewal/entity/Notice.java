@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "notice")
 @NoArgsConstructor
@@ -23,6 +25,11 @@ public class Notice {
     private int hit;
     private String file;
     private int comment; // 댓글 개수
+
+    @OneToMany
+    @JoinColumn(name = "bbs_no", referencedColumnName = "no")
+    private List<Comment> comments; // 댓글 개수
+
     private String regdate;
     private String ip;
 

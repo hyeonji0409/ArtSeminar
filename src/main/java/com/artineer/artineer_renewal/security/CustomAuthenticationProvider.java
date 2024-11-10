@@ -58,10 +58,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         }
 
 //         비밀번호 인코딩 알고리즘 최신화
-        if (passwordEncoder.upgradeEncoding(user.getPassword())) {
-            userService.updatePasswordEncoder(user, password);
-        }
-
+        upgradeEncodingIfNecessary(user, password);
 
 //        유저의 권한 출력해보기
 //        System.out.println(user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(", ")));
@@ -73,5 +70,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
+    }
+
+    private void upgradeEncodingIfNecessary(User user, String rawPassword) {
+        if (passwordEncoder.upgradeEncoding(user.getPassword())) {
+            userService.updatePasswordEncoder(user, rawPassword);
+        }
     }
 }

@@ -26,7 +26,16 @@
   <link th:href="@{../css/admin.css}" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link th:href="@{../assets/css/main.css}" rel="stylesheet">
+  <link href="/css/main.css" rel="stylesheet">
+  <style>
+    .modal-content {
+      padding: 0;
+    }
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+  <link th:href="@{/css/admin.css}" rel="stylesheet">
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 
   <!-- =======================================================
@@ -40,7 +49,7 @@
 
 <body class="starter-page-page d-flex flex-column min-vh-100">
 
-<header th:replace="~{/fragments/headerFragment :: headerFragment(user=${user})}"></header>
+<header th:replace="~{fragments/headerFragment :: header(user=${user})}"></header>
 
   <main class="main">
 
@@ -62,7 +71,12 @@
     <!-- Starter Section Section -->
     <section id="starter-section" class="starter-section section mt-5">
       <div class="container">
-        <h1 class="text-center mb-4 fw-bold form">일정 관리</h1>
+        <div class="offset-md-2" style="margin-top: 75px">
+          <a th:href="@{/admin/member}">회원관리</a> /
+          <a th:href="@{/admin/calendar}">일정관리</a> /
+          <a th:href="@{/admin/popup}">팝업관리</a>
+        </div>
+        <h1 class="text-center mb-4 fw-bold form" style="margin-top: 5px">일정 관리</h1>
 
         <!-- 검색 필터 -->
         <div class="table-responsive row mb-4">
@@ -105,7 +119,7 @@
                 <div class=" d-flex flex-wrap justify-content-end align-content-center ms-0">
                   <a id="reset-button" th:href="@{/admin}" class="btn btn-secondary col-1 me-2 align-content-center" style="width: fit-content; min-width: 90px">초기화</a>
                   <button type="button" id="new" class="btn btn-secondary col-1 me-2" style="width: fit-content; min-width: 90px" data-bs-toggle="modal" data-bs-target="#editModal">추가</button>
-                  <button id="querySubmit" class="btn btn-primary col-1 me-2" style="width: fit-content; min-width: 90px">검색</button>
+                  <button id="querySubmit" class="btn btn-primary col-1 me-2" style="width: fit-content; min-width: 90px; margin-top: 7px;">검색</button>
                 </div>
 <!--                <span class="material-symbols-outlined form-check col-1" style="width: fit-content; height: fit-content; font-size: 30px; padding: 1px; writing-mode: vertical-lr; display: inline;">sync_alt</span>-->
               </div>
@@ -276,7 +290,7 @@
 
   </main>
 
-  <footer id="footer" class="footer" th:replace="~{/fragments/footerFragment :: siteInfoFooterFragment}"></footer>
+<footer id="footer" th:insert="~{fragments/footerFragment :: footerInfo}" class="footer py-3 mt-auto"></footer>
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
