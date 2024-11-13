@@ -3,6 +3,7 @@ package com.artineer.artineer_renewal.controller;
 import com.artineer.artineer_renewal.dto.UserDto;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.UserRepository;
+import com.artineer.artineer_renewal.service.TurnstileService;
 import com.artineer.artineer_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.ProtocolException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -34,7 +36,8 @@ public class UserController {
 
     @Autowired
     private HttpServletRequest request;
-
+    @Autowired
+    private TurnstileService turnstileService;
 
 
     @RequestMapping("/user/sign-in")
@@ -48,9 +51,13 @@ public class UserController {
 
 
     @PostMapping("/user/sign-up")
-    public String saveUser(UserDto userDto) {
+    public String saveUser(UserDto userDto,
+                           @RequestParam(value = "cf-turnstile-response", required = true) String turnstileKey) throws ProtocolException {
         // IP 주소 가져오기
         String clientIp = request.getRemoteAddr();
+        boolean isBot = !turnstileService.getVerification(turnstileKey, clientIp);
+        // todo 어떻게 처리할까
+
 
         System.out.println("Client IP: " + clientIp);
 
