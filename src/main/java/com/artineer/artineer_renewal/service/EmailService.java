@@ -87,7 +87,7 @@ public class EmailService {
     public List<String> getVerificationMapToList() {
         List<String> list = new ArrayList<>(verificationStore.keySet());
         for (Map.Entry<String, Verification> v: verificationStore.entrySet()) {
-            list.add(v.getKey() +" : "+ v.getValue().randomString + "["+ v.getValue().expirationDateTime +"]");
+            list.add(v.getKey() +" : "+ v.getValue().randomString + " ["+ v.getValue().expirationDateTime +"]");
         }
         return list;
     }
@@ -101,6 +101,10 @@ public class EmailService {
                 .collect(Collectors.joining());
 
         return randomString;
+    }
+
+    public void resetVerification() {
+        verificationStore.clear();
     }
 
 
