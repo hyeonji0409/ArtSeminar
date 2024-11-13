@@ -69,7 +69,7 @@
             <ul id="account-menu">
                 <li><a th:href="@{/mypage}">마이페이지</a></li>
 
-<!--                &lt;!&ndash; 관리자인 경우에만 관리자 페이지 링크 표시 &ndash;&gt;-->
+                <!--                &lt;!&ndash; 관리자인 경우에만 관리자 페이지 링크 표시 &ndash;&gt;-->
                 <li sec:authorize="hasRole('ROLE_ADMIN')">
                     <a th:href="@{/admin}">관리자페이지</a>
 
@@ -85,8 +85,8 @@
 
 
         <!--                <a th:if="${user=='anonymousUser'}" class="btn-getstarted" th:href="@{/user/sign-in}">로그인</a>-->
-<!--        &lt;!&ndash;        todo 마이프로필 연결&ndash;&gt;-->
-<!--        <a th:if="${user!='anonymousUser'}" th:text="|${user.getName()}(${user.getYear()}기)|" class="btn-getstarted" th:href="@{/logout}">내 계정</a>-->
+        <!--        &lt;!&ndash;        todo 마이프로필 연결&ndash;&gt;-->
+        <!--        <a th:if="${user!='anonymousUser'}" th:text="|${user.getName()}(${user.getYear()}기)|" class="btn-getstarted" th:href="@{/logout}">내 계정</a>-->
 
     </div>
 </header>
