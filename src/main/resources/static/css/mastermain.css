@@ -1049,11 +1049,11 @@ section,
 }
 
 .hero h1, #hero h1 {
-    font-size: 48px;
+    font-size: 60px;
     font-weight: 700;
     line-height: 56px;
     color: #fff;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     text-align: center;
 }
 
@@ -1123,6 +1123,48 @@ section,
         font-size: 13px;
     }
 }
+
+/* 버튼과 닷 스타일 */
+.slider__dot a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.slider__dot {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    z-index: 10;
+}
+
+.slider__dot .dot {
+    margin: 0 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    transition: background 0.3s;
+}
+
+.slider__dot .dot.active {
+    background: #fff;
+    opacity: 1;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 640px) {
+    .slider__btn a, .slider__dot a {
+        font-size: 12px;
+    }
+}
+
 
 
 

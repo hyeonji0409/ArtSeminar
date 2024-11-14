@@ -202,27 +202,66 @@
   });
 
   /**
-     * Mobile nav toggle
+     * FadeOut Image Slider
   */
-  document.addEventListener("DOMContentLoaded", function() {
-      const slides = document.querySelectorAll("#slide3 ul li");
-      let currentIndex = 0;
-      const slideInterval = 3000; // 3초 간격으로 슬라이드 전환
 
-      function showSlide(index) {
-          slides.forEach((slide, i) => {
-              slide.classList.toggle("active", i === index);
-          });
+  document.addEventListener("DOMContentLoaded", function() {
+      const slides = document.querySelectorAll('#slide3 ul li');
+      const dots = document.querySelectorAll('.slider__dot .dot');
+      let currentIndex = 0;
+      let slideInterval;
+
+      function changeSlide(index) {
+          slides.forEach(slide => slide.classList.remove('active'));
+          dots.forEach(dot => dot.classList.remove('active'));
+          slides[index].classList.add('active');
+          dots[index].classList.add('active');
       }
 
       function nextSlide() {
           currentIndex = (currentIndex + 1) % slides.length;
-          showSlide(currentIndex);
+          changeSlide(currentIndex);
       }
 
-      setInterval(nextSlide, slideInterval);
-      showSlide(currentIndex);
+      function prevSlide() {
+          currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+          changeSlide(currentIndex);
+      }
+
+      function goToSlide(index) {
+          currentIndex = index;
+          changeSlide(currentIndex);
+      }
+
+      // 자동 슬라이드 기능
+      function startAutoSlide() {
+          slideInterval = setInterval(nextSlide, 6000);  // 6초마다 자동 전환
+      }
+
+      // 슬라이드 정지 (사용자가 버튼 클릭 시)
+      function stopAutoSlide() {
+          clearInterval(slideInterval);
+      }
+
+
+
+      // 닷 버튼 클릭 이벤트
+      dots.forEach((dot, index) => {
+          dot.addEventListener('click', function(e) {
+              e.preventDefault();
+              stopAutoSlide();
+              goToSlide(index);
+              startAutoSlide();
+          });
+      });
+
+      // 페이지 로드 시 첫 번째 슬라이드 활성화
+      changeSlide(currentIndex);
+
+      // 자동 슬라이드 시작
+      startAutoSlide();
   });
+
 
 
   /**
