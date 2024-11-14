@@ -47,10 +47,12 @@
         .btn-info {
             background-color: #47b2e4 !important;  /* 버튼 배경 색상 */
             border-color: #47b2e4 !important;      /* 버튼 테두리 색상 */
+            color: white;
         }
         .btn-info:hover {
             background-color: lightblue !important; /* hover 시 배경 색상 */
             border-color: lightblue !important;     /* hover 시 테두리 색상 */
+            color: white;
         }
     </style>
 </head>
@@ -64,10 +66,7 @@
 
 <div class="d-flex justify-content-center">
     <div class="container m-5  " >
-        <div class="d-flex justify-content-end">
-            <a href="/notice/new" class="text-light btn btn-info">추가</a>
-        </div>
-        <table class="table table-hover text-center mt-3">
+        <table class="table table-hover text-center">
             <thead>
             <tr>
                 <th scope="col">번호</th>
@@ -104,7 +103,9 @@
             </tbody>
         </table>
 
-
+        <div class="d-flex justify-content-end">
+            <a href="/notice/new" class="text-light btn btn-info">글쓰기</a>
+        </div>
         <!-- 페이지네이션 -->
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
@@ -131,6 +132,14 @@
                 </li>
             </ul>
         </nav>
+
+
+        <div class="container-fluid">
+            <form class="d-flex justify-content-center">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="max-width: 400px;min-width: 200px;">
+                <button class="btn btn-info" type="submit">검색</button>
+            </form>
+        </div>
 
 
     </div>

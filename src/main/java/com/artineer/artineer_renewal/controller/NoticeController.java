@@ -49,6 +49,7 @@ public class NoticeController {
     public String notices(Model model,
                           @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
                           @RequestParam(name = "size", required = false, defaultValue = "10") Integer pageSize) {
+        //검색기능 추가해야함
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
