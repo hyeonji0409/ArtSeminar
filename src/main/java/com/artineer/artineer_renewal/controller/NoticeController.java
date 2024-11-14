@@ -70,10 +70,10 @@ public class NoticeController {
 
         List<Class<?>> obj = new ArrayList<>();
         obj.add(Notice.class);
-        obj.add(Gallery.class);
-        obj.add(Project.class);
-        obj.add(Greeting.class);
-        obj.add(Minutes.class);
+//        obj.add(Gallery.class);
+//        obj.add(Project.class);
+//        obj.add(Greeting.class);
+//        obj.add(Minutes.class);
 
         Page<IntegratedArticle> pagination = integratedArticleService.getNoticesByQuery(obj, query, pageable);
         //        Page<Object> pagination = noticeRepository.findAll(pageable);

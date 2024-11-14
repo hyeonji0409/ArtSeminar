@@ -36,15 +36,20 @@ public class IntegratedArticleRepository {
 
     
     // db 구조에 매우 종속적
+    // db의 union 을 이용하여 여러 테이블에서의 튜플들을 합성한다.
     public Page<IntegratedArticle> getIntegratedArticles(String queryValue, List<Class<?>> classList, Pageable pageable) {
         StringBuilder sql = new StringBuilder();
 
+        // 나중에 메서드 인자에서 받아서 처리할 수 있을 것 같다.
         String queryType = "subject";
-        
+
+
+        // native sql 작성문
         for (int i = 0; i < classList.size(); i++) {
             String tableName = classList.get(i).getSimpleName().toLowerCase();
             sql.append("SELECT * FROM ");
 
+            // db 테이블명과 엔티티 클래스명이 달라서...
             if (tableName.equals("greeting")) sql.append("hello");
             else sql.append(tableName);
 
@@ -53,12 +58,14 @@ public class IntegratedArticleRepository {
             if (i < classList.size() - 1) sql.append(" UNION ");
         }
 
+        // 쿼리문을 만든다. 반환은 Object 배열로 한다.
         Query query = entityManager.createNativeQuery(sql.toString(), Object.class);
 
-        // 결과 수동 매핑
         List<Object[]> resultList = query.getResultList();
         List<IntegratedArticle> integratedList = new ArrayList<>();
 
+
+        // 각 직렬화된? 값들을 직접 수동으로 통합게시글 객체에 담는다.
         for (Object[] row : resultList) {
             Integer id = ((Number) row[0]).intValue();
             User user = userRepository.findByUsername((String) row[1] );
@@ -91,9 +98,11 @@ public class IntegratedArticleRepository {
         }
 
 
-
+        // 생성일자가 문자열이라...
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd (HH:mm)");
 
+
+        // 글어온 값들을 시간 순으로 정렬한다. db에 쓰레기 값이 좀 있어서 예외가 발생했다.
         integratedList.sort(
                 Comparator.<IntegratedArticle, LocalDateTime>comparing(a -> {
                     try {
@@ -106,14 +115,16 @@ public class IntegratedArticleRepository {
         );
 
 
-        // 페이징 처리
-        
-        // 아래 주석 신경 쓰지마세요. 어차피 url 쿼리 이상하게 날리는 거 아니면 접근할 일 없을 듯
+        // 위까지의 결과는 모든 조건에 맞는 쿼리를 했다.
+        // 페이지네이션을 위해 직접 기본 로직을 작성한다.
+        // 아래 주석 신경 쓰지 않는다. 어차피 url 쿼리 이상하게 날리는 거 아니면 접근할 일 없을 듯
 //        int start = Math.min( (int) pageable.getOffset(), pageable.getPageSize()%integratedList.size() );
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), integratedList.size());
         List<IntegratedArticle> pagedContent = integratedList.subList(start, end);
 
+
+        // 일반적으로 각각의 레포에서는 페이지로 연속자료형을 반환하여 교체를 고려하여 페이지로 반환한다.
         return new PageImpl<>(pagedContent, pageable, integratedList.size());
     }
 

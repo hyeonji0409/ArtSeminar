@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import java.util.List;
 
+
+// 각 게사판 테이블의 슈퍼 타입이다.
+// 네이티브 쿼리를 직접 요청해서 연관매핑이 안된다.?
 @Getter
 @Setter
 @AllArgsConstructor
