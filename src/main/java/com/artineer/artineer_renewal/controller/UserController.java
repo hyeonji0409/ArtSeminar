@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -56,7 +57,7 @@ public class UserController {
         // IP 주소 가져오기
         String clientIp = request.getRemoteAddr();
         boolean isBot = !turnstileService.getVerification(turnstileKey, clientIp);
-        // todo 어떻게 처리할까
+        if (isBot) throw new AccessDeniedException("매크로가 의심됩니다. 나중에 다시 시도하세요.");
 
 
         System.out.println("Client IP: " + clientIp);
@@ -74,7 +75,7 @@ public class UserController {
             DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
         } catch (DateTimeParseException e) {
-            return "/error/errorPage";
+            throw new DateTimeParseException("생년월일이 잘못 입력되었습니다.", userDto.getBirth(), 0);
         }
 
         User user = new User(
@@ -147,6 +148,21 @@ public class UserController {
 
         System.out.println("리다이렉 주소는 " + redirectAddress);
         return "redirect:" + redirectAddress;
+    }
+
+
+    @PostMapping("/user/update-info")
+    public ResponseEntity<String> updateInfoUser(Model model,
+                             UserDto userDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // IP 주소 가져오기
+        String clientIp = request.getRemoteAddr();
+        boolean isSuccess = userService.updateUser(username, userDto, clientIp);
+
+        if (isSuccess) return ResponseEntity.status(HttpStatus.OK).body("success");
+        else  return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("unauthorized");
     }
 
     @GetMapping("/user/update-info")
