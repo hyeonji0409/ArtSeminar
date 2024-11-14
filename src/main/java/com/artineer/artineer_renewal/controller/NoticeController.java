@@ -1,11 +1,12 @@
 package com.artineer.artineer_renewal.controller;
 
 import com.artineer.artineer_renewal.dto.NoticeDto;
-import com.artineer.artineer_renewal.entity.Notice;
-import com.artineer.artineer_renewal.entity.User;
+import com.artineer.artineer_renewal.entity.*;
 import com.artineer.artineer_renewal.repository.CommentRepository;
+import com.artineer.artineer_renewal.repository.IntegratedArticleRepository;
 import com.artineer.artineer_renewal.repository.NoticeRepository;
 import com.artineer.artineer_renewal.repository.UserRepository;
+import com.artineer.artineer_renewal.service.IntegratedArticleService;
 import com.artineer.artineer_renewal.service.NoticeService;
 import com.artineer.artineer_renewal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class NoticeController {
@@ -43,10 +45,15 @@ public class NoticeController {
     private CommentRepository commentRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private IntegratedArticleService integratedArticleService;
+    @Autowired
+    private IntegratedArticleRepository integratedArticleRepository;
 
 
     @GetMapping("/notice")
     public String notices(Model model,
+                          @RequestParam(name = "q", required = false, defaultValue = "") String query,
                           @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
                           @RequestParam(name = "size", required = false, defaultValue = "10") Integer pageSize) {
         //검색기능 추가해야함
@@ -54,16 +61,27 @@ public class NoticeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
-        model.addAttribute("user", user);
 
         Pageable pageable = PageRequest.of(
                 page - 1,
                 pageSize,
                 Sort.by(Sort.Direction.DESC, "regdate"));
 
-        Page<Notice> pagination = noticeRepository.findAll(pageable);
+
+        List<Class<?>> obj = new ArrayList<>();
+        obj.add(Notice.class);
+        obj.add(Gallery.class);
+        obj.add(Project.class);
+        obj.add(Greeting.class);
+        obj.add(Minutes.class);
+
+        Page<IntegratedArticle> pagination = integratedArticleService.getNoticesByQuery(obj, query, pageable);
+        //        Page<Object> pagination = noticeRepository.findAll(pageable);
+
+        model.addAttribute("user", user);
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("pagination", pagination);
+        model.addAttribute("query", query);
         return "board/notice";
     }
 

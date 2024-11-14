@@ -1,0 +1,161 @@
+package com.artineer.artineer_renewal.repository;
+
+import com.artineer.artineer_renewal.entity.Comment;
+import com.artineer.artineer_renewal.entity.IntegratedArticle;
+import com.artineer.artineer_renewal.entity.Notice;
+import com.artineer.artineer_renewal.entity.User;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import org.aspectj.weaver.ast.Not;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+
+@Repository
+public class IntegratedArticleRepository {
+    private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public IntegratedArticleRepository(UserRepository userRepository, CommentRepository commentRepository) {
+        this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
+    }
+
+    
+    // db 구조에 매우 종속적
+    public Page<IntegratedArticle> getIntegratedArticles(String queryValue, List<Class<?>> classList, Pageable pageable) {
+        StringBuilder sql = new StringBuilder();
+
+        String queryType = "subject";
+        
+        for (int i = 0; i < classList.size(); i++) {
+            String tableName = classList.get(i).getSimpleName().toLowerCase();
+            sql.append("SELECT * FROM ");
+
+            if (tableName.equals("greeting")) sql.append("hello");
+            else sql.append(tableName);
+
+            if (!queryValue.isBlank()) sql.append(" where ").append(queryType).append(" like '%").append(queryValue).append("%' ");
+
+            if (i < classList.size() - 1) sql.append(" UNION ");
+        }
+
+        Query query = entityManager.createNativeQuery(sql.toString(), Object.class);
+
+        // 결과 수동 매핑
+        List<Object[]> resultList = query.getResultList();
+        List<IntegratedArticle> integratedList = new ArrayList<>();
+
+        for (Object[] row : resultList) {
+            Integer id = ((Number) row[0]).intValue();
+            User user = userRepository.findByUsername((String) row[1] );
+            String name = row[2].toString();
+            String title = row[3].toString();
+            String content = row[4].toString();
+            Integer hit = ((Number) row[5]).intValue();
+            Integer year = ((Number) row[6]).intValue();
+            String file = ((String) row[7]);
+            Integer comment = ((Number) row[8]).intValue();
+            List<Comment> comments = commentRepository.findAllByBbsNo(id);
+            String regdate = ((String) row[9]);
+            String ip = ((String) row[10]);
+
+            IntegratedArticle article = new IntegratedArticle(
+                    id.longValue(),
+                    title,
+                    content,
+                    hit,
+                    file,
+                    comment,
+                    comments,
+                    regdate,
+                    ip,
+                    user,
+                    name,
+                    year
+            );
+            integratedList.add(article);
+        }
+
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd (HH:mm)");
+
+        integratedList.sort(
+                Comparator.<IntegratedArticle, LocalDateTime>comparing(a -> {
+                    try {
+                        return LocalDateTime.parse(a.getRegdate(), formatter );
+                    }
+                    catch (DateTimeParseException e) {
+                        return LocalDateTime.parse("0001-01-01 (00:00)", formatter );
+                    }
+                } ).reversed()
+        );
+
+
+        // 페이징 처리
+        
+        // 아래 주석 신경 쓰지마세요. 어차피 url 쿼리 이상하게 날리는 거 아니면 접근할 일 없을 듯
+//        int start = Math.min( (int) pageable.getOffset(), pageable.getPageSize()%integratedList.size() );
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), integratedList.size());
+        List<IntegratedArticle> pagedContent = integratedList.subList(start, end);
+
+        return new PageImpl<>(pagedContent, pageable, integratedList.size());
+    }
+
+
+
+    //    public Page<IntegratedArticle> getIntegratedArticles(String title, Pageable pageable) {
+//        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<IntegratedArticle> query = cb.createQuery(IntegratedArticle.class);
+//        Root<IntegratedArticle> root = query.from(IntegratedArticle.class);
+//
+//        // 제목(title)에 검색어가 포함된 경우
+//        Predicate titlePredicate = cb.like(root.get("title"), "%" + title + "%");
+//
+//        // 쿼리 구성
+//        query.select(root)
+//                .where(titlePredicate)
+//                .orderBy(cb.desc(root.get("regdate")));
+//
+//        // 쿼리 실행
+//        TypedQuery<IntegratedArticle> typedQuery = entityManager.createQuery(query);
+//        typedQuery.setFirstResult((int) pageable.getOffset());
+//        typedQuery.setMaxResults(pageable.getPageSize());
+//
+//        List<IntegratedArticle> results = typedQuery.getResultList();
+//        long totalCount = getTotalCount(title);
+//
+//        return new PageImpl<>(results, pageable, totalCount);
+//    }
+//
+//
+//
+//
+//    private long getTotalCount(String title) {
+//        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+//        Root<IntegratedArticle> root = countQuery.from(IntegratedArticle.class);
+//
+//        Predicate titlePredicate = cb.like(root.get("title"), "%" + title + "%");
+//
+//        countQuery.select(cb.count(root)).where(titlePredicate);
+//
+//        return entityManager.createQuery(countQuery).getSingleResult();
+//    }
+
+}
