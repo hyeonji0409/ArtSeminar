@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Notice extends IntegratedArticle {
+public class Notice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;

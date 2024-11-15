@@ -57,7 +57,7 @@ public class UserController {
         // IP 주소 가져오기
         String clientIp = request.getRemoteAddr();
         boolean isBot = !turnstileService.getVerification(turnstileKey, clientIp);
-        if (isBot) throw new AccessDeniedException("매크로가 의심됩니다. 나중에 다시 시도하세요.");
+        if (isBot) throw new AccessDeniedException("의심적인 활동입니다. 나중에 다시 시도해주세요.");
 
 
         System.out.println("Client IP: " + clientIp);

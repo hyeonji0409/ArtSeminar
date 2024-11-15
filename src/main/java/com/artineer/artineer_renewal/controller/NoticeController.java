@@ -56,8 +56,6 @@ public class NoticeController {
                           @RequestParam(name = "q", required = false, defaultValue = "") String query,
                           @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
                           @RequestParam(name = "size", required = false, defaultValue = "10") Integer pageSize) {
-        //검색기능 추가해야함
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
@@ -69,9 +67,9 @@ public class NoticeController {
 
 
         List<Class<?>> obj = new ArrayList<>();
-        obj.add(Notice.class);
+//        obj.add(Notice.class);
 //        obj.add(Gallery.class);
-//        obj.add(Project.class);
+        obj.add(Project.class);
 //        obj.add(Greeting.class);
 //        obj.add(Minutes.class);
 

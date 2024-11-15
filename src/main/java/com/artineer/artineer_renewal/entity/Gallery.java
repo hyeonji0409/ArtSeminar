@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "gallery")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Gallery extends IntegratedArticle {
+public class Gallery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;

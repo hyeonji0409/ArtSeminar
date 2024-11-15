@@ -35,7 +35,7 @@ public class IntegratedArticleRepository {
     }
 
     
-    // db 구조에 매우 종속적
+    // db 구조에 종속적
     // db의 union 을 이용하여 여러 테이블에서의 튜플들을 합성한다.
     public Page<IntegratedArticle> getIntegratedArticles(String queryValue, List<Class<?>> classList, Pageable pageable) {
         StringBuilder sql = new StringBuilder();

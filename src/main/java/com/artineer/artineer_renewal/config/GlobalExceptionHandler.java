@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     }
 
     //NotFoundException.class,
-    // todo 궁금한 점 왜 핸들러에 전달은 되었는데 로깅만 되고 페이지 반환은 안 되는거냐
+    // todo 핸들러에 전달은 되었는데 로깅만 되고 페이지 반환은 안 되는
     // NoResourceFoundException와 Exception은 다른 루트 클래스를 상속한다?
     // ResponseStatus를 안하면 리스폰스 바디에 html 코드가 안 보이는 이유?
 

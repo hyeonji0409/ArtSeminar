@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @ToString
-@Table(name = "popup", schema = "artineer_renewal")
+@Table(name = "popup")
 public class Popup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
