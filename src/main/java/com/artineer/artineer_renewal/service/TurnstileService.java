@@ -32,11 +32,7 @@ public class TurnstileService {
     private String turnstileUrl;
 
     public boolean getVerification(String token, String remoteip) throws ProtocolException {
-
-        
-        // todo 이거 대체 왜  ",인증키,이상한키?" 3개가 나오는 거야
-        token = token.split(",")[1];
-        WebClient webClient = WebClient.create("https://challenges.cloudflare.com/turnstile/v0/siteverify");
+        WebClient webClient = WebClient.create(turnstileUrl);
 
         // URL 인코딩된 문자열로 요청 데이터 생성
         String requestBody = "secret=" + secretKey + "&response=" + token;

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 // todo 트랜젝셔널이 뭔가
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class EmailService {
     private final JavaMailSender emailSender;
     private final ConcurrentHashMap<String, Verification> verificationStore = new ConcurrentHashMap<>();
@@ -33,10 +35,10 @@ public class EmailService {
         try {
             emailSender.send(emailForm);
         } catch (RuntimeException e) {
-//            logger.debug("MailService.sendEmail exception occur toEmail: {}, " +
-//                    "title: {}, text: {}", toEmail, title, text);
-//            throw new BusinessLogicException(ExceptionCode.UNABLE_TO_SEND_EMAIL);
-            throw e;
+            log.warn("MailService.sendEmail exception occur toEmail: {}, " +
+                    "title: {}, text: {}", toEmail, title, text);
+//            throw new  BusinessLogicException(ExceptionCode.UNABLE_TO_SEND_EMAIL);
+//            throw e;
         }
     }
 

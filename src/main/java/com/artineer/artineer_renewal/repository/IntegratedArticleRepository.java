@@ -8,6 +8,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.aspectj.weaver.ast.Not;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -121,8 +122,14 @@ public class IntegratedArticleRepository {
 //        int start = Math.min( (int) pageable.getOffset(), pageable.getPageSize()%integratedList.size() );
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), integratedList.size());
-        List<IntegratedArticle> pagedContent = integratedList.subList(start, end);
 
+        List<IntegratedArticle> pagedContent;
+        try {
+            pagedContent = integratedList.subList(start, end);
+        } catch (InvalidDataAccessApiUsageException e) {
+            // todo 메시지 전달 안됨
+            throw new InvalidDataAccessApiUsageException("존재하지 않는 페이지입니다.");
+        }
 
         // 일반적으로 각각의 레포에서는 페이지로 연속자료형을 반환하여 교체를 고려하여 페이지로 반환한다.
         return new PageImpl<>(pagedContent, pageable, integratedList.size());

@@ -26,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class NoticeController {
@@ -66,14 +65,14 @@ public class NoticeController {
                 Sort.by(Sort.Direction.DESC, "regdate"));
 
 
-        List<Class<?>> obj = new ArrayList<>();
+//        List<Class<?>> obj = new ArrayList<>();
 //        obj.add(Notice.class);
 //        obj.add(Gallery.class);
-        obj.add(Project.class);
+//        obj.add(Project.class);
 //        obj.add(Greeting.class);
 //        obj.add(Minutes.class);
 
-        Page<IntegratedArticle> pagination = integratedArticleService.getNoticesByQuery(obj, query, pageable);
+        Page<IntegratedArticle> pagination = integratedArticleService.findAllArticlesByQuery(Notice.class, query, pageable);
         //        Page<Object> pagination = noticeRepository.findAll(pageable);
 
         model.addAttribute("user", user);

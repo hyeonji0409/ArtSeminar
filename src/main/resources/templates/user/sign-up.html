@@ -29,10 +29,6 @@
   <link th:href="@{/assets/css/main.css}" rel="stylesheet">
 
 
-  <script
-          src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
-          defer
-  ></script>
   <!-- =======================================================
   * Template Name: Arsha
   * Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
@@ -147,13 +143,7 @@
               <div class="error-msg"></div>
           </div>
 
-          <input type="hidden" name="cf-turnstile-response" id="cf-chl-widget-2wqtz_response">
-          <div
-                  class="cf-turnstile inputBox"
-                  data-sitekey="0x4AAAAAAAz5wdt4VsghBRWI"
-                  data-callback="javascriptCallback"
-                  data-size="flexible"
-          ></div>
+          <div id="turnstile-cf-chl-widget-response" class="inputBox"></div>
 
           <div class="inputBox" style="text-align: center;">
             <button type="submit">가입하기</button>
@@ -185,10 +175,19 @@
 <script th:src="@{/assets/vendor/isotope-layout/isotope.pkgd.min.js}"></script>
   <script th:src="@{/js/signUp.js}"></script>
 
+
+<script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
+        defer
+></script>
+
+
 <script>
   window.onloadTurnstileCallback = function () {
-    turnstile.render("#cf-chl-widget-2wqtz_response", {
+    turnstile.render("#turnstile-cf-chl-widget-response", {
       sitekey: "0x4AAAAAAAz5wdt4VsghBRWI",
+      // 강제 상호작용키 3x00000000000000000000FF-->
+      size: "flexible",
       callback: function (token) {
         console.log(`Challenge Success ${token}`);
       },

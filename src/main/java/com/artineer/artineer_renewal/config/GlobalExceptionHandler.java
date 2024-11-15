@@ -2,6 +2,7 @@ package com.artineer.artineer_renewal.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -54,12 +55,19 @@ public class GlobalExceptionHandler {
         return "error/errorPage";
     }
 
+    @ExceptionHandler({InvalidDataAccessApiUsageException.class})
+    public String handleInvalidDataAccessApiUsageException(Exception ex, Model model, HttpServletRequest request) {
+        model.addAttribute("errorCode", 404);
+        model.addAttribute("errorMessage", "\newe" + ex.getMessage());
+        return "error/errorPage";
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(Exception  ex, Model model, HttpServletRequest request) {
         loggingError(request, ex);
 
         model.addAttribute("errorCode", 500);
-        model.addAttribute("errorMessage", "\n작업을 수행하는 도중에 문제가 발생했습니다.\n" + ex.getMessage());
+        model.addAttribute("errorMessage", "\n작업을 수행하는 도중에 문제가 발생했습니다. : \n" + request.getRequestURL());
         return "error/errorPage";
     }
 
@@ -68,7 +76,7 @@ public class GlobalExceptionHandler {
         loggingError(request, ex);
 
         model.addAttribute("errorCode", 500);
-        model.addAttribute("errorMessage", "알 수 없는 문제가 발생했습니다." + ex.getClass());
+        model.addAttribute("errorMessage", "알 수 없는 문제가 발생했습니다. : " + ex.getClass());
         return "error/errorPage";
     }
 
