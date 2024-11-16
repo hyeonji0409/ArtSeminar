@@ -1,4 +1,5 @@
 
+
 /* Fonts */
 :root {
   --default-font: "Open Sans",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -7,7 +8,7 @@
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
-:root { 
+:root {
   --background-color: #ffffff; /* Background color for the entire website, including individual sections */
   --default-color: #444444; /* Default color used for the majority of the text content across the entire website */
   --heading-color: #37517e; /* Color for headings, subheadings and title throughout the website */
@@ -74,6 +75,7 @@ h5,
 h6 {
   color: var(--heading-color);
   font-family: var(--heading-font);
+  font-size;
 }
 
 /* PHP Email Form Messages
@@ -142,6 +144,31 @@ h6 {
   z-index: 997;
 }
 
+.navbar{
+    display : flex;
+    justify-content: space-between;
+    align-items:center;
+    padding : 8px 12px;
+}
+
+body{
+    margin : 0;
+}
+
+a{
+    text-decoration:none;
+    color :white;
+}
+
+body{
+    margin : 0;
+}
+
+a{
+    text-decoration:none;
+    color :white;
+}
+
 .header .logo {
   line-height: 1;
 }
@@ -152,7 +179,7 @@ h6 {
 }
 
 .header .logo h1 {
-  font-size: 30px;
+  font-size: 35px;
   margin: 0;
   font-weight: 500;
   color: var(--heading-color);
@@ -164,9 +191,9 @@ h6 {
 .header .btn-getstarted:focus {
   color: var(--contrast-color);
   background: var(--accent-color);
-  font-size: 14px;
+  font-size: 16px;
   padding: 8px 25px;
-  margin: 0 0 0 30px;
+  margin: 0 0 0 50px;
   border-radius: 50px;
   transition: 0.3s;
 }
@@ -177,21 +204,7 @@ h6 {
   background: color-mix(in srgb, var(--accent-color), transparent 15%);
 }
 
-@media (max-width: 1200px) {
-  .header .logo {
-    order: 1;
-  }
 
-  .header .btn-getstarted {
-    order: 2;
-    margin: 0 15px 0 0;
-    padding: 6px 15px;
-  }
-
-  .header .navmenu {
-    order: 3;
-  }
-}
 
 /* 로그인 시, (로그인, 회원가입) 드롭다운 스타일 */
 #login-dropdown {
@@ -203,7 +216,7 @@ h6 {
     display: flex;
     align-items: center;
     color: var(--contrast-color);
-    background: var(--accent-color);
+    background: #179ddb;
     padding: 8px 25px;
     border-radius: 50px;
     transition: 0.3s;
@@ -311,16 +324,6 @@ h6 {
 
 
 
-/* Index Page Header
-------------------------------*//*
-
-.index-page .header {
-  --background-color: rgba(255, 255, 255, 0);
-  --heading-color: #ffffff;
-  --nav-color: #ffffff;
-}
-*/
-
 /* Index Page Header on Scroll
 ------------------------------*/
 .index-page.scrolled .header {
@@ -352,7 +355,7 @@ h6 {
   .navmenu a:focus {
     color: var(--nav-color);
     padding: 18px 15px;
-    font-size: 15px;
+    font-size: 18px;
     font-family: var(--nav-font);
     font-weight: 400;
     display: flex;
@@ -374,11 +377,11 @@ h6 {
     padding-right: 0;
   }
 
-  .navmenu li:hover>a,
+/*  .navmenu li:hover>a,
   .navmenu .active,
   .navmenu .active:focus {
     color: var(--nav-hover-color);
-  }
+  }*/
 
   .navmenu .dropdown ul {
     margin: 0;
@@ -489,11 +492,12 @@ h6 {
 @media (max-width: 1199px) {
   .mobile-nav-toggle {
     color: var(--nav-color);
-    font-size: 28px;
+    font-size: 40px;
     line-height: 0;
     margin-right: 10px;
     cursor: pointer;
     transition: color 0.3s;
+    position: relative;
   }
 
   .navmenu {
@@ -502,27 +506,39 @@ h6 {
   }
 
   .navmenu ul {
-    display: none;
-    list-style: none;
-    position: absolute;
-    inset: 60px 20px 20px 20px;
-    padding: 10px 0;
-    margin: 0;
-    border-radius: 6px;
-    background-color: var(--nav-mobile-background-color);
-    overflow-y: auto;
-    transition: 0.3s;
-    z-index: 9998;
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+      display: block; /* 기본적으로 숨김 처리 후 자바스크립트로 제어 가능 */
+      position: absolute;
+      inset: 0 0 0 auto; /* 오른쪽에 위치 */
+      width: 350px; /* 메뉴 너비 설정 */
+      transform: translateX(100%); /* 초기 상태 - 화면 오른쪽 밖으로 이동 */
+      transition: transform 0.3s ease; /* 슬라이드 전환 효과 */
+      padding: 70px;
+      margin: 0;
+      border-radius: 6px;
+      background-color: #14182d;
+      overflow-y: auto;
+      z-index: 9998;
+      box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
   }
+
+  /* 내부 리스트가 움직이지 않도록 처리 */
+  .navmenu ul li {
+    position: relative; /* 상대적인 위치로 설정하여 이동하지 않도록 함 */
+  }
+
+  /* 모바일 메뉴 활성화 상태 */
+    .mobile-nav-active .navmenu ul {
+        transform: translateX(0); /* 활성화 상태 - 화면에 나타나도록 이동 */
+    }
+
 
   .navmenu a,
   .navmenu a:focus {
-    color: var(--nav-dropdown-color);
-    padding: 10px 20px;
+    color: #ffffff;
+    padding: 16px 2px;
     font-family: var(--nav-font);
-    font-size: 17px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -532,11 +548,11 @@ h6 {
 
   .navmenu a i,
   .navmenu a:focus i {
-    font-size: 12px;
+    font-size: 15px;
     line-height: 0;
     margin-left: 5px;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -551,18 +567,19 @@ h6 {
     color: var(--contrast-color);
   }
 
-  .navmenu a:hover,
+/*  .navmenu a:hover,
   .navmenu .active,
   .navmenu .active:focus {
     color: var(--nav-dropdown-hover-color);
-  }
+  }*/
 
-  .navmenu .active i,
+/*  .navmenu .active i,
   .navmenu .active:focus i {
     background-color: var(--accent-color);
     color: var(--contrast-color);
     transform: rotate(180deg);
   }
+  */
 
   .navmenu .dropdown ul {
     position: static;
@@ -589,6 +606,10 @@ h6 {
     overflow: hidden;
   }
 
+  .mobile-nav-active .navmenu ul {
+      transform: translateX(0); /* 활성화 상태 - 화면에 나타나도록 이동 */
+  }
+
   .mobile-nav-active .mobile-nav-toggle {
     color: #fff;
     position: absolute;
@@ -610,6 +631,10 @@ h6 {
   .mobile-nav-active .navmenu>ul {
     display: block;
   }
+
+  #login-dropdown {
+          display: none; /* 로그인 드롭다운을 숨김 */
+      }
 }
 
 /*--------------------------------------------------------------
@@ -1037,15 +1062,14 @@ section,
 
 
 /* #hero 섹션 내부의 텍스트와 버튼 스타일 */
-.hero .container, #hero .container {
+.hero .containers, #hero .containers {
     position: relative;
-    z-index: 3;
     text-align: center;
     color: white;
     display: flex;
-    justify-content: center;
     align-items: center; /* 수직, 수평 중앙 정렬 */
     height: 100%; /* 텍스트와 버튼을 슬라이더 안에서 가운데 배치 */
+    weight: 100%;
 }
 
 .hero h1, #hero h1 {
@@ -1165,7 +1189,31 @@ section,
     }
 }
 
+/*타이핑 효과*/
+.typing {
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  font-size: 1.8rem;
+}
 
+.text {
+  font-size: 1.8rem; /* 적당한 크기로 수정 */
+  margin-left: .6rem;
+}
+
+.text::after {
+  content: '';
+  margin-left: .4rem;
+  border-right: 2px solid #777;
+  animation: cursor .9s infinite steps(2);
+}
+
+@keyframes cursor {
+  from { border-right: 2px solid #222; }
+  to { border-right: 2px solid #777; }
+}
 
 
 
@@ -1288,7 +1336,7 @@ header {
 .services .service-item h4 {
   font-weight: 700;
   margin-bottom: 15px;
-  font-size: 20px;
+  font-size: 22px;
   margin-top: 15px; /* 이미지와 텍스트 사이의 적절한 간격 */
 }
 
@@ -1660,3 +1708,18 @@ header {
 .starter-section {
   /* Add your styles here */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
