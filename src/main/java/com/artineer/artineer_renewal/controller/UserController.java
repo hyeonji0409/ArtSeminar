@@ -54,13 +54,12 @@ public class UserController {
     @PostMapping("/user/sign-up")
     public String saveUser(UserDto userDto,
                            @RequestParam(value = "cf-turnstile-response", required = true) String turnstileKey) throws ProtocolException {
-        // IP 주소 가져오기
-        String clientIp = request.getRemoteAddr();
-        boolean isBot = !turnstileService.getVerification(turnstileKey, clientIp);
+
+        boolean isBot = !turnstileService.getVerification(turnstileKey, request);
         if (isBot) throw new AccessDeniedException("의심적인 활동입니다. 나중에 다시 시도해주세요.");
 
 
-        System.out.println("Client IP: " + clientIp);
+        System.out.println("Client IP: " + request.getRemoteAddr());
 
         // 현재 시간 가져오기
         LocalDateTime now = LocalDateTime.now();
@@ -93,7 +92,7 @@ public class UserController {
                 userDto.getYear(),
                 "ROLE_GUEST",
                 formattedDate,
-                clientIp
+                request.getRemoteAddr()
         );
 
         userRepository.save(user);

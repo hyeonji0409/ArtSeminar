@@ -15,6 +15,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -31,7 +32,7 @@ public class TurnstileService {
     @Value("${cloudflare.turnstile.url}")
     private String turnstileUrl;
 
-    public boolean getVerification(String token, String remoteip) throws ProtocolException {
+    public boolean getVerification(String token, HttpServletRequest request) throws ProtocolException {
         WebClient webClient = WebClient.create(turnstileUrl);
 
         // URL 인코딩된 문자열로 요청 데이터 생성
@@ -50,7 +51,7 @@ public class TurnstileService {
 
 
         // 이거는 cloudflare 관리자 콘솔에서도 아마 볼 수 있을 것이다.
-        if (!turnstileResponse.getSuccess()) log.info("turnstile: bot detected: {}", turnstileResponse);
+        if (!turnstileResponse.getSuccess()) log.info("turnstile: bot detected: {}\nUser-Agent: {}, remoteAddr: {}", turnstileResponse, request.getHeader("User-Agent"), request.getRemoteAddr());
 
         return turnstileResponse.getSuccess();
     }

@@ -21,47 +21,17 @@ public class IntegratedArticleService {
     @Autowired
     private IntegratedArticleRepository integratedArticleRepository;
 
-    public Page<IntegratedArticle> findAllArticlesByQuery(Class<?> entityClass, String query, Pageable pageable) {
+    public Page<IntegratedArticle> findAllArticlesByQuery(Class<?> entityClass, String queryType, String query, Pageable pageable) {
         List<Class<?>> entityClasses = new ArrayList<>();
         entityClasses.add(entityClass);
 
-        Page<IntegratedArticle> integratedList = integratedArticleRepository.getIntegratedArticles(query, entityClasses, pageable);
+        Page<IntegratedArticle> integratedList = integratedArticleRepository.getIntegratedArticles(entityClasses, queryType, query, pageable);
         return integratedList;
     }
 
 
-    public Page<IntegratedArticle> findAllArticlesByQuery(List<Class<?>> entityClasses, String query, Pageable pageable) {
-//
-////        int size = 0;
-//        List<Notice> noticePage = noticeRepository.findAllByTitleContaining(query);
-//        List<Gallery> galleryPage = galleryRepository.findAllByTitleContaining(query);
-//////        size += (int) noticePage.getTotalElements();
-//////        size += (int) galleryPage.getTotalElements();
-////
-////
-////        integratedList.addAll(noticePage);
-////        integratedList.addAll(galleryPage);
-////        integratedList.sort(
-////                Comparator.comparing(
-////                        obj -> ((YourClassType) obj).getRegdate(), // 적절한 클래스와 메서드명으로 변경
-////                        Comparator.nullsLast(LocalDateTime::compareTo)
-////                ).reversed()
-////        );
-//
-//
-//
-
-//        Page<IntegratedArticle> integratedList = integratedArticleRepository.getIntegratedArticles(title, pageable);
-        Page<IntegratedArticle> integratedList = integratedArticleRepository.getIntegratedArticles(query, entityClasses, pageable);
+    public Page<IntegratedArticle> findAllArticlesByQuery(List<Class<?>> entityClasses, String queryType, String query, Pageable pageable) {
+        Page<IntegratedArticle> integratedList = integratedArticleRepository.getIntegratedArticles(entityClasses, queryType, query, pageable);
         return integratedList;
-
-//        integratedList.addAll(noticePage);
-//        integratedList.addAll(galleryPage);
-
-//        int start = (int) pageable.getOffset();
-//        int end = Math.min((start + pageable.getPageSize()), integratedList.getSize());
-
-//        List<IntegratedArticle> pagedContent = integratedList.subList(start, end);
-//        return new PageImpl<>(pagedContent, pageable, integratedList.size());
     }
 }

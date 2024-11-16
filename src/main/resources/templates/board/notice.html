@@ -124,7 +124,7 @@
                   and pagination.getTotalPages()!=0
                 }"
                     th:classappend="${page == pagination.number + 1 } ? 'active'" class="page-item">
-                    <a class="page-link"  th:href="@{|?page=${page}&q=${query}|}" th:text="${page}">1</a>
+                    <a class="page-link"  th:href="@{|?page=${page}&qt=${queryType}&q=${query}|}" th:text="${page}">1</a>
                 </li>
 
                 <li th:classappend="${pagination.number + 1 >= pagination.totalPages} ? 'disabled'" class="page-item">
@@ -172,6 +172,7 @@
         crossorigin="anonymous"></script>
 
 <script>
+    let queryType = '[[${queryType}]]'
     let pageNumber = '[[${pagination.getNumber()}]]';
     pageNumber = parseInt(pageNumber)
     const search =  document.querySelector("#search");
@@ -182,17 +183,17 @@
 
     form.onsubmit = (e) => {
         e.preventDefault();
-        if (pageNumber==0) pageNumber+=1
-        window.location = `/notice?page=${pageNumber}&q=${search.value}`
+        // if (pageNumber==0) pageNumber+=1
+        window.location = `/notice?page=1&qt=${queryType}&q=${search.value}`
     }
     prePage.onclick = (e) => {
         // form.submit()
-        window.location = `/notice?page=${pageNumber}&q=${search.value}`
+        window.location = `/notice?page=${pageNumber}&qt=${queryType}&q=${search.value}`
     }
     postPage.onclick = (e) => {
         // form.submit()
         pageNumber+=2
-        window.location = `/notice?page=${pageNumber}&q=${search.value}`
+        window.location = `/notice?page=${pageNumber}&qt=${queryType}&q=${search.value}`
     }
 
 

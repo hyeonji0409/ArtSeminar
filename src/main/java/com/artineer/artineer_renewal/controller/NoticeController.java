@@ -52,6 +52,7 @@ public class NoticeController {
 
     @GetMapping("/notice")
     public String notices(Model model,
+                          @RequestParam(name = "qt", required = false, defaultValue = "subject") String queryType,
                           @RequestParam(name = "q", required = false, defaultValue = "") String query,
                           @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
                           @RequestParam(name = "size", required = false, defaultValue = "10") Integer pageSize) {
@@ -72,12 +73,13 @@ public class NoticeController {
 //        obj.add(Greeting.class);
 //        obj.add(Minutes.class);
 
-        Page<IntegratedArticle> pagination = integratedArticleService.findAllArticlesByQuery(Notice.class, query, pageable);
+        Page<IntegratedArticle> pagination = integratedArticleService.findAllArticlesByQuery(Notice.class, queryType, query, pageable);
         //        Page<Object> pagination = noticeRepository.findAll(pageable);
 
         model.addAttribute("user", user);
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("pagination", pagination);
+        model.addAttribute("queryType", queryType);
         model.addAttribute("query", query);
         return "board/notice";
     }

@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
+
+// todo 메시지 전달이 안 되는 문제 있음.
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
@@ -58,12 +60,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({InvalidDataAccessApiUsageException.class})
     public String handleInvalidDataAccessApiUsageException(Exception ex, Model model, HttpServletRequest request) {
         model.addAttribute("errorCode", 404);
-        model.addAttribute("errorMessage", "\newe" + ex.getMessage());
+        model.addAttribute("errorMessage", "\n" + ex.getMessage());
         return "error/errorPage";
     }
 
     @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(Exception  ex, Model model, HttpServletRequest request) {
+        loggingError(request, ex);
+
+        model.addAttribute("errorCode", 500);
+        model.addAttribute("errorMessage", "\n작업을 수행하는 도중에 문제가 발생했습니다. : \n" + request.getRequestURL());
+        return "error/errorPage";
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public String handleNoHandlerFoundException(NoHandlerFoundException ex, HttpServletRequest request, Model model) {
         loggingError(request, ex);
 
         model.addAttribute("errorCode", 500);
@@ -78,12 +89,6 @@ public class GlobalExceptionHandler {
         model.addAttribute("errorCode", 500);
         model.addAttribute("errorMessage", "알 수 없는 문제가 발생했습니다. : " + ex.getClass());
         return "error/errorPage";
-    }
-
-    // 위 @ExceptionHandler(Exception.class)에서
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public void handleNoHandlerFoundException(NoHandlerFoundException ex, HttpServletRequest request) {
-        System.out.println("qp");
     }
 
 

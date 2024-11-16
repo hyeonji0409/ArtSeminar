@@ -94,8 +94,6 @@ public class adminController {
 
 
 
-
-    // 관리자의 사용자 정보 쿼리 화면
     @GetMapping("/api/admin/calendar")
     @ResponseBody
     public List<CalendarEvent> getCalendar(@RequestParam Map<String, String> params,
