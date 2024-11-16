@@ -94,7 +94,7 @@
                     </div>
                 </div>
                 </td>
-                <td th:text="${notice.name} + '(' + ${notice.year} + '기)'">작성자</td>
+                <td th:text="${notice.getUser().name} + '(' + ${notice.year} + '기)'">작성자</td>
                 <td><a th:text="${notice.regdate}">날짜</a></td>
                 <td><a th:text="${notice.hit}">조회수</a></td>
             </tr>
