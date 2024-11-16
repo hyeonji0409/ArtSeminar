@@ -17,6 +17,8 @@ document.getElementById('editbtn').addEventListener('click', function() {
     document.querySelector('.editPageBtn').style.display = 'block';
     document.querySelector('#password1').style.display = 'block';
     document.querySelector('#password2').style.display = 'block';
+
+    document.querySelectorAll('.gender').forEach(v => v.style.pointerEvents = 'all')
 });
 
 // '완료', '취소' 버튼 클릭 시 disabled 활성화
@@ -36,6 +38,8 @@ document.getElementById('savebtn').addEventListener('click', function() {
     document.querySelector('.editPageBtn').style.display = 'none';
     document.querySelector('#password1').style.display = 'none';
     document.querySelector('#password2').style.display = 'none';
+
+    document.querySelector('.gender').style.pointerEvents = 'none'
 });
 
 document.getElementById('canclebtn').addEventListener('click', function() {
@@ -51,14 +55,41 @@ document.getElementById('canclebtn').addEventListener('click', function() {
     document.querySelector('#password2').style.display = 'none';
 });
 
-var userSex = document.getElementById('userSex').value;
+// 페이지 로드 후 실행
+document.addEventListener("DOMContentLoaded", function () {
+    const userSex = document.getElementById("userSex").value; // 현재 사용자 성별 값
+    const maleLabel = document.querySelector('label[for="male"]');
+    const femaleLabel = document.querySelector('label[for="female"]');
+    const radioButtons = document.querySelectorAll('input[name="sex"]');
 
-document.addEventListener("DOMContentLoaded", function() {
-    if (userSex === 'male') {
-        document.getElementById('male').checked = true;
-        document.querySelector('label[for="male"]').style.backgroundColor = "var(--color-blue)"  // 남자 라벨 배경색 변경
-    } else if (userSex === 'female') {
-        document.getElementById('female').checked = true;
-        document.querySelector('label[for="female"]').style.backgroundColor = "var(--color-blue)";  // 여자 라벨 배경색 변경
+    // 초기 선택 상태 설정
+    if (userSex === "male") {
+        document.getElementById("male").checked = true;
+        maleLabel.style.backgroundColor = "var(--color-blue)"; // 선택된 라벨 색
+        femaleLabel.style.backgroundColor = "white"; // 기본 색
+    } else if (userSex === "female") {
+        document.getElementById("female").checked = true;
+        femaleLabel.style.backgroundColor = "var(--color-blue)";
+        maleLabel.style.backgroundColor = "white";
     }
+
+    // 라벨 배경색 업데이트 함수
+    function updateLabelColors() {
+        radioButtons.forEach((radio) => {
+            const label = document.querySelector(`label[for="${radio.id}"]`);
+            if (radio.checked) {
+                label.style.backgroundColor = "var(--color-blue)"; // 선택된 라벨 색
+            } else {
+                label.style.backgroundColor = "white"; // 기본 색
+            }
+        });
+    }
+
+    // 각 라디오 버튼에 change 이벤트 추가
+    radioButtons.forEach((radio) => {
+        radio.addEventListener("change", updateLabelColors);
+    });
 });
+
+
+

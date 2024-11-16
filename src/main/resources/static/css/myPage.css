@@ -237,3 +237,10 @@ li {
     /*outline: 3px solid var(--subtle);*/
 }
 
+
+.gender.selected {
+    background-color: var(--color-blue);
+}
+.gender:not(.selected) {
+    background-color: white;
+}
