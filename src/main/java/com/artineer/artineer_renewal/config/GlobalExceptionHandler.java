@@ -1,5 +1,6 @@
 package com.artineer.artineer_renewal.config;
 
+import com.artineer.artineer_renewal.dto.CustomException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -16,11 +17,10 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 
-// todo 메시지 전달이 안 되는 문제 있음.
+// todo 메시지 전달이 안 되는 문제 있음. ==> 왜 되는거지
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleIllegalArgumentException(IllegalArgumentException ex, Model model, HttpServletRequest request) {
         loggingWarn(request, ex);
@@ -48,12 +48,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleNotFoundException(Exception ex, Model model, HttpServletRequest request) {
 //        loggingWarn(request, ex);
-//
-//        String requestURI = request.getRequestURI();
-//        String decodedURI = URLDecoder.decode(requestURI, StandardCharsets.UTF_8);
-//
-//        model.addAttribute("errorCode", 404);
-//        model.addAttribute("errorMessage", "\"" +decodedURI+ "\" 에 대한 결과를 찾을 수 없습니다.\n" + ex.getMessage());
+
+        String requestURI = request.getRequestURI();
+        String decodedURI = URLDecoder.decode(requestURI, StandardCharsets.UTF_8);
+
+        model.addAttribute("errorCode", 404);
+        model.addAttribute("errorMessage", "\"" +decodedURI+ "\" 에 대한 결과를 찾을 수 없습니다.\n" + ex.getMessage());
         return "error/errorPage";
     }
 

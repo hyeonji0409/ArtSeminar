@@ -104,8 +104,9 @@
 <!--                <input type="number" class="form-control col-1 me-2" style="width: 15%" name="maxBirth" placeholder="최대 나이(비활성화)">-->
                 <select class="form-select col me-2" style="width: 8rem" name="role">
                   <option value="">모든 권한</option>
-                  <option value="ROLE_REGULAR">가입대기</option>
-                  <option value="ROLE_GUEST">일반</option>
+                  <option value="ROLE_GUEST">가입대기</option>
+                  <option value="ROLE_REGULAR">일반</option>
+                  <option value="ROLE_MANAGER">운영자</option>
                   <option value="ROLE_ADMIN">관리자</option>
                 </select>
 
@@ -236,8 +237,11 @@
                   <div class="error-msg"></div>
                 </div>
                 <div id="passwordBox" class="inputBox">
-                  <input id="password" type="password" name="password">
+                  <input id="password" type="password" name="password" readonly>
                   <label for="password">비밀번호</label>
+                  <input type="button" onClick="
+                   {passwordInput.readOnly = !passwordInput.readOnly; passwordInput.type = passwordInput.type==='text'?'password':'text' };"
+                         class="pwEdit" tabindex="0">
                   <div class="error-msg"></div>
                 </div>
                 <div id="emailBox" class="inputBox">
@@ -298,6 +302,7 @@
                 <div id="roleBox" class="inputBox">
                   <select id="role" name="role">
                     <option value="ROLE_ADMIN">관리자</option>
+                    <option value="ROLE_MANAGER">운영자</option>
                     <option value="ROLE_REGULAR">일반</option>
                     <option value="ROLE_GUEST">가입대기</option>
                   </select>

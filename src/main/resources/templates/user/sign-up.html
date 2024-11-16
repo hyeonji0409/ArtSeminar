@@ -26,7 +26,7 @@
   <link th:href="@{/css/signUpIn.css}" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+  <link th:href="@{/css/mastermain.css}" rel="stylesheet">
 
 
   <!-- =======================================================
@@ -209,7 +209,7 @@
           // 상세 주소로 커서 이동
           document.getElementById('detailAddress').focus();
           checkValidation("roadAddress", roadFullAddrInput);
-          roadFullAddrInput.dispatchEvent(new Event('change'));
+          roadFullAddrInput.dispatchEvent(new Event('blur'));
         },
         popupTitle: "아티니어::나의 주소 찾기",
         left: `${(window.screen.width-570)/2}`,

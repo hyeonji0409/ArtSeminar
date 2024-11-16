@@ -1,5 +1,6 @@
 package com.artineer.artineer_renewal.repository;
 
+import com.artineer.artineer_renewal.dto.CustomException;
 import com.artineer.artineer_renewal.entity.Comment;
 import com.artineer.artineer_renewal.entity.IntegratedArticle;
 import com.artineer.artineer_renewal.entity.Notice;
@@ -40,10 +41,6 @@ public class IntegratedArticleRepository {
     // db의 union 을 이용하여 여러 테이블에서의 튜플들을 합성한다.
     public Page<IntegratedArticle> getIntegratedArticles(List<Class<?>> classList, String queryType, String queryValue, Pageable pageable) {
         StringBuilder sql = new StringBuilder();
-
-        // 나중에 메서드 인자에서 받아서 처리할 수 있을 것 같다.
-//        String queryType = "subject";
-
 
         // native sql 작성문
         for (int i = 0; i < classList.size(); i++) {
@@ -126,9 +123,9 @@ public class IntegratedArticleRepository {
         List<IntegratedArticle> pagedContent;
         try {
             pagedContent = integratedList.subList(start, end);
-        } catch (InvalidDataAccessApiUsageException e) {
-            // todo 메시지 전달 안됨
-            throw new InvalidDataAccessApiUsageException("존재하지 않는 페이지입니다.");
+        } catch (Exception e) {
+            // todo 메시지 전달 안됨 ==> 캐치가 되자마자 바로 전역핸들링 되나?? Exception으로 하니까 메시지 전달이 되네
+            throw new InvalidDataAccessApiUsageException("출력 가능한 페이지 크기를 벗어났습니다.");
         }
 
         // 일반적으로 각각의 레포에서는 페이지로 연속자료형을 반환하여 교체를 고려하여 페이지로 반환한다.

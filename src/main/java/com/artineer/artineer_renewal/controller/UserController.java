@@ -70,9 +70,8 @@ public class UserController {
         // Todo js에서도 포멧하면 좋은가
         String formattedBirth = null;
         try {
-            DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyyMMdd");
             DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
+            formattedBirth = LocalDate.parse(userDto.getBirth(), dbDtf).format(dbDtf).toString();
         } catch (DateTimeParseException e) {
             throw new DateTimeParseException("생년월일이 잘못 입력되었습니다.", userDto.getBirth(), 0);
         }
