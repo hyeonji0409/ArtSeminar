@@ -103,12 +103,11 @@ public class UserService {
         String formattedBirth = null;
         try {
             if (userDto.getBirth() != null) {
-                DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
                 DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
+                formattedBirth = LocalDate.parse(userDto.getBirth(), dbDtf).format(dbDtf).toString();
             }
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("잘못된 입력입니다.");
+            throw new IllegalArgumentException("잘못된 날짜입니다.");
         }
 
         System.out.println("수정요청 받음" +  userDto.toString());

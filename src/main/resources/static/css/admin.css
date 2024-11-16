@@ -129,7 +129,21 @@ input:-webkit-autofill:active {
 
 
 
+.pwEdit {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    display: inline;
+    width: 10%;
+    border-style: none;
+    background: url("../assets/img/material/editPen.svg") no-repeat center;
+    background-size: 90%;
+    opacity: 0.6;
 
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    /*outline: 3px solid var(--subtle);*/
+}
 
 
 .gender-selection {
