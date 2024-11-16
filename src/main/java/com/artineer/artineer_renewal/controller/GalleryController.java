@@ -136,7 +136,6 @@ public class GalleryController {
     }
 
     /* 글 삭제 */
-    //오류 마찬가지
     @GetMapping("/gallery/delete/{no}")
     public String deleteGallery(@PathVariable("no") Long no) {
         Gallery gallery = galleryRepository.findById(no).orElse(null);

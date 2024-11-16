@@ -94,7 +94,7 @@
                     </div>
                 </div>
                 </td>
-                <td th:text="${notice.getUser().getName()} + '(' + ${notice.year} + '기)'">작성자</td>
+                <td th:text="${notice.getUser().name} + '(' + ${notice.year} + '기)'">작성자</td>
                 <td><a th:text="${notice.regdate}">날짜</a></td>
                 <td><a th:text="${notice.hit}">조회수</a></td>
             </tr>
@@ -150,7 +150,7 @@
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Preloader -->
-<!--<div id="preloader"></div>-->
+<div id="preloader"></div>
 
 <!-- Vendor JS Files -->
 <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

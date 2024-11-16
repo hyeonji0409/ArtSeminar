@@ -84,7 +84,7 @@
                         <p th:text="${gallery.regdate}" class="card-text" style="padding-left: 10px;">날짜</p>
                     </div>
                     <div class="d-flex justify-content">
-                        <p>댓글수</p><p th:text="${gallery.comment}" class="card-text"><small class="text-muted" style="padding-right: 10px;">댓글수</small></p>
+                        <p>댓글수</p><p th:text="${gallery.comments.size()}" class="card-text"><small class="text-muted" style="padding-right: 10px;">댓글수</small></p>
                         <p style="padding-left: 10px;">조회수</p><p th:text="${gallery.hit}" class="card-text"><small class="text-muted" >조회수</small></p>
                     </div>
                 </div>
