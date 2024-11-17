@@ -36,6 +36,7 @@ public class MyPageController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
 
 
         List<Gallery> galleryList = galleryRepository.findAllByUser(user);
