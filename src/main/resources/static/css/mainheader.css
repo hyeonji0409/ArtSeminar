@@ -1,5 +1,4 @@
 
-
 /* Fonts */
 :root {
   --default-font: "Open Sans",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -75,7 +74,6 @@ h5,
 h6 {
   color: var(--heading-color);
   font-family: var(--heading-font);
-  font-size;
 }
 
 /* PHP Email Form Messages
@@ -144,56 +142,39 @@ h6 {
   z-index: 997;
 }
 
-.navbar{
-    display : flex;
-    justify-content: space-between;
-    align-items:center;
-    padding : 8px 12px;
+.navbar {
+    display: flex;
+    justify-content: space-between; /* 양쪽 끝 공간을 배분 */
+    align-items: center;
+    padding: 8px 12px;
 }
 
-body{
-    margin : 0;
+.navbar__logo {
+    font-size: 24px;
+    color: white;
+    display: flex;
+    align-items: center;
 }
 
-a{
-    text-decoration:none;
-    color :white;
+.navbar__menu {
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+    margin: 0 auto; /* 중앙 배치를 위해 좌우 여백 설정 */
 }
 
-body{
-    margin : 0;
+.navbar__menu li {
+    padding: 8px 12px;
 }
 
-a{
-    text-decoration:none;
-    color :white;
-}
-
-.header .logo {
-  line-height: 1;
-}
-
-.header .logo img {
-  max-height: 36px;
-  margin-right: 8px;
-}
-
-.header .logo h1 {
-  font-size: 35px;
-  margin: 0;
-  font-weight: 500;
-  color: var(--heading-color);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
 
 .header .btn-getstarted,
 .header .btn-getstarted:focus {
   color: var(--contrast-color);
   background: var(--accent-color);
-  font-size: 16px;
+  font-size: 14px;
   padding: 8px 25px;
-  margin: 0 0 0 50px;
+  margin: 0 0 0 30px;
   border-radius: 50px;
   transition: 0.3s;
 }
@@ -216,7 +197,7 @@ a{
     display: flex;
     align-items: center;
     color: var(--contrast-color);
-    background: #179ddb;
+    background: var(--accent-color);
     padding: 8px 25px;
     border-radius: 50px;
     transition: 0.3s;
@@ -307,7 +288,7 @@ a{
 
 #account-menu li {
   margin: 0;
-  padding: 5px 15px;
+  padding: 5px, 15px;
 }
 
 #account-menu a {
@@ -321,7 +302,6 @@ a{
   background-color: color-mix(in srgb, var(--accent-color), transparent 20%);
   border-radius: 10px;
 }
-
 
 
 /* Index Page Header on Scroll
@@ -355,7 +335,7 @@ a{
   .navmenu a:focus {
     color: var(--nav-color);
     padding: 18px 15px;
-    font-size: 18px;
+    font-size: 15px;
     font-family: var(--nav-font);
     font-weight: 400;
     display: flex;
@@ -377,11 +357,11 @@ a{
     padding-right: 0;
   }
 
-/*  .navmenu li:hover>a,
+  .navmenu li:hover>a,
   .navmenu .active,
   .navmenu .active:focus {
     color: var(--nav-hover-color);
-  }*/
+  }
 
   .navmenu .dropdown ul {
     margin: 0;
@@ -492,12 +472,11 @@ a{
 @media (max-width: 1199px) {
   .mobile-nav-toggle {
     color: var(--nav-color);
-    font-size: 40px;
+    font-size: 28px;
     line-height: 0;
     margin-right: 10px;
     cursor: pointer;
     transition: color 0.3s;
-    position: relative;
   }
 
   .navmenu {
@@ -506,39 +485,27 @@ a{
   }
 
   .navmenu ul {
-      display: block; /* 기본적으로 숨김 처리 후 자바스크립트로 제어 가능 */
-      position: absolute;
-      inset: 0 0 0 auto; /* 오른쪽에 위치 */
-      width: 350px; /* 메뉴 너비 설정 */
-      transform: translateX(100%); /* 초기 상태 - 화면 오른쪽 밖으로 이동 */
-      transition: transform 0.3s ease; /* 슬라이드 전환 효과 */
-      padding: 70px;
-      margin: 0;
-      border-radius: 6px;
-      background-color: #14182d;
-      overflow-y: auto;
-      z-index: 9998;
-      box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+    display: none;
+    list-style: none;
+    position: absolute;
+    inset: 60px 20px 20px 20px;
+    padding: 10px 0;
+    margin: 0;
+    border-radius: 6px;
+    background-color: var(--nav-mobile-background-color);
+    overflow-y: auto;
+    transition: 0.3s;
+    z-index: 9998;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
   }
-
-  /* 내부 리스트가 움직이지 않도록 처리 */
-  .navmenu ul li {
-    position: relative; /* 상대적인 위치로 설정하여 이동하지 않도록 함 */
-  }
-
-  /* 모바일 메뉴 활성화 상태 */
-    .mobile-nav-active .navmenu ul {
-        transform: translateX(0); /* 활성화 상태 - 화면에 나타나도록 이동 */
-    }
-
 
   .navmenu a,
   .navmenu a:focus {
-    color: #ffffff;
-    padding: 16px 2px;
+    color: var(--nav-dropdown-color);
+    padding: 10px 20px;
     font-family: var(--nav-font);
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -548,11 +515,11 @@ a{
 
   .navmenu a i,
   .navmenu a:focus i {
-    font-size: 15px;
+    font-size: 12px;
     line-height: 0;
     margin-left: 5px;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -567,19 +534,18 @@ a{
     color: var(--contrast-color);
   }
 
-/*  .navmenu a:hover,
+  .navmenu a:hover,
   .navmenu .active,
   .navmenu .active:focus {
     color: var(--nav-dropdown-hover-color);
-  }*/
+  }
 
-/*  .navmenu .active i,
+  .navmenu .active i,
   .navmenu .active:focus i {
     background-color: var(--accent-color);
     color: var(--contrast-color);
     transform: rotate(180deg);
   }
-  */
 
   .navmenu .dropdown ul {
     position: static;
@@ -606,10 +572,6 @@ a{
     overflow: hidden;
   }
 
-  .mobile-nav-active .navmenu ul {
-      transform: translateX(0); /* 활성화 상태 - 화면에 나타나도록 이동 */
-  }
-
   .mobile-nav-active .mobile-nav-toggle {
     color: #fff;
     position: absolute;
@@ -631,10 +593,6 @@ a{
   .mobile-nav-active .navmenu>ul {
     display: block;
   }
-
-  #login-dropdown {
-          display: none; /* 로그인 드롭다운을 숨김 */
-      }
 }
 
 /*--------------------------------------------------------------
@@ -1061,18 +1019,16 @@ section,
 
 
 
-
-
-
 /* #hero 섹션 내부의 텍스트와 버튼 스타일 */
-.hero .containers, #hero .containers {
+.hero .container, #hero .container {
     position: relative;
+    z-index: 3;
     text-align: center;
     color: white;
     display: flex;
+    justify-content: center;
     align-items: center; /* 수직, 수평 중앙 정렬 */
     height: 100%; /* 텍스트와 버튼을 슬라이더 안에서 가운데 배치 */
-    weight: 100%;
 }
 
 .hero h1, #hero h1 {
@@ -1192,31 +1148,7 @@ section,
     }
 }
 
-/*타이핑 효과*/
-.typing {
-  height: 55px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  font-size: 1.8rem;
-}
 
-.text {
-  font-size: 1.8rem; /* 적당한 크기로 수정 */
-  margin-left: .6rem;
-}
-
-.text::after {
-  content: '';
-  margin-left: .4rem;
-  border-right: 2px solid #777;
-  animation: cursor .9s infinite steps(2);
-}
-
-@keyframes cursor {
-  from { border-right: 2px solid #222; }
-  to { border-right: 2px solid #777; }
-}
 
 
 
@@ -1339,7 +1271,7 @@ header {
 .services .service-item h4 {
   font-weight: 700;
   margin-bottom: 15px;
-  font-size: 22px;
+  font-size: 20px;
   margin-top: 15px; /* 이미지와 텍스트 사이의 적절한 간격 */
 }
 
@@ -1711,18 +1643,3 @@ header {
 .starter-section {
   /* Add your styles here */
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

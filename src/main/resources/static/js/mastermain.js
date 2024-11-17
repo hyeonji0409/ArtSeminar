@@ -19,14 +19,17 @@
   /**
    * Mobile nav toggle
    */
-  const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
+  document.querySelector('.mobile-nav-toggle').addEventListener('click', function() {
+    const body = document.body;
+    body.classList.toggle('mobile-nav-active'); // 모바일 네비게이션의 활성화 상태 토글
 
-  function mobileNavToogle() {
-    document.querySelector('body').classList.toggle('mobile-nav-active');
-    mobileNavToggleBtn.classList.toggle('bi-list');
-    mobileNavToggleBtn.classList.toggle('bi-x');
-  }
-  mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
+    const toggleIcon = document.querySelector('.mobile-nav-toggle i');
+    toggleIcon.classList.toggle('bi-list'); // 햄버거 아이콘
+
+    // 모바일 네비게이션이 활성화되면 슬라이드 효과를 주도록 함
+    const navMenu = document.querySelector('.navmenu');
+    navMenu.classList.toggle('mobile-nav-active');
+  });
 
   /**
    * Hide mobile nav on same-page/hash links
@@ -34,10 +37,9 @@
   document.querySelectorAll('#navmenu a').forEach(navmenu => {
     navmenu.addEventListener('click', () => {
       if (document.querySelector('.mobile-nav-active')) {
-        mobileNavToogle();
+        mobileNavToogle(); // 네비게이션이 열려 있으면 닫기
       }
     });
-
   });
 
   /**
@@ -51,6 +53,26 @@
       e.stopImmediatePropagation();
     });
   });
+
+  /**
+   * Toggle mobile nav menu
+   */
+  const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+  const navMenu = document.querySelector('.navmenu');
+
+  mobileNavToggle.addEventListener('click', function() {
+    // 메뉴가 열릴 때마다 드롭다운 메뉴 상태 초기화
+    if (navMenu.classList.contains('mobile-nav-active')) {
+      // 메뉴가 닫히면 드롭다운 상태를 초기화
+      document.querySelectorAll('.navmenu .dropdown').forEach(dropdown => {
+        dropdown.classList.remove('active');
+        dropdown.querySelector('ul').classList.remove('dropdown-active');
+      });
+    }
+    // 네비게이션 메뉴를 토글
+    navMenu.classList.toggle('mobile-nav-active');
+  });
+
 
 
    // document.getElementById('login-button').addEventListener('click', function(event) {
@@ -371,5 +393,62 @@
   }
 
 })();
+
+/*타이틀 타이핑 효과 구현*/
+
+const $text = document.querySelector(".typing .text");
+
+// 글자 모음
+const letters = [
+  "Website",
+  "Network Security",
+  "Game",
+  "hacking"
+];
+
+// 글자 입력 속도
+const speed = 100;
+let i = 0;
+
+// 타이핑 효과
+const typing = async () => {
+  const letter = letters[i].split("");
+
+  while (letter.length) {
+    await wait(speed);
+    $text.innerHTML += letter.shift();
+  }
+
+  // 잠시 대기
+  await wait(800);
+
+  // 지우는 효과
+  remove();
+}
+
+// 글자 지우는 효과
+const remove = async () => {
+  const letter = letters[i].split("");
+
+  while (letter.length) {
+    await wait(speed);
+
+    letter.pop();
+    $text.innerHTML = letter.join("");
+  }
+
+  // 다음 순서의 글자로 지정, 타이핑 함수 다시 실행
+  i = !letters[i+1] ? 0 : i + 1;
+  typing();
+}
+
+// 딜레이 기능 ( 마이크로초 )
+function wait(ms) {
+  return new Promise(res => setTimeout(res, ms))
+}
+
+// 초기 실행
+setTimeout(typing, 1500);
+
 
 

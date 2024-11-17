@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+
+    <!-- Main Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Main CSS File -->
+    <link href="/css/mastermain.css" rel="stylesheet">
+
+
+</head>
+<body>
+
+<header id="header" class="header d-flex align-items-center fixed-top" th:fragment="header(user)">
+    <nav class="navbar">
+        <div class="navbar__logo"> <!--Artineer 로고 -->
+            <a href="/" class="logo d-flex align-items-center me-auto" th:fragment="headerLogo">
+                <img src="/image/Logo.png" alt="Artineer Logo" style="max-height: 50px;">
+                <h1 class="sitename">Artineer</h1>
+            </a>
+        </div>
+        <ul class="navbar__menu">
+            <li><a href="/about">ABOUT</a></li>
+            <li><a href="#">NOTICE</a></li>
+            <li><a href="#">ACTIVITY</a></li>
+            <li><a href="#">DATA</a></li>
+        </ul>
+        <div class="navbar__login">
+            <!-- 로그인 상태에 따라 표시되는 로그인/회원가입 드롭다운 -->
+            <div id="login-dropdown" th:if="${user == null}">
+                <a id="login-button" class="btn-getstarted" href="#">로그인</a>
+                <ul id="dropdown-menu">
+                    <li><a th:href="@{/user/sign-in}">로그인</a></li>
+                    <li><a th:href="@{/user/sign-up}">회원가입</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</html>
