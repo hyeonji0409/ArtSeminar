@@ -20,10 +20,11 @@
         <div class="info__list">
             <div class="text" style="font-size: xx-large; padding: 1rem">회원 정보
             </div>
-            <form id="form" name="from" action="/user/update" method="post">
+            <form id="form" name="from" action="/user/update" method="post" style="width: 500px">
                 <div class="accountInfo">
                     <div id="usernameBox" class="info__items" style="border-top-left-radius: 10px; border-top-right-radius: 10px">
                         <input id="userId" type="text"  name="username" th:value="${user.username}" readonly>
+                        <label for="userId">아이디</label>
                         <div class="error-msg"></div>
                     </div>
                     <div class="info__items">
@@ -37,7 +38,8 @@
                 </div>
 
                 <div class="info__items" style="border-top-left-radius: 10px; border-top-right-radius: 10px">
-                    <input type="text" th:value="${user.name}" placeholder="이름" name="name" readonly>
+                    <input id="username" type="text" th:value="${user.name}" placeholder="이름" name="name" readonly>
+                    <label for="username">이름</label>
                     <div class="error-msg"></div>
                 </div>
                 <div style="background-color: white; justify-content: center; margin: 3px; display: flex">
@@ -47,12 +49,12 @@
                     <div id="sexBox" class="gender-selection inputBox" style="display: flex; background-color: white; align-items: center; padding: 10px; justify-content: space-between; gap: 30px">
                         <div class="sex-box inputBox" style="justify-content: space-between">
                             <input type="radio" id="male" name="sex" value="male" style="display: none; padding: 10px 30px" >
-                            <label class="gender" for="male" style="padding: 10px 50px; border: 2px solid">남자</label>
+                            <label class="gender" for="male" style="pointer-events: none; padding: 10px 50px; border: 2px solid">남자</label>
                             <div class="error-msg"></div>
                         </div>
                         <div class="sex-box inputBox" >
-                            <input type="radio" id="female" name="sex" value="female" style="display: none; padding: 10px 30px">
-                            <label class="gender" for="female" style="padding: 10px 50px; border: 2px solid">여자</label>
+                            <input type="radio" id="female" name="sex" value="female" style="display: none; padding: 10px 30px" >
+                            <label class="gender" for="female" style="pointer-events: none; padding: 10px 50px; border: 2px solid">여자</label>
                             <div class="error-msg"></div>
                         </div>
                         <div class="error-msg"></div>
@@ -60,13 +62,16 @@
                 </div>
 
                 <div class="info__items">
-                    <input type="text" th:value="${user.birth}" placeholder="생년월일(8자리)" name="birth" readonly>
+                    <input id="userBirth" type="text" th:value="${user.birth}" placeholder="생년월일(8자리)" name="birth" readonly>
+                    <label for="userBirth">생년월일</label>
                 </div>
                 <div class="info__items">
-                    <input type="text" th:value="${user.email}" placeholder="이메일" name="email" readonly>
+                    <input id="userEmail" type="text" th:value="${user.email}" placeholder="이메일" name="email" readonly>
+                    <label for="userEmail">이메일</label>
                 </div>
                 <div class="info__items">
-                    <input type="text" th:value="${user.year}" placeholder="기수"  name="year" readonly>
+                    <input id="userYear" type="text" th:value="${user.year}" placeholder="기수"  name="year" readonly>
+                    <label for="userYear">기수</label>
                 </div>
 <!--                <div class="info__items">-->
 <!--                    <input type="text" th:value="${user.addr}" placeholder="주소" name="addr" readonly>-->
@@ -78,7 +83,7 @@
                         <input id="roadAddress" style="width: 80%" type="text" name="roadAddress" tabindex="-1" th:value="${user.roadAddress}" readonly>
                         <input type="button" onClick="openZipSearch();" class="roadFullAddr" tabindex="0">
                     </div>
-                    <hr>
+                    <hr style="margin-bottom: 0px; margin-top: 0px;">
                     <div style="display: flex; padding: 10px">
                         <input id="detailAddress" style="width: 80%" type="text" name="detailAddress" th:value="${user.detailAddress}" placeholder="상세주소(000동 000호)" >
                         <label for="roadAddress">자택 주소</label>
@@ -118,11 +123,12 @@
         <div class="side__items" >
             <h2 class="section__title">계정</h2>
             <div class="myPage__section" style="background-color: #f4f5fa">회원 정보</div>
+            <div class="myPage__section"><a href="/user/sign-withdrawal">회원탈퇴</a></div>
             <h2 class="section__title">활동</h2>
             <div class="myPage__section"><a href="/mypage/activity1">작성한 글</a></div>
             <div class="myPage__section">댓글단 글</div>
-            <div><a class="logout" href="/logout"> 로그아웃</a></div>
         </div>
+        <div><a class="logout" href="/logout"> 로그아웃</a></div>
 <!--        <div style="width: 100%; align-items: center; display: flex">-->
 <!--            <button>로그아웃</button>-->
 <!--        </div>-->

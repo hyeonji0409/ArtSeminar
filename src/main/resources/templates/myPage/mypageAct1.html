@@ -31,7 +31,7 @@
             <tr th:each="notice, iterStat :  ${articles}">
                 <!-- 전체 게시글 수에서 역순으로 표기하게 설정 -->
                 <th th:text="${articles.size() - iterStat.index}">1</th>
-                <td><a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}" class="a-color" style="text-decoration: none;"></a></td>
+                <td><a th:text="${notice.title}" th:href="@{/gallery/{no}(no=${notice.no})}" class="a-color" style="text-decoration: none;"></a></td>
                 <td th:text="${notice.comment}">댓글수</td>
                 <td th:text="${notice.name} + '(' + ${notice.year} + '기)'">작성자</td>
                 <td><a th:text="${notice.regdate}">날짜</a></td>
@@ -49,13 +49,15 @@
     <div class="side__bar">
         <div class="profile">
             <img class="side__icon" src="/image/profileimg.png" height="308" width="300"/>
-<!--            <div class="side__icon"></div>-->
-            <h2 class="side__page__name">이름(n기)</h2>
+            <h2 class="side__page__name" th:text="${user.name + ' (' + user.year + '기)'}">이름(n기)</h2>
+
+            <div></div>
         </div>
 
         <div class="side__items" >
             <h2 class="section__title">계정</h2>
             <div class="myPage__section"><a href="/mypage">회원 정보</a></div>
+            <div class="myPage__section"><a href="/user/sign-withdrawal">회원탈퇴</a></div>
             <h2 class="section__title">활동</h2>
             <div class="myPage__section" style="background-color: #f4f5fa">작성한 글</div>
             <div class="myPage__section">댓글단 글</div>
