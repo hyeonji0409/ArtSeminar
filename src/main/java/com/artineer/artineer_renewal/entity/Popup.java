@@ -13,13 +13,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-
-// 본인 스키마 맞춰서 주석처리 하세요.
-
 @ToString
-// @Table(name = "popup", schema = "artineer_renewal")
-
-@Table(name = "popup", schema = "re_artineer")
+@Table(name = "popup")
 public class Popup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +26,6 @@ public class Popup {
 
     @Column(name = "description", nullable = false)
     private String description;
-
-//    @Column(name = "start_date", nullable = false)
-//    private Instant startDate;
 
     @Column(name = "start_date", nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)

@@ -1,7 +1,9 @@
 package com.artineer.artineer_renewal.config;
 
+import com.artineer.artineer_renewal.dto.CustomException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,16 +11,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
+
+// todo 메시지 전달이 안 되는 문제 있음. ==> 왜 되는거지
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleIllegalArgumentException(IllegalArgumentException ex, Model model, HttpServletRequest request) {
         loggingWarn(request, ex);
@@ -37,15 +39,15 @@ public class GlobalExceptionHandler {
         return "error/errorPage";
     }
 
-    @ExceptionHandler(NoHandlerFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public void handleNoHandlerFoundException(NoHandlerFoundException ex, HttpServletRequest request) {
-    }
+    //NotFoundException.class,
+    // todo 핸들러에 전달은 되었는데 로깅만 되고 페이지 반환은 안 되는
+    // NoResourceFoundException와 Exception은 다른 루트 클래스를 상속한다?
+    // ResponseStatus를 안하면 리스폰스 바디에 html 코드가 안 보이는 이유?
 
-//NotFoundException.class,
     @ExceptionHandler({NoResourceFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleNotFoundException(Exception ex, Model model, HttpServletRequest request) {
-        loggingWarn(request, ex);
+//        loggingWarn(request, ex);
 
         String requestURI = request.getRequestURI();
         String decodedURI = URLDecoder.decode(requestURI, StandardCharsets.UTF_8);
@@ -55,12 +57,28 @@ public class GlobalExceptionHandler {
         return "error/errorPage";
     }
 
+    @ExceptionHandler({InvalidDataAccessApiUsageException.class})
+    public String handleInvalidDataAccessApiUsageException(Exception ex, Model model, HttpServletRequest request) {
+        model.addAttribute("errorCode", 404);
+        model.addAttribute("errorMessage", "\n" + ex.getMessage());
+        return "error/errorPage";
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(Exception  ex, Model model, HttpServletRequest request) {
         loggingError(request, ex);
 
         model.addAttribute("errorCode", 500);
-        model.addAttribute("errorMessage", "\n작업을 수행하는 도중에 문제가 발생했습니다.\n" + ex.getMessage());
+        model.addAttribute("errorMessage", "\n작업을 수행하는 도중에 문제가 발생했습니다. : \n" + request.getRequestURL());
+        return "error/errorPage";
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public String handleNoHandlerFoundException(NoHandlerFoundException ex, HttpServletRequest request, Model model) {
+        loggingError(request, ex);
+
+        model.addAttribute("errorCode", 500);
+        model.addAttribute("errorMessage", "\n작업을 수행하는 도중에 문제가 발생했습니다. : \n" + request.getRequestURL());
         return "error/errorPage";
     }
 
@@ -69,9 +87,12 @@ public class GlobalExceptionHandler {
         loggingError(request, ex);
 
         model.addAttribute("errorCode", 500);
-        model.addAttribute("errorMessage", "알 수 없는 문제가 발생했습니다." + ex.getClass());
+        model.addAttribute("errorMessage", "알 수 없는 문제가 발생했습니다. : " + ex.getClass());
         return "error/errorPage";
     }
+
+
+
 
 
 

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,14 +98,26 @@ public class EmailController {
     }
 
 
-    @GetMapping(value = "/email", produces = "text/plain;charset=UTF-8")
+    @GetMapping(value = "/email", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String getEmail(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        String title = "로그인된 관리자 계정 : " + username + "  [ " + LocalDateTime.now() + "]\n";
-
         if (!userService.isAdmin(username)) throw new AccessDeniedException("관리자만 접근가능합니다.");
+
+        String title = "로그인된 관리자 계정 : " + username + "  [ " + LocalDateTime.now() + "] &nbsp&nbsp&nbsp&nbsp&nbsp" + "<button type=\"button\" onclick=\"window.location.href='/email/reset'\">인증정보 초기화</button></br>";
+
+        return title + emailService.getVerificationMapToList().toString();
+    }
+
+    @GetMapping(value = "/email/reset", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String resetEmail(@AuthenticationPrincipal User user) {
+        if (!userService.isAdmin(user.getUsername())) throw new AccessDeniedException("관리자만 접속가능합니다.");
+
+        String title = "로그인된 관리자 계정 : " + user.getUsername() + "  [ " + LocalDateTime.now() + "] &nbsp&nbsp&nbsp&nbsp&nbsp" + "<button type=\"button\" onclick=\"window.location.href='/email/reset'\">인증정보 초기화</button></br>";
+
+        emailService.resetVerification();
 
         return title + emailService.getVerificationMapToList().toString();
     }

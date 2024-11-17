@@ -66,7 +66,7 @@
 
 
     <!-- Main CSS File -->
-    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/mastermain.css}" rel="stylesheet">
 
 </head>
 <body class="starter-page-page d-flex flex-column min-vh-100">
@@ -83,14 +83,6 @@
                 <textarea name="story" id="story"></textarea>
 
                 <input type="file" id="file" name="file" multiple >
-
-                <script>
-                ClassicEditor
-                    .create( document.querySelector( '#story' ))
-                    .catch( error => {
-                        console.error( error );
-                    } );
-                </script>
 
                 <div class="d-flex justify-content-end">
                     <a href="/notice" class="btn btn-outline-info custom-btn">취소</a>

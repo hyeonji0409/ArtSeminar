@@ -30,7 +30,7 @@
   <link th:href="@{/css/signUpIn.css}" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link href="/assets/css/main.css" rel="stylesheet">
+  <link href="/assets/css/mastermain.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Arsha
@@ -77,10 +77,10 @@
         <div>
           비밀번호를 입력해 주십시오.
 
-          <form name="form" id="form" action="/sign-withdrawalConfirm" method="post">
+          <form name="form" id="form" action="/user/withdrawal" method="post">
             <div id="userIdBox">
-              <input id="userId" type="text" name="userId" value="세션정보 가져와아 함" readonly>
-              <label for="userId">아이디</label>
+              <input id="username" type="text" name="username" th:value="${user.getUsername()}" readonly>
+              <label for="username">아이디</label>
               <div class="error-msg"></div>
             </div>
             <div id="passwordBox">

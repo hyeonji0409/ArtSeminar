@@ -103,12 +103,11 @@ public class UserService {
         String formattedBirth = null;
         try {
             if (userDto.getBirth() != null) {
-                DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
                 DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
+                formattedBirth = LocalDate.parse(userDto.getBirth(), dbDtf).format(dbDtf).toString();
             }
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("잘못된 입력입니다.");
+            throw new IllegalArgumentException("잘못된 날짜입니다.");
         }
 
         System.out.println("수정요청 받음" +  userDto.toString());
@@ -145,28 +144,24 @@ public class UserService {
                                                  String username) {
 
         System.out.println("아이디가 삭제될 예정" + payload);
-
-        if (username.equals("anonymousUser")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-
         User requestedUser = userRepository.findByUsername(username);
+        User toDelete = userRepository.findByUsername((String) payload.get("username"));
+        if (toDelete == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 
-        if (!isAdmin(requestedUser.getUsername())
-                && !requestedUser.getUsername().equals( payload.get("username") )
-        ) {
+        if (isAdmin(requestedUser.getUsername())) {
+            userRepository.deleteById(toDelete.getNo());
+            return ResponseEntity.status(HttpStatus.OK).body("success");
+        }
+
+        String submitPassword = (String) payload.get("password");
+        boolean isPwMatch = passwordEncoder.matches(submitPassword, toDelete.getPassword());
+
+        if ( !requestedUser.getUsername().equals( payload.get("username")) || !isPwMatch ) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        User user = null;
 
-        try {
-            user = userRepository.findByUsername((String) payload.get("username"));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notFound");
-        }
-
-        userRepository.deleteById(user.getNo());
+        userRepository.deleteById(toDelete.getNo());
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 

@@ -26,7 +26,7 @@
   <link th:href="@{/css/signUpIn.css}" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link href="/assets/css/main.css" rel="stylesheet">
+  <link href="/assets/css/mastermain.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Arsha
@@ -75,8 +75,11 @@
 
 <!--        <p>Use this page as a starter for your own custom pages.</p>-->
         <div>
+          <div th:utext="${'회원탈퇴 시 귀하의 아이디('+ user.getUsername() +')는 재사용이 불가능합니다.<br>'+
+          '회원정보와 게시글 등 서비스 이용기록은 일정 기간 동안 보관됩니다.(?)'}">
           회원탈퇴 시 귀하의 아이디(${세션정보})는 재사용이 불가능합니다.<br>
           회원정보와 게시글 등 서비스 이용기록은 일정 기간 동안 보관됩니다.(?)
+          </div>
           <ul>
             보존근거: 불량 이용자의 재가입 방지, 명예훼손 등 권리침해 분쟁 및 수사협조(?)
           </ul>
