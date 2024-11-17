@@ -3,23 +3,28 @@ package com.artineer.artineer_renewal.controller;
 import com.artineer.artineer_renewal.dto.UserDto;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.UserRepository;
+import com.artineer.artineer_renewal.service.TurnstileService;
 import com.artineer.artineer_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.ProtocolException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -32,7 +37,8 @@ public class UserController {
 
     @Autowired
     private HttpServletRequest request;
-
+    @Autowired
+    private TurnstileService turnstileService;
 
 
     @RequestMapping("/user/sign-in")
@@ -46,11 +52,14 @@ public class UserController {
 
 
     @PostMapping("/user/sign-up")
-    public String saveUser(UserDto userDto) {
-        // IP 주소 가져오기
-        String clientIp = request.getRemoteAddr();
+    public String saveUser(UserDto userDto,
+                           @RequestParam(value = "cf-turnstile-response", required = true) String turnstileKey) throws ProtocolException {
 
-        System.out.println("Client IP: " + clientIp);
+        boolean isBot = !turnstileService.getVerification(turnstileKey, request);
+        if (isBot) throw new AccessDeniedException("의심적인 활동입니다. 나중에 다시 시도해주세요.");
+
+
+        System.out.println("Client IP: " + request.getRemoteAddr());
 
         // 현재 시간 가져오기
         LocalDateTime now = LocalDateTime.now();
@@ -61,11 +70,10 @@ public class UserController {
         // Todo js에서도 포멧하면 좋은가
         String formattedBirth = null;
         try {
-            DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyyMMdd");
             DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            formattedBirth = LocalDate.parse(userDto.getBirth(), inputDtf).format(dbDtf).toString();
+            formattedBirth = LocalDate.parse(userDto.getBirth(), dbDtf).format(dbDtf).toString();
         } catch (DateTimeParseException e) {
-            return "/error/errorPage";
+            throw new DateTimeParseException("생년월일이 잘못 입력되었습니다.", userDto.getBirth(), 0);
         }
 
         User user = new User(
@@ -83,7 +91,7 @@ public class UserController {
                 userDto.getYear(),
                 "ROLE_GUEST",
                 formattedDate,
-                clientIp
+                request.getRemoteAddr()
         );
 
         userRepository.save(user);
@@ -140,6 +148,21 @@ public class UserController {
         return "redirect:" + redirectAddress;
     }
 
+
+    @PostMapping("/user/update-info")
+    public ResponseEntity<String> updateInfoUser(Model model,
+                             UserDto userDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // IP 주소 가져오기
+        String clientIp = request.getRemoteAddr();
+        boolean isSuccess = userService.updateUser(username, userDto, clientIp);
+
+        if (isSuccess) return ResponseEntity.status(HttpStatus.OK).body("success");
+        else  return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("unauthorized");
+    }
+
     @GetMapping("/user/update-info")
     public String updateUserInfo(Model model) {
 
@@ -151,18 +174,6 @@ public class UserController {
 
         return "/user/update-info";
     }
-
-
-    @GetMapping("/user/sign-withdrawal")
-    public String withdrawal() {
-        return "/user/sign-withdrawal";
-    }
-  
-    @PostMapping("/user/sign-withdrawal")
-    public String PostWithdrawal() {
-        return "redirect:/";
-    }
-
 
 
     /* 아이디/비밀번호 찾기 */
@@ -181,27 +192,33 @@ public class UserController {
 
 
 
-//    @GetMapping("/user/sign-withdrawalConfirm")
-//    public String withdrawalConfirm() {
-//        return "/user/sign-withdrawalConfirm";
-//    }
+
+    @GetMapping("/user/sign-withdrawal")
+    public String withdrawal(Model model,
+                             @AuthenticationPrincipal User user) {
+        if (user==null) throw new AccessDeniedException("로그인 후 이용가능합니다.");
+
+        model.addAttribute("user", user);
+        return "/user/sign-withdrawal";
+    }
+
+    @GetMapping("/user/sign-withdrawalConfirm")
+    public String withdrawalConfirm(Model model,
+                                    @AuthenticationPrincipal User user) {
+        if (user==null) throw new AccessDeniedException("로그인 후 이용가능합니다.");
+
+        model.addAttribute("user", user);
+        return "/user/sign-withdrawalConfirm";
+    }
 
 
 
     @PostMapping("/user/withdrawal")
-    public ResponseEntity<String> PostWithdrawal(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<String> PostWithdrawal(@AuthenticationPrincipal User user,
+                                                 @RequestParam Map<String, Object> payload) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-
-        return userService.PostWithdrawal(payload, username);
+        return userService.PostWithdrawal(payload, user.getUsername());
     }
-
-//    @PostMapping("/sign-withdrawalConfirm")
-//    public String PostWithdrawalConfirm() {
-//        // Todo 회원정보 삭제화
-//        return "redirect:/";
-//    }
 
 
 

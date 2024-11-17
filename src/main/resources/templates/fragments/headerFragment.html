@@ -18,7 +18,6 @@
 
 <header id="header" class="header d-flex align-items-center fixed-top" th:fragment="header(user)">
 
-
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
         <a href="/" class="logo d-flex align-items-center me-auto" th:fragment="headerLogo">
@@ -51,10 +50,9 @@
                         <li><a href="#">족보자료</a></li>
                     </ul>
                 </li>
-
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </ul>
         </nav>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 
         <div id="login-dropdown" th:if="${user == null}">
             <a id="login-button" class="btn-getstarted" href="#">로그인</a>
@@ -69,7 +67,7 @@
             <ul id="account-menu">
                 <li><a th:href="@{/mypage}">마이페이지</a></li>
 
-<!--                &lt;!&ndash; 관리자인 경우에만 관리자 페이지 링크 표시 &ndash;&gt;-->
+                <!--                &lt;!&ndash; 관리자인 경우에만 관리자 페이지 링크 표시 &ndash;&gt;-->
                 <li sec:authorize="hasRole('ROLE_ADMIN')">
                     <a th:href="@{/admin}">관리자페이지</a>
 
@@ -79,18 +77,15 @@
             </ul>
         </div>
 
-
-
-
-
-
         <!--                <a th:if="${user=='anonymousUser'}" class="btn-getstarted" th:href="@{/user/sign-in}">로그인</a>-->
-<!--        &lt;!&ndash;        todo 마이프로필 연결&ndash;&gt;-->
-<!--        <a th:if="${user!='anonymousUser'}" th:text="|${user.getName()}(${user.getYear()}기)|" class="btn-getstarted" th:href="@{/logout}">내 계정</a>-->
+        <!--        &lt;!&ndash;        todo 마이프로필 연결&ndash;&gt;-->
+        <!--        <a th:if="${user!='anonymousUser'}" th:text="|${user.getName()}(${user.getYear()}기)|" class="btn-getstarted" th:href="@{/logout}">내 계정</a>-->
 
     </div>
 </header>
 </body>
+<!-- Main JS File -->
+<script src="/js/mastermain.js" defer></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

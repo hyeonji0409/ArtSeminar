@@ -1,5 +1,5 @@
 <!DOCTYPE html >
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
   <meta charset="utf-8">
@@ -26,7 +26,8 @@
   <link th:href="@{/css/signUpIn.css}" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+  <link th:href="@{/css/mastermain.css}" rel="stylesheet">
+
 
   <!-- =======================================================
   * Template Name: Arsha
@@ -141,9 +142,13 @@
             </div>
               <div class="error-msg"></div>
           </div>
+
+          <div id="turnstile-cf-chl-widget-response" class="inputBox"></div>
+
           <div class="inputBox" style="text-align: center;">
             <button type="submit">가입하기</button>
           </div>
+
         </form>
       </div>
 
@@ -170,6 +175,28 @@
 <script th:src="@{/assets/vendor/isotope-layout/isotope.pkgd.min.js}"></script>
   <script th:src="@{/js/signUp.js}"></script>
 
+
+<script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
+        defer
+></script>
+
+
+<script>
+  window.onloadTurnstileCallback = function () {
+    turnstile.render("#turnstile-cf-chl-widget-response", {
+      sitekey: "0x4AAAAAAAz5wdt4VsghBRWI",
+      // 강제 상호작용키 3x00000000000000000000FF-->
+      size: "flexible",
+      callback: function (token) {
+        console.log(`Challenge Success ${token}`);
+      },
+    });
+  };
+</script>
+
+
+
   <script>
     // daum api 사용
     function openZipSearch() {
@@ -182,7 +209,7 @@
           // 상세 주소로 커서 이동
           document.getElementById('detailAddress').focus();
           checkValidation("roadAddress", roadFullAddrInput);
-          roadFullAddrInput.dispatchEvent(new Event('change'));
+          roadFullAddrInput.dispatchEvent(new Event('blur'));
         },
         popupTitle: "아티니어::나의 주소 찾기",
         left: `${(window.screen.width-570)/2}`,

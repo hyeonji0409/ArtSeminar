@@ -78,13 +78,14 @@ form.addEventListener('submit', async (e) => {
 
         const formData = new FormData(e.target);
 
-        await fetch("/user/update", {
+        await fetch("/user/update-info", {
             method: "POST",
             body: formData
         })
-            .then(response => response.json())
+            .then(response => response)
             .then(data => {
                 // 서버 응답을 처리하는 로직
+                if (data.status !== 200) throw data
                 console.log("Success:", data);
                 alert("수정되었습니다.");
 

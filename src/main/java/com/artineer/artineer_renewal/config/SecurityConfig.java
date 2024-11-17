@@ -2,9 +2,7 @@ package com.artineer.artineer_renewal.config;
 
 
 import com.artineer.artineer_renewal.repository.UserRepository;
-import com.artineer.artineer_renewal.security.CustomAuthenticationFailureHandler;
-import com.artineer.artineer_renewal.security.CustomAuthenticationSuccessHandler;
-import com.artineer.artineer_renewal.security.CustomUserDetailService;
+import com.artineer.artineer_renewal.security.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -51,16 +49,15 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
-                        /* grades, signUp, gallery에 관해서는 user의 권한을 주지 않고 접속이 가능하게 한다. 그 외의 모든 요청은 인증을 필요로 함 */
 
+                        /* grades, signUp, gallery에 관해서는 user의 권한을 주지 않고 접속이 가능하게 한다. 그 외의 모든 요청은 인증을 필요로 함 */
                         auth.requestMatchers("/",
                                         "/static/**", "/static/assets/**",
                                         "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
-                                .requestMatchers("/notice/delete/**", "/notice/edit/**").authenticated()
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/notice/new/**", "/notice/edit/**", "/notice/delete/**", "/admin/**").hasAnyRole("ADMIN", "MANAGER")
+                                .requestMatchers("/notice", "^/notice(/\\d+)?$", "/gallery/**").hasAnyRole("ADMIN", "MANAGER", "REGULAR")
                                 .requestMatchers("/mypage/**").authenticated()
                                 .anyRequest().permitAll()
-
                 )
                 .formLogin(form -> form
                         .loginPage("/user/sign-in")
@@ -76,8 +73,11 @@ public class SecurityConfig {
                         .invalidateHttpSession(true) // 세션 무효화
                         .permitAll()
                 )
-//                .exceptionHandling(exception -> exception.accessDeniedHandler(customAccessDeniedHandler()));
-                .exceptionHandling(exception -> exception.accessDeniedPage("/access-denied"));
+                .exceptionHandling(exception -> exception
+//                        .accessDeniedHandler(new CustomAccessDeniedHandler())
+                        .accessDeniedPage("/access-denied")
+                );
+
         return http.build();
     }
 

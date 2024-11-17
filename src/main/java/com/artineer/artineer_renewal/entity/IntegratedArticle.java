@@ -5,17 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.domain.Auditable;
 
 import java.util.List;
 
-@Entity
-@Table(name = "notice")
-@NoArgsConstructor
+
+// 각 게사판 테이블의 슈퍼 타입이다.
+// 네이티브 쿼리를 직접 요청해서 연관매핑이 안된다.?
 @Getter
 @Setter
 @AllArgsConstructor
-public class Notice {
+@NoArgsConstructor
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class IntegratedArticle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;
@@ -41,6 +42,7 @@ public class Notice {
 
     private String name;
     private int year;
+
 
 
 }

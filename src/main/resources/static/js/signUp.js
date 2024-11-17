@@ -2,7 +2,7 @@
 /* input placeholder animation*/
 const inputBoxes = document.querySelectorAll('input[type="text"]:not([name="detailAddress"]), input[type="number"], input[type="email"], input[type="password"]');
 
-inputBoxes.forEach(v =>  v.addEventListener("change", (e) => {
+inputBoxes.forEach(v =>  v.addEventListener("blur", (e) => {
     console.log("인풋박스에 값:" + e.target.value )
     // e.target.validity.badInput 는  number type 검사를 위함.
     if (e.target.value || e.target.validity.badInput ) {
@@ -170,13 +170,15 @@ const errMsg = {
         fail: "이름을 작성해 주세요.fail"
     },
     birth: {
-        pattern: /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/,
+        datePattern : /^(\d{4})(\d{2})(\d{2})$/,
+        pattern: /^(?=\d)(?:(?:1[6-9]|[2-9]\d)?\d\d([-.\/])(?:1[012]|0?[1-9])\1(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:16|[2468][048]|[3579][26])00)(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$/,
         invalid: "올바른 생년월일 8자리를 입력해 주세요.",
         fail: "올바른 생년월일 8자리를 입력해 주세요.fail"
     },
     tel: {
-        pattern: /^010-\d{4}-\d{4}$/,
-        invalid: '전화번호("-" 포함)를 확인해 주세요.',
+        pattern: /^\d{3}-\d{4}-\d{4}$/,
+        hyphenPattern: /^(\d{2,3})(\d{3,4})(\d{4})$/,
+        invalid: '전화번호를 확인해 주세요.',
         fail: "이미 사용 중인 전화번호 입니다."
     },
     sex: {
@@ -246,5 +248,20 @@ function jusoCallBack(roadFullAddr, roadAddrPart1, addrDetail){
 
     /* 주소 입력시 유효성 검사*/
     checkValidation("roadAddress", roadFullAddrInput);
-    roadFullAddrInput.dispatchEvent(new Event('change'));
+    roadFullAddrInput.dispatchEvent(new Event('blur'));
+}
+
+
+
+
+birthdayInput.onchange = (e) => {
+    e.target.value = e.target.value
+        .replace(/[^0-9]/g, '')
+        .replace(errMsg.birth.datePattern, '$1/$2/$3')
+}
+
+contactNumberInput.onchange = (e) => {
+    e.target.value = e.target.value
+        .replace(/[^0-9]/g, '')
+        .replace(errMsg.tel.hyphenPattern, `$1-$2-$3`);
 }

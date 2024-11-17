@@ -18,4 +18,5 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long> {
 //    List<Gallery> findAllGallery();
 
     Page<Gallery> findAll(Pageable pageable);
+    List<Gallery> findAllByTitleContaining(String title);
 }
