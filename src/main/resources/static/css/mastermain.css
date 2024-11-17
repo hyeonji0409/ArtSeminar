@@ -294,7 +294,7 @@ h6 {
 
 #account-menu li {
   margin: 0;
-  padding: 5px, 15px;
+  padding: 5px 15px;
 }
 
 #account-menu a {
@@ -1036,9 +1036,14 @@ section,
 
 
 
+
+
+
 /* #hero 섹션 내부의 텍스트와 버튼 스타일 */
 .hero .container, #hero .container {
-    position: relative;
+    position: absolute;
+    top: 0;
+    width: 100%;
     z-index: 3;
     text-align: center;
     color: white;
