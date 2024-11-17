@@ -72,9 +72,15 @@ public class GalleryService {
         List<String> fileNames = new ArrayList<>();
 
         // 파일 처리
+        // 파일 처리 부분을 story의 값에서 src부분만 추출 해서 저장 가능한지 실험 중
         for( MultipartFile file : files) {
             String fileName = fileService.uploadMultipartFile(file);
             if (fileName!=null) fileNames.add(fileName);
+        }
+
+        // 파일이 하나도 없다면 기본 파일 "no_image.jpg" 추가
+        if (fileNames.isEmpty()) {
+            fileNames.add("no_image.jpg");
         }
 
         String fileNameString = String.join(",", fileNames);
