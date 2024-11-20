@@ -88,8 +88,9 @@ public class EmailController {
         if (code==null || !code.equals(injeung) || !user.getName().equals(name))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
 
-        responseData.put("code", 200);
+        emailService.removeVerificationCode(email);
 
+        responseData.put("code", 200);
         String tempPassword = emailService.getRandomString(5, false);
         userService.changePassword(user, tempPassword);
         responseData.put("password", tempPassword);

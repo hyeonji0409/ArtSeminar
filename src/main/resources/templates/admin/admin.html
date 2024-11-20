@@ -159,7 +159,7 @@
             <tr th:if="${users.getTotalPages()==0}"><td colspan="11" class="fs-2 text-center">찾으시는 사용자가 없습니다.</td></tr>
             <tr th:each="eachUser, iterStat : ${users}">
               <td th:text="${users.getNumber()*userSearchDTO.getPageSize().orElse(10) + iterStat.index+1}">출력인데스</td>
-              <td th:text="${eachUser.getUsername()}">아이디</td>
+              <td th:text="${eachUser.getUsername()} + ${eachUser.getDeletedAt()==null ? '' :'('+eachUser.getDeletedAt()+')'}">아이디</td>
               <td th:text="${eachUser.getName()}">홍길동(이름)</td>
               <td th:text="${eachUser.getSex() == 'male' ? '남자' : '여자' }">남녀</td>
               <td th:text="${(eachUser.getBirth() != null ?
@@ -286,7 +286,7 @@
                 <input type="hidden" id="zipcode" name="zipcode" value="">
                 <div id="roadAddressBox" class="inputBox">
                   <div>
-                    <input id="roadAddress" type="text" name="roadAddress" tabindex="-1" readonly>
+                    <input id="roadAddress" type="text" name="roadAddress" tabindex="-1" >
                     <input type="button" onClick="openZipSearch();" class="roadFullAddr" tabindex="0">
                     <hr>
                     <input id="detailAddress" type="text" name="detailAddress" placeholder="상세주소(000동 000호)" >
@@ -309,9 +309,10 @@
               </form>
             </div>
             <div class="modal-footer" style="justify-content: center">
-              <button type="button" class="btn btn-primary" id="save-changes" form="form" style="width: 40%">저장</button>
+              <button type="button" class="btn btn-primary" id="save-changes" form="form" style="width: 25%">저장</button>
               <button type="button" class="btn btn-danger" id="delete" style="width: 14%; min-width: fit-content">제거</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 40%">취소</button>
+              <button type="button" class="btn btn-warning" id="clean" style="width: 14%; min-width: fit-content">클린업</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 25%">취소</button>
             </div>
           </div>
         </div>
