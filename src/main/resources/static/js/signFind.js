@@ -23,7 +23,7 @@ function element(whatWillFind) {
           display: flex;
           justify-content: center;
           width: auto">
-            <a href=${idAddr.href}>아이디 찾기</a>&nbsp&nbsp/&nbsp&nbsp<a href=${pwAddr.href}>비밀번호 찾기</a>
+            <a href=${idAddr.href} style="font-weight: bold; color: var(--subtle) !important;">아이디 찾기</a>&nbsp&nbsp/&nbsp&nbsp<a href=${pwAddr.href} style="font-weight: bold; color: var(--subtle) !important;">비밀번호 찾기</a>
           </div>
           <div id="nameBox" class="inputBox">
             <input id="name" type="text" name="name">
@@ -56,7 +56,7 @@ function element(whatWillFind) {
           display: flex;
           justify-content: center;
           width: auto;">
-            <a href=${idAddr.href}>아이디 찾기</a>&nbsp&nbsp/&nbsp&nbsp<a href=${pwAddr.href}>비밀번호 찾기</a>
+            <a href=${idAddr.href} style="font-weight: bold; color: var(--subtle) !important;">아이디 찾기</a>&nbsp&nbsp/&nbsp&nbsp<a href=${pwAddr.href} style="font-weight: bold; color: var(--subtle) !important;">비밀번호 찾기</a>
           </div>
 
           <div id="nameBox" class="inputBox">
