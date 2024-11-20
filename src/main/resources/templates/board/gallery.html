@@ -57,6 +57,28 @@
             border-color: lightblue !important;     /* hover 시 테두리 색상 */
             color:white;
         }
+        @media (min-width: 1200px) { /* xl: 1200px 이상 */
+            .custom-width {
+                max-width: 650px;
+            }
+        }
+
+        @media (min-width: 992px) and (max-width: 1199.98px) { /* lg: 992px ~ 1199px */
+            .custom-width {
+                max-width: 450px;
+            }
+        }
+        @media (min-width: 1200px) { /* xl: 1200px 이상 */
+            .body-width {
+                max-width: 300px;
+            }
+        }
+
+        @media (min-width: 992px) and (max-width: 1199.98px) { /* lg: 992px ~ 1199px */
+            .body-width {
+                max-width: 200px;
+            }
+        }
     </style>
 
 </head>
@@ -71,25 +93,25 @@
 <div class="d-flex justify-content-center align-items-center">
     <div class="container m-5 " >
 
-        <div >
-        <div class="card row col-12 mb-3 " style="max-width: 100%;"
+        <!--  갤러리 사진이 주임, 사진 크기 키우기 / 한 줄에 2개씩 / 스크롤 안 하고 한번에 보이기 -->
+        <div class="row row-cols-2 d-flex justify-content-between">
+        <div class="card row col-12 mb-3 custom-width"
              th:each="gallery, iterStat :  ${pagination}">
             <div style="display: flex; justify-content: center;">
-            <div class="col-md-8">
+            <div class="col-md-8 body-width text-nowrap">
                 <div class="card-body">
                     <p th:text="${gallery.getNo()}">번호</p>
-                    <a th:text="${gallery.title}" th:href="@{/gallery/{no}(no=${gallery.no})}" class="card-title" style="font-size: 25px; text-decoration: none;">제목</a>
-                    <div class="d-flex justify-content" style="padding-top: 20px;">
-                        <p th:text="${gallery.name} + '(' + ${gallery.year} + '기)'" class="card-text" style="padding-right: 10px;">작성자</p>
-                        <p th:text="${gallery.regdate}" class="card-text" style="padding-left: 10px;">날짜</p>
-                    </div>
+                    <p th:text="${gallery.title}" th:href="@{/gallery/{no}(no=${gallery.no})}" class="card-title text-truncate" style="font-size: 25px; text-decoration: none;">제목</p>
+
+                    <p th:text="${gallery.name} + '(' + ${gallery.year} + '기)'" class="card-text mb-0" >작성자</p>
+                    <p th:text="${gallery.regdate}" class="card-text mb-0" >날짜</p>
                     <div class="d-flex justify-content">
                         <p>댓글수</p><p th:text="${gallery.comments.size()}" class="card-text"><small class="text-muted" style="padding-right: 10px;">댓글수</small></p>
                         <p style="padding-left: 10px;">조회수</p><p th:text="${gallery.hit}" class="card-text"><small class="text-muted" >조회수</small></p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 container d-flex justify-content-center" th:each="fileName: ${gallery.file}">
+            <div class="col-md-4 container d-flex justify-content-end" th:each="fileName: ${gallery.file}">
                     <img  th:src="@{'/data/' + ${fileName}}" style="max-height: 200px;">
             </div>
             </div>
