@@ -61,7 +61,7 @@ public class GalleryController {
                            @RequestParam(name = "qt", required = false, defaultValue = "subject") String queryType,
                            @RequestParam(name = "q", required = false, defaultValue = "") String query,
                            @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
-                           @RequestParam(name = "size", required = false, defaultValue = "5") Integer pageSize) {
+                           @RequestParam(name = "size", required = false, defaultValue = "6") Integer pageSize) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);

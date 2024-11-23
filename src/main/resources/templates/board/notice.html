@@ -85,7 +85,7 @@
                 <select id="queryType" name="choose" >
                     <option value="title">제목</option>
                     <option value="story">내용</option>
-                    <option value="ti_st">제목+내용</option>
+                    <option value="username">작성자</option>
                 </select>
             </div>
             <input id="search" class="form-control me-2" type="search" placeholder="제목을 검색하세요." aria-label="Search" th:value="${query}" style="max-width: 200px;min-width: 100px;">
@@ -110,13 +110,13 @@
             </thead>
             <tbody>
 
-            <tr th:each="notice, iterStat :  ${pagination}" class="text-nowrap" style="max-height: 40px;">
+            <tr th:each="notice, iterStat :  ${pagination}" class="text-nowrap">
                 <!-- 전체 게시글 수에서 역순으로 표기하게 설정 -->
                 <td th:text="${notice.getNo()}" style="width: 80px;">게시글 넘버</td>
 <!--                <td><a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}" class="a-color" style="text-decoration: none;"></a></td>-->
 <!--                <td th:text="${notice.comment}">댓글수</td>-->
 <!--                <th th:text="${pagination.getSize() - iterStat.index}">1</th>-->
-                <td><div class="d-flex align-items-center">
+                <td><div class="d-flex align-items-center" style="max-height: 40px;">
                     <a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}"
                        class="a-color d-flex justify-content-start text-truncate custom-width" style="text-decoration: none;"></a>
                     <div class="d-flex align-items-center text-danger fw-bold p-3">

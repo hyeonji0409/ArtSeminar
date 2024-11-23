@@ -88,6 +88,19 @@
 <div class="container text-center" style="margin-top: 150px;">
     <h2 class="fw-bold" style="color: #47b2e4;">갤러리</h2>
     <h5 class="text-muted" style="opacity: 0.5;">Gallery</h5>
+    <div class="container-fluid">
+        <form class="d-flex justify-content-end">
+            <div class="pe-3">
+                <select id="queryType" name="choose" >
+                    <option value="title">제목</option>
+                    <option value="story">내용</option>
+                    <option value="username">작성자</option>
+                </select>
+            </div>
+            <input id="search" class="form-control me-2" type="search" placeholder="제목을 검색하세요." aria-label="Search" th:value="${query}" style="max-width: 200px;min-width: 100px;">
+            <button class="btn btn-info" type="submit">검색</button>
+        </form>
+    </div>
 </div>
 
 <div class="d-flex justify-content-center align-items-center">
@@ -97,7 +110,7 @@
         <div class="row row-cols-2 d-flex justify-content-between">
         <div class="card row col-12 mb-3 custom-width"
              th:each="gallery, iterStat :  ${pagination}">
-            <div style="display: flex; justify-content: center;">
+            <div class="d-flex justify-content-between">
             <div class="col-md-8 body-width text-nowrap">
                 <div class="card-body">
                     <p th:text="${gallery.getNo()}">번호</p>
@@ -111,13 +124,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 container d-flex justify-content-end" th:each="fileName: ${gallery.file}">
-                    <img  th:src="@{'/data/' + ${fileName}}" style="max-height: 200px;">
+            <div class="col-md-4 d-flex justify-content-end " th:each="fileName: ${gallery.file}">
+                    <img  th:src="@{'/data/' + ${fileName}}" style="max-width: 300px;max-height: 200px;">
             </div>
             </div>
         </div>
         </div>
-        <div class="d-flex justify-content-end pe-3">
+        <div class="d-flex justify-content-end">
             <a href="/gallery/new" class="text-light btn btn-info">글쓰기</a>
         </div>
 
@@ -148,12 +161,7 @@
             </ul>
         </nav>
 
-        <div class="container-fluid">
-            <form class="d-flex justify-content-center">
-                <input id="search" class="form-control me-2" type="search" placeholder="제목을 검색하세요." aria-label="Search" th:value="${query}" style="max-width: 400px;min-width: 200px;">
-                <button class="btn btn-info" type="submit">검색</button>
-            </form>
-        </div>
+
 
     </div>
 </div>
