@@ -114,7 +114,7 @@
             <div class="col-md-8 body-width text-nowrap">
                 <div class="card-body">
                     <p th:text="${gallery.getNo()}">번호</p>
-                    <p th:text="${gallery.title}" th:href="@{/gallery/{no}(no=${gallery.no})}" class="card-title text-truncate" style="font-size: 25px; text-decoration: none;">제목</p>
+                    <a th:text="${gallery.title}" th:href="@{/gallery/{no}(no=${gallery.no})}" class="card-title text-truncate" style="font-size: 25px; text-decoration: none;">제목</a>
 
                     <p th:text="${gallery.name} + '(' + ${gallery.year} + '기)'" class="card-text mb-0" >작성자</p>
                     <p th:text="${gallery.regdate}" class="card-text mb-0" >날짜</p>

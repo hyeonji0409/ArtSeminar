@@ -63,9 +63,9 @@
                 </div>
             </div>
 
-<!--            <div th:each="fileName: ${notice.file}" class="pt-3">-->
-<!--                <a th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image"></a>-->
-<!--            </div>-->
+            <div th:each="fileName: ${notice.file}" class="pt-3" >
+                다운로드 : <a th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image" class="text-info"></a>
+            </div>
 
             <div class="d-flex justify-content-center">
             <div class="d-flex justify-content-between" style="width: 800px">
