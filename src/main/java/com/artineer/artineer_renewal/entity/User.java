@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -50,11 +51,13 @@ public class User implements UserDetails {
     private String regdate;
     private String ip;
 
+    private Timestamp deletedAt;
+
 
 
     @Builder
     public User(Long no, String username, String password, String name, String sex, String birth,
-                      String tel, String email, String zipcode, String roadAddress, String detailAddress, int year, String role, String regdate, String ip) {
+                      String tel, String email, String zipcode, String roadAddress, String detailAddress, int year, String role, String regdate, String ip, Timestamp deletedAt) {
         this.no = no;
         this.username = username;
         this.password = password;
@@ -72,6 +75,8 @@ public class User implements UserDetails {
         this.role = role;
         this.regdate = regdate;
         this.ip = ip;
+
+        this.deletedAt = deletedAt;
     }
 
 
@@ -111,7 +116,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.deletedAt == null;
     }
 
 }

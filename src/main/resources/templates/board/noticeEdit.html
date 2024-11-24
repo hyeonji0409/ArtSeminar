@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Notice Edit</title>
     <!-- CKEditor Classic Editor 추가 -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
 
     <!-- 넓이 높이 조절 -->
@@ -80,17 +79,17 @@
                 <input type="text" id="title" name="title" required th:field="${notice.title}" class="container custom-width fs-3 border-0 border-bottom"><br><br>
             </div>
 
-            <textarea name="story" id="story" th:field="${notice.story}"></textarea>
+            <textarea name="story" id="story" th:field="${notice.story}" th:data-story="${notice.getStory()}"></textarea>
 <!--            저장된 내용 불러오기 안됨-->
 
 
-<!--            <script>-->
-<!--                ClassicEditor-->
-<!--                    .create( document.querySelector( '#story' ))-->
-<!--                    .catch( error => {-->
-<!--                        console.error( error );-->
-<!--                    } );-->
-<!--            </script>-->
+            <script>
+                ClassicEditor
+                    .create( document.querySelector( '#story' ))
+                    .catch( error => {
+                        console.error( error );
+                    } );
+            </script>
 
             <div class="d-flex justify-content-end">
                 <a th:href="@{/notice/{no}(no=${notice.no})}" class="btn btn-outline-info custom-btn">취소</a>
@@ -102,7 +101,8 @@
         </form>
     </div>
 
-<!-- CKEditor 적용 -->
+
+    <!-- CKEditor 적용 -->
     <script type="importmap">
         {
             "imports": {
@@ -349,7 +349,17 @@
             translations: [translations]
         };
 
-        ClassicEditor.create(document.querySelector('#story'), editorConfig);
+
+        let editor;
+        ClassicEditor.create(document.querySelector('#story'), editorConfig)
+            .then( newEditor => {
+                editor = newEditor;
+                editor.setData(document.querySelector('#story').dataset.story);
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+
     </script>
     <script>
         window.onload = function() {
@@ -358,10 +368,6 @@
             }
         };
     </script>
-    <script>
-    CKEditor.replace('story'); // story id를 가진 textarea에 CKEditor 적용
-</script>
-
 </div>
 <footer id="footer" th:insert="~{fragments/footerFragment :: footerInfo}" class="footer py-3 mt-auto"></footer>
 

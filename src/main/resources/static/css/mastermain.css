@@ -75,7 +75,7 @@ h5,
 h6 {
   color: var(--heading-color);
   font-family: var(--heading-font);
-  font-size;
+  /*font-size;*/
 }
 
 /* PHP Email Form Messages
@@ -157,20 +157,15 @@ body{
 
 a{
     text-decoration:none;
-    color :white;
 }
 
 body{
     margin : 0;
 }
 
-a{
-    text-decoration:none;
-    color :white;
-}
-
 .header .logo {
   line-height: 1;
+  text-decoration: none;
 }
 
 .header .logo img {
@@ -886,7 +881,7 @@ a{
 --------------------------------------------------------------*/
 @media screen and (max-width: 768px) {
   [data-aos-delay] {
-    transition-delay: 0 !important;
+    transition-delay: 0s !important;
   }
 }
 
