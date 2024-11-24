@@ -54,6 +54,23 @@
             border-color: lightblue !important;     /* hover 시 테두리 색상 */
             color: white;
         }
+        @media (min-width: 1200px) { /* xl: 1200px 이상 */
+            .custom-width {
+                max-width: 750px;
+            }
+        }
+
+        @media (min-width: 992px) and (max-width: 1199.98px) { /* lg: 992px ~ 1199px */
+            .custom-width {
+                max-width: 550px;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991.98px) { /* md: 768px ~ 991px */
+            .custom-width {
+                max-width: 300px;
+            }
+        }
     </style>
 </head>
 <body class="starter-page-page d-flex flex-column min-vh-100">
@@ -62,13 +79,28 @@
 <div class="container text-center" style="margin-top: 150px;">
     <h2 class="fw-bold" style="color: #47b2e4;">공지 사항</h2>
     <h5 class="text-muted" style="opacity: 0.5;">Notice</h5>
+    <div class="container-fluid">
+        <form class="d-flex justify-content-end">
+            <div class="pe-3">
+                <select id="queryType" name="choose" >
+                    <option value="title">제목</option>
+                    <option value="story">내용</option>
+                    <option value="username">작성자</option>
+                </select>
+            </div>
+            <input id="search" class="form-control me-2" type="search" placeholder="제목을 검색하세요." aria-label="Search" th:value="${query}" style="max-width: 200px;min-width: 100px;">
+            <button class="btn btn-info" type="submit">검색</button>
+        </form>
+    </div>
 </div>
+<!-- 한눈에 보기 쉽게 위쪽으로 올리기 -->
+
 
 <div class="d-flex justify-content-center">
     <div class="container m-5  " >
         <table class="table table-hover text-center">
             <thead>
-            <tr>
+            <tr class="text-nowrap">
                 <th scope="col">번호</th>
                 <th scope="col">제목</th>
                 <th scope="col">작성자</th>
@@ -78,25 +110,26 @@
             </thead>
             <tbody>
 
-            <tr th:each="notice, iterStat :  ${pagination}">
+            <tr th:each="notice, iterStat :  ${pagination}" class="text-nowrap">
                 <!-- 전체 게시글 수에서 역순으로 표기하게 설정 -->
-                <td th:text="${notice.getNo()}">게시글 넘버</td>
+                <td th:text="${notice.getNo()}" style="width: 80px;">게시글 넘버</td>
 <!--                <td><a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}" class="a-color" style="text-decoration: none;"></a></td>-->
 <!--                <td th:text="${notice.comment}">댓글수</td>-->
 <!--                <th th:text="${pagination.getSize() - iterStat.index}">1</th>-->
-                <td><div class="d-flex align-items-center">
+                <td><div class="d-flex align-items-center" style="max-height: 40px;">
                     <a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}"
-                       class="a-color d-flex justify-content-start" style="text-decoration: none;"></a>
-                    <div class="d-flex align-items-center text-danger fw-bold">
+                       class="a-color d-flex justify-content-start text-truncate custom-width" style="text-decoration: none;"></a>
+                    <div class="d-flex align-items-center text-danger fw-bold p-3">
                     <p>[</p>
-                    <p class="d-flex justify-content-start" th:text="${notice.comments.size()}">댓글수</p>
+                    <p class="d-flex justify-content-start " th:text="${notice.comments.size()}">댓글수</p>
                     <p>]</p>
                     </div>
                 </div>
                 </td>
-                <td th:text="${notice.getUser().name} + '(' + ${notice.year} + '기)'">작성자</td>
-                <td><a th:text="${notice.regdate}">날짜</a></td>
-                <td><a th:text="${notice.hit}">조회수</a></td>
+                <!--  등록된 유저의 이름값을 가져오는것이기 때문에 데이터베이스에 해당하는 유저가 없다면 오류 발생함 -->
+                <td th:text="${notice.getUser().name} + '(' + ${notice.year} + '기)'" style="width: 120px;">작성자</td>
+                <td><a th:text="${notice.regdate}" style="width: 180px;">날짜</a></td>
+                <td><a th:text="${notice.hit}" style="width: 80px;">조회수</a></td>
             </tr>
 
 
@@ -134,12 +167,6 @@
         </nav>
 
 
-        <div class="container-fluid">
-            <form class="d-flex justify-content-center">
-                <input id="search" class="form-control me-2" type="search" placeholder="제목을 검색하세요." aria-label="Search" th:value="${query}" style="max-width: 400px;min-width: 200px;">
-                <button class="btn btn-info" type="submit">검색</button>
-            </form>
-        </div>
 
 
     </div>

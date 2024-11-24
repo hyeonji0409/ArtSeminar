@@ -72,9 +72,15 @@ public class GalleryService {
         List<String> fileNames = new ArrayList<>();
 
         // 파일 처리
+        // 파일 처리 부분을 story의 값에서 src부분만 추출 해서 저장 가능한지 실험 중
         for( MultipartFile file : files) {
             String fileName = fileService.uploadMultipartFile(file);
             if (fileName!=null) fileNames.add(fileName);
+        }
+
+        // 파일이 하나도 없다면 기본 파일 "no_image.jpg" 추가
+        if (fileNames.isEmpty() || fileNames.stream().noneMatch(fileName -> fileName.matches(".*\\.(jpg|jpeg|png)$"))) {
+            fileNames.add("no_image.jpg");
         }
 
         String fileNameString = String.join(",", fileNames);
@@ -148,14 +154,18 @@ public class GalleryService {
             Path filePath = Paths.get(fileDir + fileName);
             File file = filePath.toFile();
 
-            if(file.exists()) {
-                if(file.delete()) {
-                    System.out.println("파일 삭제 완료" + fileName);
+            if (!fileName.equals("no_image.jpg")) {
+                if (file.exists()) {
+                    if (file.delete()) {
+                        System.out.println("파일 삭제 완료: " + fileName);
+                    } else {
+                        System.out.println("파일 삭제 실패: " + fileName);
+                    }
                 } else {
-                    System.out.println("파일 삭제 실패" + fileName);
+                    System.out.println("파일을 찾을 수 없습니다: " + fileName);
                 }
             } else {
-                System.out.println("파일을 찾을 수 없습니다." + fileName);
+                System.out.println("no_image.jpg는 삭제할 수 없습니다.");
             }
 
 
