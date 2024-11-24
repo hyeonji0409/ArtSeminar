@@ -62,14 +62,15 @@
                 <div class="ck-content" style="width: 800px;">
                     <div th:utext="${notice.story}">Notice Story</div>
 
-<!--                    <div th:each="fileName: ${notice.file}" class="pt-5">-->
-<!--                        <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">-->
-<!--                    </div>-->
+                    <div th:each="fileName: ${notice.file}" class="pt-5">
+                        <img th:if="${fileName != 'no_image.jpg'}" th:src="@{'/data/' + ${fileName}}" style="max-height: 500px;">
+                    </div>
                 </div>
             </div>
 
-            <div th:each="fileName: ${notice.file}" class="pt-3" >
-                다운로드 : <a th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image" class="text-info"></a>
+            <p class="pt-3">파일 다운로드 ▼</p>
+            <div th:each="fileName: ${notice.file}" >
+                <a th:if="${fileName != 'no_image.jpg'}" th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image" class="text-info"></a>
             </div>
 
             <div class="d-flex justify-content-center">

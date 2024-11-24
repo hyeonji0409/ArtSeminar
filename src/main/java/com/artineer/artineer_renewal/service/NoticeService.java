@@ -47,9 +47,7 @@ public class NoticeService {
     @Autowired
     private HttpServletRequest request;
     
-    //파일 삭제 기능에 사용
-//    @Autowired
-//    private FileService fileService;
+
 
     // 글 작성
     public ResponseEntity<String> createNotice(String title, String story, List<MultipartFile> files) {
@@ -175,7 +173,6 @@ public class NoticeService {
 
     }
 
-    //댓글 삭제 기능 추가해야함
 
 
     // 조회수 증가

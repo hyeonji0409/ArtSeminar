@@ -19,7 +19,9 @@
 
         <div th:text="${comment.getUser().getName()} + '(' + ${comment.getUser().getYear()} + '기)'">작성자</div>
         <span th:text="${comment.getNo()} +':: ' + ${comment.memo}">content</span>
-        <div><a th:text="${comment.regdate}">날짜</a><a href="#" role="button">답글 작성</a></div>
+        <div><a th:text="${comment.regdate}">날짜</a>
+<!--            <a href="#" role="button">답글 작성</a>-->
+        </div>
 
         <div th:if="${!comment.getComments().isEmpty()}">
             <div th:replace="~{/fragments/commentFragment :: comment(comments=${comment.getComments()})}"></div>
