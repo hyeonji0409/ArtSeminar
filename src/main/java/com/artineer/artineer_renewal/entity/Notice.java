@@ -30,7 +30,7 @@ public class Notice {
 
     @OneToMany(mappedBy = "bbsNo", cascade = CascadeType.REMOVE, orphanRemoval = true, targetEntity = Comment.class)
 //    @JoinColumn(name = "bbs_no", referencedColumnName = "no")
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments;
 
     private String regdate;
     private String ip;

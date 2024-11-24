@@ -82,13 +82,13 @@
     <div class="container-fluid">
         <form class="d-flex justify-content-end">
             <div class="pe-3">
-                <select id="queryType" name="choose" >
-                    <option value="title">제목</option>
+                <select id="queryType" name="queryType" >
+                    <option value="subject">제목</option>
                     <option value="story">내용</option>
-                    <option value="username">작성자</option>
+                    <option value="name">작성자</option>
                 </select>
             </div>
-            <input id="search" class="form-control me-2" type="search" placeholder="제목을 검색하세요." aria-label="Search" th:value="${query}" style="max-width: 200px;min-width: 100px;">
+            <input id="search" class="form-control me-2" type="search" placeholder="제목을 검색하세요." aria-label="Search" th:value="${query}" name="query" style="max-width: 200px;min-width: 100px;">
             <button class="btn btn-info" type="submit">검색</button>
         </form>
     </div>
@@ -204,14 +204,17 @@
     pageNumber = parseInt(pageNumber)
     const search =  document.querySelector("#search");
     const form = document.querySelector("form");
+    form.querySelector(`option[value=${queryType}]`).selected = true;
 
     const prePage = document.querySelector("#previous-page");
     const postPage = document.querySelector("#next-page");
 
+
+
     form.onsubmit = (e) => {
         e.preventDefault();
         // if (pageNumber==0) pageNumber+=1
-        window.location = `/notice?page=1&qt=${queryType}&q=${search.value}`
+        window.location = `/notice?page=1&qt=${new FormData(form).get("queryType")}&q=${search.value}`
     }
     prePage.onclick = (e) => {
         // form.submit()
