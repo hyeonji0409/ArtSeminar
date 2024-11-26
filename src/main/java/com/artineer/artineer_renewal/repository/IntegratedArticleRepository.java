@@ -125,8 +125,7 @@ public class IntegratedArticleRepository {
         try {
             pagedContent = integratedList.subList(start, end);
         } catch (Exception e) {
-            // todo 메시지 전달 안됨 ==> 캐치가 되자마자 바로 전역핸들링 되나?? Exception으로 하니까 메시지 전달이 되네
-            throw new InvalidDataAccessApiUsageException("출력 가능한 페이지 크기를 벗어났습니다.");
+            throw new InvalidDataAccessApiUsageException("존재하지 않는 페이지 입니다.");
         }
 
         // 일반적으로 각각의 레포에서는 페이지로 연속자료형을 반환하여 교체를 고려하여 페이지로 반환한다.
