@@ -115,7 +115,6 @@ public class FileController {
         }
     }
 
-    //갤러리 사진 데이터베이스 연결 가능한지 실험
     @PostMapping("/data/upload")
     public Map<String, String> uploadFile(MultipartHttpServletRequest request) {
         Map<String, String> res = new HashMap<>();

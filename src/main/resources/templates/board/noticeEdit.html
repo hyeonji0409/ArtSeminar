@@ -83,13 +83,13 @@
 <!--            저장된 내용 불러오기 안됨-->
 
 
-<!--            <script>-->
-<!--                ClassicEditor-->
-<!--                    .create( document.querySelector( '#story' ))-->
-<!--                    .catch( error => {-->
-<!--                        console.error( error );-->
-<!--                    } );-->
-<!--            </script>-->
+            <script>
+                ClassicEditor
+                    .create( document.querySelector( '#story' ))
+                    .catch( error => {
+                        console.error( error );
+                    } );
+            </script>
 
             <div class="d-flex justify-content-end">
                 <a th:href="@{/notice/{no}(no=${notice.no})}" class="btn btn-outline-info custom-btn">취소</a>
