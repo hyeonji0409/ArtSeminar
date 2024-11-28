@@ -104,7 +104,7 @@
             <input type="hidden" name="bbsNo" th:value="${bbsNo}" />
             <input type="hidden" name="username" th:value="${user!=null ? user.getUsername() : '익명'}" />
             <input type="hidden" name="replys" th:value="${null}" />
-            <input type="text" name="memo" placeholder="댓글을 입력하세요." required />
+            <input type="text" name="memo" placeholder="댓글을 입력하세요." style="width: 690px" required />
             <button type="submit">등록</button>
         </form>
 
