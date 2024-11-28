@@ -53,18 +53,28 @@
                 <a>날짜: </a><a th:text="${gallery.regdate}" style="padding-right: 20px">날짜</a>
                 <a>조회수: </a><a th:text="${gallery.hit}">조회수</a>
             </div>
-            <div class="d-flex justify-content-center pt-3 pb-3">
-                <div class="d-flex justify-content-start" style="width: 800px; min-height: 500px;">
+
+            <nav id="navmenu" class="navmenu d-flex justify-content-end">
+                <ul>
+                    <li class="dropdown"><span>파일 다운로드 ▼</span>
+                        <ul>
+                            <li><div th:each="fileName: ${gallery.file}" >
+                                <a th:if="${fileName != 'no_image.jpg'}" th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image" class="text-info"></a>
+                            </div></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="pt-3 pb-3">
+                <div style="width: 800px; min-height: 500px;">
                     <div th:utext="${gallery.story}">Gallery Story</div>
                     <div th:each="fileName: ${gallery.file}" class="pt-5">
-                        <img th:if="${fileName != 'no_image.jpg'}" th:src="@{'/data/' + ${fileName}}" style="max-height: 500px;">
+                        <img th:if="${fileName != 'no_image.jpg'}" th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">
                     </div>
                 </div>
             </div>
-            <p class="pt-3">파일 다운로드 ▼</p>
-            <div th:each="fileName: ${gallery.file}" >
-                <a th:if="${fileName != 'no_image.jpg'}" th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image" class="text-info"></a>
-            </div>
+
             <div class="d-flex justify-content-center">
                 <div class="d-flex justify-content-between" style="width: 800px">
                     <a href="/gallery" class="btn btn-outline-info custom-btn">목록</a>

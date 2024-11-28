@@ -83,6 +83,8 @@ public class NoticeService {
 
         String fileNameString = String.join(",", fileNames);
 
+        System.out.println(fileNames);
+
 
         Notice notice = new Notice();
         // User 자체 설정
@@ -138,7 +140,7 @@ public class NoticeService {
 
     // 글 삭제 -> 삭제 시 data 폴더의 사진도 함꼐 지워짐
     public void deleteNotice(Long no) {
-        // 글 정보 가졍괴
+        // 글 정보 가져오기
         Notice notice = noticeRepository.findById(no).orElseThrow(() -> new RuntimeException("Notice not found"));
 
         // 파일 삭제
