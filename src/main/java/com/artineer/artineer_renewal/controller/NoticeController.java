@@ -41,13 +41,9 @@ public class NoticeController {
     @Autowired
     private UserService userService;
     @Autowired
-    private CommentRepository commentRepository;
-    @Autowired
     private UserRepository userRepository;
     @Autowired
     private IntegratedArticleService integratedArticleService;
-    @Autowired
-    private IntegratedArticleRepository integratedArticleRepository;
 
 
     @GetMapping("/notice")

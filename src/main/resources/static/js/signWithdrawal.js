@@ -52,13 +52,14 @@ submitBtn.addEventListener('click', async (e) => {
         return;
     }
 
-    const formData = new FormData(form)
-
     fetch("/user/withdrawal", {
         method: 'POST',
-        body: formData
+        body: new FormData(form)
     }).then(res=> {
-        if (res.status===200) alert("탈퇴가 완료되었습니다.")
+        if (res.status===200)  {
+            alert("탈퇴가 완료되었습니다.");
+            window.location = "/";
+        }
         else alert("비밀번호가 올바르지 않습니다.")
     })
 
