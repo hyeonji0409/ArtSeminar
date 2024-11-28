@@ -91,11 +91,11 @@
 
         <div class="d-flex justify-content-end">
             <a th:href="@{/gallery/{no}(no=${gallery.no})}" class="btn btn-outline-info custom-btn">취소</a>
-            <button type="submit" class="btn btn-outline-info custom-btn">수정</button>
+            <button type="submit" class="btn btn-outline-info custom-btn">확인</button>
         </div>
 <!--            <div th:each="fileName: ${gallery.file}">-->
 <!--                <a>등록된 파일 이름: </a>-->
-<!--                <a th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image"></a>-->
+<!--                <a th:text="${fileName}" alt="Image"></a>-->
 <!--                <a type="button" class="btn btn-outline-danger custom-btn">파일삭제</a>-->
 <!--                <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px;">-->
 

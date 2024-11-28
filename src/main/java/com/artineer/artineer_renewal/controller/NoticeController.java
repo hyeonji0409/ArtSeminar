@@ -9,6 +9,7 @@ import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.IntegratedArticleService;
 import com.artineer.artineer_renewal.service.NoticeService;
 import com.artineer.artineer_renewal.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -117,7 +118,7 @@ public class NoticeController {
         NoticeDto notice = noticeService.getNoticeByNo(no);
         if (notice == null)  throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
 //        (new List<Integer>).
-        System.out.println("WLWL" + notice.getComments().size());
+      //  System.out.println("WLWL" + notice.getComments().size());
 
         // 조회수 증가
         noticeService.increaseHitCount(no);
@@ -167,7 +168,20 @@ public class NoticeController {
         } else {
             return "redirect:/access-denied";
         }
+    }
 
+    @GetMapping("/delete/{file}")
+    public String deleteFile(@PathVariable String file, HttpServletRequest request) {
+
+        noticeService.deleteFiles(file);
+        String referer = request.getHeader("Referer");
+
+        // referer가 null이 아니면 해당 URL로 리다이렉트
+        if (referer != null) {
+            return "redirect:" + referer;
+        }
+        // referer가 null인 경우 기본 페이지로 리다이렉트 (예: notice 목록)
+        return "redirect:/notice";
     }
 
     private boolean isAuthorizedUser(Notice notice, String loggedInUsername) {

@@ -38,7 +38,16 @@
 
 
     <style>
-
+        ._btn{
+            color: white; /* 글자 색상 하얀색 */
+            background-color: #47b2e4; /* 배경색 */
+        }
+        ._btn:hover{
+            color: #47b2e4;
+            background-color: white;
+            border-color: #47b2e4;
+            border-style: solid;
+        }
         .custom-btn:hover {
             color: white; /* 글자 색상 하얀색 */
             background-color: #47b2e4; /* 배경색 */
@@ -48,7 +57,7 @@
 </head>
 <body class="starter-page-page d-flex flex-column min-vh-100">
 <div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
-
+<main class="main">
 <div style="margin-top: 150px;">
     <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px;" >
         <div class="border-bottom pb-3">
@@ -97,16 +106,19 @@
 
 
 
-
-        <h2 class="pt-3">댓글</h2>
+        <div class="d-flex align-items-center">
+        <h2 class="pt-3 pe-3">댓글</h2>
         <form th:action="@{/comments/add}" method="post">
             <input type="hidden" name="bbsName" th:value="${bbsName}" />
             <input type="hidden" name="bbsNo" th:value="${bbsNo}" />
             <input type="hidden" name="username" th:value="${user!=null ? user.getUsername() : '익명'}" />
             <input type="hidden" name="replys" th:value="${null}" />
-            <input type="text" name="memo" placeholder="댓글을 입력하세요." required />
-            <button type="submit">등록</button>
+            <div class="d-flex align-items-center">
+            <input class="form-control" type="text" name="memo" placeholder="댓글을 입력하세요." required />
+            <button type="submit" class="btn _btn" style="width: 80px;">등록</button>
+            </div>
         </form>
+        </div>
 
         <h2>댓글 목록</h2>
 <!--        <div th:each="comment : ${notice.comments}">-->
@@ -116,7 +128,7 @@
 
     </div>
 </div>
-
+</main>
 <footer id="footer" th:insert="~{fragments/footerFragment :: footerInfo}" class="footer py-3 mt-auto"></footer>
 
 <!-- Scroll Top -->

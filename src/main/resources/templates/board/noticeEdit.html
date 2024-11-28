@@ -81,8 +81,6 @@
 
             <textarea name="story" id="story" th:field="${notice.story}" th:data-story="${notice.getStory()}"></textarea>
 
-
-
             <script>
                 ClassicEditor
                     .create( document.querySelector( '#story' ))
@@ -93,10 +91,27 @@
 
             <div class="d-flex justify-content-end">
                 <a th:href="@{/notice/{no}(no=${notice.no})}" class="btn btn-outline-info custom-btn">취소</a>
-                <button type="submit" class="btn btn-outline-info custom-btn">수정</button>
+                <button type="submit" class="btn btn-outline-info custom-btn">확인</button>
             </div>
 
+            <a>대표파일 선택</a>
+            <input type="file" id="file" name="file" multiple="multiple" >
 
+            <nav id="navmenu" class="navmenu pt-3">
+                <ul>
+                    <li class="dropdown"><span>등록된 파일 이름 ▼</span>
+                        <ul>
+                            <li><a type="button" class="btn btn-outline-danger text-dark"
+                                   th:href="@{/delete/{file}(file=${notice.file})}">대표파일 삭제</a>
+                                <div th:each="fileName: ${notice.file}">
+                                <a th:text="${fileName}"></a>
+                                <br>
+                                <img th:src="@{'/data/' + ${fileName}}" style="max-height: 300px; max-width: 300px">
+                                </div></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
 
         </form>
     </div>
