@@ -34,26 +34,9 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="/css/mastermain.css" />
+    <!-- board css file    -->
+    <link href="/css/board.css" rel="stylesheet">
 
-
-
-    <style>
-        ._btn{
-            color: white; /* 글자 색상 하얀색 */
-            background-color: #47b2e4; /* 배경색 */
-        }
-        ._btn:hover{
-            color: #47b2e4;
-            background-color: white;
-            border-color: #47b2e4;
-            border-style: solid;
-        }
-        .custom-btn:hover {
-            color: white; /* 글자 색상 하얀색 */
-            background-color: #47b2e4; /* 배경색 */
-            border-color: #47b2e4; /* 테두리 색상 */
-        }
-    </style>
 </head>
 <body class="starter-page-page d-flex flex-column min-vh-100">
 <div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>

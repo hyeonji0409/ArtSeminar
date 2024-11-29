@@ -36,42 +36,8 @@
 
     <!-- Main CSS File -->
     <link rel="stylesheet" href="/css/mastermain.css" />
-
-    <style>
-        .a-color {
-            color: black; /* 기본 색상 */
-        }
-        .a-color:hover {
-            color: #47b2e4; /* hover 시 색상 */
-        }
-        .btn-info {
-            background-color: #47b2e4 !important;  /* 버튼 배경 색상 */
-            border-color: #47b2e4 !important;      /* 버튼 테두리 색상 */
-            color: white;
-        }
-        .btn-info:hover {
-            background-color: lightblue !important; /* hover 시 배경 색상 */
-            border-color: lightblue !important;     /* hover 시 테두리 색상 */
-            color: white;
-        }
-        @media (min-width: 1200px) { /* xl: 1200px 이상 */
-            .custom-width {
-                max-width: 750px;
-            }
-        }
-
-        @media (min-width: 992px) and (max-width: 1199.98px) { /* lg: 992px ~ 1199px */
-            .custom-width {
-                max-width: 550px;
-            }
-        }
-
-        @media (min-width: 768px) and (max-width: 991.98px) { /* md: 768px ~ 991px */
-            .custom-width {
-                max-width: 300px;
-            }
-        }
-    </style>
+    <!-- board css file    -->
+    <link href="/css/board.css" rel="stylesheet">
 </head>
 <body class="starter-page-page d-flex flex-column min-vh-100">
 <div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
