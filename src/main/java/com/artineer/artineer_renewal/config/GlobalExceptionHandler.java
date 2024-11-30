@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
         loggingError(request, ex);
 
         model.addAttribute("errorCode", 500);
-        model.addAttribute("errorMessage", "\n작업을 수행하는 도중에 문제가 발생했습니다. : \n" + request.getRequestURL());
+        model.addAttribute("errorMessage", "\n작업을 수행하는 도중에 문제가 발생했습니다. : \n" + ex.getMessage());
         return "error/errorPage";
     }
 
