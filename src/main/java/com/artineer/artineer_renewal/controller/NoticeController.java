@@ -2,8 +2,6 @@ package com.artineer.artineer_renewal.controller;
 
 import com.artineer.artineer_renewal.dto.NoticeDto;
 import com.artineer.artineer_renewal.entity.*;
-import com.artineer.artineer_renewal.repository.CommentRepository;
-import com.artineer.artineer_renewal.repository.IntegratedArticleRepository;
 import com.artineer.artineer_renewal.repository.NoticeRepository;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.IntegratedArticleService;
@@ -11,7 +9,6 @@ import com.artineer.artineer_renewal.service.NoticeService;
 import com.artineer.artineer_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -67,7 +64,7 @@ public class NoticeController {
         model.addAttribute("pagination", pagination);
         model.addAttribute("queryType", queryType);
         model.addAttribute("query", query);
-        return "board/notice";
+        return "board/notice/notice";
     }
 
     /* 글 작성 */
@@ -91,7 +88,7 @@ public class NoticeController {
         User user = userRepository.findByUsername(username);
 
         model.addAttribute("user", user);
-        return "board/noticeNew";
+        return "board/notice/noticeNew";
     }
 
     /* 글 세부 내용 조회 */
@@ -116,7 +113,7 @@ public class NoticeController {
         model.addAttribute("bbsNo", no);
         model.addAttribute("notice", notice);
 
-        return "board/noticeDetail";
+        return "board/notice/noticeDetail";
     }
 
     /* 글 수정 */
@@ -133,7 +130,7 @@ public class NoticeController {
 
         model.addAttribute("user", user);
         model.addAttribute("notice", notice);
-        return "board/noticeEdit";
+        return "board/notice/noticeEdit";
     }
 
     @PostMapping("/notice/edit")

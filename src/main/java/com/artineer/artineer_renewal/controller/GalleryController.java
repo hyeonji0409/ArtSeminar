@@ -3,7 +3,6 @@ package com.artineer.artineer_renewal.controller;
 import com.artineer.artineer_renewal.dto.GalleryDto;
 import com.artineer.artineer_renewal.entity.Gallery;
 import com.artineer.artineer_renewal.entity.IntegratedArticle;
-import com.artineer.artineer_renewal.entity.Notice;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.CommentRepository;
 import com.artineer.artineer_renewal.repository.GalleryRepository;
@@ -87,7 +86,7 @@ public class GalleryController {
         model.addAttribute("pagination", pagination);
         model.addAttribute("queryType", queryType);
         model.addAttribute("query", query);
-        return "board/gallery";
+        return "board/gallery/gallery";
     }
 
     /* 글 작성 */
@@ -109,7 +108,7 @@ public class GalleryController {
         User user = userRepository.findByUsername(username);
 
         model.addAttribute("user", user);
-        return "board/galleryNew_";
+        return "board/gallery/galleryNew_";
     }
 
     /* 글 세부 내용 조회 */
@@ -132,7 +131,7 @@ public class GalleryController {
         model.addAttribute("bbsName", "gallery");
         model.addAttribute("bbsNo", no);
         model.addAttribute("gallery",gallery);
-        return "board/galleryDetail";
+        return "board/gallery/galleryDetail";
     }
 
     /* 글 수정 */
@@ -147,7 +146,7 @@ public class GalleryController {
 
        model.addAttribute("user", user);
        model.addAttribute("gallery",gallery);
-       return  "board/galleryEdit";
+       return  "board/gallery/galleryEdit";
    }
 
     @PostMapping("/gallery/edit")
