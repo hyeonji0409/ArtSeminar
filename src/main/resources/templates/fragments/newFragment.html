@@ -35,8 +35,6 @@
     <link th:href="@{/css/mastermain.css}" rel="stylesheet"></head>
 <body>
 <div th:each="notice, iterStat: ${notice}" th:fragment="notice(notice)">
-    <div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
-
 
     <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 100px; margin-top: 150px; ">
         <div class="d-flex justify-content-center container custom-width" style="max-width: 1000px">
@@ -329,14 +327,8 @@
 
 
     </div>
-    <footer id="footer" th:insert="~{fragments/footerFragment :: footerInfo}" class="footer py-3 mt-auto"></footer>
-
-    <!-- Scroll Top -->
-    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
 
 </div>
-
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
