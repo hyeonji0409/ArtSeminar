@@ -3,6 +3,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Table(name = "note")
 @NoArgsConstructor
 @Getter
+@Setter
 @AllArgsConstructor
 public class Note {
     @Id
@@ -22,6 +24,8 @@ public class Note {
     private int hit;
     private String file;
     private int comment; // 댓글 개수
+    private String name;
+    private String pw;
 
     @OneToMany(mappedBy = "bbsNo", cascade = CascadeType.REMOVE, orphanRemoval = true, targetEntity = Comment.class)
 //    @JoinColumn(name = "bbs_no", referencedColumnName = "no")

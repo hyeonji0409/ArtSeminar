@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Minutes</title>
+    <title>Note</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -43,15 +43,14 @@
 <div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
 <main class="main">
 <div class="container text-center" style="margin-top: 150px;">
-    <h2 class="fw-bold" style="color: #47b2e4;">공개 회의록</h2>
-    <h5 class="text-muted" style="opacity: 0.5;">Minutes</h5>
+    <h2 class="fw-bold" style="color: #47b2e4;">방명록</h2>
+    <h5 class="text-muted" style="opacity: 0.5;">Note</h5>
     <div class="container-fluid" style="max-width: 1100px;">
         <form class="d-flex justify-content-end">
             <div class="pe-3">
                 <select id="queryType" name="qt" class="form-select">
                     <option value="subject">제목</option>
                     <option value="story">내용</option>
-                    <option value="user_id">작성자</option>
                 </select>
             </div>
             <input id="search" class="form-control me-2" name="q" type="search" placeholder="제목을 검색하세요." aria-label="Search" th:value="${query}" style="max-width: 200px;min-width: 100px;">
@@ -76,23 +75,24 @@
             </thead>
             <tbody>
 
-            <tr th:each="minutes, iterStat :  ${pagination}" class="text-nowrap">
+            <tr th:each="note, iterStat :  ${pagination}" class="text-nowrap">
                 <!-- 전체 게시글 수에서 역순으로 표기하게 설정 -->
-                <td th:text="${minutes.getNo()}" style="width: 80px;">게시글 넘버</td>
+                <td th:text="${note.getNo()}" style="width: 80px;">게시글 넘버</td>
+
                 <td style="width: 430px"><div class="d-flex align-items-center" style="max-height: 40px;">
-                    <a th:text="${minutes.title}" th:href="@{/minutes/{no}(no=${minutes.no})}"
+                    <a th:text="${note.title}" th:href="@{/note/{no}(no=${note.no})}"
                        class="a-color d-flex justify-content-start text-truncate custom-width" style="text-decoration: none;"></a>
                     <div class="d-flex align-items-center text-danger fw-bold p-3">
                     <p>[</p>
-                    <p class="d-flex justify-content-start " th:text="${minutes.comments.size()}">댓글수</p>
+                    <p class="d-flex justify-content-start " th:text="${note.comments.size()}">댓글수</p>
                     <p>]</p>
                     </div>
                 </div>
                 </td>
                 <!--  등록된 유저의 이름값을 가져오는것이기 때문에 데이터베이스에 해당하는 유저가 없다면 오류 발생함 -->
-                <td th:text="${minutes.getUser().name} + '(' + ${minutes.year} + '기)'" style="width: 120px;">작성자</td>
-                <td><a th:text="${minutes.regdate}" style="width: 180px;">날짜</a></td>
-                <td><a th:text="${minutes.hit}" style="width: 80px;">조회수</a></td>
+                <td th:text="${note.name}'" style="width: 120px;">작성자</td>
+                <td><a th:text="${note.regdate}" style="width: 180px;">날짜</a></td>
+                <td><a th:text="${note.hit}" style="width: 80px;">조회수</a></td>
             </tr>
 
 
@@ -100,7 +100,7 @@
         </table>
 
         <div class="d-flex justify-content-end">
-            <a href="/minutes/new" class="text-light btn btn-info">글쓰기</a>
+            <a href="/note/new" class="text-light btn btn-info">글쓰기</a>
         </div>
         <!-- 페이지네이션 -->
         <nav aria-label="Page navigation">
@@ -163,9 +163,9 @@
         crossorigin="anonymous"></script>
 
 <script>
-    let queryType = '[[${queryType}]]'
+    let queryType = '[[${queryType}]]';
     let pageNumber = '[[${pagination.getNumber()}]]';
-    let boardName = 'minutes';
+    let boardName = 'note';
 </script>
 
 <script src="/js/search.js"></script>

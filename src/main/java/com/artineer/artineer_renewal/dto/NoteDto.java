@@ -16,6 +16,8 @@ public class NoteDto {
     private String title;
     private String story;
     private int hit;
+    private String name;
+    private String pw;
 
     @ElementCollection
     private List<String> file;
@@ -28,10 +30,12 @@ public class NoteDto {
     private String ip;
 
     @Builder
-    public NoteDto(Long no, String title, String story, int hit, String regdate, List<String> file, List<Comment> comments) {
+    public NoteDto(Long no, String title, String story,String name,String pw, int hit, String regdate, List<String> file, List<Comment> comments) {
         this.no = no;
         this.title = title;
         this.story = story;
+        this.name = name;
+        this.pw = pw;
         this.hit = hit;
         this.regdate = regdate;
         this.file = file;

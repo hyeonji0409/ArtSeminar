@@ -156,6 +156,7 @@ public class NoticeController {
         }
     }
 
+    // 게시글 수정 시 파일을 따로 삭제 하고자 할 때 사용(현재 오류로 인해 서비스에서 주석 처리해놨음)
     @GetMapping("/delete/{file}")
     public String deleteFile(@PathVariable String file, HttpServletRequest request) {
 
