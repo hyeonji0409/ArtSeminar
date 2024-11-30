@@ -393,7 +393,7 @@ const letters = [
   "Network",
   "Security",
   "Game",
-  "hacking"
+  "Hacking"
 ];
 
 // 글자 입력 속도
