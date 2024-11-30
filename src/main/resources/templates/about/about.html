@@ -20,6 +20,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 
+    <!--artineer-text 전용-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Knewave&display=swap" rel="stylesheet">
+
+    <!--artineer-contenttext 전용-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+    <!--artineer-text1 전용-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+    <!--about main text-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -28,7 +48,7 @@
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Main CSS File -->
-    <link href="css/mastermain.css" rel="stylesheet">
+    <link href="css/mastermain.css" rel="stylesheet">  <!--header, footer 적용을 위해 필요-->
     <link href="css/about.css" rel="stylesheet">
 
 
@@ -54,16 +74,16 @@
             <img th:src="@{/assets/img/프라임관_전경.jpg}" alt="">
             <div class="container section-title">
                 <h3>
-                    <a href="" style="text-decoration: none; color: inherit;">소개</a>
+                    <a href="" style="text-decoration: none; color: inherit;">About us</a>
                 </h3>
             </div>
             <div class="spoqa-han-sans font-extralight leading-tight text-white sm:text-sm">
                 Artineer에 대해 소개합니다.
-            </div>
+            </div>   <!--이거 안보임-->
 
         </section>
 
-        <div class="container">
+        <div class="containers">
             <div class="btn-container">
                 <div class="btn" onclick="showContent('greeting')">인사말</div>
             </div>
@@ -73,75 +93,75 @@
         </div>
 
         <!-- Section for content -->
-        <div id="greeting" class="content-section" style="display: none;">
-            <div class="container">
+        <div id="greeting" class="content-section">
+            <div class="containers">
 
                 <div class="row gy-4">
-
                     <div data-aos="fade-up" data-aos-delay="100">
                         <div style="text-align: center;">
-                            <strong style="font-size: 40px;">"WE ARE ARTINEER"<br><br></strong>
-                            <p style="font-size: 21px; line-height: 1.8; text-align: left;">
-                                ARTINEER 는 "Artist + Engineer"의 합성어로,<br>
-                                단순히 공학의 기술적인 면에 집중한 것만이 아니라 하나의 또 다른 창조성을 지닌 예술성까지 지닌 사람들이 모인 <br>
-                                원광대학교 컴퓨터 소프트웨어 공학과의 학술 동아리입니다.
-                                아티니어는 컴퓨터에 대해 더 공부하고 싶은 분들께 여러 분야에 맞는 지식을 공유할 수 있도록 도움을 주고 있습니다.<br><br>
-                            </p>
+                            <strong class="artineer-text">
+                                We are ARTINEER ! <br><br>
+                            </strong>
+                            <div style="text-align: left;">
+                                <p class="artineer-contenttext">
+                                    ARTINEER 는 "Artist + Engineer"의 합성어로,<br>
+                                    단순히 공학의 기술적인 면만 집중한 것이 아니라 하나의 또 다른 예술성까지 지닌 사람들이 모인
+                                    원광대학교 컴퓨터 소프트웨어 공학과의 학술 동아리입니다.
+                                    아티니어는 컴퓨터 소프트웨어에 대해 더 공부하고 싶은 분들께 여러 분야에 맞는 지식을 공유할 수 있도록 도움을 주고 있습니다.<br><br>
+                                </p>
+                            </div>
                         </div>
+
+
                         <br>
                         <div style="text-align: center;">
-                            <img src="assets/img/aboutimage-2.png" alt="about image2" style="max-width: 60%; height: auto; margin: 20px 0;">
+                            <img src="assets/img/aboutimage-2.png" alt="about image2" class = "artineer-img">
                             <p style="font-size: 18px; line-height: 1.8; text-align: center;">
-                            - 2024년 Artineer 회식 - (수정예정)
+                            - 2024년 ARTINEER 회식 -
                             </p>
                         </div>
                         <br><br>
                         <div style="text-align: center;">
-                            <strong style="font-size: 32px;">"시작의 발판을 ARTINEER와 함께"<br><br></strong>
-                            <p style="font-size: 21px; line-height: 1.8; text-align: left;">
-                                ARTINEER는 프로그래밍에 관심이 있으신 분들이 재밌고,<br>
-                                컴퓨터 분야에 쉽게 입문할 수 있도록 다양한 분야의 스터디와 멘토 멘티 시스템을 진행하고 있습니다.(수정예정)<br>
-                            </p>
+                            <strong class="artineer-text">
+                                Let's start with ARTINEER ! <br><br>
+                            </strong>
+                            <div style="text-align: left;">
+                                <p class="artineer-contenttext">
+                                    ARTINEER는 프로그래밍에 관심이 있는 분들이 재밌고,
+                                    컴퓨터 소프트웨어 분야에 쉽게 입문할 수 있도록 다양한 분야의 스터디와 멘토 멘티 시스템을 진행하고 있습니다.
+                                    매주 동아리 정기모임을 통해 자신의 진로 분야를 파악하고, 동아리원들과 팀을 이뤄 프로젝트를 진행하고 있습니다.
+                                    프로젝트를 통해 프로그래밍 실력을 키우고, 분야에 맞는 포트폴리오를 작성할 수 있습니다.
+                                </p>
+                            </div>
                         </div>
                         <br><br>
-
                     </div>
 
 
-                    <div class="row gy-4 justify-content-center bg-gallery">
-                        <h2>둘러보기</h2>
-                        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
-                            <div class="gallery-item position-relative" onclick="openModal('assets/img/aboutmodalimage3.png')">
-                                <div class="image">
-                                    <img src="assets/img/aboutmodalimage3.png" alt="" class="img-fluid equal-image">
+                    <div class="bg-gallery">
+                        <div class="gallery-box">
+                            <h2>둘러보기</h2>
+                            <div class="gallery-type">
+                                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100" onclick="openModal('assets/img/aboutmodalimage3.png')">
+                                    <img src="assets/img/aboutmodalimage3.png" alt="프라임관" class="equal-image">
+                                    <p>- 프라임관 전경 -</p>
                                 </div>
-                                <p>- 프라임관 -</p>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
-                            <div class="gallery-item position-relative" onclick="openModal('assets/img/aboutmodalimage2.png')">
-                                <div class="image">
-                                    <img src="assets/img/aboutmodalimage2.png" alt="" class="img-fluid equal-image">
+                                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200" onclick="openModal('assets/img/aboutmodalimage2.png')">
+                                    <img src="assets/img/aboutmodalimage2.png" alt="아티니어 동아리방 위치" class="equal-image">
+                                    <p>- 아티니어 동아리방 위치 -</p>
                                 </div>
-                                <p>- 아티니어 동아리방 위치 -</p>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
-                            <div class="gallery-item position-relative" onclick="openModal('assets/img/aboutmodalimage1.jpg')">
-                                <div class="image">
-                                    <img src="assets/img/aboutmodalimage1.jpg" alt="" class="img-fluid equal-image">
+                                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300" onclick="openModal('assets/img/aboutmodalimage1.jpg')">
+                                    <img src="assets/img/aboutmodalimage1.jpg" alt="동아리방 내부" class="equal-image">
+                                    <p>- 동아리방 내부 -</p>
                                 </div>
-                                <p>- 동아리방 내부 -</p>
                             </div>
                         </div>
                     </div>
 
 
 
-                    <!-- 모달 구조 -->
-                    <div id="imageModal" class="modal">
+                    <div id="imageModal" class="modal" onclick="closeModal(event)">
                         <img class="modal-content" id="modalImage">
-                        <button class="close" onclick="closeModal()">X</button> <!-- span을 button으로 변경 -->
                     </div>
 
                 </div>
@@ -150,64 +170,91 @@
 
 
         <div id="event" class="content-section" style="display: none;">
-            <div class="container">
+            <div class="containers">
 
                 <div class="row gy-4">
 
                     <div data-aos="fade-up" data-aos-delay="100">
-                        <div style="text-align: center;">
-                            <strong style="font-size: 40px;">학습<br><br></strong>
-                            <p style="font-size: 21px; line-height: 1.8; text-align: left;">
-                                아티니어는 스터디와 자체 강의를 중점으로 기본적인 개념을 다잡고 응용하여 심화 단계까지 학습 및 실습을 진행하는데<br>
-                                초점을 두고 있습니다. 강의 시간 외의 시간에도 스터디를 개별적으로 진행하며 멘토들의 적극적인 피드백을 통해 여러분의<br>
-                                더 나은 성장을 이룰 수 있도록 노력하고 있습니다.
-                                <br><br>
-                            </p>
+                        <div style="text-align: center">
+                            <strong style="padding-left: 50px" class="artineer-text1">
+                                학습 <br><br>
+                            </strong>
+                            <div style="text-align: left">
+                                <p class = "artineer-contenttext">
+                                    아티니어는 스터디와 자체 강의를 중점으로 기본적인 개념을 다잡고 응용하여 심화 단계까지의 학습 및 실습을 진행하는데
+                                    초점을 두고 있습니다. 강의시간 외에도 스터디를 개별적으로 진행하며 멘토들의 적극적인 피드백을 통해 여러분의
+                                    더 나은 성장을 이룰 수 있도록 노력하고 있습니다.
+                                    <br><br>
+                                    또, 2학기에 진행하는 분야별 세미나를 통해 팀원 간의 협동력을 기를 수 있고, 프로젝트를 진행하며 그동안 혼자서 해결할 수 없었던 지식을 서로 공유하고 배울 수 있습니다.
+                                    아티니어에서 개인의 실력을 향상시켜 더 좋은 결과물을 만들 수 있는 기회를 놓치지 마세요.
+                                </p>
+                            </div>
                         </div>
                         <br>
                     </div>
 
-                    <div class="mt-10 flex flex-col gap-4 py-4">
-                        <div class="group overflow-hidden rounded-xl shadow-lg">
-                            <div class="aspect-[4/2] w-full overflow-hidden bg-black">
-                                <img class="img h-full w-full rounded-t-lg object-cover" src="image/img/MainBackGround-3.jpg" alt="분야별 스터디">
+                    <br><br>
+
+                    <div class="card__inner container3">
+                        <article class="card">
+                            <figure class="card__header">
+                                <img src="image/img/MainBackGround-3.jpg" alt="분야별 스터디">
+                            </figure>
+                            <div class="card__body">
+                                <h3 class="tit">분야별 스터디</h3>
+                                <p class="desc">각 분야별로 주제를 정하여 스터디 형식으로 진행하는 활동입니다. 매주 동아리 시간에 진행됩니다. <br>
+                                    현재 진행되고 있는 스터디 분야는 웹, AI, 게임, 네트워크 보안, 개인 등이 있습니다.
+                                </p>
+                                <a class="brn" href="/">
+                                    더 자세히 보기
+                                    <span aria-hidden="true">
+                        <svg width="65" height="8" viewBox="0 0 65 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M64.3536 4.35355C64.5488 4.15829 64.5488 3.84171 64.3536 3.64645L61.1716 0.464466C60.9763 0.269204 60.6597 0.269204 60.4645 0.464466C60.2692 0.659728 60.2692 0.976311 60.4645 1.17157L63.2929 4L60.4645 6.82843C60.2692 7.02369 60.2692 7.34027 60.4645 7.53553C60.6597 7.7308 60.9763 7.7308 61.1716 7.53553L64.3536 4.35355ZM0 4.5H64V3.5H0V4.5Z" fill="black"/>
+                        </svg>
+                    </span>
+                                </a>
                             </div>
-                            <div class="flex w-full flex-col items-center gap-1 bg-background-3 pb-2">
-                                <div class="mt-3 flex h-[30px] w-full flex-row items-center justify-center gap-1 truncate text-left text-xl">
-                                    <div>분야별 스터디</div>
-                                </div>
-                                <div class="mt-1 w-full px-3 text-sm font-extralight leading-6">
-                                    웹, AI, 게임, 네트워크 보안, 개인 등의 각 분야별로 주제를 정하여 스터디 형식으로 진행하는 활동입니다. 매주 동아리 시간에 진행됩니다.
-                                </div>
+                        </article>
+                        <article class="card">
+                            <figure class="card__header">
+                                <img src="image/img/MainBackGround-2.jpg" alt="세미나/프로젝트">
+                            </figure>
+                            <div class="card__body">
+                                <h3 class="tit">세미나/프로젝트</h3>
+                                <p class="desc">각 분야에 맞는 사람들끼리 모여 하나의 주제를 정하고 프로젝트를 진행하는 활동입니다. <br>
+                                    세미나는 2학기에 진행되며 팀원 간의 협력을 요구하는 활동인 만큼 동아리 시간에 팀원들과 세미나 활동을 보고합니다.
+                                </p>
+                                <a class="brn" href="/">
+                                    더 자세히 보기
+                                    <span>
+                        <svg width="65" height="8" viewBox="0 0 65 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M64.3536 4.35355C64.5488 4.15829 64.5488 3.84171 64.3536 3.64645L61.1716 0.464466C60.9763 0.269204 60.6597 0.269204 60.4645 0.464466C60.2692 0.659728 60.2692 0.976311 60.4645 1.17157L63.2929 4L60.4645 6.82843C60.2692 7.02369 60.2692 7.34027 60.4645 7.53553C60.6597 7.7308 60.9763 7.7308 61.1716 7.53553L64.3536 4.35355ZM0 4.5H64V3.5H0V4.5Z" fill="black"/>
+                        </svg>
+                    </span>
+                                </a>
                             </div>
-                        </div>
-                        <div class="group overflow-hidden rounded-xl shadow-lg">
-                            <div class="aspect-[4/2] w-full overflow-hidden bg-black">
-                                <img class="img h-full w-full rounded-t-lg object-cover" src="image/img/MainBackGround-2.jpg" alt="세미나/프로젝트">
+                        </article>
+                        <article class="card">
+                            <figure class="card__header">
+                                <img src="image/img/MainBackGround-1.jpg" alt="자체 강의">
+                            </figure>
+                            <div class="card__body">
+                                <h3 class="tit">자체 강의</h3>
+                                <p class="desc">누구나 자유롭게 개설 가능하며 같은 분야뿐만 아니라 다른 분야의 학습 경험을 도모하기 위해 진행되는 활동입니다. <br>
+                                    현재 진행되고 있는 강의는 모의해킹, 리눅스, 네트워크 보안, 스프링 등이 있습니다.
+                                </p>
+                                <a class="brn" href="/">
+                                    더 자세히 보기
+                                    <span>
+                        <svg width="65" height="8" viewBox="0 0 65 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M64.3536 4.35355C64.5488 4.15829 64.5488 3.84171 64.3536 3.64645L61.1716 0.464466C60.9763 0.269204 60.6597 0.269204 60.4645 0.464466C60.2692 0.659728 60.2692 0.976311 60.4645 1.17157L63.2929 4L60.4645 6.82843C60.2692 7.02369 60.2692 7.34027 60.4645 7.53553C60.6597 7.7308 60.9763 7.7308 61.1716 7.53553L64.3536 4.35355ZM0 4.5H64V3.5H0V4.5Z" fill="black"/>
+                        </svg>
+                    </span>
+                                </a>
                             </div>
-                            <div class="flex w-full flex-col items-center gap-1 bg-background-3 pb-2">
-                                <div class="mt-3 flex h-[30px] w-full flex-row items-center justify-center gap-1 truncate text-left text-xl">
-                                    <div>세미나/프로젝트</div>
-                                </div>
-                                <div class="mt-1 w-full px-3 text-sm font-extralight leading-6">
-                                    각 분야에 맞는 사람들끼리 모여 하나의 프로젝트를 정하여 진행하는 활동입니다. 중간 점검을 통해 프로젝트의 진행 상황을 보고하는 형식으로 진행됩니다.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="group overflow-hidden rounded-xl shadow-lg">
-                            <div class="aspect-[4/2] w-full overflow-hidden bg-black">
-                                <img class="img h-full w-full rounded-t-lg object-cover" src="image/img/MainBackGround-1.jpg" alt="자체 강의">
-                            </div>
-                            <div class="flex w-full flex-col items-center gap-1 bg-background-3 pb-2">
-                                <div class="mt-3 flex h-[30px] w-full flex-row items-center justify-center gap-1 truncate text-left text-xl">
-                                    <div>자체 강의</div>
-                                </div>
-                                <div class="mt-1 w-full px-3 text-sm font-extralight leading-6">
-                                    누구나 자유롭게 개설 가능하며 같은 분야뿐만 아니라 다른 분야의 학습 경험을 도모하기 위해 진행되는 활동입니다.
-                                </div>
-                            </div>
-                        </div>
+                        </article>
                     </div>
+
 
 
 
