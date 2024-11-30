@@ -40,6 +40,7 @@ public class IntegratedArticleRepository {
     // db 구조에 종속적
     // db의 union 을 이용하여 여러 테이블에서의 튜플들을 합성한다.
     // todo 각 게시판 테이블에 네임 속성이 있기는 한데, 나중에 완전히 제거할 예정이니 별도의 쿼리를 만들던지
+    // note 테이블은 테이블 컬럼순서가 달라 작동 안됨
     public Page<IntegratedArticle> getIntegratedArticles(List<Class<?>> classList, String queryType, String queryValue, Pageable pageable) {
         StringBuilder sql = new StringBuilder();
 

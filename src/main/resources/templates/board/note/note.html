@@ -90,7 +90,7 @@
                 </div>
                 </td>
                 <!--  등록된 유저의 이름값을 가져오는것이기 때문에 데이터베이스에 해당하는 유저가 없다면 오류 발생함 -->
-                <td th:text="${note.name}'" style="width: 120px;">작성자</td>
+                <td th:text="${note.name}" style="width: 120px;">작성자</td>
                 <td><a th:text="${note.regdate}" style="width: 180px;">날짜</a></td>
                 <td><a th:text="${note.hit}" style="width: 80px;">조회수</a></td>
             </tr>

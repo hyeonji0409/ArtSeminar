@@ -46,7 +46,7 @@ public class NoteController {
 
     @GetMapping("/note")
     public String notis(Model model,
-                          @RequestParam(name = "qt", required = false, defaultValue = "subject") String queryType,
+                          @RequestParam(name = "qt", required = false, defaultValue = "name") String queryType,
                           @RequestParam(name = "q", required = false, defaultValue = "") String query,
                           @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
                           @RequestParam(name = "size", required = false, defaultValue = "10") Integer pageSize) {
@@ -56,8 +56,9 @@ public class NoteController {
                 pageSize,
                 Sort.by(Sort.Direction.DESC, "regdate"));
 
-        Page<IntegratedArticle> pagination = integratedArticleService.findAllArticlesByQuery(Note.class, queryType, query, pageable);
-        //        Page<Object> pagination = noticeRepository.findAll(pageable);
+//        Page<IntegratedArticle> pagination = integratedArticleService.findAllArticlesByQuery(Note.class, queryType, query, pageable);
+        Page<Note> pagination = noteRepository.findAllByNameContaining(query, pageable);
+//                Page<Object> pagination = noticeRepository.findAll(pageable);
 
 
         model.addAttribute("pageSize", pageSize);
@@ -100,7 +101,7 @@ public class NoteController {
 
         model.addAttribute("bbsName", "note");
         model.addAttribute("bbsNo", no);
-        model.addAttribute("notice", note);
+        model.addAttribute("note", note);
 
         return "board/note/noteDetail";
     }
