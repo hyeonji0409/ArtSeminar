@@ -1,20 +1,17 @@
 package com.artineer.artineer_renewal.entity;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
 @Entity
-@Table(name = "hello")
+@Table(name = "note")
 @NoArgsConstructor
 @Getter
-@Setter
 @AllArgsConstructor
-public class Greeting {
+public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;
@@ -32,12 +29,4 @@ public class Greeting {
 
     private String regdate;
     private String ip;
-
-    // 아이디
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private User user;
-
-    private String name;
-    private int year;
 }
