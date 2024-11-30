@@ -18,17 +18,23 @@ function showContent(sectionId) {
  *  둘러보기 modal open/close
  */
 
- function openModal(imageSrc) {
-     const modal = document.getElementById('imageModal');
-     const modalImage = document.getElementById('modalImage');
-     modal.style.display = 'block'; // 모달 보이기
-     modalImage.src = imageSrc; // 클릭한 이미지 설정
- }
-
-function closeModal() {
-    var modal = document.getElementById("imageModal");
-    modal.style.display = "none"; // 모달을 숨김
+// 모달 닫기 함수
+function closeModal(event) {
+    const modal = document.getElementById('imageModal');
+    // 클릭한 대상이 모달 배경일 경우에만 닫기
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
 }
+
+// 모달 열기 함수 (예시로 유지)
+function openModal(imageSrc) {
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    modalImage.src = imageSrc;
+    modal.style.display = 'block';
+}
+
 
 
 
