@@ -52,11 +52,11 @@
             </div>
 
             <nav id="navmenu" class="navmenu d-flex justify-content-end">
-                <ul>
+                <ul th:if="${!notice.getFile().isEmpty()}">
                     <li class="dropdown"><span>파일 다운로드 ▼</span>
                         <ul>
                             <li><div th:each="fileName: ${notice.file}" class="pt-3" >
-                                <a th:href="|/downloads/${fileName}|" th:text="${fileName}" alt="Image" class="text-info"></a>
+                                <a th:href="|/downloads/${fileName}|" th:text="${fileName.contains('_') ? fileName.split(('_'))[1] : fileName }" alt="Image" class="text-info"></a>
                             </div></li>
                         </ul>
                     </li>

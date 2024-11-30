@@ -166,10 +166,8 @@ public class NoticeController {
         String referer = request.getHeader("Referer");
 
         // referer가 null이 아니면 해당 URL로 리다이렉트
-        if (referer != null) {
-            return "redirect:" + referer;
-        }
         // referer가 null인 경우 기본 페이지로 리다이렉트 (예: notice 목록)
+        if (referer != null) return "redirect:" + referer;
         return "redirect:/notice";
     }
 
