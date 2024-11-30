@@ -16,4 +16,6 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
     Page<Notice> findAll(Pageable pageable);
     List<Notice> findAllByTitleContaining(String title);
 
+    Notice findByFile(String file);
+
 }

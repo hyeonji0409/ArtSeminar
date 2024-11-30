@@ -83,7 +83,7 @@ public class NoticeService {
 
         String fileNameString = String.join(",", fileNames);
 
-        System.out.println(fileNames);
+       // System.out.println(fileNames);
 
 
         Notice notice = new Notice();
@@ -146,16 +146,15 @@ public class NoticeService {
         // 파일 삭제
         if(notice.getFile() != null) {
             deleteFiles(notice.getFile());
+            //에디터 사진 삭제 기능 추가
+           // fileService.deleteFile()
         }
-
-        //파일 이름을 어떻게 가져올 것인가..
-        //deleteFiles();
 
         noticeRepository.deleteById(no);
     }
 
     // 파일 삭제 로직
-    private void deleteFiles(String fileNames) {
+    public void deleteFiles(String fileNames) {
         String[] fileNameArray = fileNames.split(",");
 
         for(String fileName : fileNameArray) {
@@ -171,6 +170,18 @@ public class NoticeService {
             } else {
                 System.out.println("파일을 찾을 수 없습니다." + fileName);
             }
+
+//            파일 없는 게시판 삭제 오류 때문에 주석처리(파일이 있을 때는 삭제 오류 없음)
+            //반환값이 여러개라 생긴 오류
+//            해당 코드를 통해서 파일 삭제 시 데이터베이스에 있던 파일 값을 없애는 코드임
+//            Notice notice = noticeRepository.findByFile(fileName);
+//            if (notice != null) {
+//                notice.setFile("");  // 파일 경로 삭제
+//                noticeRepository.save(notice);  // 변경사항 저장
+//                System.out.println("데이터베이스에서 file 필드 삭제 완료: " + fileName);
+//            } else {
+//                System.out.println("데이터베이스에서 해당 file을 찾을 수 없습니다: " + fileName);
+//            }
         }
 
     }
