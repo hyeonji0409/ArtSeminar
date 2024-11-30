@@ -15,8 +15,10 @@ document.getElementById('editbtn').addEventListener('click', function() {
 
     // 필요하면 '완료'와 '취소' 버튼을 보이도록 설정
     document.querySelector('.editPageBtn').style.display = 'block';
-    document.querySelector('#password1').style.display = 'block';
-    document.querySelector('#password2').style.display = 'block';
+    // document.querySelector('#password1').style.display = 'block';
+    // document.querySelector('#password2').style.display = 'block';
+    // document.querySelector('.pw-lb1').style.display = 'block';
+    // document.querySelector('.pw-lb2').style.display = 'block';
 
     document.querySelectorAll('.gender').forEach(v => v.style.pointerEvents = 'all')
 });
@@ -36,8 +38,10 @@ document.getElementById('savebtn').addEventListener('click', function() {
 
     // 수정하면 '완료'와 '취소' 버튼 숨기기
     document.querySelector('.editPageBtn').style.display = 'none';
-    document.querySelector('#password1').style.display = 'none';
-    document.querySelector('#password2').style.display = 'none';
+    // document.querySelector('#password1').style.display = 'none';
+    // document.querySelector('#password2').style.display = 'none';
+    // document.querySelector('.pw-lb1').style.display = 'none';
+    // document.querySelector('.pw-lb2').style.display = 'none';
 
     document.querySelector('.gender').style.pointerEvents = 'none'
 });
@@ -50,9 +54,13 @@ document.getElementById('canclebtn').addEventListener('click', function() {
     });
 
     document.getElementById('editbtn').style.display = 'block';
+
+
     document.querySelector('.editPageBtn').style.display = 'none';
-    document.querySelector('#password1').style.display = 'none';
-    document.querySelector('#password2').style.display = 'none';
+    // document.querySelector('#password1').style.display = 'none';
+    // document.querySelector('#password2').style.display = 'none';
+    // document.querySelector('.pw-lb1').style.display = 'none';
+    // document.querySelector('.pw-lb2').style.display = 'none';
 });
 
 // 페이지 로드 후 실행
@@ -66,10 +74,12 @@ document.addEventListener("DOMContentLoaded", function () {
     if (userSex === "male") {
         document.getElementById("male").checked = true;
         maleLabel.style.backgroundColor = "var(--color-blue)"; // 선택된 라벨 색
+        maleLabel.style.color = "white"
         femaleLabel.style.backgroundColor = "white"; // 기본 색
     } else if (userSex === "female") {
         document.getElementById("female").checked = true;
         femaleLabel.style.backgroundColor = "var(--color-blue)";
+        femaleLabel.style.color = "white"
         maleLabel.style.backgroundColor = "white";
     }
 
@@ -79,8 +89,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const label = document.querySelector(`label[for="${radio.id}"]`);
             if (radio.checked) {
                 label.style.backgroundColor = "var(--color-blue)"; // 선택된 라벨 색
+                label.style.color = "white"
             } else {
                 label.style.backgroundColor = "white"; // 기본 색
+                label.style.color = "black"
             }
         });
     }

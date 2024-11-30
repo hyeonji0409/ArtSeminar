@@ -1,7 +1,9 @@
 package com.artineer.artineer_renewal.controller;
 
+import com.artineer.artineer_renewal.entity.Comment;
 import com.artineer.artineer_renewal.entity.Gallery;
 import com.artineer.artineer_renewal.entity.User;
+import com.artineer.artineer_renewal.repository.CommentRepository;
 import com.artineer.artineer_renewal.repository.GalleryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,6 +22,8 @@ public class MyPageController {
     private UserRepository userRepository;
     @Autowired
     private GalleryRepository galleryRepository;
+//    @Autowired
+//    private CommentRepository commentRepository;
 
     @GetMapping("/mypage")
     public String myPage(Model model) {
@@ -47,6 +51,23 @@ public class MyPageController {
         model.addAttribute("articles", galleryList);
 
         return "myPage/mypageAct1"; }
+
+//    @GetMapping("/mypage/activity2")
+//    public String activity2(Model model) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username = authentication.getName();
+//        User user = userRepository.findByUsername(username);
+//        model.addAttribute("user", user);
+//
+//        List<Comment> commentList = commentRepository.findAllByUser_id(user.getUsername());
+//        model.addAttribute("comments", commentList);
+//
+//        return "myPage/mypageAct2";
+//    }
+      @GetMapping("mypage/remypage")
+        public String remypage(Model model) {
+        return "myPage/mypage_re";
+      }
 
 }
 

@@ -54,8 +54,8 @@ public class SecurityConfig {
                         auth.requestMatchers("/",
                                         "/static/**", "/static/assets/**",
                                         "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
-                                .requestMatchers("/notice/new/**", "/notice/edit/**", "/notice/delete/**", "/admin/**").hasAnyRole("ADMIN", "MANAGER")
-                                .requestMatchers("/notice", "^/notice(/\\d+)?$", "/gallery/**").hasAnyRole("ADMIN", "MANAGER", "REGULAR")
+//                                .requestMatchers("/notice/new/**", "/notice/edit/**", "/notice/delete/**", "/admin/**").hasAnyRole("ADMIN", "MANAGER")
+//                                .requestMatchers("/notice", "^/notice(/\\d+)?$", "/gallery/**").hasAnyRole("ADMIN", "MANAGER", "REGULAR")
                                 .requestMatchers("/mypage/**").authenticated()
                                 .anyRequest().permitAll()
                 )
