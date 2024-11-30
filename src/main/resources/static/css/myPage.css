@@ -81,7 +81,7 @@ a:visited { text-decoration: none; }
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 3rem 3rem 1.5rem 3rem;
+    padding: 2rem 3rem 1rem 3rem;
 }
 
 .side__icon {
@@ -147,6 +147,10 @@ a:visited { text-decoration: none; }
     font-size: 1.2rem;
 }
 
+.passwords {
+    display: none;
+}
+
 label {
     padding: 10px;
     width: 122px;
@@ -187,12 +191,14 @@ li {
 .logout {
     font-size: large;
     font-weight: bold;
-    margin: 1rem 1rem;
-    padding: 1rem;
+    margin: 0.8rem 1rem 1.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
 }
 
 .logout:hover {
     background-color: #ffdfd4;
+    color: red;
 
 }
 
@@ -242,7 +248,6 @@ li {
     background-size: 90%;
     opacity: 0.6;
     align-content: center;
-    padding: 10px;
     gap: 30px;
     text-align: center;
 
@@ -251,7 +256,9 @@ li {
     /*outline: 3px solid var(--subtle);*/
 }
 
-.gender
+.gender {
+    border-radius: 5px;
+}
 
 .gender.selected {
     background-color: var(--color-blue);
