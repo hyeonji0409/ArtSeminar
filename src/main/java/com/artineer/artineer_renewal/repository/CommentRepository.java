@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findAllByBbsNo(Integer bbsno);
+    List<Comment> findAllByBbsnameAndBbsNo(String bbsname, Integer bbsno);
 }

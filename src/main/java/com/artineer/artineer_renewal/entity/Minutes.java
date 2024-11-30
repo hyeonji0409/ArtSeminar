@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class Minutes {
 
     @OneToMany(mappedBy = "bbsNo", cascade = CascadeType.REMOVE, orphanRemoval = true, targetEntity = Comment.class)
 //    @JoinColumn(name = "bbs_no", referencedColumnName = "no")
+    @Where(clause = "bbsname = 'minutes'")
     private List<Comment> comments;
 
     private String regdate;

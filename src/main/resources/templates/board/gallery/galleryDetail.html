@@ -53,7 +53,7 @@
                     <li class="dropdown"><span>파일 다운로드 ▼</span>
                         <ul>
                             <li><div>
-                                <a th:if="${fileName != 'no_image.jpg'}" th:href="|/downloads/${fileName}|" th:text="${fileName.contains('_') ? fileName.split(('_'))[1] : fileName }" alt="Image" class="text-info"></a>
+                                <a th:if="${fileName != 'no_image.jpg'}" th:href="|/downloads/${fileName}|" th:text="${fileName.contains('_') ? fileName.split('_', 2)[1] : fileName }" alt="Image" class="text-info"></a>
                             </div></li>
                         </ul>
                     </li>

@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Notice Detail</title>
+    <title>Project Detail</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -44,18 +44,18 @@
 <div style="margin-top: 150px;">
     <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px;" >
         <div class="border-bottom pb-3">
-            <h1 th:text="${notice.title}" class="text-break" style="padding-top: 20px; width: 700px;">Notice Title</h1>
+            <h1 th:text="${project.title}" class="text-break" style="padding-top: 20px; width: 700px;">Project Title</h1>
             <div class="border-bottom pb-3">
-                <a >작성자: </a><a th:text="${notice.name} + '(' + ${notice.year} + '기)'" style="padding-right: 20px">작성자</a>
-                <a>날짜: </a><a th:text="${notice.regdate}" style="padding-right: 20px">날짜</a>
-                <a>조회수: </a><a th:text="${notice.hit}">조회수</a>
+                <a >작성자: </a><a th:text="${project.name} + '(' + ${project.year} + '기)'" style="padding-right: 20px">작성자</a>
+                <a>날짜: </a><a th:text="${project.regdate}" style="padding-right: 20px">날짜</a>
+                <a>조회수: </a><a th:text="${project.hit}">조회수</a>
             </div>
 
             <nav id="navmenu" class="navmenu d-flex justify-content-end">
-                <ul th:if="${!notice.getFile().isEmpty()}">
+                <ul th:if="${!project.getFile().isEmpty()}">
                     <li class="dropdown"><span>파일 다운로드 ▼</span>
                         <ul>
-                            <li><div th:each="fileName: ${notice.file}" class="pt-3" >
+                            <li><div th:each="fileName: ${project.file}" class="pt-3" >
                                 <a th:href="|/downloads/${fileName}|" th:text="${fileName.contains('_') ? fileName.split('_', 2)[1] : fileName }" alt="Image" class="text-info"></a>
                             </div></li>
                         </ul>
@@ -65,9 +65,9 @@
 
             <div class="pt-3 pb-3" style="min-height: 300px">
                 <div class="ck-content" style="width: 800px;">
-                    <div class="pb-3" th:utext="${notice.story}">Notice Story</div>
+                    <div class="pb-3" th:utext="${project.story}">Project Story</div>
 
-                    <div th:each="fileName: ${notice.file}" class="pt-5">
+                    <div th:each="fileName: ${project.file}" class="pt-5">
                         <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">
                     </div>
                 </div>
@@ -75,12 +75,12 @@
 
             <div class="d-flex justify-content-center">
             <div class="d-flex justify-content-between" style="width: 800px">
-                <a href="/notice" class="btn btn-outline-info custom-btn">목록</a>
+                <a href="/project" class="btn btn-outline-info custom-btn">목록</a>
             <div class="btn-group" sec:authorize="isAuthenticated()">
                 <a type="button" class="btn btn-outline-info custom-btn"
-                   th:href="@{/notice/edit/{no}(no=${notice.no})}">수정</a>
+                   th:href="@{/project/edit/{no}(no=${project.no})}">수정</a>
                 <a type="button" class="btn btn-outline-info custom-btn"
-                   th:href="@{/notice/delete/{no}(no=${notice.no})}">삭제</a>
+                   th:href="@{/project/delete/{no}(no=${project.no})}">삭제</a>
             </div>
             </div>
             </div>
@@ -104,8 +104,8 @@
         </div>
 
         <h2>댓글 목록</h2>
-<!--        <div th:each="comment : ${notice.comments}">-->
-            <div th:replace="/fragments/commentFragment :: comment(comments=${notice.comments})"></div>
+<!--        <div th:each="comment : ${project.comments}">-->
+            <div th:replace="/fragments/commentFragment :: comment(comments=${project.comments})"></div>
 <!--        </div>-->
 
 
