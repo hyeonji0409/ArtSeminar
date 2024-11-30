@@ -34,7 +34,7 @@
     <!-- Main CSS File -->
     <link th:href="@{/css/mastermain.css}" rel="stylesheet"></head>
 <body>
-<div id="new" class="starter-page-page d-flex flex-column min-vh-100" th:fragment="new(notice)">
+<div th:each="notice, iterStat: ${notice}" th:fragment="notice(notice)">
     <div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
 
 
