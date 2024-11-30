@@ -1,5 +1,3 @@
-let queryType = '[[${queryType}]]'
-let pageNumber = '[[${pagination.getNumber()}]]';
 pageNumber = parseInt(pageNumber)
 const search =  document.querySelector("#search");
 const form = document.querySelector("form");

@@ -104,7 +104,7 @@ public class NoticeService {
 
     // 글 상세 조회
     public NoticeDto getNoticeByNo(Long no) {
-        Notice notice = noticeRepository.findById(no).orElseThrow(() -> new RuntimeException("Notice not found"));
+        Notice notice = noticeRepository.findById(no).orElseThrow(() -> new RuntimeException("페이지를 찾을 수 없습니다."));
 
         // db 저장된 파일명 ,로 분리하여 리스트화
         String fileNameString = notice.getFile();
