@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Notice Detail</title>
+    <title>Greeting Detail</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -44,7 +44,7 @@
 <div style="margin-top: 150px;">
     <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px;" >
         <div class="border-bottom pb-3">
-            <h1 th:text="${greeting.title}" class="text-break" style="padding-top: 20px; width: 700px;">Notice Title</h1>
+            <h1 th:text="${greeting.title}" class="text-break" style="padding-top: 20px; width: 700px;">Greeting Title</h1>
             <div class="border-bottom pb-3">
                 <a >작성자: </a><a th:text="${greeting.name} + '(' + ${greeting.year} + '기)'" style="padding-right: 20px">작성자</a>
                 <a>날짜: </a><a th:text="${greeting.regdate}" style="padding-right: 20px">날짜</a>
@@ -65,7 +65,7 @@
 
             <div class="pt-3 pb-3" style="min-height: 300px">
                 <div class="ck-content" style="width: 800px;">
-                    <div class="pb-3" th:utext="${greeting.story}">Notice Story</div>
+                    <div class="pb-3" th:utext="${greeting.story}">Greeting Story</div>
 
                     <div th:each="fileName: ${greeting.file}" class="pt-5">
                         <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">
