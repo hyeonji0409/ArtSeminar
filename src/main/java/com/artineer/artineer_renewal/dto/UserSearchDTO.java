@@ -3,6 +3,7 @@ package com.artineer.artineer_renewal.dto;
 import jakarta.persistence.ElementCollection;
 import lombok.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,10 +22,11 @@ public class UserSearchDTO {
     private Optional<String> order;
     private Optional<Integer> page;
     private Optional<Integer> pageSize;
+    private Optional<Timestamp> deletedAt;
 
 
     @Builder
-    public UserSearchDTO(String query, String queryValue, String sex, String minBirth, String maxBirth, String role, String sort, String order, Integer page, Integer pageSize) {
+    public UserSearchDTO(String query, String queryValue, String sex, String minBirth, String maxBirth, String role, String sort, String order, Integer page, Integer pageSize, Timestamp deletedAt) {
         this.query = Optional.ofNullable(query);
         this.queryValue = Optional.ofNullable(queryValue);
         this.sex = Optional.ofNullable(sex);
@@ -35,5 +37,6 @@ public class UserSearchDTO {
         this.order = Optional.ofNullable(order);
         this.page = Optional.ofNullable(page);
         this.pageSize = Optional.ofNullable(pageSize);
+        this.deletedAt = Optional.ofNullable(deletedAt);
     }
 }

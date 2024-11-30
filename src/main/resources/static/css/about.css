@@ -10,6 +10,8 @@ h3 {
 
 
 
+
+
 /*--------------------------------------------------------------
 # About introduce Section
 --------------------------------------------------------------*/
@@ -49,13 +51,20 @@ h3 {
 
 .About-introduce h3 {
   color: var(--default-color);
-  font-size: 28px;
+  font-size: 35px;
   font-weight: 700;
+
 }
 
 .About-introduce p {
   color: var(--default-color);
 
+}
+
+.About-introduce a {
+    position: relative;
+    top: 55px;
+    left: 35px;
 }
 
 .About-introduce .cta-btn {
@@ -87,7 +96,7 @@ body {
     background-color: #111111;
 }
 
-.container {
+.containers {
     max-width: 1180px;
     display: flex;
     justify-content: center;
@@ -100,11 +109,13 @@ body {
 
 .btn {
     opacity: 80%;
-    color: #f0f0f0;
-    font-size: 20px;
+    /*color: #f0f0f0;*/
+    font-size: 21px;
     font-weight: 600;
     padding: 0 20px;
     transition: all 0.3s;
+    position: relative;
+    left: 35px;
 }
 
 .btn:hover {
@@ -117,42 +128,81 @@ body {
     color: #c3201f;
 }
 
+
+
 /*--------------------------------------------------------------
 # 둘러보기 section
 --------------------------------------------------------------*/
 
 .bg-gallery {
-    background-color: #f0f0f0; /* 밝은 회색 배경 */
+    background-color: #d9dad7;
     padding: 20px; /* 내부 여백 */
-    border-radius: 15px; /* 둥근 모서리 */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 추가 */
+    border-radius: 20px; /* 둥근 모서리 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    width: 900px; /* 원하는 너비 */
+    height: 310px; /* 원하는 높이 */
+    margin: 0 auto; /* 가운데 정렬 */
 }
 
+.gallery-box {
+    width: 900px;
+    height: 280px;
+    padding: 20px;
+    position: relative; /* 배치 기준 */
+    box-sizing: border-box; /* 패딩 포함 크기 계산 */
+    overflow: visible; /* 내용 잘리지 않게 설정 */
+    padding-right: 60px;
+    padding-top: 40px;
+}
+
+.gallery-box h2 {
+    position: absolute; /* 부모(.gallery-box)를 기준으로 배치 */
+    top: 0.1px; /* 상단 간격 */
+    left: 5px; /* 왼쪽 간격 */
+    z-index: 10; /* 다른 요소보다 위에 표시 */
+    margin: 0;
+    font-size: 21px;
+    font-weight: bold;
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.gallery-type {
+    display: flex;
+    flex-wrap: wrap; /* 자동 줄바꿈 */
+    justify-content: center; /* 가운데 정렬 */
+    gap: 10px; /* 갤러리 아이템 간 간격 */
+}
 
 .gallery-item {
-    width: 265.33px;
-    height: 212.5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    text-align: center; /* 텍스트 가운데 정렬 */
+    flex: 1 1 calc(33.333% - 20px); /* 3열로 배치 */
+    max-width: 300px; /* 최대 너비 */
+    cursor: pointer;
 }
 
-
-.gallery-item .image {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+.gallery-item img.equal-image {
+    width: 250px;
+    height: 190px; /* 고정 높이 */
+    object-fit: cover; /* 비율 유지하며 자르기 */
+    border-radius: 20px; /* 이미지 모서리 둥글게 */
+    margin-bottom: 20px; /* 이미지와 텍스트 사이 간격 */
+    padding: 5px; /* 이미지 안쪽 여백 */
+    background-color: #fff; /* 테두리 안쪽 배경 (하얀색) */
+    border: 2px solid #e0e0e0; /* 액자 스타일 테두리 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
 }
 
-.equal-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 5px;
+.gallery-item p {
+    font-size: 16px;
+    color: #555;
+    margin: 0;
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
-
 
 
 @media (max-width: 768px) {
@@ -203,108 +253,142 @@ body {
 /*--------------------------------------------------------------
 # 학습 section
 --------------------------------------------------------------*/
-
-/* 그리드 스타일 설정 */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 카드의 최소 크기를 250px로 설정 */
-    gap: 20px; /* 카드 간 간격 */
+* {
+    margin: 0;
+    padding: 0;
 }
 
-/* 카드 그룹 설정 */
-.group {
-    transition: all 0.3s ease-in-out; /* 호버 시 부드러운 효과 */
+a {
+    text-decoration: none;
+    color: #000;
 }
 
-/* 호버 시 이미지 확대 효과 */
-.group:hover .img {
-    transform: scale(1.05);
+img {
+    width: 100%;
 }
 
-/* 카드의 내용을 숨기는 설정 */
-.overflow-hidden {
-    overflow: hidden; /* 내용이 넘칠 경우 숨김 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
 }
 
-/* 카드의 모서리 둥글기 설정 */
-.rounded-xl {
-    border-radius: 15px; /* 모서리 둥글기 */
+/* common */
+.container3 {
+    width: 1160px;
+    padding: 0 20px;
+    margin: 0 auto;
+    padding-right: 150px;
+    padding-left: 140px;
 }
 
-/* 그림자 효과 설정 */
-.shadow-lg {
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.25); /* 그림자 효과 */
+.section {
+    padding: 60px 0;
 }
 
-/* 카드 배경 색상 설정 */
-.bg-background-3 {
-    background-color: #1e1e1e; /* 배경 색상 */
+.section>h2 {
+    font-size: 50px;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-/* 카드 제목 스타일 */
-.text-xl {
-    font-size: 1.25rem; /* 글자 크기 */
-    font-weight: bold; /* 글자 두께 */
-    color: #fff; /* 텍스트 색상 */
+.section>p {
+    font-size: 22px;
+    font-weight: 300;
+    color: #666;
+    text-align: center;
+    margin-bottom: 70px;
 }
 
-/* 글자 색상 및 두께 설정 */
-.font-extralight {
-    font-weight: 200; /* 가벼운 글자 두께 */
-    color: #ccc; /* 텍스트 색상 */
+/* cardType */
+.card__inner {
+    display: flex;
+    justify-content: space-between;
 }
 
-/* 이미지 설정 */
-.img {
-    width: 100%; /* 이미지 너비 */
-    height: auto; /* 자동 높이 */
-    transition: transform 0.3s ease-in-out; /* 부드러운 변환 효과 */
+.card {
+    width: 32%;
+    background-color: #f5f5f5;
 }
 
-/* 전체 너비 설정 */
-.w-full {
-    width: 100%; /* 전체 너비 */
+.card__body {
+    padding: 16px;
 }
 
-/* Flex 설정 */
-.flex {
-    display: flex; /* Flexbox 사용 */
+.card__body .tit {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-family: "Jua", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
-/* 수직 정렬 */
-.items-center {
-    align-items: center; /* 수직 정렬 */
-}
-
-/* 수평 정렬 */
-.justify-center {
-    justify-content: center; /* 수평 정렬 */
-}
-
-/* 하단 패딩 설정 */
-.pb-2 {
-    padding-bottom: 0.5rem; /* 하단 패딩 */
-}
-
-/* 카드 크기 조정: 패딩과 여백을 줄여서 크기를 줄입니다 */
-.py-2 {
-    padding-top: 0.5rem; /* 상단 패딩 */
-    padding-bottom: 0.5rem; /* 하단 패딩 */
-}
-
-/* 카드 사이 간격 줄이기 */
-.gap-2 {
-    gap: 0.5rem; /* 카드 간 간격 */
-}
-
-.increase-size .img {
-    height: 200px; /* 원하는 높이로 설정 */
-    object-fit: cover; /* 이미지를 잘라내기 */
+.card__body .desc {
+    font-size: 18px;
+    line-height: 1.4;
+    color: #000000;
+    margin-bottom: 20px;
+    font-weight: 300;
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
 
 
 
 
+
+/*--------------------------------------------------------------
+# greeting section
+--------------------------------------------------------------*/
+
+.artineer-text {
+    font-size: 65px;
+    position: relative;
+    font-family: "Knewave", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    color: #3D507A;
+
+
+}
+
+.artineer-text1 {
+    font-size: 50px;
+    position: relative;
+    font-family: "Jua", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #3D507A;
+
+
+}
+
+.artineer-contenttext {
+    font-size: 20px;
+    line-height: 2;
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+
+    padding-left: 150px;
+    padding-right: 150px;
+
+}
+
+.artineer-img {
+    width: 960px;
+    height: 400px;
+    margin: 20px 0;
+    padding-left: 50px;
+    padding-right: 50px;
+    object-fit: cover; /* 이미지의 잘림 방지 또는 원하는 크기로 조정 */
+}
 
 
 

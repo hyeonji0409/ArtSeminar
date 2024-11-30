@@ -46,6 +46,8 @@ public class NoticeService {
 
     @Autowired
     private HttpServletRequest request;
+    
+
 
     // 글 작성
     public ResponseEntity<String> createNotice(String title, String story, List<MultipartFile> files) {
@@ -81,6 +83,8 @@ public class NoticeService {
 
         String fileNameString = String.join(",", fileNames);
 
+       // System.out.println(fileNames);
+
 
         Notice notice = new Notice();
         // User 자체 설정
@@ -100,7 +104,7 @@ public class NoticeService {
 
     // 글 상세 조회
     public NoticeDto getNoticeByNo(Long no) {
-        Notice notice = noticeRepository.findById(no).orElseThrow(() -> new RuntimeException("Notice not found"));
+        Notice notice = noticeRepository.findById(no).orElseThrow(() -> new RuntimeException("페이지를 찾을 수 없습니다."));
 
         // db 저장된 파일명 ,로 분리하여 리스트화
         String fileNameString = notice.getFile();
@@ -136,19 +140,21 @@ public class NoticeService {
 
     // 글 삭제 -> 삭제 시 data 폴더의 사진도 함꼐 지워짐
     public void deleteNotice(Long no) {
-        // 글 정보 가졍괴
+        // 글 정보 가져오기
         Notice notice = noticeRepository.findById(no).orElseThrow(() -> new RuntimeException("Notice not found"));
 
         // 파일 삭제
         if(notice.getFile() != null) {
             deleteFiles(notice.getFile());
+            //에디터 사진 삭제 기능 추가
+           // fileService.deleteFile()
         }
 
         noticeRepository.deleteById(no);
     }
 
     // 파일 삭제 로직
-    private void deleteFiles(String fileNames) {
+    public void deleteFiles(String fileNames) {
         String[] fileNameArray = fileNames.split(",");
 
         for(String fileName : fileNameArray) {
@@ -164,11 +170,22 @@ public class NoticeService {
             } else {
                 System.out.println("파일을 찾을 수 없습니다." + fileName);
             }
+
+//            파일 없는 게시판 삭제 오류 때문에 주석처리(파일이 있을 때는 삭제 오류 없음)
+            //반환값이 여러개라 생긴 오류
+//            해당 코드를 통해서 파일 삭제 시 데이터베이스에 있던 파일 값을 없애는 코드임
+//            Notice notice = noticeRepository.findByFile(fileName);
+//            if (notice != null) {
+//                notice.setFile("");  // 파일 경로 삭제
+//                noticeRepository.save(notice);  // 변경사항 저장
+//                System.out.println("데이터베이스에서 file 필드 삭제 완료: " + fileName);
+//            } else {
+//                System.out.println("데이터베이스에서 해당 file을 찾을 수 없습니다: " + fileName);
+//            }
         }
 
     }
 
-    //댓글 삭제 기능 추가해야함
 
 
     // 조회수 증가

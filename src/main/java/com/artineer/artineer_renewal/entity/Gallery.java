@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.ErrorResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,9 +28,9 @@ public class Gallery {
     private String file;
     private int comment;
 
-    @OneToMany
-    @JoinColumn(name = "bbs_no", referencedColumnName = "no")
-    private List<Comment> comments; // 댓글 개수
+    @OneToMany(mappedBy = "bbsNo", cascade = CascadeType.REMOVE, orphanRemoval = true, targetEntity = Comment.class)
+//    @JoinColumn(name = "bbs_no", referencedColumnName = "no")
+    private List<Comment> comments = new ArrayList<>();
 
     private String regdate;
     private String ip;

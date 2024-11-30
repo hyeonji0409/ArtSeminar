@@ -9,6 +9,7 @@ import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.IntegratedArticleService;
 import com.artineer.artineer_renewal.service.NoticeService;
 import com.artineer.artineer_renewal.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -29,25 +30,16 @@ import java.util.List;
 
 @Controller
 public class NoticeController {
-    @Value("${file.dir}")
-    private String uploadDir;
-
     @Autowired
     private NoticeRepository noticeRepository;
-
     @Autowired
     private NoticeService noticeService;
-
     @Autowired
     private UserService userService;
-    @Autowired
-    private CommentRepository commentRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private IntegratedArticleService integratedArticleService;
-    @Autowired
-    private IntegratedArticleRepository integratedArticleRepository;
 
 
     @GetMapping("/notice")
@@ -60,18 +52,12 @@ public class NoticeController {
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
 
+        System.out.println("받아온 값" + queryType +"~" + query);
+
         Pageable pageable = PageRequest.of(
                 page - 1,
                 pageSize,
                 Sort.by(Sort.Direction.DESC, "regdate"));
-
-
-//        List<Class<?>> obj = new ArrayList<>();
-//        obj.add(Notice.class);
-//        obj.add(Gallery.class);
-//        obj.add(Project.class);
-//        obj.add(Greeting.class);
-//        obj.add(Minutes.class);
 
         Page<IntegratedArticle> pagination = integratedArticleService.findAllArticlesByQuery(Notice.class, queryType, query, pageable);
         //        Page<Object> pagination = noticeRepository.findAll(pageable);
@@ -121,7 +107,7 @@ public class NoticeController {
         NoticeDto notice = noticeService.getNoticeByNo(no);
         if (notice == null)  throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
 //        (new List<Integer>).
-        System.out.println("WLWL" + notice.getComments().size());
+      //  System.out.println("WLWL" + notice.getComments().size());
 
         // 조회수 증가
         noticeService.increaseHitCount(no);
@@ -171,13 +157,22 @@ public class NoticeController {
         } else {
             return "redirect:/access-denied";
         }
+    }
 
+    @GetMapping("/delete/{file}")
+    public String deleteFile(@PathVariable String file, HttpServletRequest request) {
+
+        noticeService.deleteFiles(file);
+        String referer = request.getHeader("Referer");
+
+        // referer가 null이 아니면 해당 URL로 리다이렉트
+        // referer가 null인 경우 기본 페이지로 리다이렉트 (예: notice 목록)
+        if (referer != null) return "redirect:" + referer;
+        return "redirect:/notice";
     }
 
     private boolean isAuthorizedUser(Notice notice, String loggedInUsername) {
         // 작성자나 관리자면 true
         return notice.getUser().getUsername().equals(loggedInUsername) || userService.isAdmin(loggedInUsername);
     }
-
-
 }

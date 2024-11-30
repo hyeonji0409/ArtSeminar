@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Auditable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,9 +28,9 @@ public class Notice {
     private String file;
     private int comment; // 댓글 개수
 
-    @OneToMany
-    @JoinColumn(name = "bbs_no", referencedColumnName = "no")
-    private List<Comment> comments; // 댓글 개수
+    @OneToMany(mappedBy = "bbsNo", cascade = CascadeType.REMOVE, orphanRemoval = true, targetEntity = Comment.class)
+//    @JoinColumn(name = "bbs_no", referencedColumnName = "no")
+    private List<Comment> comments;
 
     private String regdate;
     private String ip;

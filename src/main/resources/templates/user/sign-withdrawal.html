@@ -42,7 +42,7 @@
 
 </head>
 
-<body class="starter-page-page">
+<body class="starter-page-page d-flex flex-column min-vh-100">
 
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
@@ -50,10 +50,10 @@
     </div>
   </header>
 
-  <main class="main">
+  <main class="main flex-grow-1 mb-5 align-content-center">
 
     <!-- Page Title -->
-    <div class="page-title" style="
+    <div class="" style="
     top: 60px;
     margin-bottom: 0;
     padding-bottom: 0">
@@ -75,26 +75,40 @@
 
 <!--        <p>Use this page as a starter for your own custom pages.</p>-->
         <div>
-          <div th:utext="${'회원탈퇴 시 귀하의 아이디('+ user.getUsername() +')는 재사용이 불가능합니다.<br>'+
-          '회원정보와 게시글 등 서비스 이용기록은 일정 기간 동안 보관됩니다.(?)'}">
+          <div th:utext="${'회원탈퇴 시 귀하의 아이디('+ user.getUsername() +')는 재사용이 불가능합니다.<br><br>'}">
           회원탈퇴 시 귀하의 아이디(${세션정보})는 재사용이 불가능합니다.<br>
-          회원정보와 게시글 등 서비스 이용기록은 일정 기간 동안 보관됩니다.(?)
           </div>
+
+          <h2>1. 회원정보의 보관 및 관리</h2>
+          <p>
+            회원탈퇴 시 귀하의 회원정보는 다음과 같은 사유로 일정 기간 동안 보관됩니다.
+          </p>
           <ul>
-            보존근거: 불량 이용자의 재가입 방지, 명예훼손 등 권리침해 분쟁 및 수사협조(?)
+            <li><strong>보존 근거:</strong> 불량 이용자의 재가입 방지, 명예훼손 및 기타 권리침해 분쟁 대응, 관련 법령 및 수사 협조를 위한 자료 제공</li>
+            <li><strong>보존 기간:</strong> 회원탈퇴 후 1년</li>
           </ul>
-          <ul>
-            보존기간: 회원탈퇴 후 1년
-          </ul>
+          <p>보존 기간 종료 후 회원정보는 즉시 파기됩니다.</p>
+
+          <h2>2. 아이디 재사용 불가</h2>
+          <p>
+            회원탈퇴 시 사용하셨던 아이디는 시스템 보안 및 재가입 방지를 위해 다시 사용할 수 없습니다.
+          </p>
+
+          <h2>3. 작성글 및 기타 서비스 이용 기록의 처리</h2>
+          <p>
+            - 회원탈퇴 이후에도 작성하신 게시글, 댓글, 리뷰 등은 원칙적으로 삭제되지 않으며, 서비스에 계속 유지됩니다.<br>
+            - 게시물 삭제를 원하실 경우, 회원탈퇴 이전에 삭제하거나 별도의 삭제 요청서을 제출해야 합니다.<br>
+            - 명시적 요청이 없는 한, 게시글 등은 작성자의 아이디로 표기됩니다.
+          </p>
 
 
           <div>
-            <p>위 사항에 동의하십니까?</p>
-            <input id="confirm" type="checkbox" value="consent">
-            <label for="confirm">확인</label>
+            <br><p>위 사항에 동의하십니까?</p>
+            <input id="confirm" type="checkbox" value="consent" style="width: 8px">
+            <label for="confirm" style="font-size: 6px">약관에 동의합니다.</label>
           </div>
 
-          <button type="submit">다음</button>
+          <button type="submit" sty>다음</button>
 
         </div>
 

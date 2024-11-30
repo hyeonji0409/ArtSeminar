@@ -17,7 +17,6 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 
-// todo 메시지 전달이 안 되는 문제 있음. ==> 왜 되는거지
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
@@ -69,7 +68,7 @@ public class GlobalExceptionHandler {
         loggingError(request, ex);
 
         model.addAttribute("errorCode", 500);
-        model.addAttribute("errorMessage", "\n작업을 수행하는 도중에 문제가 발생했습니다. : \n" + request.getRequestURL());
+        model.addAttribute("errorMessage", "\n작업을 수행하는 도중에 문제가 발생했습니다. : \n" + ex.getMessage());
         return "error/errorPage";
     }
 
