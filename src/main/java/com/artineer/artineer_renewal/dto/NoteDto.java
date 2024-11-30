@@ -27,19 +27,13 @@ public class NoteDto {
     private String regdate;
     private String ip;
 
-    private String username;
-    private String name;
-    private int year;
-
     @Builder
-    public NoteDto(Long no, String title, String story, int hit, String name,int year, String regdate, List<String> file, List<Comment> comments) {
+    public NoteDto(Long no, String title, String story, int hit, String regdate, List<String> file, List<Comment> comments) {
         this.no = no;
         this.title = title;
         this.story = story;
         this.hit = hit;
-        this.name = name;
         this.regdate = regdate;
-        this.year = year;
         this.file = file;
         this.comments = comments;
     }

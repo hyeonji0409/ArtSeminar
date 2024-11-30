@@ -58,7 +58,7 @@ public class ExamController {
         return null;
     }
 
-    @GetMapping("/delete/{file}")
+    @GetMapping("/exam/delete/{file}")
     public String deleteFile(){
         return null;
     }

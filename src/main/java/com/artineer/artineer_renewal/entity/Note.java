@@ -29,12 +29,4 @@ public class Note {
 
     private String regdate;
     private String ip;
-
-    // 아이디
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private User user;
-
-    private String name;
-    private int year;
 }
