@@ -1,11 +1,11 @@
 package com.artineer.artineer_renewal.controller;
 
-import com.artineer.artineer_renewal.dto.ProjectDto;
+import com.artineer.artineer_renewal.dto.ReferenceDto;
 import com.artineer.artineer_renewal.entity.*;
-import com.artineer.artineer_renewal.repository.ProjectRepository;
+import com.artineer.artineer_renewal.repository.ReferenceRepository;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.IntegratedArticleService;
-import com.artineer.artineer_renewal.service.ProjectService;
+import com.artineer.artineer_renewal.service.ReferenceService;
 import com.artineer.artineer_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class ProjectController {
+public class ReferenceController {
     @Autowired
-    private ProjectRepository projectRepository;
+    private ReferenceRepository referenceRepository;
     @Autowired
-    private ProjectService projectService;
+    private ReferenceService referenceService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -39,8 +39,8 @@ public class ProjectController {
     private IntegratedArticleService integratedArticleService;
 
 
-    @GetMapping("/project")
-    public String project(Model model,
+    @GetMapping("/reference")
+    public String references(Model model,
                           @RequestParam(name = "qt", required = false, defaultValue = "subject") String queryType,
                           @RequestParam(name = "q", required = false, defaultValue = "") String query,
                           @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
@@ -56,44 +56,44 @@ public class ProjectController {
                 pageSize,
                 Sort.by(Sort.Direction.DESC, "regdate"));
 
-        Page<IntegratedArticle> pagination = integratedArticleService.findAllArticlesByQuery(Project.class, queryType, query, pageable);
-        //        Page<Object> pagination = projectRepository.findAll(pageable);
+        Page<IntegratedArticle> pagination = integratedArticleService.findAllArticlesByQuery(Reference.class, queryType, query, pageable);
+        //        Page<Object> pagination = referenceRepository.findAll(pageable);
 
         model.addAttribute("user", user);
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("pagination", pagination);
         model.addAttribute("queryType", queryType);
         model.addAttribute("query", query);
-        return "board/project/project";
+        return "board/reference/reference";
     }
 
     /* 글 작성 */
-    @PostMapping("/project/new")
-    public String createProject(@RequestParam String title, @RequestParam String story, @RequestParam("file") List<MultipartFile> file) {
+    @PostMapping("/reference/new")
+    public String createReference(@RequestParam String title, @RequestParam String story, @RequestParam("file") List<MultipartFile> file) {
 
         // 파일이 없으면 비어있는 리스트 처리
         if(file == null || file.isEmpty()) {
             file = new ArrayList<>();
         }
 
-        projectService.createProject(title, story, file);
-        return "redirect:/project";
+        referenceService.createReference(title, story, file);
+        return "redirect:/reference";
     }
 
     /* 새 글 작성 */
-    @GetMapping("/project/new")
-    public String showNewProject(Model model) {
+    @GetMapping("/reference/new")
+    public String showNewReference(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
 
         model.addAttribute("user", user);
-        return "board/project/projectNew";
+        return "board/reference/referenceNew";
     }
 
     /* 글 세부 내용 조회 */
-    @GetMapping("/project/{no}")
-    public String showProjectDetail(@PathVariable("no") Long no, Model model) {
+    @GetMapping("/reference/{no}")
+    public String showReferenceDetail(@PathVariable("no") Long no, Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -101,75 +101,75 @@ public class ProjectController {
         User user = userRepository.findByUsername(username);
         model.addAttribute("user", user);
 
-        ProjectDto project = projectService.getProjectByNo(no);
-        if (project == null)  throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
+        ReferenceDto reference = referenceService.getReferenceByNo(no);
+        if (reference == null)  throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
 //        (new List<Integer>).
-        //  System.out.println("WLWL" + project.getComments().size());
+        //  System.out.println("WLWL" + reference.getComments().size());
 
         // 조회수 증가
-        projectService.increaseHitCount(no);
+        referenceService.increaseHitCount(no);
 
-        model.addAttribute("bbsName", "project");
+        model.addAttribute("bbsName", "reference");
         model.addAttribute("bbsNo", no);
-        model.addAttribute("project", project);
+        model.addAttribute("reference", reference);
 
-        return "board/project/projectDetail";
+        return "board/reference/referenceDetail";
     }
 
     /* 글 수정 */
-    @GetMapping("/project/edit/{no}")
-    public String showEditProjectForm(@PathVariable Long no, Model model) {
+    @GetMapping("/reference/edit/{no}")
+    public String showEditReferenceForm(@PathVariable Long no, Model model) {
         // User 정보 확인
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
 
 
-        Project project = projectRepository.findById(no).orElse(null);
-        if(!isAuthorizedUser(project, username)) throw new AccessDeniedException("수정권한이 없습니다.");
+        Reference reference = referenceRepository.findById(no).orElse(null);
+        if(!isAuthorizedUser(reference, username)) throw new AccessDeniedException("수정권한이 없습니다.");
 
         model.addAttribute("user", user);
-        model.addAttribute("project", project);
-        return "board/project/projectEdit";
+        model.addAttribute("reference", reference);
+        return "board/reference/referenceEdit";
     }
 
-    @PostMapping("/project/edit")
-    public String updateProject(@RequestParam Long no, @RequestParam String title, @RequestParam String story) {
-        projectService.updateProject(no, title, story);
-        return "redirect:/project/" + no;
+    @PostMapping("/reference/edit")
+    public String updateReference(@RequestParam Long no, @RequestParam String title, @RequestParam String story) {
+        referenceService.updateReference(no, title, story);
+        return "redirect:/reference/" + no;
     }
 
     /* 글 삭제 */
-    @GetMapping("/project/delete/{no}")
-    public String deleteProject(@PathVariable("no") Long no) {
-        Project project = projectRepository.findById(no).orElse(null);
+    @GetMapping("/reference/delete/{no}")
+    public String deleteReference(@PathVariable("no") Long no) {
+        Reference reference = referenceRepository.findById(no).orElse(null);
 
         // User 정보 확인
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loggedInUsername = authentication.getName();
 
-        if(isAuthorizedUser(project, loggedInUsername)) {
-            projectService.deleteProject(no);
-            return "redirect:/project";
+        if(isAuthorizedUser(reference, loggedInUsername)) {
+            referenceService.deleteReference(no);
+            return "redirect:/reference";
         } else {
             return "redirect:/access-denied";
         }
     }
 
-    @GetMapping("/p/delete/{file}")
+    @GetMapping("/r/delete/{file}")
     public String deleteFile(@PathVariable String file, HttpServletRequest request) {
 
-        projectService.deleteFiles(file);
+        referenceService.deleteFiles(file);
         String referer = request.getHeader("Referer");
 
         // referer가 null이 아니면 해당 URL로 리다이렉트
-        // referer가 null인 경우 기본 페이지로 리다이렉트 (예: project 목록)
+        // referer가 null인 경우 기본 페이지로 리다이렉트 (예: reference 목록)
         if (referer != null) return "redirect:" + referer;
-        return "redirect:/project";
+        return "redirect:/reference";
     }
 
-    private boolean isAuthorizedUser(Project project, String loggedInUsername) {
+    private boolean isAuthorizedUser(Reference reference, String loggedInUsername) {
         // 작성자나 관리자면 true
-        return project.getUser().getUsername().equals(loggedInUsername) || userService.isAdmin(loggedInUsername);
+        return reference.getUser().getUsername().equals(loggedInUsername) || userService.isAdmin(loggedInUsername);
     }
 }

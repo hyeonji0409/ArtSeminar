@@ -129,6 +129,7 @@
 
                 <div id="roadAddressBox" class="inputBox">
                     <div style="display: flex; justify-content: space-between">
+                        <input id="zipcode" type="hidden" name="zipcode" value="">
                         <div style="display: flex">
                             <label for="roadAddress">자택 주소</label>
                             <input id="roadAddress" style="margin: 10px" type="text" name="roadAddress" tabindex="-1" th:value="${user.roadAddress}" readonly>
@@ -170,7 +171,7 @@
 <!--usertest 1234-->
 
 
-<script src="js/myinfoEdit.js"></script>
+<script src="/js/myinfoEdit.js"></script>
 <!-- Vendor JS Files -->
 <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>

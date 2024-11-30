@@ -3,6 +3,9 @@ package com.artineer.artineer_renewal.entity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 
 import java.util.List;
 
