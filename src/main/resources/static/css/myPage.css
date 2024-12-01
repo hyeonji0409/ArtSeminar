@@ -254,11 +254,20 @@ li {
     /*outline: 3px solid var(--subtle);*/
 }
 
-.gender
-
 .gender.selected {
     background-color: var(--color-blue);
 }
 .gender:not(.selected) {
     background-color: white;
+}
+
+
+.passwords {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1.3s ease-in-out;
+}
+
+.passwords.show {
+    max-height: 999px; /* 콘텐츠 높이에 맞게 설정 */
 }

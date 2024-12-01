@@ -42,6 +42,8 @@ public class IntegratedArticleRepository {
     // note 테이블은 테이블 컬럼순서가 달라 작동 안됨
     public Page<IntegratedArticle> getIntegratedArticles(List<Class<?>> classList, String queryType, String queryValue, Pageable pageable) {
         StringBuilder sql = new StringBuilder();
+        List<IntegratedArticle> integratedList = new ArrayList<>();
+
 
         // native sql 작성문
         for (int i = 0; i < classList.size(); i++) {
@@ -49,51 +51,58 @@ public class IntegratedArticleRepository {
             sql.append("SELECT * FROM ");
 
             // db 테이블명과 엔티티 클래스명이 달라서...
-            if (tableName.equals("greeting")) sql.append("hello");
-            else sql.append(tableName);
+            if (tableName.equals("greeting")) sql.append("hello t");
+            else sql.append(tableName).append(" t");
 
-            if (!queryValue.isBlank()) sql.append(" where ").append(queryType).append(" like '%").append(queryValue).append("%' ");
+            if (!queryValue.isBlank()) {
+                if (queryType.equals("username"))  {
+                    sql.append(" JOIN member m ON m.user_id = t.user_id");
+                    sql.append(" WHERE m.user_id LIKE '%").append(queryValue).append("%'");
+                }
+                else {
+                    sql.append(" where ").append(queryType).append(" like '%").append(queryValue).append("%' ");
+                }
+            }
 
-            if (i < classList.size() - 1) sql.append(" UNION ");
-        }
+//            if (i < classList.size() - 1) sql.append(" UNION ");
 
-        // 쿼리문을 만든다. 반환은 Object 배열로 한다.
-        Query query = entityManager.createNativeQuery(sql.toString(), Object.class);
+            // 쿼리문을 만든다. 반환은 Object 배열로 한다.
+            Query query = entityManager.createNativeQuery(sql.toString(), Object.class);
+            List<Object[]> resultList = query.getResultList();
 
-        List<Object[]> resultList = query.getResultList();
-        List<IntegratedArticle> integratedList = new ArrayList<>();
+            // 각 직렬화된? 값들을 직접 수동으로 통합게시글 객체에 담는다.
+            for (Object[] row : resultList) {
+                Integer id = ((Number) row[0]).intValue();
+                User user = userRepository.findByUsername((String) row[1] );
+                String name = row[2].toString();
+                String title = row[3].toString();
+                String content = row[4].toString();
+                Integer hit = ((Number) row[5]).intValue();
+                Integer year = ((Number) row[6]).intValue();
+                String file = ((String) row[7]);
+                Integer comment = ((Number) row[8]).intValue();
+                List<Comment> comments = commentRepository.findAllByBbsNo(id);
+                String regdate = ((String) row[9]);
+                String ip = ((String) row[10]);
 
-
-        // 각 직렬화된? 값들을 직접 수동으로 통합게시글 객체에 담는다.
-        for (Object[] row : resultList) {
-            Integer id = ((Number) row[0]).intValue();
-            User user = userRepository.findByUsername((String) row[1] );
-            String name = row[2].toString();
-            String title = row[3].toString();
-            String content = row[4].toString();
-            Integer hit = ((Number) row[5]).intValue();
-            Integer year = ((Number) row[6]).intValue();
-            String file = ((String) row[7]);
-            Integer comment = ((Number) row[8]).intValue();
-            List<Comment> comments = commentRepository.findAllByBbsNo(id);
-            String regdate = ((String) row[9]);
-            String ip = ((String) row[10]);
-
-            IntegratedArticle article = new IntegratedArticle(
-                    id.longValue(),
-                    title,
-                    content,
-                    hit,
-                    file,
-                    comment,
-                    comments,
-                    regdate,
-                    ip,
-                    user,
-                    name,
-                    year
-            );
-            integratedList.add(article);
+                IntegratedArticle article = new IntegratedArticle(
+                        id.longValue(),
+                        title,
+                        content,
+                        hit,
+                        file,
+                        comment,
+                        comments,
+                        regdate,
+                        ip,
+                        user,
+                        name,
+                        year,
+                        tableName
+                );
+                integratedList.add(article);
+            }
+            sql.setLength(0);
         }
 
 

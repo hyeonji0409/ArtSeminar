@@ -87,7 +87,7 @@
                             <!--                <td th:text="${notice.comment}">댓글수</td>-->
                             <!--                <th th:text="${pagination.getSize() - iterStat.index}">1</th>-->
                             <td style="width: 430px"><div class="d-flex align-items-center" style="max-height: 40px; max-width: 206px">
-                                <a th:text="${notice.title}" th:href="@{|/${notice.tableName}/${notice.no}|}"
+                                <a th:text="${notice.memo}" th:href="@{|/${notice.getBbsname()}/${notice.getBbsNo()}|}"
                                    class="a-color d-flex justify-content-start text-truncate custom-width" style="text-decoration: none; text-overflow: ellipsis"></a>
                                 <div class="d-flex align-items-center text-danger fw-bold p-3">
                                     <p>[</p>
@@ -97,7 +97,7 @@
                             </div>
                             </td>
                             <td><a th:text="${notice.regdate}" style="width: 180px;">날짜</a></td>
-                            <td><a th:text="${notice.hit}" style="width: 80px;">조회수</a></td>
+                            <td><a th:text="${notice.getReplys()}" style="width: 80px;">대댓글</a></td>
                         </tr>
 
 
