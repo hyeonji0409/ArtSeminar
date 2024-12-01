@@ -390,7 +390,8 @@ const $text = document.querySelector(".typing .text");
 // 글자 모음
 const letters = [
   "Website",
-  "Network Security",
+  "Network",
+    "Security",
   "Game",
   "Hacking"
 ];
