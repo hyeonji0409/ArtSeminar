@@ -73,7 +73,7 @@
             <div class="d-flex justify-content-center">
                 <div class="d-flex justify-content-between" style="width: 800px">
                     <a href="/gallery" class="btn btn-outline-info custom-btn">목록</a>
-                    <div class="btn-group" sec:authorize="isAuthenticated()">
+                    <div class="btn-group" sec:authorize="isAuthenticated()" th:if="${gallery.getUsername() == #authentication.name}">
                         <a type="button" class="btn btn-outline-info custom-btn"
                            th:href="@{/gallery/edit/{no}(no=${gallery.no})}">수정</a>
                         <a type="button" class="btn btn-outline-info custom-btn"

@@ -1,6 +1,5 @@
 package com.artineer.artineer_renewal.repository;
 
-import com.artineer.artineer_renewal.dto.CustomException;
 import com.artineer.artineer_renewal.entity.Comment;
 import com.artineer.artineer_renewal.entity.IntegratedArticle;
 import com.artineer.artineer_renewal.entity.Notice;

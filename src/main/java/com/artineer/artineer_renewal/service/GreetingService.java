@@ -121,6 +121,7 @@ public class GreetingService {
                 greeting.getTitle(),
                 greeting.getStory(),
                 greeting.getHit(),
+                greeting.getUser().getUsername(),
                 greeting.getName(),
                 greeting.getYear(),
                 greeting.getRegdate(),

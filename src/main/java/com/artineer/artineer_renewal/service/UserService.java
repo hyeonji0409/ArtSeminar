@@ -123,7 +123,7 @@ public class UserService {
         // todo 예외처리
 
         if (isAdmin(logInUsername)) {
-            if (!userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
+            if (userDto.getPassword() !=null && !userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
             oldUser.setName(userDto.getName());
             oldUser.setSex(userDto.getSex());
             oldUser.setBirth(formattedBirth);
@@ -133,7 +133,7 @@ public class UserService {
             oldUser.setRoadAddress(userDto.getRoadAddress());
             oldUser.setDetailAddress(userDto.getDetailAddress());
             oldUser.setYear(userDto.getYear());
-            oldUser.setRole(userDto.getRole());
+            if (userDto.getRole() != null && !userDto.getRole().isEmpty()) oldUser.setRole(userDto.getRole());
         } else {
             if (userDto.getPassword()!=null && !userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
             if (userDto.getName()!=null && !userDto.getName().isEmpty()) oldUser.setName(userDto.getName());

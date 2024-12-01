@@ -116,6 +116,7 @@ public class NoticeService {
                 notice.getTitle(),
                 notice.getStory(),
                 notice.getHit(),
+                notice.getUser().getUsername(),
                 notice.getName(),
                 notice.getYear(),
                 notice.getRegdate(),
