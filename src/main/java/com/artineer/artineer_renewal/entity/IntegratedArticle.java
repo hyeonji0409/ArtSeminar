@@ -42,6 +42,7 @@ public class IntegratedArticle {
 
     private String name;
     private int year;
+    private String tableName;
 
 
 
