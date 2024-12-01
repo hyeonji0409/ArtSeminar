@@ -43,7 +43,7 @@ public class NoteService
     private HttpServletRequest request;
 
     // 글 작성
-    public ResponseEntity<String> createNote(String pw,String name,String title, String story, List<MultipartFile> files) {
+    public ResponseEntity<String> createNote(String name, String pw,String title, String story, List<MultipartFile> files) {
         // IP 주소 가져오기
         String clientIp = request.getRemoteAddr();
 
@@ -101,8 +101,8 @@ public class NoteService
                 note.getNo(),
                 note.getTitle(),
                 note.getStory(),
-                note.getPw(),
                 note.getName(),
+                note.getPw(),
                 note.getHit(),
                 note.getRegdate(),
                 fileNames,

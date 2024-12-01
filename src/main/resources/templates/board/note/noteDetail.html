@@ -43,7 +43,7 @@
 <main class="main">
 <div style="margin-top: 150px;">
     <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px;" >
-        <div class="border-bottom pb-3">
+        <div class="pb-3">
             <h1 th:text="${note.title}" class="text-break" style="padding-top: 20px; width: 700px;">note Title</h1>
             <div class="border-bottom pb-3">
                 <a >작성자: </a><a th:text="${note.name}" style="padding-right: 20px">작성자</a>
@@ -76,12 +76,13 @@
             <div class="d-flex justify-content-center">
             <div class="d-flex justify-content-between" style="width: 800px">
                 <a href="/note" class="btn btn-outline-info custom-btn">목록</a>
-            <div class="btn-group" sec:authorize="isAuthenticated()">
-                <a type="button" class="btn btn-outline-info custom-btn"
-                   th:href="@{/note/edit/{no}(no=${note.no})}">수정</a>
-                <a type="button" class="btn btn-outline-info custom-btn"
-                   th:href="@{/note/delete/{no}(no=${note.no})}">삭제</a>
-            </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-info custom-btn"
+                            onclick="promptPasswordAndProceed('edit')">수정</button>
+                    <button type="button" class="btn btn-outline-info custom-btn"
+                            onclick="promptPasswordAndProceed('delete')">삭제</button>
+                </div>
             </div>
             </div>
 
@@ -89,24 +90,24 @@
 
 
 
-        <div class="d-flex align-items-center">
-        <h2 class="pt-3 pe-3">댓글</h2>
-        <form th:action="@{/comments/add}" method="post">
-            <input type="hidden" name="bbsName" th:value="${bbsName}" />
-            <input type="hidden" name="bbsNo" th:value="${bbsNo}" />
-            <input type="hidden" name="username" th:value="${user!=null ? user.getUsername() : '익명'}" />
-            <input type="hidden" name="replys" th:value="${null}" />
-            <div class="d-flex align-items-center">
-            <input class="form-control" type="text" name="memo" placeholder="댓글을 입력하세요." style="width: 600px" required />
-            <button type="submit" class="btn _btn" style="width: 80px;">등록</button>
-            </div>
-        </form>
-        </div>
-
-        <h2>댓글 목록</h2>
-<!--        <div th:each="comment : ${note.comments}">-->
-            <div th:replace="/fragments/commentFragment :: comment(comments=${note.comments})"></div>
+<!--        <div class="d-flex align-items-center">-->
+<!--        <h2 class="pt-3 pe-3">댓글</h2>-->
+<!--        <form th:action="@{/comments/add}" method="post">-->
+<!--            <input type="hidden" name="bbsName" th:value="${bbsName}" />-->
+<!--            <input type="hidden" name="bbsNo" th:value="${bbsNo}" />-->
+<!--            <input type="hidden" name="username" th:value="${user!=null ? user.getUsername() : '익명'}" />-->
+<!--            <input type="hidden" name="replys" th:value="${null}" />-->
+<!--            <div class="d-flex align-items-center">-->
+<!--            <input class="form-control" type="text" name="memo" placeholder="댓글을 입력하세요." style="width: 350px" required />-->
+<!--            <button type="submit" class="btn _btn" style="width: 80px;">등록</button>-->
+<!--            </div>-->
+<!--        </form>-->
 <!--        </div>-->
+
+<!--        <h2>댓글 목록</h2>-->
+<!--&lt;!&ndash;        <div th:each="comment : ${note.comments}">&ndash;&gt;-->
+<!--            <div th:replace="/fragments/commentFragment :: comment(comments=${note.comments})"></div>-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
 
 
     </div>
@@ -135,10 +136,42 @@
 <!-- Main JS File -->
 <script src="/js/mastermain.js"></script>
 
+
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+<script>
+    function promptPasswordAndProceed(action) {
+
+        let pw='[[${note.pw}]]'
+        let no='[[${note.no}]]'
+        const password = prompt("비밀번호를 입력하세요:");
+
+        if (password === null || password.trim() === "") {
+            alert("비밀번호를 입력해야 합니다.");
+            return; // 비밀번호 미입력 시 취소
+        }
+
+        // 비밀번호 확인 로직
+        if (password === pw) {
+            let targetUrl;
+
+            // 동적 URL을 HTML에서 읽어오기
+            if (action === 'edit') {
+                targetUrl = '/note/edit/'+no;
+            } else if (action === 'delete') {
+                targetUrl = '/note/delete/'+no;
+            }
+
+            alert(`${action === 'edit' ? '수정' : '삭제'} 작업을 진행합니다.`);
+            window.location.href = targetUrl; // 수정 또는 삭제 페이지로 이동
+        } else {
+            alert("비밀번호가 틀렸습니다.");
+        }
+    }
+</script>
 
 </html>
