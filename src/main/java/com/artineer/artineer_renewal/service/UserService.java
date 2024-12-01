@@ -3,6 +3,7 @@ package com.artineer.artineer_renewal.service;
 import com.artineer.artineer_renewal.dto.UserDto;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,6 +38,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private HttpSession httpSession;
 
     public boolean isAdmin(String username) {
         if (username.equals("anonymousUser")) return false;
@@ -102,7 +107,7 @@ public class UserService {
         // 생년월일 포멧
         String formattedBirth = null;
         try {
-            if (userDto.getBirth() != null) {
+            if (userDto.getBirth() != null && (!userDto.getBirth().isEmpty() || !isAdmin(logInUsername)) ) {
                 DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
                 formattedBirth = LocalDate.parse(userDto.getBirth(), dbDtf).format(dbDtf).toString();
             }
@@ -116,17 +121,33 @@ public class UserService {
         User oldUser = userRepository.findByUsername(userDto.getUsername());
 
         // todo 예외처리
-        if (userDto.getPassword()!=null && !userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
-        if (userDto.getName()!=null && !userDto.getName().isEmpty()) oldUser.setName(userDto.getName());
-        if (userDto.getSex()!=null && !userDto.getSex().isEmpty()) oldUser.setSex(userDto.getSex());
-        if (userDto.getBirth()!=null && !userDto.getBirth().isEmpty()) oldUser.setBirth(formattedBirth);
-        if (userDto.getTel()!=null && !userDto.getTel().isEmpty()) oldUser.setTel(userDto.getTel());
-        if (userDto.getEmail()!=null && !userDto.getEmail().isEmpty()) oldUser.setEmail(userDto.getEmail());
-        if (userDto.getZipcode()!=null && !userDto.getZipcode().isEmpty()) oldUser.setZipcode(userDto.getZipcode());
-        if (userDto.getRoadAddress()!=null && !userDto.getRoadAddress().isEmpty()) oldUser.setRoadAddress(userDto.getRoadAddress());
-        if (userDto.getDetailAddress()!=null && !userDto.getDetailAddress().isEmpty()) oldUser.setDetailAddress(userDto.getDetailAddress());
-        if (userDto.getYear()!=null) oldUser.setYear(userDto.getYear());
-        if (userDto.getRole()!=null && !userDto.getRole().isEmpty() && isAdmin(logInUsername)) oldUser.setRole(userDto.getRole());
+
+        if (isAdmin(logInUsername)) {
+            if (!userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
+            oldUser.setName(userDto.getName());
+            oldUser.setSex(userDto.getSex());
+            oldUser.setBirth(formattedBirth);
+            oldUser.setTel(userDto.getTel());
+            oldUser.setEmail(userDto.getEmail());
+            oldUser.setZipcode(userDto.getZipcode());
+            oldUser.setRoadAddress(userDto.getRoadAddress());
+            oldUser.setDetailAddress(userDto.getDetailAddress());
+            oldUser.setYear(userDto.getYear());
+            oldUser.setRole(userDto.getRole());
+        } else {
+            if (userDto.getPassword()!=null && !userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
+            if (userDto.getName()!=null && !userDto.getName().isEmpty()) oldUser.setName(userDto.getName());
+            if (userDto.getSex()!=null && !userDto.getSex().isEmpty()) oldUser.setSex(userDto.getSex());
+            if (userDto.getBirth()!=null && !userDto.getBirth().isEmpty()) oldUser.setBirth(formattedBirth);
+            if (userDto.getTel()!=null && !userDto.getTel().isEmpty()) oldUser.setTel(userDto.getTel());
+            if (userDto.getEmail()!=null && !userDto.getEmail().isEmpty()) oldUser.setEmail(userDto.getEmail());
+            if (userDto.getZipcode()!=null && !userDto.getZipcode().isEmpty()) oldUser.setZipcode(userDto.getZipcode());
+            if (userDto.getRoadAddress()!=null && !userDto.getRoadAddress().isEmpty()) oldUser.setRoadAddress(userDto.getRoadAddress());
+            if (userDto.getDetailAddress()!=null && !userDto.getDetailAddress().isEmpty()) oldUser.setDetailAddress(userDto.getDetailAddress());
+            if (userDto.getYear()!=null) oldUser.setYear(userDto.getYear());
+//            if (userDto.getRole()!=null && !userDto.getRole().isEmpty() && isAdmin(logInUsername)) oldUser.setRole(userDto.getRole());
+        }
+
 
         userRepository.save(oldUser);
 
@@ -148,20 +169,20 @@ public class UserService {
         User toDelete = userRepository.findByUsername((String) payload.get("username"));
         if (toDelete == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 
-        if (isAdmin(requestedUser.getUsername())) {
-            userRepository.deleteById(toDelete.getNo());
-            return ResponseEntity.status(HttpStatus.OK).body("success");
-        }
-
-        String submitPassword = (String) payload.get("password");
+        String submitPassword = (String) (payload.get("password")!=null ? payload.get("password") : "");
         boolean isPwMatch = passwordEncoder.matches(submitPassword, toDelete.getPassword());
 
-        if ( !requestedUser.getUsername().equals( payload.get("username")) || !isPwMatch ) {
+        if ( (!requestedUser.getUsername().equals( payload.get("username")) || !isPwMatch)  && !isAdmin(requestedUser.getUsername()) ) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
+//        해당 하드딜리트는 게시글 등 유저정보를 여전히 참조하야 하는 경우, 또, 동일 아이디 가입방지 등의 목적으로 소프트 방식으로 전환됨
+//        서비스 약관에 따라, 민감한 정보는 스케쥴링 쿼리에 따라 제거되고, 필수정보만 남게 앞으로 구현해야 한다.
+//        userRepository.deleteById(toDelete.getNo());
+        toDelete.setDeletedAt(Timestamp.from(Instant.now()));
+        userRepository.save(toDelete);
+        if (!isAdmin(requestedUser.getUsername())) httpSession.invalidate();
 
-        userRepository.deleteById(toDelete.getNo());
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 

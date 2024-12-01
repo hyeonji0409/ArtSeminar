@@ -6,55 +6,105 @@
 <head>
     <meta charset="UTF-8">
     <title>My Page</title>
+
+
+    <!-- Favicons -->
+    <link th:href="@{/image/favicon.ico}" rel="icon">
+    <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <link href="/assets/css/mastermain.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/myPage.css">
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 </head>
-<body>
-<div class="container">
-    <div class="myPage__main" >
-        <div>
 
-            <h1 class="logo"><a class="logo_a" href="/">ARTINEER</a></h1>
+<body class="starter-page-page d-flex flex-column min-vh-100" style="background-color: transparent">
+<header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+        <a th:replace="~{fragments/headerFragment :: headerLogo}"></a>
+    </div>
+</header>
+
+<div class="container" style="justify-content: center; margin: auto;">
+
+<!--    사이드바-->
+    <div class="side__bar">
+        <div class="profile">
+            <img class="side__icon" src="/image/profileimg.png" height="308" width="300"/>
+            <h2 class="side__page__name" th:text="${user.name + ' (' + user.year + '기)'}">이름(n기)</h2>
+
+            <div></div>
         </div>
+
+        <div class="side__items" >
+            <h2 class="section__title">계정</h2>
+            <div class="myPage__section" style="background-color: #E6F2FF">회원 정보</div>
+            <div class="myPage__section"><a href="/user/sign-withdrawal">회원탈퇴</a></div>
+            <h2 class="section__title">활동</h2>
+            <div class="myPage__section"><a href="/mypage/activity1">작성한 글</a></div>
+            <div class="myPage__section">댓글단 글</div>
+        </div>
+        <div class="logout"><a href="/logout"> 로그아웃</a></div>
+        <!--        <div style="width: 100%; align-items: center; display: flex">-->
+        <!--            <button>로그아웃</button>-->
+        <!--        </div>-->
+    </div>
+
+
+<!--    정보수정-->
+    <div class="myPage__main" >
         <div class="info__list">
-            <div class="text" style="font-size: xx-large; padding: 1rem">회원 정보
+            <div class="text" style="font-size: xx-large; font-weight: bold;  padding: 1rem">회원 정보
             </div>
             <form id="form" name="from" action="/user/update" method="post" style="width: 500px">
                 <div class="accountInfo">
                     <div id="usernameBox" class="info__items" style="border-top-left-radius: 10px; border-top-right-radius: 10px">
+                        <label for="userId" style="font-weight: bold">아이디</label>
                         <input id="userId" type="text"  name="username" th:value="${user.username}" readonly>
-                        <label for="userId">아이디</label>
                         <div class="error-msg"></div>
                     </div>
-                    <div class="info__items">
-                        <input id="password1" type="password" name="password" placeholder="비밀번호" readonly>
-                        <div class="error-msg"></div>
-                    </div>
-                    <div class="info__items" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px">
-                        <input id="password2" type="password" name="passwordch" placeholder="비밀번호 확인" readonly>
-                        <div class="error-msg"></div>
+                    <div class="passwords">
+                        <div class="info__items">
+                            <label class="pw-lb1" for="password1" style="font-weight: bold">비밀번호</label>
+                            <input id="password1"  type="password" placeholder="비밀번호">
+                        </div>
+                        <div class="info__items">
+                            <label class="pw-lb2" for="password2" style="font-weight: bold">비밀번호 확인</label>
+                            <input id="password2" type="password" placeholder="비밀번호 확인">
+                        </div>
                     </div>
                 </div>
 
                 <div class="info__items" style="border-top-left-radius: 10px; border-top-right-radius: 10px">
+                    <label for="username" style="font-weight: bold">이름</label>
                     <input id="username" type="text" th:value="${user.name}" placeholder="이름" name="name" readonly>
-                    <label for="username">이름</label>
                     <div class="error-msg"></div>
                 </div>
-                <div style="background-color: white; justify-content: center; margin: 3px; display: flex">
+                <div style="background-color: white; justify-content: center; margin: 3px; display: flex; height: 3.5rem">
                     <div style="display: none">
                         <input id="userSex" type="text" th:value="${user.sex}">
                     </div>
                     <div id="sexBox" class="gender-selection inputBox" style="display: flex; background-color: white; align-items: center; padding: 10px; justify-content: space-between; gap: 30px">
                         <div class="sex-box inputBox" style="justify-content: space-between">
                             <input type="radio" id="male" name="sex" value="male" style="display: none; padding: 10px 30px" >
-                            <label class="gender" for="male" style="pointer-events: none; padding: 10px 50px; border: 2px solid">남자</label>
+                            <label class="gender" for="male" style="pointer-events: none; padding: 10px 50px; border: 2px solid; width: 40px">남자</label>
                             <div class="error-msg"></div>
                         </div>
                         <div class="sex-box inputBox" >
                             <input type="radio" id="female" name="sex" value="female" style="display: none; padding: 10px 30px" >
-                            <label class="gender" for="female" style="pointer-events: none; padding: 10px 50px; border: 2px solid">여자</label>
+                            <label class="gender" for="female" style="pointer-events: none; padding: 10px 50px; border: 2px solid; width: 40px">여자</label>
                             <div class="error-msg"></div>
                         </div>
                         <div class="error-msg"></div>
@@ -62,32 +112,34 @@
                 </div>
 
                 <div class="info__items">
+                    <label for="userBirth" style="font-weight: bold">생년월일</label>
                     <input id="userBirth" type="text" th:value="${user.birth}" placeholder="생년월일(8자리)" name="birth" readonly>
-                    <label for="userBirth">생년월일</label>
                 </div>
                 <div class="info__items">
+                    <label for="userEmail" style="font-weight: bold">이메일</label>
                     <input id="userEmail" type="text" th:value="${user.email}" placeholder="이메일" name="email" readonly>
-                    <label for="userEmail">이메일</label>
                 </div>
                 <div class="info__items">
+                    <label for="userYear" style="font-weight: bold">기수</label>
                     <input id="userYear" type="text" th:value="${user.year}" placeholder="기수"  name="year" readonly>
-                    <label for="userYear">기수</label>
                 </div>
 <!--                <div class="info__items">-->
 <!--                    <input type="text" th:value="${user.addr}" placeholder="주소" name="addr" readonly>-->
 <!--                </div>-->
 
                 <div id="roadAddressBox" class="inputBox">
-                    <div style="display: flex; padding: 10px; gap: 25px">
-                        <input id="zipcode" type="number" name="zipcode" value="" style="display: none;">
-                        <input id="roadAddress" style="width: 80%" type="text" name="roadAddress" tabindex="-1" th:value="${user.roadAddress}" readonly>
-                        <input type="button" onClick="openZipSearch();" class="roadFullAddr" tabindex="0">
+                    <div style="display: flex; justify-content: space-between">
+                        <input id="zipcode" type="hidden" name="zipcode" value="">
+                        <div style="display: flex">
+                            <label for="roadAddress">자택 주소</label>
+                            <input id="roadAddress" style="margin: 10px" type="text" name="roadAddress" tabindex="-1" th:value="${user.roadAddress}" readonly>
+                        </div>
+                        <input type="button" onClick="openZipSearch();" class="roadFullAddr" tabindex="0" style="margin-right: 1.5rem">
                     </div>
-                    <hr style="margin-bottom: 0px; margin-top: 0px;">
-                    <div style="display: flex; padding: 10px">
-                        <input id="detailAddress" style="width: 80%" type="text" name="detailAddress" th:value="${user.detailAddress}" placeholder="상세주소(000동 000호)" >
-                        <label for="roadAddress">자택 주소</label>
-                        <label for="detailAddress"></label>
+                    <hr style="margin-bottom: 0px; margin-top: 0px; background-color: var(--color-gray); height: 3px; border: none">
+                    <div style="display: flex;">
+                        <label for="detailAddress">상세 주소</label>
+                        <input id="detailAddress" type="text" name="detailAddress" th:value="${user.detailAddress}" placeholder="상세주소(000동 000호)" >
                     </div>
                     <div class="error-msg"></div>
 
@@ -112,33 +164,14 @@
 
 
 
-    <div class="side__bar">
-        <div class="profile">
-            <img class="side__icon" src="/image/profileimg.png" height="308" width="300"/>
-            <h2 class="side__page__name" th:text="${user.name + ' (' + user.year + '기)'}">이름(n기)</h2>
 
-            <div></div>
-        </div>
-
-        <div class="side__items" >
-            <h2 class="section__title">계정</h2>
-            <div class="myPage__section" style="background-color: #f4f5fa">회원 정보</div>
-            <div class="myPage__section"><a href="/user/sign-withdrawal">회원탈퇴</a></div>
-            <h2 class="section__title">활동</h2>
-            <div class="myPage__section"><a href="/mypage/activity1">작성한 글</a></div>
-            <div class="myPage__section">댓글단 글</div>
-        </div>
-        <div><a class="logout" href="/logout"> 로그아웃</a></div>
-<!--        <div style="width: 100%; align-items: center; display: flex">-->
-<!--            <button>로그아웃</button>-->
-<!--        </div>-->
-    </div>
 </div>
+<!--<footer th:replace="~{fragments/footerFragment :: footerInfo}"></footer>-->
 
 <!--usertest 1234-->
 
 
-<script src="js/myinfoEdit.js"></script>
+<script src="/js/myinfoEdit.js"></script>
 <!-- Vendor JS Files -->
 <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>

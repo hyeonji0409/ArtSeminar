@@ -19,6 +19,7 @@ document.querySelector('select').blur()
 const form = document.querySelector('#form');
 const querySubmitButton = document.querySelector('#querySubmit');
 const saveButton = document.querySelector('#save-changes');
+const cleanupButton = document.querySelector('#clean');
 const deleteButton = document.querySelector('#delete');
 const pkInput = document.querySelector('input[name="pk"]');
 const idInput = document.querySelector('input[name="username"]');
@@ -115,6 +116,47 @@ saveButton.addEventListener('click', async (e) => {
         form.submit();
         alert("수정이 완료되었습니다.");
     }
+})
+
+cleanupButton.addEventListener('click', async (e) => {
+    e.preventDefault();
+    alert("보존 기한이 지난 회원정보는 클린업하세요.\n직접 공백으로 제출해주세요.")
+
+    // // 젠더는 트리 구조가 좀 달라서 일단 이렇게...
+    // function checkValidationGender() {
+    //     const GenderChecked = document.querySelector('input[name="sex"]:checked');
+    //
+    //     return (  document.querySelector(`#${"sex"}Box .error-msg`).textContent = GenderChecked ? null : errMsg["sex"].invalid ) === null;
+    // }
+    //
+    //
+    // // 제출 시에 유효성 검사와 무효한 인풋에 포커스
+    // if (
+    //     // ( await checkValidation("username", idInput) === false ? idInput.focus() : true)  &&
+    //     ( await checkValidation("password", passwordInput) === false ? passwordInput.focus() : true) &&
+    //     ( await checkValidation("email", emailInput) === false ? emailInput.focus() : true) &&
+    //     ( await checkValidation("name", nameInput) === false ? nameInput.focus() : true) &&
+    //     ( await checkValidation("birth", birthdayInput) === false ? birthdayInput.focus() : true) &&
+    //     ( await checkValidation("tel", contactNumberInput) === false ? contactNumberInput.focus() : true) &&
+    //     checkValidationGender() &&
+    //     ( await checkValidation("year", cohortInput) === false ? cohortInput.focus() : true) &&
+    //     ( await checkValidation("roadAddress", roadFullAddrInput) === false ? roadFullAddrInput.focus() : true) &&
+    //     ( await checkValidation("roadAddress", detailAddrInput) === false ? detailAddrInput.focus() : true) &&
+    //     ( await checkValidation("role", roleInput) === false ? roleInput.focus() : true)
+    // ) {
+    //     if ( !confirm("해당 회원의 민감한 정보를 지웁니다.\n정말 진행하시겠습니까?") ) return;
+// todo 아래 구현 필요
+
+    //     let req = new FormData(form);
+    //     req.set("mode", "clean");
+    //     form.submit();
+    //     alert("클린업이 완료되었습니다.");
+    // }
+    // else {
+    //     if (!confirm("일부 항목의 포멧이 올바르지 않습니다.\n이러한 문제는 추후에 심각한 오류를 일으킬 수 있습니다.\n정말 제출하시겠습니까?")) return;
+    //     form.submit();
+    //     alert("클린업이 완료되었습니다.");
+    // }
 })
 
 deleteButton.addEventListener("click", async () => {
@@ -217,7 +259,7 @@ const errMsg = {
     },
     birth: {
         datePattern : /^(\d{4})(\d{2})(\d{2})$/,
-        pattern: /^(?=\d)(?:(?:1[6-9]|[2-9]\d)?\d\d([-.\/])(?:1[012]|0?[1-9])\1(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:16|[2468][048]|[3579][26])00)(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$/,
+        pattern: /^(?=\d)(?:(?:19\d\d|20\d\d)([-.\/])(?:1[012]|0?[1-9])\1(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:16|[2468][048]|[3579][26])00)(?:\s|$))|(?:2[0-8]|1\d|0?[1-9]))(?:(?=\s\d)\s|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\s[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$/,
         invalid: "올바른 생년월일 8자리를 입력해 주세요.",
         fail: "올바른 생년월일 8자리를 입력해 주세요.fail"
     },

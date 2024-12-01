@@ -89,6 +89,8 @@ form.addEventListener('submit', async (e) => {
                 console.log("Success:", data);
                 alert("수정되었습니다.");
 
+
+
                 if (document.referrer.startsWith(window.location.origin)) {
                     window.history.go(-2);
                 }

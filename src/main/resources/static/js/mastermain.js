@@ -391,7 +391,7 @@ const $text = document.querySelector(".typing .text");
 const letters = [
   "Website",
   "Network",
-    "Security",
+  "Security",
   "Game",
   "Hacking"
 ];
@@ -446,7 +446,7 @@ const makeCookie = (e) => {
   const popupId = e.target.dataset.indexNumber;
   const expirationDate = new Date();
   // expirationDate.setDate(expirationDate.getDate() + 7); //쿠키 만료
-  expirationDate.setSeconds(expirationDate.getSeconds() + 7);
+  expirationDate.setDate(expirationDate.getDate() + 7);
   const path = "/"; // 설정된 경로 및 하위경로에서만 쿠키 접근이 가능합니다.
   const domain = "example.com"; //해당 도메인에서만 쿠키 접근이 가능합니다.
   const secure = false; //true 로 설정할 시 http2 로만 쿠키에 접근할 수 있습니다.

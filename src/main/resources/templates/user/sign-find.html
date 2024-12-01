@@ -63,7 +63,7 @@
       flex-direction: column;
       justify-content: center; /* 수평 가운데 정렬 */
       align-items: center;">
-        <h1 style="font-size: 60px" >나의 계정 찾기</h1>
+        <h1 style="font-size: 60px" th:text='${what.equals("id") ? "아이디 찾기" : "비밀번호 찾기"}'>나의 계정 찾기</h1>
       </div>
     </div><!-- End Page Title -->
 
@@ -74,8 +74,8 @@
       margin-top: 0;
       display: flex;
       justify-content: center;">
-        <a id="idAddr" th:href="@{/user/sign-find/id}" style="display:none;">아이디 error</a>
-        <a id="pwAddr" th:href="@{/user/sign-find/pw}" style="display:none;">비밀번호 error</a>
+        <a id="idAddr" th:href="@{/user/sign-find/id}" style="display:none; font-weight: bold; color: var(--subtle) !important;">아이디 error</a>
+        <a id="pwAddr" th:href="@{/user/sign-find/pw}" style="display:none; font-weight: bold; color: var(--subtle) !important;">비밀번호 error</a>
 
 <!--        <p>Use this page as a starter for your own custom pages.</p>-->
 <!--        <form name="form" id="form">-->

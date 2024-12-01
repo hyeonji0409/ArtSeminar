@@ -1,0 +1,169 @@
+[33m3321836[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchacha[m[33m)[m Merge remote-tracking branch 'origin/baek' into chacha
+[33m77c642a[m[33m ([m[1;31morigin/baek[m[33m)[m 기능수정! 수정 페이지 내용 불러오기, 스타일적용, 댓글 삭제
+[33mf9e64c0[m[33m ([m[1;31morigin/chacha[m[33m)[m  공ì공지사항 사이즈 고정
+[33mf3ae6c6[m 기능수정!기능필요! 회원탈퇴, db 스키마, 이메일 인증
+[33ma2eef04[m 기능수정! 생년월일 정규식, 비밀번호
+[33m77342bc[m filefile처리  부분 숨김
+[33m8456026[m 기능수정! css 수정
+[33m82bcb13[m 갤러리 오류 수정
+[33m5c20786[m Merge branch 'main' of https://github.com/hyeonji0409/ArtSeminar into chacha
+[33m6227a80[m Merge branch 'refs/heads/main' into baek
+[33m8a476d4[m 기능추가!기능수정! 가입폼 서식완성, 상세참고
+[33m0758088[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Merge pull request #23 from hyeonji0409/junho
+[33m46d9d48[m Merge pull request #22 from hyeonji0409/baek
+[33m62f9bcc[m Merge pull request #21 from hyeonji0409/yeonju
+[33m98c8428[m[33m ([m[1;31morigin/yeonju[m[33m)[m Merge branch 'main' into yeonju
+[33me6d00c6[m main.css
+[33ma3317e5[m 기능추가!기능수정! 가입폼 서식완성, 상세참고
+[33mde19bcc[m Merge branch 'main' of https://github.com/hyeonji0409/ArtSeminar into chacha
+[33m8583b61[m Merge branch 'refs/heads/chacha' into baek
+[33m0ed35a2[m[33m ([m[1;31morigin/junho[m[33m)[m 성별 변경 기능 구현 회원정보 수정 기능 완료
+[33mada5c9f[m 반응형 헤더 전환
+[33mf0f51fd[m 갤갤러리 댓글 기능 추가
+[33m61c21b0[m 파일 수정 중
+[33m5d58f51[m 기능추가!기능수정! 권한 다양화, 게시글 검색, 검색 문제
+[33mce8aebd[m Merge branch 'chacha' of https://github.com/hyeonji0409/ArtSeminar into chacha
+[33m5b72815[m 기능수정!수정필요! 턴스타일 수정, sql 쿼리, 예외핸들러
+[33ma489883[m 코드수정!
+[33mfac4015[m 기능수정! 회원정보 업데이트 페이지
+[33mabedb16[m Merge branch 'refs/heads/main' into baek
+[33mbdfbd8d[m 주석처리
+[33m0fd3e04[m 기능추가! 게시판 통합검색, 페이지네이션
+[33mb15fcd6[m Merge branch 'refs/heads/chacha' into baek
+[33m5a49a77[m 기능추가! 수정필요! 회원가입 캡챠
+[33m7618db0[m 수정중
+[33mffb10af[m Merge pull request #20 from hyeonji0409/yeonju
+[33m6f58450[m mastermaincss, mastermainjs로
+[33m15ebee6[m 닷버튼 추가
+[33m704eaf8[m 기능추가! 이메일 인증 초기화
+[33m2f12b88[m 게시글 수정의 에디터 수정 ì중
+[33m81bb87e[m 기능수정! 팝업, 관리자 회원수정
+[33m5a0290f[m userInfoEdit edit mypage_activity1 edit
+[33m5b39f12[m 게시글 수정의 에디터 수정 ì중
+[33mcf6108b[m Merge branch 'refs/heads/main' into baek
+[33m5166a7e[m 기능추가! 회원탈퇴
+[33ma85f6dd[m Merge pull request #18 from hyeonji0409/baek
+[33mbca553b[m Merge branch 'refs/heads/main' into baek
+[33m671697c[m 핸들러 수정
+[33m413f896[m Merge pull request #17 from hyeonji0409/junho
+[33m76d1471[m Merge branch 'main' into junho
+[33ma424e4c[m Merge pull request #16 from hyeonji0409/chacha
+[33md200a25[m Merge branch 'main' into chacha
+[33m97198bf[m Merge branch 'refs/heads/main' into baek
+[33m6172053[m 새로만들기 오류 고침
+[33me9015bd[m mypage_activity1 edit
+[33m285ea7f[m 기능 추가! 비번 보이기
+[33m78694e4[m 11_09 수ì정
+[33m420063b[m Merge pull request #15 from hyeonji0409/yeonju
+[33m1446c31[m Merge pull request #14 from hyeonji0409/main
+[33me6279b0[m 메인 image Slider 삽입
+[33m940c534[m 오류수정! 리소스분실, 인증시간
+[33m18e7f07[m main.css update
+[33m8545130[m addr complete sex edit
+[33mc0a9efa[m addr complete sex edit
+[33mff0b53c[m 기능수정! 인증번호 유효기간 설정
+[33m5a2e8e8[m 기능요구! Oauth SNS 로그인
+[33mc1f850b[m 기능추가! 비번찾기
+[33mba3b8bc[m 기능수정! 부가기능 수정
+[33m1f6a751[m 댓글ë목록 댓글 적용
+[33m843af00[m juso edit
+[33m62723df[m 수정필요! 캘린더 모달 위치 수정 필요
+[33m1808931[m commant
+[33m542ca2f[m Merge remote-tracking branch 'origin/baek' into chacha
+[33mcc9108e[m 댓글 구현, 일부 로직 수정
+[33m1ae4842[m 구조 변경
+[33m94cfecc[m 수정완료!기능추가! 캘린더 시각화 문제
+[33mc7e8a66[m 수정필요! 캘린더 시각화 문제
+[33m84baf75[m uri 수정, 회원정보 수정 페이지 추가
+[33m07ab250[m 예외 핸들러 추가, 뒤로가기 안됨 개선
+[33ma5f2ed1[m 시스템 프린트 일부 제거, css 수정
+[33md57fc0d[m 파일 삭제 메서드 추가
+[33m92ec3bc[m 1013_gallery_minheight
+[33m6d02da7[m 파일 업로드 서비스 분리
+[33m1c13c93[m Merge branch 'refs/heads/main' into baek
+[33m4c2010f[m 에러페이지 핸들링 수정, 삭제 오류 수정
+[33m2f8e665[m 1012_header,footer_fix
+[33mc9e2d8d[m Merge branch 'main' into junho
+[33m9a1980b[m juso edit
+[33m0ab8575[m 관리자페이지 nav 생성, dom셀렉터 개선
+[33mb510e17[m 머지 후 에러 수정됨
+[33m54fe7bb[m user controller -> user/update 수정 필요
+[33m48fcdd5[m user controller
+[33mfebbd2b[m Merge pull request #13 from hyeonji0409/baek
+[33m1ae3bbf[m Merge branch 'main' into baek
+[33m4f44f4f[m Merge pull request #12 from hyeonji0409/yeonju
+[33m814c4a4[m Merge pull request #11 from hyeonji0409/chacha
+[33m81f91e6[m 1006_gallery_repush
+[33m99d3704[m Merge remote-tracking branch 'origin/yeonju' into yeonju
+[33ma0a3512[m About 페이지 수정
+[33m3b0c15f[m 캘린더 삭제 구현
+[33m6018cb8[m Merge pull request #10 from hyeonji0409/revert-9-chacha
+[33m216dfdd[m[33m ([m[1;31morigin/revert-9-chacha[m[33m)[m Revert "Chacha"
+[33mc6fa1ba[m Merge pull request #9 from hyeonji0409/chacha, update notice
+[33m65db6aa[m 10_06 gallery image connection
+[33madaafa5[m 캘린더 엔티티 생성
+[33md8255d7[m 팝업관련주석처리
+[33m05f17cf[m Merge branch 'main' into chacha
+[33m8adf317[m /update/user null exception
+[33m0318747[m Merge branch 'refs/heads/main' into baek
+[33m4629fd3[m usercontroller 변수선언 오류 -> 주석처리
+[33m34b1fa3[m Merge remote-tracking branch 'refs/remotes/origin/main'
+[33m2b87f9e[m admin controller, user controller, customuserservice 오류 수정
+[33m96854b3[m multi popup
+[33m963853b[m fixed: adminPage user search reset
+[33mca8e2f2[m fixed: adminPage user search
+[33m4f71b5f[m Merge branch 'main' into chacha
+[33md0a98ff[m admin css modified
+[33mfec08ec[m access update
+[33m7a62431[m fix mypage edit account
+[33mff218a3[m fixup! post user update
+[33mb9dc479[m bootstrap custom
+[33mac3e9a5[m homepage popup
+[33me2ce3a7[m fixup! security
+[33md5ce96b[m Merge branch 'chacha'
+[33meb22520[m Merge pull request #7 from hyeonji0409/junho
+[33m27027a0[m 0929_noticeDetail
+[33m0056138[m Merge branch 'main' into junho
+[33m86ddfa6[m mypage
+[33me7c267c[m Merge pull request #5 from hyeonji0409/yeonju
+[33m183ebb8[m Merge branch 'main' into yeonju
+[33m24e8e6f[m 0929_noticeDetail
+[33m058a39f[m Merge pull request #4 from hyeonji0409/baek
+[33m530315b[m 로그인 드롭다운
+[33m8e8dfa3[m fixup! implement delete user
+[33mcefb8fa[m implement delete user
+[33m4fb3d39[m separate ctrl and svc
+[33m15758b6[m fix: html src href
+[33m96d8087[m ifCase TO switchCase in adminController
+[33m5e7a3cf[m recovered code!
+[33ma7a7b5c[m Merge remote-tracking branch 'origin/baek' into baek
+[33mae8a507[m fixed up(minor)
+[33m6613c5b[m delete code comment And cleanUp code
+[33me0399f1[m Merge remote-tracking branch 'refs/remotes/origin/baek' into baek
+[33m1023f27[m fixed up: js error(admin page)
+[33mce8ab34[m 0928_galleryDetail l
+[33mde4b05f[m change admin page css
+[33ma06a9ee[m Merge pull request #3 from hyeonji0409/yeonju
+[33m6393057[m Merge branch 'main' into yeonju
+[33m482a795[m index 수정,header,footer 분리
+[33mde90964[m articleDetail implementation(private works)
+[33mde49acf[m Merge branch 'main' of https://github.com/hyeonji0409/ArtSeminar into junho
+[33m42a0cf5[m mypage js추가, 오류로인힌  html과 css 임시수정
+[33md3c0f3c[m minor css improvement(admin page)
+[33m373b3f7[m simplify admin Controller
+[33m69ab737[m admin page's reset button implementation
+[33m676e7f9[m admin page's edit user implement(minor:role added)
+[33me2ce1c8[m admin page's edit user implement(basic)
+[33m04beac2[m admin page's search implement(basic)
+[33m7fb7959[m admin page's search implement(basic)
+[33mad58592[m 0922
+[33ma6931f0[m Merge pull request #2 from hyeonji0409/baek
+[33m39e0cb4[m admin page, 09/22
+[33m6766963[m Merge pull request #1 from hyeonji0409/chacha
+[33m604ad00[m 0922_board
+[33m1d80baa[m test
+[33m6bfd8f5[m rm cache
+[33m0cf8369[m update gitignore
+[33m0b5b0d2[m merge all
+[33m874ce57[m first test
+[33mb6e8cfd[m first commit

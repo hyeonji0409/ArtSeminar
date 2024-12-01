@@ -2,11 +2,14 @@ package com.artineer.artineer_renewal.controller;
 
 import com.artineer.artineer_renewal.dto.GalleryDto;
 import com.artineer.artineer_renewal.entity.Gallery;
+import com.artineer.artineer_renewal.entity.IntegratedArticle;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.CommentRepository;
 import com.artineer.artineer_renewal.repository.GalleryRepository;
+import com.artineer.artineer_renewal.repository.IntegratedArticleRepository;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.GalleryService;
+import com.artineer.artineer_renewal.service.IntegratedArticleService;
 import com.artineer.artineer_renewal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,27 +47,46 @@ public class GalleryController {
     private CommentRepository commentRepository;
 
     @Autowired
+    private IntegratedArticleService integratedArticleService;
+    @Autowired
+    private IntegratedArticleRepository integratedArticleRepository;
+
+    @Autowired
     private UserService userService;
 
 
     @GetMapping("/gallery")
     public String gallerys(Model model,
+                           @RequestParam(name = "qt", required = false, defaultValue = "subject") String queryType,
+                           @RequestParam(name = "q", required = false, defaultValue = "") String query,
                            @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
                            @RequestParam(name = "size", required = false, defaultValue = "6") Integer pageSize) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
-        model.addAttribute("user", user);
 
         Pageable pageable = PageRequest.of(
                 page - 1,
                 pageSize,
                 Sort.by(Sort.Direction.DESC, "regdate"));
 
-        Page<Gallery> pagination = galleryRepository.findAll(pageable);
+//        List<Class<?>> obj = new ArrayList<>();
+//        obj.add(Notice.class);
+//        obj.add(Gallery.class);
+//        obj.add(Project.class);
+//        obj.add(Greeting.class);
+//        obj.add(Minutes.class);
+
+        Page<IntegratedArticle> pagination = integratedArticleService.findAllArticlesByQuery(Gallery.class, queryType, query, pageable);
+        //        Page<Object> pagination = galleryRepository.findAll(pageable);
+
+
+        model.addAttribute("user", user);
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("pagination", pagination);
-        return "board/gallery";
+        model.addAttribute("queryType", queryType);
+        model.addAttribute("query", query);
+        return "board/gallery/gallery";
     }
 
     /* 글 작성 */
@@ -86,7 +108,7 @@ public class GalleryController {
         User user = userRepository.findByUsername(username);
 
         model.addAttribute("user", user);
-        return "board/galleryNew_";
+        return "board/gallery/galleryNew_";
     }
 
     /* 글 세부 내용 조회 */
@@ -102,14 +124,14 @@ public class GalleryController {
         if (gallery == null)
             throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
 
-        System.out.println("WLWL" + gallery.getComments().size());
+       // System.out.println("WLWL" + gallery.getComments().size());
 
         galleryService.increaseHitCount(no);
 
         model.addAttribute("bbsName", "gallery");
         model.addAttribute("bbsNo", no);
         model.addAttribute("gallery",gallery);
-        return "board/galleryDetail";
+        return "board/gallery/galleryDetail";
     }
 
     /* 글 수정 */
@@ -124,7 +146,7 @@ public class GalleryController {
 
        model.addAttribute("user", user);
        model.addAttribute("gallery",gallery);
-       return  "board/galleryEdit";
+       return  "board/gallery/galleryEdit";
    }
 
     @PostMapping("/gallery/edit")
