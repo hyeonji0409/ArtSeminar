@@ -125,11 +125,24 @@ public class NoticeService {
     }
 
     // 글 수정
-    public void updateNotice(Long no, String title, String story) {
+    public void updateNotice(Long no, String title, String story,List<MultipartFile> files) {
 
         Notice notice = noticeRepository.findById(no).orElseThrow(() -> new RuntimeException("Notice not found"));
         notice.setTitle(title);
         notice.setStory(story);
+
+        // 파일명 저장할 리스트
+        List<String> fileNames = new ArrayList<>();
+
+        // 파일 처리
+        for( MultipartFile file : files) {
+            String fileName = fileService.uploadMultipartFile(file);
+            if (fileName!=null) fileNames.add(fileName);
+        }
+
+        String fileNameString = String.join(",", fileNames);
+
+        notice.setFile(fileNameString);
 
         noticeRepository.save(notice);
     }

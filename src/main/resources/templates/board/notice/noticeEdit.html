@@ -39,7 +39,7 @@
 
 <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 100px; margin-top: 150px; ">
     <div class="d-flex justify-content-center container custom-width" style="max-width: 1000px">
-        <form class="container mt-5" th:action="@{/notice/edit}" method="post" >
+        <form class="container mt-5" th:action="@{/notice/edit}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="no" th:value="${notice.no}" />
             <div>
 
@@ -69,7 +69,7 @@
                     <li class="dropdown"><span>등록된 파일 이름 ▼</span>
                         <ul>
                             <li><a type="button" class="btn btn-outline-danger text-dark"
-                                   th:href="@{/delete/{file}(file=${notice.file})}">대표파일 전체 삭제</a>
+                                   th:href="@{/delete/{file}(file=${notice.file})}">대표파일 전체 삭제(취소 안됨)</a>
                                 <div th:each="fileName: ${notice.file.split(',')}">
                                 <a th:text="${fileName}"></a>
                                 <br>
