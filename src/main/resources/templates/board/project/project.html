@@ -87,8 +87,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 d-flex justify-content-end " th:each="fileName: ${project.file}">
-                            <img  th:src="@{'/data/' + ${fileName}}" style="max-width: 300px;max-height: 200px;">
+                        <div class="col-md-4 d-flex justify-content-end">
+                            <img th:src="@{'/data/' + ${project.file.split(',')[0]}}" style="max-width: 300px; max-height: 200px;">
                         </div>
                     </div>
                 </div>
