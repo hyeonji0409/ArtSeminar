@@ -115,6 +115,7 @@ public class ProjectService {
                 project.getTitle(),
                 project.getStory(),
                 project.getHit(),
+                project.getUser().getUsername(),
                 project.getName(),
                 project.getYear(),
                 project.getRegdate(),

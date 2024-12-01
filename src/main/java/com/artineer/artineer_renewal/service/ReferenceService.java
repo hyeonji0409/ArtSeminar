@@ -116,6 +116,7 @@ public class ReferenceService {
                 reference.getTitle(),
                 reference.getStory(),
                 reference.getHit(),
+                reference.getUser().getUsername(),
                 reference.getName(),
                 reference.getYear(),
                 reference.getRegdate(),

@@ -68,7 +68,7 @@
                     <div class="pb-3" th:utext="${project.story}">Project Story</div>
 
                     <div th:each="fileName: ${project.file}" class="pt-5">
-                        <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">
+                        <img th:if="${fileName != 'no_image.jpg'}" th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
             <div class="d-flex justify-content-center">
             <div class="d-flex justify-content-between" style="width: 800px">
                 <a href="/project" class="btn btn-outline-info custom-btn">목록</a>
-            <div class="btn-group" sec:authorize="isAuthenticated()">
+            <div class="btn-group" sec:authorize="isAuthenticated()" th:if="${project.getUsername() == #authentication.name}">
                 <a type="button" class="btn btn-outline-info custom-btn"
                    th:href="@{/project/edit/{no}(no=${project.no})}">수정</a>
                 <a type="button" class="btn btn-outline-info custom-btn"
