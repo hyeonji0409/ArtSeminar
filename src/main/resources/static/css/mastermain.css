@@ -75,7 +75,6 @@ h5,
 h6 {
   color: var(--heading-color);
   font-family: var(--heading-font);
-  font-size;
 }
 
 /* PHP Email Form Messages
@@ -884,11 +883,11 @@ a{
 /*--------------------------------------------------------------
 # Disable aos animation delay on mobile devices
 --------------------------------------------------------------*/
-@media screen and (max-width: 768px) {
-  [data-aos-delay] {
-    transition-delay: 0 !important;
-  }
-}
+/*@media screen and (max-width: 768px) {*/
+/*  [data-aos-delay] {*/
+/*    transition-delay: 0 !important;*/
+/*  }*/
+/*}*/
 
 /*--------------------------------------------------------------
 # Global Page Titles & Breadcrumbs
@@ -1035,6 +1034,7 @@ section,
 }
 
 #slide3 ul {
+    padding-left: 0;
     position: relative;
     width: 100%;
     height: 100%;
@@ -1217,6 +1217,8 @@ section,
   from { border-right: 2px solid #222; }
   to { border-right: 2px solid #777; }
 }
+
+
 
 
 

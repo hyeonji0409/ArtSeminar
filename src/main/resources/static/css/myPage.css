@@ -2,10 +2,9 @@
 /*colors*/
 :root {
     --color-accent: var(--color-blue);
-    --color-bg: var(--color-gray) ;
+    --color-bg: var(--color-gray);
     border: 4px solid var(--subtle);
-
-    --color-blue: #00CED1;
+    --color-blue: #2150FE;
     --color-gray: #f4f5fa;
 
     /*size*/
@@ -22,14 +21,18 @@ body {
     min-height: 100%;
     min-width: 100%;
     display: flex;
+    /* align-items: center; */
+    /* justify-content: center; */
+}
+
+*, ::after, ::before {
+    box-sizing: content-box;
 }
 
 .container {
     /*max-width: var(--size-max-width);*/
     display: flex;
-    justify-content: space-between;
     height: auto;
-    width: 100%;
 }
 
 .all {
@@ -45,7 +48,7 @@ a {
 a:visited { text-decoration: none; }
 
 .logo {
-    color: var(--color-blue) !important;
+    color: var(--color-blue);
     font-weight: bold;
     margin-left: 2rem;
 }
@@ -67,14 +70,14 @@ a:visited { text-decoration: none; }
     flex-direction: column;
     background-color: white;
     height: 100%;
-    width: 20%;
+    width: auto;
+    border-radius: 10px;
 
 }
 
 .side__items {
-    width: 100%;
     justify-content: start;
-
+    padding: 0 1.5rem 0 1.5rem;
 }
 
 .profile {
@@ -85,25 +88,28 @@ a:visited { text-decoration: none; }
 }
 
 .side__icon {
-    width: 150px;
-    height: 150px;
+    width: 125px;
+    height: 125px;
     border-radius: 50%;
     /*background-color: #0a58ca;*/
     margin: 1rem;
 }
 
 .section__title {
-    padding: 0 0.5rem 0 1.5rem;
 }
 
 .myPage__section {
-    width: 40%;
-    padding: 0.8rem 0.5rem 0.8rem 2rem;
+    width: 180px;
+    padding: 0.5rem;
     font-size: 1.2rem;
     font-weight: 500;
-    border-radius: 0 10px 10px 0;
+    border-radius: 10px;
     text-align: start;
 
+}
+
+.myPage__section:hover {
+    background-color: var(--color-gray);
 }
 
 .side__page__name {
@@ -117,13 +123,6 @@ a:visited { text-decoration: none; }
     flex-direction: column;
 }
 
-#password1 {
-    display: none;
-}
-
-#password2 {
-    display: none;
-}
 
 .button__list {
     display: flex;
@@ -134,8 +133,13 @@ a:visited { text-decoration: none; }
 
 .info__items {
     background-color: white;
+    height: 3rem;
     margin: 3px;
+    font-size: 1.2rem;
+    align-content: center;
 }
+
+
 
 .info__items input {
     padding: 10px;
@@ -143,6 +147,13 @@ a:visited { text-decoration: none; }
     background-color: white;
     border: none;
     border-radius: 5px;
+    font-size: 1.2rem;
+}
+
+label {
+    padding: 10px;
+    width: 122px;
+    display: inline-block;
 }
 
 ul {
@@ -178,16 +189,20 @@ li {
 
 .logout {
     font-size: large;
-    font-weight: 500;
+    font-weight: bold;
     margin: 1rem 1rem;
     padding: 1rem;
-= = = = = = =
+}
+
+.logout:hover {
+    background-color: #ffdfd4;
+
 }
 
 .myPage__main {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    padding-left: 3rem;
 }
 
 .editbtn {
@@ -202,7 +217,7 @@ li {
 .inputBox {
     background-color: white;
     margin: 3px;
-    border-radius: 0 0 ;
+    border-radius: 0 0;
     font-size: 18px;
     font-weight: bold;
 }
@@ -216,6 +231,8 @@ li {
 #detailAddress {
     font-size: 18px;
     border: none;
+    width: auto;
+    margin: 10px;
 }
 
 .roadFullAddr {
@@ -224,7 +241,7 @@ li {
     display: inline;
     width: 7%;
     border-style: none;
-    background: url("../assets/img/address-icon.svg") no-repeat center;
+    background: url("../assets/img/material/address-icon.svg") no-repeat center;
     background-size: 90%;
     opacity: 0.6;
     align-content: center;
@@ -237,6 +254,7 @@ li {
     /*outline: 3px solid var(--subtle);*/
 }
 
+.gender
 
 .gender.selected {
     background-color: var(--color-blue);

@@ -27,9 +27,11 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 //            response.sendRedirect("/user/sign-in?error=account");
             response.sendRedirect("/user/sign-in?error=");
         } else if (exception instanceof LockedException) {
-            response.sendRedirect("/user/sign-in?error=lock");
+//            response.sendRedirect("/user/sign-in?error=lock");
+            response.sendRedirect("/user/sign-in?error=");
         } else {
-            response.sendRedirect("/user/sign-in?error=invalid");
+//            response.sendRedirect("/user/sign-in?error=invalid");
+            response.sendRedirect("/user/sign-in?error=");
         }
     }
 }

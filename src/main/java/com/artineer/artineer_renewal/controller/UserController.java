@@ -91,7 +91,8 @@ public class UserController {
                 userDto.getYear(),
                 "ROLE_GUEST",
                 formattedDate,
-                request.getRemoteAddr()
+                request.getRemoteAddr(),
+                null
         );
 
         userRepository.save(user);
@@ -128,6 +129,7 @@ public class UserController {
     // todo 이런 특정 페이지를 요구하지 않는 작업은 클라이언트에서 js로 fetch 해서 통신하는 것이 나을 듯
     @PostMapping("/user/update")
     public String updateUser(Model model,
+                             @RequestParam(name = "mode", required = false) String mode,
                              UserDto userDto) {
 
         System.out.println("/user/update");

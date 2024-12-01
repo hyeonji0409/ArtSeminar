@@ -4,11 +4,16 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.Where;
+
+import java.util.List;
 
 @Entity
 @Table(name = "exam")
 @NoArgsConstructor
 @Getter
+@Setter
 @AllArgsConstructor
 public class Exam {
     @Id
@@ -21,6 +26,12 @@ public class Exam {
     private int hit;
     private String file;
     private int comment; // 댓글 개수
+
+    @OneToMany(mappedBy = "bbsNo", cascade = CascadeType.REMOVE, orphanRemoval = true, targetEntity = Comment.class)
+//    @JoinColumn(name = "bbs_no", referencedColumnName = "no")
+    @Where(clause = "bbsname = 'exam'")
+    private List<Comment> comments;
+
     private String regdate;
     private String ip;
 

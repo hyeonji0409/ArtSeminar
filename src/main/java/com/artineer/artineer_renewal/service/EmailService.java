@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-// todo 트랜젝셔널이 뭔가
 @Transactional
 @RequiredArgsConstructor
 @Slf4j

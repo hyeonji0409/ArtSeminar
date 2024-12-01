@@ -1,0 +1,61 @@
+/* 공통 색상 스타일 */
+.a-color {
+    color: black; /* 기본 색상 */
+}
+.a-color:hover {
+    color: #47b2e4; /* hover 시 색상 */
+}
+
+/* 버튼 스타일 */
+.btn-info,
+._btn,
+.custom-btn {
+    color: white; /* 기본 글자 색상 */
+    background-color: #47b2e4; /* 기본 배경 색상 */
+    border-color: #47b2e4; /* 기본 테두리 색상 */
+}
+.btn-info:hover,
+._btn:hover,
+.custom-btn:hover {
+    color: white; /* hover 시 글자 색상 */
+    background-color: lightblue; /* hover 시 배경 색상 */
+    border-color: lightblue; /* hover 시 테두리 색상 */
+}
+
+/* CKEditor 스타일 */
+.ck.ck-editor {
+    max-width: 1000px;
+}
+.ck-editor__editable {
+    min-height: 400px;
+}
+
+/* 반응형 크기 설정 */
+@media (min-width: 1200px) {
+    .gal-width {
+        max-width: 650px;
+    }
+    .body-width {
+        max-width: 300px;
+    }
+    .custom-width {
+        max-width: 800px;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .gal-width {
+        max-width: 450px;
+    }
+    .body-width {
+        max-width: 200px;
+    }
+    .custom-width {
+        max-width: 600px;
+    }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .custom-width {
+        max-width: 400px;
+    }
+}
+

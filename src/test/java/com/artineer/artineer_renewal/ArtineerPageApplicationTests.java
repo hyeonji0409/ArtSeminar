@@ -65,25 +65,25 @@ class ArtineerPageApplicationTests {
 			// LocalDate를 yyyy/MM/dd 형식의 문자열로 변환
 			String formattedDate = birthDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 
-			User user = new User(
-					null,
-					"id" + i,
-					passwordEncoder.encode("pw" + i),
-					"name" + i,
-					i*i%4==0 || i%9 ==0 ? "male" : "female",
-					formattedDate,  // 생년월일을 yyyy/MM/dd 형식으로 설정
-					String.format("010-%04d-%04d", (1000 + i), (1000 + i)),
-					"test" + i + "@arti.org",
-					"zipcode" + i,
-					"roadAddress" + i,
-					"detailAddress" + i,
-					(i % 10),
-					"ROLE_GUEST",
-					"1999/02/14 (12:44)",
-					"1.2.3.4"
-			);
+//			User user = new User(
+//					null,
+//					"id" + i,
+//					passwordEncoder.encode("pw" + i),
+//					"name" + i,
+//					i*i%4==0 || i%9 ==0 ? "male" : "female",
+//					formattedDate,  // 생년월일을 yyyy/MM/dd 형식으로 설정
+//					String.format("010-%04d-%04d", (1000 + i), (1000 + i)),
+//					"test" + i + "@arti.org",
+//					"zipcode" + i,
+//					"roadAddress" + i,
+//					"detailAddress" + i,
+//					(i % 10),
+//					"ROLE_GUEST",
+//					"1999/02/14 (12:44)",
+//					"1.2.3.4"
+//			);
 
-			userRepository.save(user);
+//			userRepository.save(user);
 		}
 	}
 

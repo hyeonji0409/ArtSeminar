@@ -11,11 +11,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface GalleryRepository extends JpaRepository<Gallery, Long> {
-    @Query("select m from Gallery m order by m.no desc")
-    List<Gallery> findAllGallery();
-    List<Gallery> findAllByUser(User user);
 //    @Query("select m from Gallery m order by m.no desc")
 //    List<Gallery> findAllGallery();
+    List<Gallery> findAllByUser(User user);
 
     Page<Gallery> findAll(Pageable pageable);
     List<Gallery> findAllByTitleContaining(String title);
