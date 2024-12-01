@@ -13,4 +13,6 @@ public interface GreetingRepository extends JpaRepository<Greeting, Long> {
     List<Greeting> findAllByUser(User user);
 
     Page<Greeting> findAll(Pageable pageable);
+
+    List<Greeting> findAllByFile(String fileName);
 }

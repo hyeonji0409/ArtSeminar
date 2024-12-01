@@ -134,14 +134,26 @@ public class NoticeService {
         // 파일명 저장할 리스트
         List<String> fileNames = new ArrayList<>();
 
-        // 파일 처리
-        for( MultipartFile file : files) {
-            String fileName = fileService.uploadMultipartFile(file);
-            if (fileName!=null) fileNames.add(fileName);
+        // 기존 파일 목록 가져오기 (null 체크)
+        String existingFiles = notice.getFile();
+        if (existingFiles != null && !existingFiles.isEmpty()) {
+            // 기존 파일 목록을 , 기준으로 분리하여 리스트로 변환
+            String[] existingFileArray = existingFiles.split(",");
+            fileNames.addAll(Arrays.asList(existingFileArray));
         }
 
+        // 새로 업로드된 파일 처리
+        for (MultipartFile file : files) {
+            String fileName = fileService.uploadMultipartFile(file);
+            if (fileName != null) {
+                fileNames.add(fileName);
+            }
+        }
+
+        // 파일명 리스트를 ,로 합쳐서 저장
         String fileNameString = String.join(",", fileNames);
 
+        // notice 객체에 파일명 저장
         notice.setFile(fileNameString);
 
         noticeRepository.save(notice);
@@ -181,8 +193,6 @@ public class NoticeService {
                 System.out.println("파일을 찾을 수 없습니다." + fileName);
             }
 
-//            파일 없는 게시판 삭제 오류 때문에 주석처리(파일이 있을 때는 삭제 오류 없음)
-            //반환값이 여러개라 생긴 오류
 //            해당 코드를 통해서 파일 삭제 시 데이터베이스에 있던 파일 값을 없애는 코드임
             List<Notice> notices = noticeRepository.findAllByFile(fileorigin);
 

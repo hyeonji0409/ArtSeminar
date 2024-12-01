@@ -41,7 +41,7 @@
 
 <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 100px; margin-top: 150px; ">
     <div class="d-flex justify-content-center container custom-width" style="max-width: 1000px">
-        <form class="container mt-5" th:action="@{/gallery/edit}" method="post" >
+        <form class="container mt-5" th:action="@{/gallery/edit}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="no" th:value="${gallery.no}" />
 
 
@@ -61,13 +61,25 @@
             <a th:href="@{/gallery/{no}(no=${gallery.no})}" class="btn btn-outline-info custom-btn">취소</a>
             <button type="submit" class="btn btn-outline-info custom-btn">확인</button>
         </div>
-<!--            <div th:each="fileName: ${gallery.file}">-->
-<!--                <a>등록된 파일 이름: </a>-->
-<!--                <a th:text="${fileName}" alt="Image"></a>-->
-<!--                <a type="button" class="btn btn-outline-danger custom-btn">파일삭제</a>-->
-<!--                <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px;">-->
 
-<!--            </div>-->
+            <a>대표파일 선택</a>
+            <input type="file" id="file" name="file" multiple="multiple" >
+
+            <nav id="navmenu" class="navmenu pt-3">
+                <ul th:if="${gallery.file!= 'no_image.jpg'}">
+                    <li class="dropdown"><span>등록된 파일 이름 ▼</span>
+                        <ul>
+                            <li><a type="button" class="btn btn-outline-danger text-dark"
+                                   th:href="@{/gal/delete/{file}(file=${gallery.file})}">대표파일 전체 삭제(취소 불가)</a>
+                                <div th:each="fileName: ${gallery.file.split(',')}" th:if="${fileName != 'no_image.jpg'}">
+                                    <a  th:text="${fileName.contains('_') ? fileName.split('_', 2)[1] : fileName }"></a>
+                                    <br>
+                                    <img th:src="@{'/data/' + ${fileName}}" style="max-height: 300px; max-width: 300px">
+                                </div></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
 
         </form>
     </div>
