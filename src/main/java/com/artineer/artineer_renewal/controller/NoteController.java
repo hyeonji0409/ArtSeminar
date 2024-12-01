@@ -70,14 +70,14 @@ public class NoteController {
 
     /* 글 작성 */
     @PostMapping("/note/new")
-    public String createNote(@RequestParam String pw,@RequestParam String name, @RequestParam String title, @RequestParam String story, @RequestParam("file") List<MultipartFile> file) {
+    public String createNote(@RequestParam String name,@RequestParam String pw, @RequestParam String title, @RequestParam String story, @RequestParam("file") List<MultipartFile> file) {
 
         // 파일이 없으면 비어있는 리스트 처리
         if(file == null || file.isEmpty()) {
             file = new ArrayList<>();
         }
 
-        noteService.createNote(pw, name,title, story, file);
+        noteService.createNote(name, pw,title, story, file);
         return "redirect:/note";
     }
 
@@ -96,6 +96,7 @@ public class NoteController {
         NoteDto note = noteService.getNoteByNo(no);
         if (note == null)  throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
 
+        System.out.println(note.getNo());
         // 조회수 증가
         noteService.increaseHitCount(no);
 
