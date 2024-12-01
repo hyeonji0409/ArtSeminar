@@ -110,6 +110,7 @@ public class ExamService {
                 exam.getTitle(),
                 exam.getStory(),
                 exam.getHit(),
+                exam.getUser().getUsername(),
                 exam.getName(),
                 exam.getYear(),
                 exam.getRegdate(),

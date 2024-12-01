@@ -110,6 +110,7 @@ public class MinutesService {
                 minutes.getTitle(),
                 minutes.getStory(),
                 minutes.getHit(),
+                minutes.getUser().getUsername(),
                 minutes.getName(),
                 minutes.getYear(),
                 minutes.getRegdate(),

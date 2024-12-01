@@ -1,6 +1,5 @@
 package com.artineer.artineer_renewal.config;
 
-import com.artineer.artineer_renewal.dto.CustomException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.InvalidDataAccessApiUsageException;

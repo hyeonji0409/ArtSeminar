@@ -76,7 +76,7 @@
             <div class="d-flex justify-content-center">
             <div class="d-flex justify-content-between" style="width: 800px">
                 <a href="/minutes" class="btn btn-outline-info custom-btn">목록</a>
-            <div class="btn-group" sec:authorize="isAuthenticated()">
+                <div class="btn-group" sec:authorize="isAuthenticated()" th:if="${minutes.getUsername() == #authentication.name}">
                 <a type="button" class="btn btn-outline-info custom-btn"
                    th:href="@{/minutes/edit/{no}(no=${minutes.no})}">수정</a>
                 <a type="button" class="btn btn-outline-info custom-btn"
