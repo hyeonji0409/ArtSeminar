@@ -130,7 +130,7 @@ public class NoteController {
         Note note = noteRepository.findById(no).orElse(null);
 
 //        pw를 통해 게시판 수정 가능하도록
-        if(!isAuthorizedUser(username)) throw new AccessDeniedException("수정권한이 없습니다.");
+//        if(!isAuthorizedUser(username)) throw new AccessDeniedException("수정권한이 없습니다.");
 
         model.addAttribute("note", note);
         return "board/note/noteEdit";
@@ -150,12 +150,8 @@ public class NoteController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loggedInUsername = authentication.getName();
         //이것도 pw에 맞게 작성하면 삭제 가능
-        if(isAuthorizedUser(loggedInUsername)) {
-            noteService.deleteNote(no);
+
             return "redirect:/note";
-        } else {
-            return "redirect:/access-denied";
-        }
     }
 
     @GetMapping("/n/delete/{file}")
