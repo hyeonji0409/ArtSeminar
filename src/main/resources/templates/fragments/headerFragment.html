@@ -22,7 +22,7 @@
 
         <a href="/" class="logo d-flex align-items-center me-auto" th:fragment="headerLogo">
             <img src="/image/img/logo.svg" alt="Artineer Logo" style="max-height: 50px; transform: scale(2)">
-            <h1 class="sitename">Artineer</h1>
+            <h1 class="sitename" style="max-width: 666px;">Artineer</h1>
         </a>
 
         <nav id="navmenu" class="navmenu">
@@ -52,7 +52,6 @@
                 </li>
             </ul>
         </nav>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 
         <div id="login-dropdown" th:if="${user == null}">
             <a id="login-button" class="btn-getstarted" href="#">로그인</a>
@@ -76,6 +75,8 @@
                 <li><a th:href="@{/logout}">로그아웃</a></li>
             </ul>
         </div>
+
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 
         <!--                <a th:if="${user=='anonymousUser'}" class="btn-getstarted" th:href="@{/user/sign-in}">로그인</a>-->
         <!--        &lt;!&ndash;        todo 마이프로필 연결&ndash;&gt;-->
