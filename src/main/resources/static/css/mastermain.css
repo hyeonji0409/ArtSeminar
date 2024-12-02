@@ -216,6 +216,7 @@ a{
 #login-dropdown {
     position: relative;
     display: inline-block;
+    padding: 0px 30px;
 }
 
 #login-button {
@@ -494,7 +495,10 @@ a{
   }
 }
 
-/* Mobile Navigation */
+/*
+    모바일 반응형 헤더 전환 시,
+*/
+
 @media (max-width: 1199px) {
   .mobile-nav-toggle {
     color: var(--nav-color);
@@ -505,6 +509,66 @@ a{
     transition: color 0.3s;
     position: relative;
   }
+
+  /* 헤더 사이즈 조정 */
+  @media (max-width: 666px) {
+    h1.sitename {
+      visibility: hidden;
+    }
+  }
+
+  /* 창 크기가 480px 이하일 때 */
+  @media (max-width: 480px) {
+    #login-button {
+      min-width: 100px; /* 버튼의 최소 너비 */
+      min-height: 40px; /* 버튼의 최소 높이 */
+      padding: 8px 25px; /* 기존 패딩 유지 */
+      font-size: 14px; /* 글자 크기 유지 */
+    }
+  }
+
+
+  @media (max-width: 1000px) {
+    .hero h1, #hero h1 {
+
+      font-size: 75px;
+      font-weight: 400;
+      line-height: 70px;
+      color: #fff;
+      margin-bottom: 20px;
+      text-align: center;
+      font-family: "Audiowide", sans-serif;
+      font-style: normal;
+
+    }
+
+    .hero h2 {
+
+      font-weight: 400;
+      font-family: "Audiowide", sans-serif;
+      font-style: normal;
+      color: #373b3e;
+      -webkit-text-stroke: 2px white;
+
+      font-size: 50px;
+      line-height: 56px;
+      margin-bottom: 20px;
+      text-align: center;
+
+    }
+
+    .hero p, #hero p{
+
+
+    }
+
+    .hero .d-flex {
+
+    }
+
+
+  }
+
 
   .navmenu {
     padding: 0;
@@ -638,9 +702,9 @@ a{
     display: block;
   }
 
-  #login-dropdown {
-          display: none; /* 로그인 드롭다운을 숨김 */
-      }
+  /*#login-dropdown {*/
+  /*        display: none; !* 로그인 드롭다운을 숨김 *!*/
+  /*    }*/
 }
 
 /*--------------------------------------------------------------
@@ -1067,10 +1131,6 @@ section,
 }
 
 
-
-
-
-
 /* #hero 섹션 내부의 텍스트와 버튼 스타일 */
 .hero .containers, #hero .containers {
     position: relative;
@@ -1083,20 +1143,39 @@ section,
 }
 
 .hero h1, #hero h1 {
-    font-size: 60px;
-    font-weight: 700;
-    line-height: 56px;
+    font-size: 75px;
+    font-weight: 400;
+    line-height: 70px;
     color: #fff;
     margin-bottom: 20px;
     text-align: center;
+  font-family: "Audiowide", sans-serif;
+  font-style: normal;
+}
+
+
+.hero h2 {
+  font-weight: 400;
+  font-family: "Audiowide", sans-serif;
+  font-style: normal;
+  /*color: #373b3e;*/
+  /*-webkit-text-stroke: 2px white;*/
+  color: white;
+
+  font-size: 50px;
+  line-height: 56px;
+  margin-bottom: 20px;
+  text-align: center;
+
+
 }
 
 .hero p, #hero p {
     color: rgba(255, 255, 255, 0.8);
     font-size: 22px;
-    line-height: 1.3;
+    line-height: 1.7;
     font-weight: 600;
-    margin: 5px 0 30px 0;
+    margin: 5px 0 9px 0;
     text-align: center;
 }
 
@@ -1150,8 +1229,14 @@ section,
 /* 반응형 스타일 */
 @media (max-width: 640px) {
     .hero h1, #hero h1 {
-        font-size: 28px;
-        line-height: 36px;
+      font-size: 75px;
+      font-weight: 400;
+      line-height: 70px;
+      color: #fff;
+      margin-bottom: 20px;
+      text-align: center;
+      font-family: "Audiowide", sans-serif;
+      font-style: normal;
     }
 
     .hero p, #hero p {
