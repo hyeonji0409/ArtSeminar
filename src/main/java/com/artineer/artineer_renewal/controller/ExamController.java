@@ -137,8 +137,8 @@ public class ExamController {
     }
 
     @PostMapping("/exam/edit")
-    public String updateExam(@RequestParam Long no, @RequestParam String title, @RequestParam String story){
-        examService.updateExam(no, title, story);
+    public String updateExam(@RequestParam Long no, @RequestParam String title, @RequestParam String story,@RequestParam("file") List<MultipartFile> file){
+        examService.updateExam(no, title, story,file);
         return "redirect:/exam/" + no;
     }
 

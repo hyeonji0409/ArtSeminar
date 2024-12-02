@@ -26,7 +26,10 @@ public class Notice {
     private String title;
     private String story;
     private int hit;
+
+    @Column(unique = true)
     private String file;
+
     private int comment; // 댓글 개수
 
     @OneToMany(mappedBy = "bbsNo", cascade = CascadeType.REMOVE, orphanRemoval = true, targetEntity = Comment.class)

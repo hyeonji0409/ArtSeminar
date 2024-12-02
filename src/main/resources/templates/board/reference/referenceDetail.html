@@ -76,7 +76,7 @@
             <div class="d-flex justify-content-center">
             <div class="d-flex justify-content-between" style="width: 800px">
                 <a href="/reference" class="btn btn-outline-info custom-btn">목록</a>
-            <div class="btn-group" sec:authorize="isAuthenticated()">
+            <div class="btn-group" sec:authorize="isAuthenticated()" th:if="${reference.getUsername() == #authentication.name}">
                 <a type="button" class="btn btn-outline-info custom-btn"
                    th:href="@{/reference/edit/{no}(no=${reference.no})}">수정</a>
                 <a type="button" class="btn btn-outline-info custom-btn"
@@ -103,7 +103,6 @@
         </form>
         </div>
 
-        <h2>댓글 목록</h2>
         <h2>댓글 목록</h2>
 <!--        <div th:each="comment : ${reference.comments}">-->
             <div th:replace="/fragments/commentFragment :: comment(comments=${reference.comments})"></div>

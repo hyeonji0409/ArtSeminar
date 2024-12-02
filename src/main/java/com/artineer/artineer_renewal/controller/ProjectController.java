@@ -134,8 +134,8 @@ public class ProjectController {
     }
 
     @PostMapping("/project/edit")
-    public String updateProject(@RequestParam Long no, @RequestParam String title, @RequestParam String story) {
-        projectService.updateProject(no, title, story);
+    public String updateProject(@RequestParam Long no, @RequestParam String title, @RequestParam String story,@RequestParam("file") List<MultipartFile> file) {
+        projectService.updateProject(no, title, story,file);
         return "redirect:/project/" + no;
     }
 
@@ -156,7 +156,7 @@ public class ProjectController {
         }
     }
 
-    @GetMapping("/p/delete/{file}")
+    @GetMapping("/pro/delete/{file}")
     public String deleteFile(@PathVariable String file, HttpServletRequest request) {
 
         projectService.deleteFiles(file);

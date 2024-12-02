@@ -1,6 +1,7 @@
 package com.artineer.artineer_renewal.service;
 
 import com.artineer.artineer_renewal.dto.GalleryDto;
+import com.artineer.artineer_renewal.entity.Exam;
 import com.artineer.artineer_renewal.entity.Gallery;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.GalleryRepository;
@@ -129,10 +130,29 @@ public class GalleryService {
     }
 
     // 글 수정
-    public void updateGallery(Long no, String title, String story){
+    public void updateGallery(Long no, String title, String story, List<MultipartFile> files){
         Gallery gallery = galleryRepository.findById(no).orElseThrow(()->new RuntimeException("Notice not found"));
         gallery.setTitle(title);
         gallery.setStory(story);
+
+        List<String> fileNames = new ArrayList<>();
+
+        String existingFiles = gallery.getFile();
+        if (existingFiles != null && !existingFiles.isEmpty()) {
+            String[] existingFileArray = existingFiles.split(",");
+            fileNames.addAll(Arrays.asList(existingFileArray));
+        }
+
+        for (MultipartFile file : files) {
+            String fileName = fileService.uploadMultipartFile(file);
+            if (fileName != null) {
+                fileNames.add(fileName);
+            }
+        }
+
+        String fileNameString = String.join(",", fileNames);
+
+        gallery.setFile(fileNameString);
 
         galleryRepository.save(gallery);
     }
@@ -148,7 +168,8 @@ public class GalleryService {
     }
 
     // 파일 삭제 로직
-    private void deleteFiles(String fileNames) {
+    public void deleteFiles(String fileNames) {
+        String fileorigin = fileNames;
         String[] fileNameArray = fileNames.split(",");
 
         for(String fileName : fileNameArray) {
@@ -167,6 +188,18 @@ public class GalleryService {
                 }
             } else {
                 System.out.println("no_image.jpg는 삭제할 수 없습니다.");
+            }
+
+            List<Gallery> galleries = galleryRepository.findAllByFile(fileorigin);
+
+            if (galleries.isEmpty()) {
+                System.out.println("데이터베이스에서 해당 file을 찾을 수 없습니다: " + fileName);
+            } else {
+                for (Gallery gallery : galleries) {
+                    gallery.setFile("");  // 파일 경로 초기화
+                    galleryRepository.save(gallery);  // 변경사항 저장
+                    System.out.println("데이터베이스에서 file 필드 삭제 완료: " + fileName);
+                }
             }
 
 

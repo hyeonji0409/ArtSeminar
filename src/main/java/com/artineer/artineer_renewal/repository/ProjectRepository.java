@@ -14,4 +14,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findAllByUser(User user);
 
     Page<Project> findAll(Pageable pageable);
+
+    List<Project> findAllByFile(String fileName);
 }

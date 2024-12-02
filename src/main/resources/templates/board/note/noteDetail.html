@@ -43,7 +43,7 @@
 <main class="main">
 <div style="margin-top: 150px;">
     <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px;" >
-        <div class="pb-3">
+        <div class="border-bottom pb-3">
             <h1 th:text="${note.title}" class="text-break" style="padding-top: 20px; width: 700px;">note Title</h1>
             <div class="border-bottom pb-3">
                 <a >작성자: </a><a th:text="${note.name}" style="padding-right: 20px">작성자</a>
@@ -90,24 +90,24 @@
 
 
 
-<!--        <div class="d-flex align-items-center">-->
-<!--        <h2 class="pt-3 pe-3">댓글</h2>-->
-<!--        <form th:action="@{/comments/add}" method="post">-->
-<!--            <input type="hidden" name="bbsName" th:value="${bbsName}" />-->
-<!--            <input type="hidden" name="bbsNo" th:value="${bbsNo}" />-->
-<!--            <input type="hidden" name="username" th:value="${user!=null ? user.getUsername() : '익명'}" />-->
-<!--            <input type="hidden" name="replys" th:value="${null}" />-->
-<!--            <div class="d-flex align-items-center">-->
-<!--            <input class="form-control" type="text" name="memo" placeholder="댓글을 입력하세요." style="width: 350px" required />-->
-<!--            <button type="submit" class="btn _btn" style="width: 80px;">등록</button>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--        </div>-->
+        <div class="d-flex align-items-center">
+        <h2 class="pt-3 pe-3">댓글</h2>
+        <form th:action="@{/comments/add}" method="post">
+            <input type="hidden" name="bbsName" th:value="${bbsName}" />
+            <input type="hidden" name="bbsNo" th:value="${bbsNo}" />
+            <input type="hidden" name="username" th:value="${user!=null ? user.getUsername() : '익명'}" />
+            <input type="hidden" name="replys" th:value="${null}" />
+            <div class="d-flex align-items-center" sec:authorize="isAuthenticated()">
+            <input class="form-control" type="text" name="memo" placeholder="댓글을 입력하세요." style="width: 350px" required />
+            <button type="submit" class="btn _btn" style="width: 80px;">등록</button>
+            </div>
+        </form>
+        </div>
 
-<!--        <h2>댓글 목록</h2>-->
-<!--&lt;!&ndash;        <div th:each="comment : ${note.comments}">&ndash;&gt;-->
-<!--            <div th:replace="/fragments/commentFragment :: comment(comments=${note.comments})"></div>-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+        <h2>댓글 목록</h2>
+<!--        <div th:each="comment : ${note.comments}">-->
+            <div th:replace="/fragments/commentFragment :: comment(comments=${note.comments})"></div>
+<!--        </div>-->
 
 
     </div>

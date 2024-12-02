@@ -11,6 +11,7 @@ import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.IntegratedArticleService;
 import com.artineer.artineer_renewal.service.NoteService;
 import com.artineer.artineer_renewal.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -136,8 +137,8 @@ public class NoteController {
     }
 
     @PostMapping("/note/edit")
-    public String updateNote(@RequestParam Long no, @RequestParam String title, @RequestParam String story) {
-        noteService.updateNote(no, title, story);
+    public String updateNote(@RequestParam Long no, @RequestParam String title, @RequestParam String story,@RequestParam("file") List<MultipartFile> file) {
+        noteService.updateNote(no, title, story, file);
         return "redirect:/note/" + no;
     }
 
@@ -155,6 +156,15 @@ public class NoteController {
         } else {
             return "redirect:/access-denied";
         }
+    }
+
+    @GetMapping("/n/delete/{file}")
+    public String deleteFile(@PathVariable String file, HttpServletRequest request){
+        noteService.deleteFiles(file);
+        String referer = request.getHeader("Referer");
+
+        if (referer != null) return "redirect:" + referer;
+        return "redirect:/exam";
     }
 
     private boolean isAuthorizedUser(String loggedInUsername) {

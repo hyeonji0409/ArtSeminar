@@ -11,6 +11,7 @@ import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.GalleryService;
 import com.artineer.artineer_renewal.service.IntegratedArticleService;
 import com.artineer.artineer_renewal.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -150,9 +151,9 @@ public class GalleryController {
    }
 
     @PostMapping("/gallery/edit")
-    public String updateGallery(@RequestParam Long no, @RequestParam String title,@RequestParam String story, Model model){
+    public String updateGallery(@RequestParam Long no, @RequestParam String title,@RequestParam String story,@RequestParam("file") List<MultipartFile> file){
 
-       galleryService.updateGallery(no,title, story);
+       galleryService.updateGallery(no,title, story, file);
 
        return "redirect:/gallery/"+no;
     }
@@ -173,6 +174,15 @@ public class GalleryController {
             return "redirect:/access-denied";
         }
 
+    }
+
+    @GetMapping("/gal/delete/{file}")
+    public String deleteFile(@PathVariable String file, HttpServletRequest request){
+        galleryService.deleteFiles(file);
+        String referer = request.getHeader("Referer");
+
+        if (referer != null) return "redirect:" + referer;
+        return "redirect:/exam";
     }
 
     private boolean isAuthorizedUser(Gallery gallery, String loggedInUsername) {
