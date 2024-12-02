@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 import org.springframework.web.ErrorResponse;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class Gallery {
 
     @OneToMany(mappedBy = "bbsNo", cascade = CascadeType.REMOVE, orphanRemoval = true, targetEntity = Comment.class)
 //    @JoinColumn(name = "bbs_no", referencedColumnName = "no")
+    @Where(clause = "bbsname = 'gallery'")
     private List<Comment> comments = new ArrayList<>();
 
     private String regdate;

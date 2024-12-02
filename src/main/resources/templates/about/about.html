@@ -35,6 +35,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
+    <!--about main text-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -88,11 +93,10 @@
         </div>
 
         <!-- Section for content -->
-        <div id="greeting" class="content-section" style="display: none;">
+        <div id="greeting" class="content-section">
             <div class="containers">
 
                 <div class="row gy-4">
-
                     <div data-aos="fade-up" data-aos-delay="100">
                         <div style="text-align: center;">
                             <strong class="artineer-text">
@@ -100,10 +104,10 @@
                             </strong>
                             <div style="text-align: left;">
                                 <p class="artineer-contenttext">
-                                    &nbsp;ARTINEER 는 "Artist + Engineer"의 합성어로,<br>
-                                    단순히 공학의 기술적인 면에 집중한 것만이 아니라 하나의 또 다른 창조성을 지닌 예술성까지 지닌 사람들이 모인
+                                    ARTINEER 는 "Artist + Engineer"의 합성어로,<br>
+                                    단순히 공학의 기술적인 면만 집중한 것이 아니라 하나의 또 다른 예술성까지 지닌 사람들이 모인
                                     원광대학교 컴퓨터 소프트웨어 공학과의 학술 동아리입니다.
-                                    아티니어는 컴퓨터에 대해 더 공부하고 싶은 분들께 여러 분야에 맞는 지식을 공유할 수 있도록 도움을 주고 있습니다.<br><br>
+                                    아티니어는 컴퓨터 소프트웨어에 대해 더 공부하고 싶은 분들께 여러 분야에 맞는 지식을 공유할 수 있도록 도움을 주고 있습니다.<br><br>
                                 </p>
                             </div>
                         </div>
@@ -123,8 +127,8 @@
                             </strong>
                             <div style="text-align: left;">
                                 <p class="artineer-contenttext">
-                                    &nbsp;ARTINEER는 프로그래밍에 관심이 있으신 분들이 재밌고,
-                                    컴퓨터 분야에 쉽게 입문할 수 있도록 다양한 분야의 스터디와 멘토 멘티 시스템을 진행하고 있습니다.
+                                    ARTINEER는 프로그래밍에 관심이 있는 분들이 재밌고,
+                                    컴퓨터 소프트웨어 분야에 쉽게 입문할 수 있도록 다양한 분야의 스터디와 멘토 멘티 시스템을 진행하고 있습니다.
                                     매주 동아리 정기모임을 통해 자신의 진로 분야를 파악하고, 동아리원들과 팀을 이뤄 프로젝트를 진행하고 있습니다.
                                     프로젝트를 통해 프로그래밍 실력을 키우고, 분야에 맞는 포트폴리오를 작성할 수 있습니다.
                                 </p>
@@ -156,13 +160,8 @@
 
 
 
-
-
-
-                    <!-- 모달 구조 -->
-                    <div id="imageModal" class="modal">
+                    <div id="imageModal" class="modal" onclick="closeModal(event)">
                         <img class="modal-content" id="modalImage">
-                        <button class="close" onclick="closeModal()">X</button> <!-- span을 button으로 변경 -->
                     </div>
 
                 </div>
@@ -182,11 +181,12 @@
                             </strong>
                             <div style="text-align: left">
                                 <p class = "artineer-contenttext">
-                                    &nbsp;아티니어는 스터디와 자체 강의를 중점으로 기본적인 개념을 다잡고 응용하여 심화 단계까지 학습 및 실습을 진행하는데
-                                    초점을 두고 있습니다. 강의 시간 외의 시간에도 스터디를 개별적으로 진행하며 멘토들의 적극적인 피드백을 통해 여러분의
+                                    아티니어는 스터디와 자체 강의를 중점으로 기본적인 개념을 다잡고 응용하여 심화 단계까지의 학습 및 실습을 진행하는데
+                                    초점을 두고 있습니다. 강의시간 외에도 스터디를 개별적으로 진행하며 멘토들의 적극적인 피드백을 통해 여러분의
                                     더 나은 성장을 이룰 수 있도록 노력하고 있습니다.
                                     <br><br>
-                                    또, 2학기에 진행하는 분야별 세미나를 통해 팀원 간의 협동력을 기를 수 있고, 개인의 실력을 향상할 수 있는 좋은 기회가 될 수 있습니다.
+                                    또, 2학기에 진행하는 분야별 세미나를 통해 팀원 간의 협동력을 기를 수 있고, 프로젝트를 진행하며 그동안 혼자서 해결할 수 없었던 지식을 서로 공유하고 배울 수 있습니다.
+                                    아티니어에서 개인의 실력을 향상시켜 더 좋은 결과물을 만들 수 있는 기회를 놓치지 마세요.
                                 </p>
                             </div>
                         </div>
@@ -202,7 +202,7 @@
                             </figure>
                             <div class="card__body">
                                 <h3 class="tit">분야별 스터디</h3>
-                                <p class="desc">&nbsp;각 분야별로 주제를 정하여 스터디 형식으로 진행하는 활동입니다. 매주 동아리 시간에 진행됩니다. <br>
+                                <p class="desc">각 분야별로 주제를 정하여 스터디 형식으로 진행하는 활동입니다. 매주 동아리 시간에 진행됩니다. <br>
                                     현재 진행되고 있는 스터디 분야는 웹, AI, 게임, 네트워크 보안, 개인 등이 있습니다.
                                 </p>
                                 <a class="brn" href="/">
@@ -221,7 +221,7 @@
                             </figure>
                             <div class="card__body">
                                 <h3 class="tit">세미나/프로젝트</h3>
-                                <p class="desc">&nbsp;각 분야에 맞는 사람들끼리 모여 하나의 주제를 정하고 프로젝트를 진행하는 활동입니다. <br>
+                                <p class="desc">각 분야에 맞는 사람들끼리 모여 하나의 주제를 정하고 프로젝트를 진행하는 활동입니다. <br>
                                     세미나는 2학기에 진행되며 팀원 간의 협력을 요구하는 활동인 만큼 동아리 시간에 팀원들과 세미나 활동을 보고합니다.
                                 </p>
                                 <a class="brn" href="/">
@@ -240,7 +240,7 @@
                             </figure>
                             <div class="card__body">
                                 <h3 class="tit">자체 강의</h3>
-                                <p class="desc">&nbsp;누구나 자유롭게 개설 가능하며 같은 분야뿐만 아니라 다른 분야의 학습 경험을 도모하기 위해 진행되는 활동입니다. <br>
+                                <p class="desc">누구나 자유롭게 개설 가능하며 같은 분야뿐만 아니라 다른 분야의 학습 경험을 도모하기 위해 진행되는 활동입니다. <br>
                                     현재 진행되고 있는 강의는 모의해킹, 리눅스, 네트워크 보안, 스프링 등이 있습니다.
                                 </p>
                                 <a class="brn" href="/">

@@ -1,7 +1,10 @@
 package com.artineer.artineer_renewal.dto;
 
 import com.artineer.artineer_renewal.entity.Comment;
+import com.artineer.artineer_renewal.entity.User;
 import jakarta.persistence.ElementCollection;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -34,11 +37,12 @@ public class NoticeDto {
     private int year;
 
     @Builder
-    public NoticeDto(Long no, String title, String story, int hit, String name,int year, String regdate, List<String> file, List<Comment> comments) {
+    public NoticeDto(Long no, String title, String story, int hit, String username, String name,int year, String regdate, List<String> file, List<Comment> comments) {
         this.no = no;
         this.title = title;
         this.story = story;
         this.hit = hit;
+        this.username = username;
         this.name = name;
         this.regdate = regdate;
         this.year = year;

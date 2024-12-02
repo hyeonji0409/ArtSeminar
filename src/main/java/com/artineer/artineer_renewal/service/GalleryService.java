@@ -119,6 +119,7 @@ public class GalleryService {
                 gallery.getTitle(),
                 gallery.getStory(),
                 gallery.getHit(),
+                gallery.getUser().getUsername(),
                 gallery.getName(),
                 gallery.getYear(),
                 gallery.getRegdate(),

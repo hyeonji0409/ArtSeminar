@@ -154,17 +154,8 @@ body{
     margin : 0;
 }
 
-a{
-    text-decoration:none;
-}
-
-body{
-    margin : 0;
-}
-
 .header .logo {
   line-height: 1;
-  text-decoration: none;
 }
 
 .header .logo img {
@@ -776,7 +767,7 @@ body{
 
 .footer .copyright {
   padding-top: 25px;
-  padding-bottom: 25px;
+  padding-bottom: 10px;
   border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
 }
 

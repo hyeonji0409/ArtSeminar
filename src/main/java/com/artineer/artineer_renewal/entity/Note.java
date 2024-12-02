@@ -1,8 +1,7 @@
 package com.artineer.artineer_renewal.entity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -10,6 +9,7 @@ import java.util.List;
 @Table(name = "note")
 @NoArgsConstructor
 @Getter
+@Setter
 @AllArgsConstructor
 public class Note {
     @Id
@@ -18,13 +18,17 @@ public class Note {
 
     @Column(name = "subject")
     private String title;
+    @Column(name = "memo")
     private String story;
     private int hit;
     private String file;
-    private int comment; // 댓글 개수
+//    private int comment; // 댓글 개수
+    private String name;
+    private String pw;
 
     @OneToMany(mappedBy = "bbsNo", cascade = CascadeType.REMOVE, orphanRemoval = true, targetEntity = Comment.class)
 //    @JoinColumn(name = "bbs_no", referencedColumnName = "no")
+    @Where(clause = "bbsname = 'note'")
     private List<Comment> comments;
 
     private String regdate;
