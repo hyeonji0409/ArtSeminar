@@ -60,14 +60,14 @@ public class SecurityConfig {
                                         "/minutes/**",
                                         "/admin/**").hasAnyRole("ADMIN", "MANAGER")
                                 .requestMatchers(
-                                        "gallery/**",
-                                        "note/**",
-                                        "project/**",
-                                        "reference/**",
-                                        "exam/**").hasAnyRole("ADMIN", "MANAGER", "REGULAR")
+                                        "/gallery/**",
+                                        "/note/**",
+                                        "/project/**",
+                                        "/reference/**",
+                                        "/exam/**").hasAnyRole("ADMIN", "MANAGER", "REGULAR")
                                 .requestMatchers(
                                         "/mypage/**",
-                                        "greeting/**").authenticated()
+                                        "/greeting/**").authenticated()
                                 .anyRequest().permitAll()
                 )
                 .formLogin(form -> form

@@ -47,7 +47,7 @@ public class UserController {
 
         model.addAttribute("error", error);
 
-        return "/user/sign-in";
+        return "user/sign-in";
     }
 
 
@@ -103,7 +103,7 @@ public class UserController {
 
     @GetMapping("/user/sign-up")
     public String signUp() {
-        return "/user/sign-up";
+        return "user/sign-up";
     }
 
 
@@ -174,7 +174,7 @@ public class UserController {
 
         model.addAttribute("username", username);
 
-        return "/user/update-info";
+        return "user/update-info";
     }
 
 
@@ -189,7 +189,7 @@ public class UserController {
             model.addAttribute("what", "pw");
         }
 
-        return "/user/sign-find";
+        return "user/sign-find";
     }
 
 
@@ -201,7 +201,7 @@ public class UserController {
         if (user==null) throw new AccessDeniedException("로그인 후 이용가능합니다.");
 
         model.addAttribute("user", user);
-        return "/user/sign-withdrawal";
+        return "user/sign-withdrawal";
     }
 
     @GetMapping("/user/sign-withdrawalConfirm")
@@ -210,7 +210,7 @@ public class UserController {
         if (user==null) throw new AccessDeniedException("로그인 후 이용가능합니다.");
 
         model.addAttribute("user", user);
-        return "/user/sign-withdrawalConfirm";
+        return "user/sign-withdrawalConfirm";
     }
 
 

@@ -105,7 +105,7 @@
 
         <h2>댓글 목록</h2>
 <!--        <div th:each="comment : ${exam.comments}">-->
-            <div th:replace="/fragments/commentFragment :: comment(comments=${exam.comments})"></div>
+            <div th:replace="~{fragments/commentFragment :: comment(comments=${exam.comments})}"></div>
 <!--        </div>-->
 
 
