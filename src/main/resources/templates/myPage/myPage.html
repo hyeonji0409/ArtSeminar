@@ -119,9 +119,9 @@
                     <label for="userEmail" style="font-weight: bold">이메일</label>
                     <input id="userEmail" type="text" th:value="${user.email}" placeholder="이메일" name="email" readonly>
                 </div>
-                <div class="info__items">
+                <div class="info__items" style="display: flex">
                     <label for="userYear" style="font-weight: bold">기수</label>
-                    <input id="userYear" type="text" th:value="${user.year}" placeholder="기수"  name="year" readonly>
+                    <div id="userYear" type="text" th:text="${user.year}" name="year" style="align-content: center" readonly></div>
                 </div>
 <!--                <div class="info__items">-->
 <!--                    <input type="text" th:value="${user.addr}" placeholder="주소" name="addr" readonly>-->
