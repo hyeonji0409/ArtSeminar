@@ -1,6 +1,7 @@
 package com.artineer.artineer_renewal.service;
 
 import com.artineer.artineer_renewal.dto.ProjectDto;
+import com.artineer.artineer_renewal.entity.Gallery;
 import com.artineer.artineer_renewal.entity.Project;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.ProjectRepository;
@@ -115,6 +116,7 @@ public class ProjectService {
                 project.getTitle(),
                 project.getStory(),
                 project.getHit(),
+                project.getUser().getUsername(),
                 project.getName(),
                 project.getYear(),
                 project.getRegdate(),
@@ -123,11 +125,30 @@ public class ProjectService {
     }
 
     // 글 수정
-    public void updateProject(Long no, String title, String story) {
+    public void updateProject(Long no, String title, String story, List<MultipartFile> files) {
 
         Project project = projectRepository.findById(no).orElseThrow(() -> new RuntimeException("Project not found"));
         project.setTitle(title);
         project.setStory(story);
+
+        List<String> fileNames = new ArrayList<>();
+
+        String existingFiles = project.getFile();
+        if (existingFiles != null && !existingFiles.isEmpty()) {
+            String[] existingFileArray = existingFiles.split(",");
+            fileNames.addAll(Arrays.asList(existingFileArray));
+        }
+
+        for (MultipartFile file : files) {
+            String fileName = fileService.uploadMultipartFile(file);
+            if (fileName != null) {
+                fileNames.add(fileName);
+            }
+        }
+
+        String fileNameString = String.join(",", fileNames);
+
+        project.setFile(fileNameString);
 
         projectRepository.save(project);
     }
@@ -148,6 +169,7 @@ public class ProjectService {
 
     // 파일 삭제 로직
     public void deleteFiles(String fileNames) {
+        String fileorigin = fileNames;
         String[] fileNameArray = fileNames.split(",");
 
         for(String fileName : fileNameArray) {
@@ -168,17 +190,17 @@ public class ProjectService {
                 System.out.println("no_image.jpg는 삭제할 수 없습니다.");
             }
 
-//            파일 없는 게시판 삭제 오류 때문에 주석처리(파일이 있을 때는 삭제 오류 없음)
-            //반환값이 여러개라 생긴 오류
-//            해당 코드를 통해서 파일 삭제 시 데이터베이스에 있던 파일 값을 없애는 코드임
-//            project project = projectRepository.findByFile(fileName);
-//            if (project != null) {
-//                project.setFile("");  // 파일 경로 삭제
-//                projectRepository.save(project);  // 변경사항 저장
-//                System.out.println("데이터베이스에서 file 필드 삭제 완료: " + fileName);
-//            } else {
-//                System.out.println("데이터베이스에서 해당 file을 찾을 수 없습니다: " + fileName);
-//            }
+            List<Project> projects = projectRepository.findAllByFile(fileorigin);
+
+            if (projects.isEmpty()) {
+                System.out.println("데이터베이스에서 해당 file을 찾을 수 없습니다: " + fileName);
+            } else {
+                for (Project project : projects) {
+                    project.setFile("");  // 파일 경로 초기화
+                    projectRepository.save(project);  // 변경사항 저장
+                    System.out.println("데이터베이스에서 file 필드 삭제 완료: " + fileName);
+                }
+            }
         }
 
     }

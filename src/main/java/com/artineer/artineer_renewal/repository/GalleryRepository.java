@@ -1,5 +1,6 @@
 package com.artineer.artineer_renewal.repository;
 
+import com.artineer.artineer_renewal.entity.Exam;
 import com.artineer.artineer_renewal.entity.Gallery;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.entity.Notice;
@@ -17,4 +18,6 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long> {
 
     Page<Gallery> findAll(Pageable pageable);
     List<Gallery> findAllByTitleContaining(String title);
+
+    List<Gallery> findAllByFile(String fileName);
 }

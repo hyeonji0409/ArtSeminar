@@ -54,9 +54,20 @@ public class SecurityConfig {
                         auth.requestMatchers("/",
                                         "/static/**", "/static/assets/**",
                                         "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
-//                                .requestMatchers("/notice/new/**", "/notice/edit/**", "/notice/delete/**", "/admin/**").hasAnyRole("ADMIN", "MANAGER")
-//                                .requestMatchers("/notice", "^/notice(/\\d+)?$", "/gallery/**").hasAnyRole("ADMIN", "MANAGER", "REGULAR")
-                                .requestMatchers("/mypage/**").authenticated()
+                                .requestMatchers("note/**").permitAll()
+                                .requestMatchers(
+                                        "/notice/**",
+                                        "/minutes/**",
+                                        "/admin/**").hasAnyRole("ADMIN", "MANAGER")
+                                .requestMatchers(
+                                        "/gallery/**",
+                                        "/note/**",
+                                        "/project/**",
+                                        "/reference/**",
+                                        "/exam/**").hasAnyRole("ADMIN", "MANAGER", "REGULAR")
+                                .requestMatchers(
+                                        "/mypage/**",
+                                        "/greeting/**").authenticated()
                                 .anyRequest().permitAll()
                 )
                 .formLogin(form -> form

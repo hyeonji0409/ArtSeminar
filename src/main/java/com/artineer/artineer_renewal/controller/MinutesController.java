@@ -134,8 +134,8 @@ public class MinutesController {
     }
 
     @PostMapping("/minutes/edit")
-    public String updateMinutes(@RequestParam Long no, @RequestParam String title, @RequestParam String story) {
-        minutesService.updateMinutes(no, title, story);
+    public String updateMinutes(@RequestParam Long no, @RequestParam String title, @RequestParam String story,@RequestParam("file") List<MultipartFile> file) {
+        minutesService.updateMinutes(no, title, story,file);
         return "redirect:/minutes/" + no;
     }
 

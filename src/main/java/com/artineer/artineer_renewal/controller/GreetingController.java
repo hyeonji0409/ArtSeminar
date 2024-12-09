@@ -134,8 +134,8 @@ public class GreetingController {
     }
 
     @PostMapping("/greeting/edit")
-    public String updateGreeting(@RequestParam Long no, @RequestParam String title, @RequestParam String story) {
-        greetingService.updateGreeting(no, title, story);
+    public String updateGreeting(@RequestParam Long no, @RequestParam String title, @RequestParam String story,@RequestParam("file") List<MultipartFile> file) {
+        greetingService.updateGreeting(no, title, story, file);
         return "redirect:/greeting/" + no;
     }
 
@@ -156,7 +156,7 @@ public class GreetingController {
         }
     }
 
-    @GetMapping("/gr/delete/{file}")
+    @GetMapping("/gree/delete/{file}")
     public String deleteFile(@PathVariable String file, HttpServletRequest request) {
 
         greetingService.deleteFiles(file);

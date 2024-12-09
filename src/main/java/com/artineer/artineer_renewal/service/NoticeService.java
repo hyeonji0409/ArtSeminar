@@ -116,6 +116,7 @@ public class NoticeService {
                 notice.getTitle(),
                 notice.getStory(),
                 notice.getHit(),
+                notice.getUser().getUsername(),
                 notice.getName(),
                 notice.getYear(),
                 notice.getRegdate(),
@@ -124,11 +125,36 @@ public class NoticeService {
     }
 
     // 글 수정
-    public void updateNotice(Long no, String title, String story) {
+    public void updateNotice(Long no, String title, String story,List<MultipartFile> files) {
 
         Notice notice = noticeRepository.findById(no).orElseThrow(() -> new RuntimeException("Notice not found"));
         notice.setTitle(title);
         notice.setStory(story);
+
+        // 파일명 저장할 리스트
+        List<String> fileNames = new ArrayList<>();
+
+        // 기존 파일 목록 가져오기 (null 체크)
+        String existingFiles = notice.getFile();
+        if (existingFiles != null && !existingFiles.isEmpty()) {
+            // 기존 파일 목록을 , 기준으로 분리하여 리스트로 변환
+            String[] existingFileArray = existingFiles.split(",");
+            fileNames.addAll(Arrays.asList(existingFileArray));
+        }
+
+        // 새로 업로드된 파일 처리
+        for (MultipartFile file : files) {
+            String fileName = fileService.uploadMultipartFile(file);
+            if (fileName != null) {
+                fileNames.add(fileName);
+            }
+        }
+
+        // 파일명 리스트를 ,로 합쳐서 저장
+        String fileNameString = String.join(",", fileNames);
+
+        // notice 객체에 파일명 저장
+        notice.setFile(fileNameString);
 
         noticeRepository.save(notice);
     }
@@ -150,6 +176,7 @@ public class NoticeService {
 
     // 파일 삭제 로직
     public void deleteFiles(String fileNames) {
+        String fileorigin = fileNames;
         String[] fileNameArray = fileNames.split(",");
 
         for(String fileName : fileNameArray) {
@@ -166,17 +193,18 @@ public class NoticeService {
                 System.out.println("파일을 찾을 수 없습니다." + fileName);
             }
 
-//            파일 없는 게시판 삭제 오류 때문에 주석처리(파일이 있을 때는 삭제 오류 없음)
-            //반환값이 여러개라 생긴 오류
 //            해당 코드를 통해서 파일 삭제 시 데이터베이스에 있던 파일 값을 없애는 코드임
-//            Notice notice = noticeRepository.findByFile(fileName);
-//            if (notice != null) {
-//                notice.setFile("");  // 파일 경로 삭제
-//                noticeRepository.save(notice);  // 변경사항 저장
-//                System.out.println("데이터베이스에서 file 필드 삭제 완료: " + fileName);
-//            } else {
-//                System.out.println("데이터베이스에서 해당 file을 찾을 수 없습니다: " + fileName);
-//            }
+            List<Notice> notices = noticeRepository.findAllByFile(fileorigin);
+
+            if (notices.isEmpty()) {
+                System.out.println("데이터베이스에서 해당 file을 찾을 수 없습니다: " + fileName);
+            } else {
+                for (Notice notice : notices) {
+                    notice.setFile("");  // 파일 경로 초기화
+                    noticeRepository.save(notice);  // 변경사항 저장
+                    System.out.println("데이터베이스에서 file 필드 삭제 완료: " + fileName);
+                }
+            }
         }
 
     }

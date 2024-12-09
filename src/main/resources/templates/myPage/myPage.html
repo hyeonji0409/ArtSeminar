@@ -37,7 +37,7 @@
     </div>
 </header>
 
-<div class="container" style="justify-content: center; margin: auto;">
+<div class="container" style="justify-content: center; margin: auto; max-width: 720px">
 
 <!--    사이드바-->
     <div class="side__bar">
@@ -50,11 +50,11 @@
 
         <div class="side__items" >
             <h2 class="section__title">계정</h2>
-            <div class="myPage__section" style="background-color: #E6F2FF">회원 정보</div>
+            <div class="myPage__section" style="background-color: #E6F2FF"><a href="/mypage">회원정보</a></div>
             <div class="myPage__section"><a href="/user/sign-withdrawal">회원탈퇴</a></div>
             <h2 class="section__title">활동</h2>
             <div class="myPage__section"><a href="/mypage/activity1">작성한 글</a></div>
-            <div class="myPage__section">댓글단 글</div>
+            <div class="myPage__section"><a href="/mypage/activity2">작성한 댓글</a></div>
         </div>
         <div class="logout"><a href="/logout"> 로그아웃</a></div>
         <!--        <div style="width: 100%; align-items: center; display: flex">-->
@@ -64,7 +64,7 @@
 
 
 <!--    정보수정-->
-    <div class="myPage__main" >
+    <div class="myPage__main" style="width: 500px" >
         <div class="info__list">
             <div class="text" style="font-size: xx-large; font-weight: bold;  padding: 1rem">회원 정보
             </div>
@@ -78,7 +78,7 @@
                     <div class="passwords">
                         <div class="info__items">
                             <label class="pw-lb1" for="password1" style="font-weight: bold">비밀번호</label>
-                            <input id="password1"  type="password" placeholder="비밀번호">
+                            <input id="password1"  name="password" type="password" placeholder="비밀번호">
                         </div>
                         <div class="info__items">
                             <label class="pw-lb2" for="password2" style="font-weight: bold">비밀번호 확인</label>
@@ -166,7 +166,7 @@
 
 
 </div>
-<!--<footer th:replace="~{fragments/footerFragment :: footerInfo}"></footer>-->
+<footer th:replace="~{fragments/footerFragment :: footerInfo}"></footer>
 
 <!--usertest 1234-->
 

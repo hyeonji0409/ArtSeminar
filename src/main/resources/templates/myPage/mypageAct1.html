@@ -1,51 +1,44 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns="http://www.w3.org/1999/html"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>My Activity</title>
-    <link rel="stylesheet" href="/css/mypageAct1.css">
+    <title>My Page</title>
+
+
+    <!-- Favicons -->
+    <link th:href="@{/image/favicon.ico}" rel="icon">
+    <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <link href="/assets/css/mastermain.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/myPage.css">
 
 </head>
-<body>
 
-<div class="container">
-    <div class="myPage__main" >
-        <div>
-            <h1 class="logo"><a class="logo_a" href="/">ARTINEER</a></h1>
-        </div>
-        <div class="text" style="font-size: xx-large; text-align: center">작성한 글</div>
-
-        <table class="table table-hover text-center mt-3 bg-white w-75">
-            <thead >
-            <tr>
-                <th scope="col">번호</th>
-                <th scope="col">제목</th>
-                <th scope="col">댓글수</th>
-                <th scope="col">작성자</th>
-                <th scope="col">날짜</th>
-                <th scope="col">조회수</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <tr th:each="notice, iterStat :  ${articles}">
-                <!-- 전체 게시글 수에서 역순으로 표기하게 설정 -->
-                <th th:text="${articles.size() - iterStat.index}">1</th>
-                <td><a th:text="${notice.title}" th:href="@{/gallery/{no}(no=${notice.no})}" class="a-color" style="text-decoration: none;"></a></td>
-                <td th:text="${notice.comment}">댓글수</td>
-                <td th:text="${notice.name} + '(' + ${notice.year} + '기)'">작성자</td>
-                <td><a th:text="${notice.regdate}">날짜</a></td>
-                <td><a th:text="${notice.hit}">조회수</a></td>
-            </tr>
-
-
-            </tbody>
-        </table>
+<body class="starter-page-page d-flex flex-column min-vh-100" style="background-color: transparent">
+<header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+        <a th:replace="~{fragments/headerFragment :: headerLogo}"></a>
     </div>
+</header>
 
+<div class="container" style="justify-content: center; margin: auto; max-width: 720px">
 
-
-
+    <!--    사이드바-->
     <div class="side__bar">
         <div class="profile">
             <img class="side__icon" src="/image/profileimg.png" height="308" width="300"/>
@@ -56,17 +49,90 @@
 
         <div class="side__items" >
             <h2 class="section__title">계정</h2>
-            <div class="myPage__section"><a href="/mypage">회원 정보</a></div>
+            <div class="myPage__section" style="background-color: #E6F2FF"><a href="/mypage">회원정보</a></div>
             <div class="myPage__section"><a href="/user/sign-withdrawal">회원탈퇴</a></div>
             <h2 class="section__title">활동</h2>
-            <div class="myPage__section" style="background-color: #f4f5fa">작성한 글</div>
-            <div class="myPage__section" href="/mypage/activity2">댓글단 글</div>
-            <div><a class="logout" href="/logout"> 로그아웃</a></div>
+            <div class="myPage__section"><a href="/mypage/activity1">작성한 글</a></div>
+            <div class="myPage__section"><a href="/mypage/activity2">작성한 댓글</a></div>
+        </div>
+        <div class="logout"><a href="/logout"> 로그아웃</a></div>
+        <!--        <div style="width: 100%; align-items: center; display: flex">-->
+        <!--            <button>로그아웃</button>-->
+        <!--        </div>-->
+    </div>
+
+
+    <!--    정보수정-->
+    <div class="myPage__main" style="width: 500px">
+        <div class="info__list" style="width: inherit">
+            <div class="text" style="font-size: xx-large; font-weight: bold;  padding: 1rem">회원 정보(최근항목)
+            </div>
+                <div class="accountInfo">
+
+                    <table class="table table-hover text-center">
+                        <thead>
+                        <tr class="text-nowrap">
+                            <th scope="col">번호</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">날짜</th>
+                            <th scope="col">조회수</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr th:each="notice, iterStat :  ${pagination}" class="text-nowrap">
+                            <!-- 전체 게시글 수에서 역순으로 표기하게 설정 -->
+                            <td th:text="${notice.getNo()}" style="width: 80px;">게시글 넘버</td>
+                            <!--                <td><a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}" class="a-color" style="text-decoration: none;"></a></td>-->
+                            <!--                <td th:text="${notice.comment}">댓글수</td>-->
+                            <!--                <th th:text="${pagination.getSize() - iterStat.index}">1</th>-->
+                            <td style="width: 430px"><div class="d-flex align-items-center" style="max-height: 40px; max-width: 206px">
+                                <a th:text="${notice.title}" th:href="@{|/${notice.tableName}/${notice.no}|}"
+                                   class="a-color d-flex justify-content-start text-truncate custom-width" style="text-decoration: none; text-overflow: ellipsis"></a>
+                                <div class="d-flex align-items-center text-danger fw-bold p-3">
+                                    <p>[</p>
+                                    <p class="d-flex justify-content-start " th:text="${notice.comments.size()}">댓글수</p>
+                                    <p>]</p>
+                                </div>
+                            </div>
+                            </td>
+                            <td><a th:text="${notice.regdate}" style="width: 180px;">날짜</a></td>
+                            <td><a th:text="${notice.hit}" style="width: 80px;">조회수</a></td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+
         </div>
     </div>
-</div>
 
+
+
+
+
+</div>
+<footer th:replace="~{fragments/footerFragment :: footerInfo}"></footer>
+
+<!--usertest 1234-->
+
+
+<script src="/js/myinfoEdit.js"></script>
+<!-- Vendor JS Files -->
+<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+<script th:src="@{/assets/vendor/aos/aos.js}"></script>
+<script th:src="@{/assets/vendor/glightbox/js/glightbox.min.js}"></script>
+<script th:src="@{/assets/vendor/swiper/swiper-bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/waypoints/noframework.waypoints.js}"></script>
+<script th:src="@{/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/assets/vendor/isotope-layout/isotope.pkgd.min.js}"></script>
+<script th:src="@{/js/signUp.js}"></script>
+
+<!-- Main JS File -->
+<script th:src="@{/assets/js/main.js}"></script>
 
 </body>
-
 </html>

@@ -134,8 +134,10 @@ public class NoticeController {
     }
 
     @PostMapping("/notice/edit")
-    public String updateNotice(@RequestParam Long no, @RequestParam String title, @RequestParam String story) {
-        noticeService.updateNotice(no, title, story);
+    public String updateNotice(@RequestParam Long no, @RequestParam String title, @RequestParam String story,@RequestParam("file") List<MultipartFile> file) {
+
+
+        noticeService.updateNotice(no, title, story, file);
         return "redirect:/notice/" + no;
     }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, user-scalable=yes, initial-scale=0.5">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Greeting</title>
     <meta name="description" content="">
@@ -86,8 +86,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 d-flex justify-content-end " th:each="fileName: ${greeting.file}">
-                            <img  th:src="@{'/data/' + ${fileName}}" style="max-width: 300px;max-height: 200px;">
+                        <div class="col-md-4 d-flex justify-content-end">
+                            <img th:src="@{'/data/' + ${greeting.file.split(',')[0]}}" style="max-width: 300px; max-height: 200px;">
                         </div>
                     </div>
                 </div>

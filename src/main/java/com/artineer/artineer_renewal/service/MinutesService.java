@@ -2,6 +2,7 @@ package com.artineer.artineer_renewal.service;
 
 import com.artineer.artineer_renewal.dto.MinutesDto;
 import com.artineer.artineer_renewal.entity.Minutes;
+import com.artineer.artineer_renewal.entity.Notice;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.MinutesRepository;
 import com.artineer.artineer_renewal.repository.UserRepository;
@@ -110,6 +111,7 @@ public class MinutesService {
                 minutes.getTitle(),
                 minutes.getStory(),
                 minutes.getHit(),
+                minutes.getUser().getUsername(),
                 minutes.getName(),
                 minutes.getYear(),
                 minutes.getRegdate(),
@@ -118,11 +120,31 @@ public class MinutesService {
     }
 
     // 글 수정
-    public void updateMinutes(Long no, String title, String story) {
+    public void updateMinutes(Long no, String title, String story,List<MultipartFile> files) {
 
         Minutes minutes = minutesRepository.findById(no).orElseThrow(() -> new RuntimeException("Minutes not found"));
         minutes.setTitle(title);
         minutes.setStory(story);
+
+        List<String> fileNames = new ArrayList<>();
+
+        String existingFiles = minutes.getFile();
+        if (existingFiles != null && !existingFiles.isEmpty()) {
+            // 기존 파일 목록을 , 기준으로 분리하여 리스트로 변환
+            String[] existingFileArray = existingFiles.split(",");
+            fileNames.addAll(Arrays.asList(existingFileArray));
+        }
+
+        for (MultipartFile file : files) {
+            String fileName = fileService.uploadMultipartFile(file);
+            if (fileName != null) {
+                fileNames.add(fileName);
+            }
+        }
+
+        String fileNameString = String.join(",", fileNames);
+
+        minutes.setFile(fileNameString);
 
         minutesRepository.save(minutes);
     }
@@ -143,6 +165,7 @@ public class MinutesService {
 
     // 파일 삭제 로직
     public void deleteFiles(String fileNames) {
+        String fileorigin = fileNames;
         String[] fileNameArray = fileNames.split(",");
 
         for(String fileName : fileNameArray) {
@@ -159,17 +182,17 @@ public class MinutesService {
                 System.out.println("파일을 찾을 수 없습니다." + fileName);
             }
 
-//            파일 없는 게시판 삭제 오류 때문에 주석처리(파일이 있을 때는 삭제 오류 없음)
-            //반환값이 여러개라 생긴 오류
-//            해당 코드를 통해서 파일 삭제 시 데이터베이스에 있던 파일 값을 없애는 코드임
-//            minutes minutes = minutesRepository.findByFile(fileName);
-//            if (minutes != null) {
-//                minutes.setFile("");  // 파일 경로 삭제
-//                minutesRepository.save(minutes);  // 변경사항 저장
-//                System.out.println("데이터베이스에서 file 필드 삭제 완료: " + fileName);
-//            } else {
-//                System.out.println("데이터베이스에서 해당 file을 찾을 수 없습니다: " + fileName);
-//            }
+            List<Minutes> minutes = minutesRepository.findAllByFile(fileorigin);
+
+            if (minutes.isEmpty()) {
+                System.out.println("데이터베이스에서 해당 file을 찾을 수 없습니다: " + fileName);
+            } else {
+                for (Minutes minute : minutes) {
+                    minute.setFile("");  // 파일 경로 초기화
+                    minutesRepository.save(minute);  // 변경사항 저장
+                    System.out.println("데이터베이스에서 file 필드 삭제 완료: " + fileName);
+                }
+            }
         }
 
     }

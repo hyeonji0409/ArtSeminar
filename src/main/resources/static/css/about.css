@@ -65,10 +65,10 @@ h3 {
     position: relative;
     top: 55px;
     left: 35px;
-    font-family: "Noto Sans", sans-serif;
-    font-optical-sizing: auto;
+    font-family: "Audiowide", sans-serif;
     font-weight: 400;
     font-style: normal;
+    font-optical-sizing: auto;
     font-variation-settings:
             "wdth" 100;
 }

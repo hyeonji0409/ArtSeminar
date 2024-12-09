@@ -7,6 +7,13 @@
   --nav-font: "Poppins",  sans-serif;
 }
 
+.main-font {
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
 :root {
   --background-color: #ffffff; /* Background color for the entire website, including individual sections */
@@ -154,25 +161,14 @@ body{
     margin : 0;
 }
 
-a{
-    text-decoration:none;
-    color :white;
-}
-
-body{
-    margin : 0;
-}
-
-a{
-    text-decoration:none;
-    color :white;
-}
-
 .header .logo {
   line-height: 1;
+  height: 100%;
 }
 
 .header .logo img {
+  height: 100%;
+  min-width: 50px;
   max-height: 36px;
   margin-right: 8px;
 }
@@ -192,7 +188,7 @@ a{
   background: var(--accent-color);
   font-size: 16px;
   padding: 8px 25px;
-  margin: 0 0 0 50px;
+  margin: 0 0 0 30px;
   border-radius: 50px;
   transition: 0.3s;
 }
@@ -209,6 +205,7 @@ a{
 #login-dropdown {
     position: relative;
     display: inline-block;
+    padding: 0px 30px;
 }
 
 #login-button {
@@ -487,7 +484,10 @@ a{
   }
 }
 
-/* Mobile Navigation */
+/*
+    모바일 반응형 헤더 전환 시,
+*/
+
 @media (max-width: 1199px) {
   .mobile-nav-toggle {
     color: var(--nav-color);
@@ -498,6 +498,74 @@ a{
     transition: color 0.3s;
     position: relative;
   }
+
+  .header .btn-getstarted,
+  .header .btn-getstarted:focus {
+    color: var(--contrast-color);
+    background: var(--accent-color);
+    margin: 0 25px 0 0;
+  }
+
+  /* 헤더 사이즈 조정 */
+  @media (max-width: 480px) {
+    h1.sitename {
+      /*visibility: hidden;*/
+      display: none;
+    }
+  }
+
+  /* 창 크기가 480px 이하일 때 */
+  @media (max-width: 480px) {
+    #login-button {
+      min-width: 100px; /* 버튼의 최소 너비 */
+      min-height: 40px; /* 버튼의 최소 높이 */
+      padding: 8px 25px; /* 기존 패딩 유지 */
+      font-size: 14px; /* 글자 크기 유지 */
+    }
+  }
+
+
+  @media (max-width: 1000px) {
+    .hero h1, #hero h1 {
+
+      font-size: 75px;
+      font-weight: 400;
+      line-height: 70px;
+      color: #fff;
+      margin-bottom: 20px;
+      text-align: center;
+      font-family: "Audiowide", sans-serif;
+      font-style: normal;
+
+    }
+
+    .hero h2 {
+
+      font-weight: 400;
+      font-family: "Audiowide", sans-serif;
+      font-style: normal;
+      color: #373b3e;
+      -webkit-text-stroke: 2px white;
+
+      font-size: 50px;
+      line-height: 56px;
+      margin-bottom: 20px;
+      text-align: center;
+
+    }
+
+    .hero p, #hero p{
+
+
+    }
+
+    .hero .d-flex {
+
+    }
+
+
+  }
+
 
   .navmenu {
     padding: 0;
@@ -631,9 +699,9 @@ a{
     display: block;
   }
 
-  #login-dropdown {
-          display: none; /* 로그인 드롭다운을 숨김 */
-      }
+  /*#login-dropdown {*/
+  /*        display: none; !* 로그인 드롭다운을 숨김 *!*/
+  /*    }*/
 }
 
 /*--------------------------------------------------------------
@@ -781,7 +849,7 @@ a{
 
 .footer .copyright {
   padding-top: 25px;
-  padding-bottom: 25px;
+  padding-bottom: 10px;
   border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
 }
 
@@ -1060,10 +1128,6 @@ section,
 }
 
 
-
-
-
-
 /* #hero 섹션 내부의 텍스트와 버튼 스타일 */
 .hero .containers, #hero .containers {
     position: relative;
@@ -1076,20 +1140,39 @@ section,
 }
 
 .hero h1, #hero h1 {
-    font-size: 60px;
-    font-weight: 700;
-    line-height: 56px;
+    font-size: 75px;
+    font-weight: 400;
+    line-height: 70px;
     color: #fff;
     margin-bottom: 20px;
     text-align: center;
+  font-family: "Audiowide", sans-serif;
+  font-style: normal;
+}
+
+
+.hero h2 {
+  font-weight: 400;
+  font-family: "Audiowide", sans-serif;
+  font-style: normal;
+  /*color: #373b3e;*/
+  /*-webkit-text-stroke: 2px white;*/
+  color: white;
+
+  font-size: 50px;
+  line-height: 56px;
+  margin-bottom: 20px;
+  text-align: center;
+
+
 }
 
 .hero p, #hero p {
     color: rgba(255, 255, 255, 0.8);
     font-size: 22px;
-    line-height: 1.3;
+    line-height: 1.7;
     font-weight: 600;
-    margin: 5px 0 30px 0;
+    margin: 5px 0 9px 0;
     text-align: center;
 }
 
@@ -1123,6 +1206,13 @@ section,
     justify-content: center;
 }
 
+.connect-button {
+  border: 2px solid #007bff;
+  padding: 10px;
+  border-radius: 5px;
+  padding-left: 30px;
+}
+
 /* 애니메이션 효과 */
 .hero .animated {
     animation: up-down 2s ease-in-out infinite alternate-reverse both;
@@ -1136,8 +1226,14 @@ section,
 /* 반응형 스타일 */
 @media (max-width: 640px) {
     .hero h1, #hero h1 {
-        font-size: 28px;
-        line-height: 36px;
+      font-size: 75px;
+      font-weight: 400;
+      line-height: 70px;
+      color: #fff;
+      margin-bottom: 20px;
+      text-align: center;
+      font-family: "Audiowide", sans-serif;
+      font-style: normal;
     }
 
     .hero p, #hero p {
@@ -1550,6 +1646,14 @@ header {
   .contact .info-wrap {
     padding: 20px;
   }
+
+  b, strong {
+    font-size: 50px;
+  }
+}
+
+footer strong {
+  font-size: 14px;
 }
 
 .contact .info-item {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, user-scalable=yes, initial-scale=0.5">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Project Edit</title>
     <!-- CKEditor Classic Editor 추가 -->
@@ -39,7 +39,7 @@
 
 <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 100px; margin-top: 150px; ">
     <div class="d-flex justify-content-center container custom-width" style="max-width: 1000px">
-        <form class="container mt-5" th:action="@{/project/edit}" method="post" >
+        <form class="container mt-5" th:action="@{/project/edit}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="no" th:value="${project.no}" />
             <div>
 
@@ -65,13 +65,13 @@
             <input type="file" id="file" name="file" multiple="multiple" >
 
             <nav id="navmenu" class="navmenu pt-3">
-                <ul>
+                <ul th:if="${project.file!= 'no_image.jpg'}">
                     <li class="dropdown"><span>등록된 파일 이름 ▼</span>
                         <ul>
                             <li><a type="button" class="btn btn-outline-danger text-dark"
-                                   th:href="@{/project/delete/{file}(file=${project.file})}">대표파일 삭제</a>
-                                <div th:each="fileName: ${project.file}">
-                                <a th:text="${fileName}"></a>
+                                   th:href="@{/pro/delete/{file}(file=${project.file})}">대표파일 삭제</a>
+                                <div th:each="fileName: ${project.file.split(',')}" th:if="${fileName != 'no_image.jpg'}">
+                                <a th:text="${fileName.contains('_') ? fileName.split('_', 2)[1] : fileName }"></a>
                                 <br>
                                 <img th:src="@{'/data/' + ${fileName}}" style="max-height: 300px; max-width: 300px">
                                 </div></li>
