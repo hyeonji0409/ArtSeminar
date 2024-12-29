@@ -205,7 +205,7 @@ body{
 #login-dropdown {
     position: relative;
     display: inline-block;
-    padding: 0px 30px;
+    /*padding: 0px 30px;*/
 }
 
 #login-button {
@@ -223,17 +223,17 @@ body{
     background: color-mix(in srgb, var(--accent-color), transparent 15%);
 }
 
-#dropdown-menu {
+#dropdown-menu, #account-menu {
     display: none;
     position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-35%);
+    /*top: 100%;*/
+    /*left: 50%;*/
+    /*transform: translateX(-35%);*/
     background-color: var(--accent-color);
     color: var(--contrast-color);
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin: 0 0 0 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 10;
@@ -285,12 +285,12 @@ body{
   display: none;
   position: absolute;
   top: calc(100% + 1px);
-  left: 50%;
-  transform: translateX(-35%);
+  left: 0;
+  /*transform: translateX(-35%);*/
   background-color: var(--accent-color);
   list-style-type: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 0 30px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 10;
@@ -303,7 +303,7 @@ body{
 
 #account-menu li {
   margin: 0;
-  padding: 5px 15px;
+  padding: 4px 8px;
 }
 
 #account-menu a {
@@ -503,7 +503,7 @@ body{
   .header .btn-getstarted:focus {
     color: var(--contrast-color);
     background: var(--accent-color);
-    margin: 0 25px 0 0;
+    margin: 0 20px 0 0;
   }
 
   /* 헤더 사이즈 조정 */
@@ -517,10 +517,17 @@ body{
   /* 창 크기가 480px 이하일 때 */
   @media (max-width: 480px) {
     #login-button {
+      justify-content: center;
       min-width: 100px; /* 버튼의 최소 너비 */
       min-height: 40px; /* 버튼의 최소 높이 */
       padding: 8px 25px; /* 기존 패딩 유지 */
       font-size: 14px; /* 글자 크기 유지 */
+    }
+
+    @media (max-width: 480px) {
+      #dropdown-menu {
+        margin: 0 30px 0 0;
+      }
     }
   }
 
@@ -1422,6 +1429,8 @@ header {
   padding: 50px 30px;
   transition: all ease-in-out 0.4s;
   height: 100%;
+  width: 100%;
+  max-width: 500px;
 }
 
 .services .service-item .icon {

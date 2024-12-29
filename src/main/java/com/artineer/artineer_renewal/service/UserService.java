@@ -127,12 +127,12 @@ public class UserService {
             oldUser.setName(userDto.getName());
             oldUser.setSex(userDto.getSex());
             oldUser.setBirth(formattedBirth);
-            oldUser.setTel(userDto.getTel());
+            if (userDto.getTel()!=null) oldUser.setTel(userDto.getTel());
             oldUser.setEmail(userDto.getEmail());
             oldUser.setZipcode(userDto.getZipcode());
             oldUser.setRoadAddress(userDto.getRoadAddress());
             oldUser.setDetailAddress(userDto.getDetailAddress());
-            oldUser.setYear(userDto.getYear());
+            if (userDto.getYear()!=null) oldUser.setYear(userDto.getYear());
             if (userDto.getRole() != null && !userDto.getRole().isEmpty()) oldUser.setRole(userDto.getRole());
         } else {
             if (userDto.getPassword()!=null && !userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
