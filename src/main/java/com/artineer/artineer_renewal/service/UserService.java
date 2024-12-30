@@ -125,13 +125,13 @@ public class UserService {
         if (isAdmin(logInUsername)) {
             if (userDto.getPassword() !=null && !userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
             if (userDto.getName() != null) oldUser.setName(userDto.getName());
-            oldUser.setSex(userDto.getSex());
-            oldUser.setBirth(formattedBirth);
+            if (userDto.getSex() != null) oldUser.setSex(userDto.getSex());
+            if (userDto.getBirth() != null)oldUser.setBirth(formattedBirth);
             if (userDto.getTel()!=null) oldUser.setTel(userDto.getTel());
-            oldUser.setEmail(userDto.getEmail());
-            oldUser.setZipcode(userDto.getZipcode());
-            oldUser.setRoadAddress(userDto.getRoadAddress());
-            oldUser.setDetailAddress(userDto.getDetailAddress());
+            if (userDto.getEmail() != null)oldUser.setEmail(userDto.getEmail());
+            if (userDto.getZipcode() != null)oldUser.setZipcode(userDto.getZipcode());
+            if (userDto.getRoadAddress() != null) oldUser.setRoadAddress(userDto.getRoadAddress());
+            if (userDto.getDetailAddress() != null) oldUser.setDetailAddress(userDto.getDetailAddress());
             if (userDto.getYear()!=null) oldUser.setYear(userDto.getYear());
             if (userDto.getRole() != null && !userDto.getRole().isEmpty()) oldUser.setRole(userDto.getRole());
         } else {
