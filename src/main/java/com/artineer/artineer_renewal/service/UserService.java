@@ -124,7 +124,7 @@ public class UserService {
 
         if (isAdmin(logInUsername)) {
             if (userDto.getPassword() !=null && !userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
-            oldUser.setName(userDto.getName());
+            if (userDto.getName() != null) oldUser.setName(userDto.getName());
             oldUser.setSex(userDto.getSex());
             oldUser.setBirth(formattedBirth);
             if (userDto.getTel()!=null) oldUser.setTel(userDto.getTel());
