@@ -68,6 +68,8 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         "/mypage/**",
                                         "/greeting/**").authenticated()
+                                .requestMatchers(
+                                        "/actuator/**").hasRole("ADMIN")
                                 .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
