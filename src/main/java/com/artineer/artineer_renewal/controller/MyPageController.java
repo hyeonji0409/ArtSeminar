@@ -51,7 +51,6 @@ public class MyPageController {
         List<Class<?>> targetArticle = new ArrayList<>();
         targetArticle.add(Notice.class);
         targetArticle.add(Gallery.class);
-        targetArticle.add(Project.class);
         targetArticle.add(Exam.class);
         targetArticle.add(Reference.class);
         targetArticle.add(Greeting.class);
@@ -78,7 +77,6 @@ public class MyPageController {
         List<Class<?>> targetArticle = new ArrayList<>();
         targetArticle.add(Notice.class);
         targetArticle.add(Gallery.class);
-        targetArticle.add(Project.class);
         targetArticle.add(Exam.class);
         targetArticle.add(Reference.class);
         targetArticle.add(Greeting.class);

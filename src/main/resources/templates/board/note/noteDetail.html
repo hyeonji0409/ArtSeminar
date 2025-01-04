@@ -42,9 +42,9 @@
 <div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
 <main class="main">
 <div style="margin-top: 150px;">
-    <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px;" >
+    <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px;">
         <div class="border-bottom pb-3">
-            <h1 th:text="${note.title}" class="text-break" style="padding-top: 20px; width: 700px;">note Title</h1>
+            <h1 th:text="${note.title}" class="text-break" style="padding-top: 20px;">note Title</h1>
             <div class="border-bottom pb-3">
                 <a >작성자: </a><a th:text="${note.name}" style="padding-right: 20px">작성자</a>
                 <a>날짜: </a><a th:text="${note.regdate}" style="padding-right: 20px">날짜</a>
@@ -63,8 +63,8 @@
                 </ul>
             </nav>
 
-            <div class="pt-3 pb-3" style="min-height: 300px">
-                <div class="ck-content" style="width: 800px;">
+            <div class="pt-3 pb-3 container" style="min-height: 300px">
+                <div class="ck-content">
                     <div class="pb-3" th:utext="${note.story}">note Story</div>
 
                     <div th:each="fileName: ${note.file}" class="pt-5">
