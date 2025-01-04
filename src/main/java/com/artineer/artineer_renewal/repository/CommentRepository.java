@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findAllByBbsNo(Integer bbsno);
+    List<Comment> findByBbsNoIn(List<Integer> bbsnos);
     List<Comment> findAllByBbsnameAndBbsNo(String bbsname, Integer bbsno);
     Page<Comment> findAllByUser_Username(String username, Pageable pageable);
 }

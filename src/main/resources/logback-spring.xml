@@ -10,17 +10,17 @@
     <!-- 파일에 로그 기록 및 롤링 설정 -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 로그 파일 저장 경로 (상위 디렉터리로 로그를 저장하고 싶다면 '../logs'로 설정) -->
-        <file>../logs/application.log</file>
+        <file>/var/www/artineer/logs/application.log</file>
 
         <!-- 롤링 정책 (파일 이름 패턴 지정) -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 로그 파일의 이름 패턴 -->
-            <fileNamePattern>../logs/application-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>/var/www/artineer/logs/application-%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 로그 파일을 유지할 기간 설정 -->
             <maxHistory>365</maxHistory> <!-- 최대 30일 간의 로그 보관 -->
         </rollingPolicy>
 
-        <!-- 로그 포맷 설정 -->
+        <!-- 로그 포맷 설정 -->녀
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
