@@ -61,7 +61,7 @@ jobs:
           
           # Tomcat 서버 재시작
           sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST '
-            sudo /opt/tomcat/bin/shutdown.sh;
+            /opt/tomcat/bin/shutdown.sh;
             sleep 5; # 재시작 전에 몇 초 대기
-            sudo /opt/tomcat/bin/startup.sh;
+            /opt/tomcat/bin/startup.sh;
           '
