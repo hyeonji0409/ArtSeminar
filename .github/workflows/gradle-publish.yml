@@ -52,7 +52,7 @@ jobs:
           
           # 톰캣
           # scp 명령어로 .jar 파일을 리눅스 서버로 복사
-          sshpass -p $SERVER_PASSWORD scp -o StrictHostKeyChecking=no ./build/libs/artineer-renewal-0.0.1-SNAPSHOT-plain.jar $SERVER_USER@$SERVER_HOST:/opt/tomcat/webapps/
+          sshpass -p $SERVER_PASSWORD scp -o StrictHostKeyChecking=no ./build/libs/artineer-renewal-0.0.1-SNAPSHOT-plain.war $SERVER_USER@$SERVER_HOST:/opt/tomcat/webapps/
           
           # 기존 애플리케이션 제거 (선택 사항)
           sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST 'rm -rf /opt/tomcat/webapps/artineer-renewal-0.0.1-SNAPSHOT-plain /opt/tomcat/webapps/artineer-renewal-0.0.1-SNAPSHOT-plain.war'
