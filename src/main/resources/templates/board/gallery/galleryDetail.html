@@ -39,7 +39,7 @@
 <div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
 <main class="main">
 <div style="margin-top: 150px;">
-    <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px;" >
+    <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px;">
         <div class="border-bottom pb-3">
         <h1 th:text="${gallery.title}" style="padding-top: 20px">Gallery Title</h1>
             <div class="border-bottom pb-3">
@@ -62,7 +62,7 @@
 
 
             <div class="pt-3 pb-3">
-                <div style="width: 800px; min-height: 500px;">
+                <div style="min-height: 500px;">
                     <div th:utext="${gallery.story}">Gallery Story</div>
                     <div th:each="fileName: ${gallery.file}" class="pt-5">
                         <img th:if="${fileName != 'no_image.jpg'}" th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">

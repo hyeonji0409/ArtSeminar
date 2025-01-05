@@ -79,7 +79,7 @@
                                    style="font-size: 25px; text-decoration: none; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">제목</a>
 
                                 <p th:text="${greeting.name} + '(' + ${greeting.year} + '기)'" class="card-text mb-0" >작성자</p>
-                                <p th:text="${greeting.regdate}" class="card-text mb-0" >날짜</p>
+                                <p th:text="${greeting.regdate.contains(' ') ? greeting.regdate.split(' ')[0] : greeting.regdate}" class="card-text mb-0" >날짜</p>
                                 <div class="d-flex justify-content">
                                     <p>댓글수</p><p th:text="${greeting.comments.size()}" class="card-text"><small class="text-muted" style="padding-right: 10px;">댓글수</small></p>
                                     <p style="padding-left: 10px;">조회수</p><p th:text="${greeting.hit}" class="card-text"><small class="text-muted" >조회수</small></p>

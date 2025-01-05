@@ -39,7 +39,7 @@
         max-width: 300px;
     }
     .custom-width {
-        max-width: 800px;
+        max-width: 430px;
     }
 }
 @media (min-width: 992px) and (max-width: 1199.98px) {
@@ -50,12 +50,24 @@
         max-width: 200px;
     }
     .custom-width {
-        max-width: 600px;
+        max-width: 300px;
     }
 }
 @media (min-width: 768px) and (max-width: 991.98px) {
     .custom-width {
-        max-width: 400px;
+        max-width: 200px;
+    }
+    .text-width{
+        max-width: 120px;
     }
 }
+@media (max-width: 767.98px) {
+    .custom-width {
+        max-width: 100px;
+    }
+    .text-width{
+        max-width: 100px;
+    }
+}
+
 
