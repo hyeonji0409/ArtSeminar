@@ -89,7 +89,7 @@
 
         <div class="d-flex align-items-center">
         <h2 class="pt-3 pe-3">댓글</h2>
-        <form th:action="@{/comments/add}" method="post">
+        <form id="new_comment">
             <input type="hidden" name="bbsName" th:value="${bbsName}" />
             <input type="hidden" name="bbsNo" th:value="${bbsNo}" />
             <input type="hidden" name="username" th:value="${user!=null ? user.getUsername() : '익명'}" />
@@ -130,6 +130,7 @@
 
 <!-- Main JS File -->
 <script src="/js/mastermain.js"></script>
+<script src="/js/comment.js"></script>
 
 
 </body>
