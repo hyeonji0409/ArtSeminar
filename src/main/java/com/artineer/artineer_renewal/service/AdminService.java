@@ -211,6 +211,7 @@ public class AdminService {
             calendarEvent.setEndDate(calendarEventDTO.getEndDate());
             calendarEvent.setEndTime(calendarEventDTO.getEndTime());
             calendarEvent.setIsAllDay(calendarEventDTO.getIsAllDay());
+            calendarEvent.setCreatedAt(Instant.now());
         }
 
         eventRepository.save(calendarEvent);

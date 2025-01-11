@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -15,11 +16,34 @@
 <!-- todo 고비용인가-->
 <div th:each="comment, iterStat :  ${comments}"  th:fragment="comment(comments)">
 
-    <div style="margin: 2px 0 12px 0; padding-bottom: 5px; border-bottom: #a1c5ff thin solid">
-        <strong style="display: block" th:text="${comment.getUser().getName()} + '(' + ${comment.getUser().getYear()} + '기)'">작성자</strong>
-        <span th:text="${comment.memo}">content</span>
+    <div th:data-no="${comment.getNo()}" style="margin: 2px 0 12px 0; padding-bottom: 5px; border-bottom: #a1c5ff thin solid">
+
+        <div class="d-flex justify-content-between">
+            <strong style="display: inline" th:text="${comment.getUser().getName()} + '(' + ${comment.getUser().getYear()} + '기)'">작성자</strong>
+            <nav id="navmenu" style="display: inline" class="navmenu">
+                <ul style="display: inline">
+                    <li class="dropdown" style="display: inline; font-size: 12px">
+                        <span>더보기</span>
+                        <ul style="display: inline">
+                            <li style="display: inline">
+                                <a class="report_comment_btn text-info" href="#">신고</a>
+                            </li>
+                            <li th:if="${#authentication.getPrincipal().getUsername()==comment.getUser().getUsername()}" style="display: inline">
+                                    <a class="update_comment_btn text-warning" href="#" >수정</a>
+                            </li>
+                            <li th:if="${(#authentication.getPrincipal().getUsername()==comment.getUser().getUsername()) || (#authentication.getPrincipal().getRole()=='ROLE_ADMIN')}" style="display: inline">
+                                <a class="delete_comment_btn text-danger" href="#" >삭제</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+
+        <span class="content_box" th:text="${comment.memo}">content</span>
         <div style="color: gray; font-size: 13px;"><a th:text="${comment.regdate}">날짜</a>
-<!--            <a href="#" role="button">답글 작성</a>-->
+            <a style="color: gray; font-size: 14px; margin-left: 5px" role="button" onclick="alert('준비중입니다.')">답글 작성</a>
         </div>
 
         <div th:if="${!comment.getComments().isEmpty()}">

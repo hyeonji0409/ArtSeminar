@@ -57,8 +57,12 @@ public class SecurityConfig {
                                         "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
                                 .requestMatchers("note/**").permitAll()
                                 .requestMatchers(
-                                        "/notice/**",
-                                        "/minutes/**",
+                                        "/notice/new/**",
+                                        "/notice/edit/**",
+                                        "/notice/delete/**",
+                                        "/minutes/new/**",
+                                        "/minutes/edit/**",
+                                        "/minutes/delete/**",
                                         "/admin/**").hasAnyRole("ADMIN", "MANAGER")
                                 .requestMatchers(
                                         "/gallery/**",
