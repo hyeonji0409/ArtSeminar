@@ -12,6 +12,10 @@ on:
     types:
       - created
       - edited
+      - updated
+  push:
+    branches:
+      - "release_test/*"  # 릴리즈 브랜치 패턴
 
 jobs:
   deploy:
