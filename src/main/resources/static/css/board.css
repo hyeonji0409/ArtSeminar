@@ -71,3 +71,9 @@
 }
 
 
+/* 댓글 더보기 드롭다운 active */
+.dropdown-item.active, .dropdown-item:active {
+    color: var(--bs-dropdown-link-active-color);
+    text-decoration: none;
+    background-color: #d8d8d8;
+}

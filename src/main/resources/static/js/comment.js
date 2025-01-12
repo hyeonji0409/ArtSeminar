@@ -30,6 +30,8 @@ for (const button of updateButtons) {
     button.addEventListener('click', function (e) {
         e.preventDefault();
 
+        if (document.querySelector('textarea.content_box')) return
+
         const commentElement = e.target.closest('[data-no]');
         const commentNo = commentElement.dataset.no;
         const commentContentBox = commentElement.querySelector('.content_box');
