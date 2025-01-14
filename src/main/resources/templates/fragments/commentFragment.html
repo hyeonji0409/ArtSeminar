@@ -61,7 +61,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
         </div>
 
         <div style="display: flex; align-items: flex-end;">
-        <span class="content_box" th:text="${comment.memo}">content</span>
+        <span class="content_box" th:utext="${comment.memo}" style="white-space: pre-wrap;">content</span>
         </div>
         <div style="color: gray; font-size: 13px;"><a th:text="${comment.regdate}">날짜</a>
             <a style="color: gray; font-size: 14px; margin-left: 5px" role="button" onclick="alert('준비중입니다.')">답글 작성</a>

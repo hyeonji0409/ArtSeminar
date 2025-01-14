@@ -28,7 +28,6 @@ public class InformationFileDataService {
     private String sourceDir;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-
     private Map<String, String> dataSource = new HashMap<>();
 
     @PostConstruct
