@@ -10,13 +10,16 @@ import com.artineer.artineer_renewal.repository.PopupRepository;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.AdminService;
 import com.artineer.artineer_renewal.service.FileService;
+import com.artineer.artineer_renewal.service.InformationFileDataService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,15 +29,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -52,6 +51,8 @@ public class adminController {
     private PopupRepository popupRepository;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private InformationFileDataService informationFileDataService;
 
 
     // 관리자의 사용자 정보 쿼리 화면
@@ -248,4 +249,59 @@ public class adminController {
         System.out.println(redirectAddress);
         return ResponseEntity.status(HttpStatus.OK).body("good");
     }
+
+    @GetMapping("/admin/site-info")
+    public String siteInfo(Model model) {
+        return "admin/siteInfo";
+    }
+
+
+    @PostMapping("/admins/site-info/set")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> setSiteInfo(@RequestBody Map<String, String> siteInfo) {
+        boolean success = true;
+
+        for (Map.Entry<String, String> entry : siteInfo.entrySet()) {
+            if (!informationFileDataService.set(entry.getKey(), entry.getValue())) {
+                success = false; // 하나라도 실패하면 false
+            }
+        }
+
+        if (success) {
+            return ResponseEntity.ok(Map.of("success", true));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("success", false));
+        }
+    }
+
+    @PostMapping("/admins/site-info/get")
+    @ResponseBody
+    public ResponseEntity<Resource> getSiteInfo(@RequestParam String key) {
+        String content = informationFileDataService.get(key);
+        if (content.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+        byte[] contentBytes = content.getBytes();
+        ByteArrayResource resource = new ByteArrayResource(contentBytes);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=test.txt"); // 파일 이름 설정
+        headers.add(HttpHeaders.CONTENT_TYPE, "text/plain"); // MIME 타입 설정
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(resource);
+    }
+
+    @PostMapping("/admin/site-info/delete")
+    @ResponseBody
+    public ResponseEntity<Resource> deleteSiteInfo(@RequestParam String key) {
+        boolean success = informationFileDataService.delete(key);
+
+        if (success) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
 }
