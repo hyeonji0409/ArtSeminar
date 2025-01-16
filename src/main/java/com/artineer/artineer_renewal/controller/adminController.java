@@ -23,6 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,6 +55,18 @@ public class adminController {
     @Autowired
     private InformationFileDataService informationFileDataService;
 
+    @ModelAttribute
+    public void logRequestDetails(HttpServletRequest request,
+                                  @AuthenticationPrincipal User user) {
+
+        log.info("admin Request by {}: [{}] {} at {}",
+                user.getUsername(),
+                request.getMethod(),
+                request.getRequestURI(),
+                request.getRemoteAddr()
+        );
+    }
+
 
     // 관리자의 사용자 정보 쿼리 화면
     @RequestMapping({"/admin","/admin/member"})
@@ -62,13 +75,9 @@ public class adminController {
                             @RequestParam(name = "size", required = false, defaultValue = "10") Integer pageSize,
                             @ModelAttribute UserSearchDTO userSearchDTO) {
 
-        log.info("admin page access");
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
-
-        System.out.println(userSearchDTO.toString());
 
         Page<User> users = adminService.paginationByQuery(userSearchDTO, page, pageSize);
         if (userSearchDTO.getPage().isEmpty()) { userSearchDTO.setPage(Optional.of(page==null?1:page)); }
@@ -120,7 +129,6 @@ public class adminController {
 
 
         Page<CalendarEvent> calenderEventList = adminService.calenderPaginationByQuery(calendarEventDTO, page, pageSize);
-        System.out.println("일정을 출력" + calenderEventList.getTotalElements());
 
         if (calendarEventDTO.getPage().isEmpty()) { calendarEventDTO.setPage(Optional.of(page==null?1:page)); }
         if (calendarEventDTO.getPageSize().isEmpty()) { calendarEventDTO.setPageSize(Optional.of(pageSize==null?10:pageSize)); }
@@ -148,15 +156,12 @@ public class adminController {
         }
 
         String redirectAddress =  request.getHeader("Referer");
-        System.out.println(redirectAddress);
         return "redirect:" + redirectAddress;
     }
 
     @PostMapping("/admin/calendar/delete")
     public ResponseEntity<String> deleteCalendar(Model model,
                                                  @RequestBody Map<String, Object> payload) {
-
-        System.out.println("일정을 삭제" + payload.toString());
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -175,7 +180,6 @@ public class adminController {
 //        }
 
         String redirectAddress =  request.getHeader("Referer");
-        System.out.println(redirectAddress);
         return ResponseEntity.status(HttpStatus.OK).body("good");
     }
 
@@ -186,8 +190,6 @@ public class adminController {
                                      @RequestParam(name = "size", required = false, defaultValue = "10") Integer pageSize,
                                      @ModelAttribute Popup popup) {
 
-        System.out.println(popup.toString());
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
@@ -195,7 +197,6 @@ public class adminController {
         Pageable pageable = PageRequest.of(0,99999999);
 
         Page<Popup> popupPageable = popupRepository.findAll(pageable);
-        System.out.println("일정을 출력" + popupPageable.getTotalElements());
 
 
         model.addAttribute("user", user);
@@ -230,8 +231,6 @@ public class adminController {
     public ResponseEntity<String> deletePopup(Model model,
                                                  @RequestBody Map<String, Object> payload) {
 
-        System.out.println("일정을 삭제" + payload.toString());
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
@@ -246,7 +245,6 @@ public class adminController {
         popupRepository.delete(popup);
 
         String redirectAddress =  request.getHeader("Referer");
-        System.out.println(redirectAddress);
         return ResponseEntity.status(HttpStatus.OK).body("good");
     }
 

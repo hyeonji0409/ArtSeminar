@@ -61,15 +61,15 @@ public class AdminService {
             default -> null;
         };
 
-        System.out.println("sign-up check: "+ valueName);
-        System.out.println(payload);
-        System.out.println(
-                (foundUser ==
-                        null ?
-                        "It is possible to register a new user...\n null" :
-                        "submitted value is already exist in database...\n" + foundUser.toString()
-                ) + "\n-------------------------------------------------\n"
-        );
+//        System.out.println("sign-up check: "+ valueName);
+//        System.out.println(payload);
+//        System.out.println(
+//                (foundUser ==
+//                        null ?
+//                        "It is possible to register a new user...\n null" :
+//                        "submitted value is already exist in database...\n" + foundUser.toString()
+//                ) + "\n-------------------------------------------------\n"
+//        );
 
         // 검사를 요청한 정보로 찾은 foundUser 가 요청을 보낸 유저와 같을 경우, 중복허용
         if (foundUser != null && foundUser.equals(userRepository.findByUsername(payload.get("username")))) {
@@ -186,10 +186,6 @@ public class AdminService {
 
         if (!userService.isAdmin(logInUsername)) return false;
 
-
-        System.out.println("수정요청 받음" +  calendarEventDTO.toString());
-
-
         CalendarEvent calendarEvent = eventRepository.findByNo(calendarEventDTO.getNo());
         if (calendarEvent != null) {
             // todo 예외처리
@@ -224,13 +220,9 @@ public class AdminService {
 
         if (!userService.isAdmin(logInUsername)) throw new AccessDeniedException("관리자만 수정가능합니다.");
 
-        System.out.println("수정요청 받음" +  popup.toString());
-
         Popup foundPopup = popupRepository.findByNo(popup.getNo());
 
         if (foundPopup != null) {
-            System.out.println("디비서 가져온 " + foundPopup);
-
             // todo 예외처리
             if (popup.getTitle()!=null && !foundPopup.getTitle().isEmpty()) foundPopup.setTitle(popup.getTitle());
             if (popup.getDescription()!=null && !foundPopup.getDescription().isEmpty()) foundPopup.setDescription(popup.getDescription());
