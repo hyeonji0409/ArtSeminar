@@ -133,6 +133,7 @@ a:visited { text-decoration: none; }
 }
 
 .info__items {
+    display: flex;
     background-color: white;
     height: 3rem;
     margin: 3px;
