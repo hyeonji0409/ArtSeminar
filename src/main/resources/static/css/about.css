@@ -7,8 +7,15 @@ h3 {
   font-style: normal;
 }
 
-
-
+/*--------------------------------------------------------------
+# About Page mobile text-size-adjust
+--------------------------------------------------------------*/
+html, body {
+    -webkit-text-size-adjust: none; /* 크롬, 사파리, 오페라 신버전 */
+    -ms-text-size-adjust: none;    /* IE */
+    -moz-text-size-adjust: none;   /* 파이어폭스 */
+    -o-text-size-adjust: none;     /* 오페라 구버전 */
+}
 
 
 
@@ -115,13 +122,13 @@ body {
 
 .btn {
     opacity: 80%;
-    /*color: #f0f0f0;*/
     font-size: 21px;
     font-weight: 600;
     padding: 0 20px;
     transition: all 0.3s;
     position: relative;
     left: 35px;
+    border: 1px solid transparent;
 }
 
 .btn:hover {
@@ -129,9 +136,8 @@ body {
     cursor: pointer;
 }
 
-.active {
-    opacity: 100%;
-    color: #c3201f;
+.btn:active {
+    border-color: white;
 }
 
 
