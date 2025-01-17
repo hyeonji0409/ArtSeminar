@@ -77,7 +77,7 @@ public class adminController {
         model.addAttribute("users", users);
         model.addAttribute("userSearchDTO", userSearchDTO);
 
-        return "/admin/admin";
+        return "admin/admin";
     }
 
 
@@ -128,7 +128,7 @@ public class adminController {
         model.addAttribute("calenderEventList", calenderEventList);
         model.addAttribute("calendarEventDTO", calendarEventDTO);
 
-        return "/admin/CalendarEventManage";
+        return "admin/CalendarEventManage";
     }
 
     @PostMapping("/calendar/update")
@@ -143,7 +143,7 @@ public class adminController {
         boolean isSuccess = adminService.updateCalendarEvent(username, calendarEventDTO, clientIp);
         if (!isSuccess) {
             model.addAttribute("errorCode", 400);
-            return "/error/errorPage";
+            return "error/errorPage";
         }
 
         String redirectAddress =  request.getHeader("Referer");
@@ -170,7 +170,7 @@ public class adminController {
 //        boolean isSuccess = adminService.updateCalendarEvent(username, calendarEventDTO, clientIp);
 //        if (!isSuccess) {
 //            model.addAttribute("errorCode", 400);
-//            return "/user/errorPage";
+//            return "user/errorPage";
 //        }
 
         String redirectAddress =  request.getHeader("Referer");
@@ -200,7 +200,7 @@ public class adminController {
         model.addAttribute("user", user);
         model.addAttribute("popupPageable", popupPageable);
 
-        return "/admin/popupManage";
+        return "admin/popupManage";
     }
 
     @PostMapping("/admin/popup/update")

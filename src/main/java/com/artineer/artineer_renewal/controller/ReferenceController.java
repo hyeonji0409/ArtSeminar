@@ -134,8 +134,8 @@ public class ReferenceController {
     }
 
     @PostMapping("/reference/edit")
-    public String updateReference(@RequestParam Long no, @RequestParam String title, @RequestParam String story) {
-        referenceService.updateReference(no, title, story);
+    public String updateReference(@RequestParam Long no, @RequestParam String title, @RequestParam String story,@RequestParam("file") List<MultipartFile> file) {
+        referenceService.updateReference(no, title, story,file);
         return "redirect:/reference/" + no;
     }
 

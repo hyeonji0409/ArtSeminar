@@ -15,7 +15,7 @@ document.getElementById('editbtn').addEventListener('click', function() {
 
     // 필요하면 '완료'와 '취소' 버튼을 보이도록 설정
     document.querySelector('.editPageBtn').style.display = 'block';
-    document.querySelector('.passwords').style.display = 'block';
+    document.querySelector('.passwords').classList.toggle("show");
     // document.querySelector('#password1').style.display = 'block';
     // document.querySelector('#password2').style.display = 'block';
     // document.querySelector('.pw-lb1').style.display = 'block';
@@ -39,7 +39,7 @@ document.getElementById('savebtn').addEventListener('click', function() {
 
     // 수정하면 '완료'와 '취소' 버튼 숨기기
     document.querySelector('.editPageBtn').style.display = 'none';
-    document.querySelector('.passwords').style.display = 'none';
+    document.querySelector('.passwords').classList.toggle("show");
     // document.querySelector('#password1').style.display = 'none';
     // document.querySelector('#password2').style.display = 'none';
     // document.querySelector('.pw-lb1').style.display = 'none';
@@ -59,7 +59,7 @@ document.getElementById('canclebtn').addEventListener('click', function() {
 
 
     document.querySelector('.editPageBtn').style.display = 'none';
-    document.querySelector('.passwords').style.display = 'none';
+    document.querySelector('.passwords').classList.toggle("show");
     // document.querySelector('#password1').style.display = 'none';
     // document.querySelector('#password2').style.display = 'none';
     // document.querySelector('.pw-lb1').style.display = 'none';

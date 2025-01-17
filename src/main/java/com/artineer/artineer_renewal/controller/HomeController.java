@@ -46,7 +46,7 @@ public class HomeController {
 
     @RequestMapping("/denied")
     public String denied() {
-        return "/error/access-denied";
+        return "error/access-denied";
     }
 
 

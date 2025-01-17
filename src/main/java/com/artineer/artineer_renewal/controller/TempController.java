@@ -27,7 +27,7 @@ public class TempController {
         User user = userRepository.findByUsername(username);
         model.addAttribute("user", user);
 
-        return "/basePage";
+        return "basePage";
     }
 
 

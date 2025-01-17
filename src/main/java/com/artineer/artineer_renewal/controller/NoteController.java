@@ -11,6 +11,7 @@ import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.IntegratedArticleService;
 import com.artineer.artineer_renewal.service.NoteService;
 import com.artineer.artineer_renewal.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,11 +46,14 @@ public class NoteController {
     private UserRepository userRepository;
 
     @GetMapping("/note")
-    public String notis(Model model,
+    public String notes(Model model,
                           @RequestParam(name = "qt", required = false, defaultValue = "name") String queryType,
                           @RequestParam(name = "q", required = false, defaultValue = "") String query,
                           @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
                           @RequestParam(name = "size", required = false, defaultValue = "10") Integer pageSize) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
 
         Pageable pageable = PageRequest.of(
                 page - 1,
@@ -60,7 +64,7 @@ public class NoteController {
         Page<Note> pagination = noteRepository.findAllByNameContaining(query, pageable);
 //                Page<Object> pagination = noticeRepository.findAll(pageable);
 
-
+        model.addAttribute("user", user);
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("pagination", pagination);
         model.addAttribute("queryType", queryType);
@@ -70,20 +74,25 @@ public class NoteController {
 
     /* 글 작성 */
     @PostMapping("/note/new")
-    public String createNote(@RequestParam String pw,@RequestParam String name, @RequestParam String title, @RequestParam String story, @RequestParam("file") List<MultipartFile> file) {
+    public String createNote(@RequestParam String name,@RequestParam String pw, @RequestParam String title, @RequestParam String story, @RequestParam("file") List<MultipartFile> file) {
 
         // 파일이 없으면 비어있는 리스트 처리
         if(file == null || file.isEmpty()) {
             file = new ArrayList<>();
         }
 
-        noteService.createNote(pw, name,title, story, file);
+        noteService.createNote(name, pw,title, story, file);
         return "redirect:/note";
     }
 
     /* 새 글 작성 */
     @GetMapping("/note/new")
-    public String showNewNote() {
+    public String showNewNote(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
+        model.addAttribute("user", user);
 
         return "board/note/noteNew";
     }
@@ -91,11 +100,16 @@ public class NoteController {
     /* 글 세부 내용 조회 */
     @GetMapping("/note/{no}")
     public String showNoteDetail(@PathVariable("no") Long no, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
 
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
 
         NoteDto note = noteService.getNoteByNo(no);
         if (note == null)  throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
 
+//        System.out.println(note.getNo());
         // 조회수 증가
         noteService.increaseHitCount(no);
 
@@ -116,15 +130,15 @@ public class NoteController {
         Note note = noteRepository.findById(no).orElse(null);
 
 //        pw를 통해 게시판 수정 가능하도록
-        if(!isAuthorizedUser(username)) throw new AccessDeniedException("수정권한이 없습니다.");
+//        if(!isAuthorizedUser(username)) throw new AccessDeniedException("수정권한이 없습니다.");
 
         model.addAttribute("note", note);
         return "board/note/noteEdit";
     }
 
     @PostMapping("/note/edit")
-    public String updateNote(@RequestParam Long no, @RequestParam String title, @RequestParam String story) {
-        noteService.updateNote(no, title, story);
+    public String updateNote(@RequestParam Long no, @RequestParam String title, @RequestParam String story,@RequestParam("file") List<MultipartFile> file) {
+        noteService.updateNote(no, title, story, file);
         return "redirect:/note/" + no;
     }
 
@@ -136,12 +150,17 @@ public class NoteController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loggedInUsername = authentication.getName();
         //이것도 pw에 맞게 작성하면 삭제 가능
-        if(isAuthorizedUser(loggedInUsername)) {
-            noteService.deleteNote(no);
+
             return "redirect:/note";
-        } else {
-            return "redirect:/access-denied";
-        }
+    }
+
+    @GetMapping("/n/delete/{file}")
+    public String deleteFile(@PathVariable String file, HttpServletRequest request){
+        noteService.deleteFiles(file);
+        String referer = request.getHeader("Referer");
+
+        if (referer != null) return "redirect:" + referer;
+        return "redirect:/exam";
     }
 
     private boolean isAuthorizedUser(String loggedInUsername) {

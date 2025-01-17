@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, user-scalable=yes, initial-scale=0.5">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Greeting</title>
     <meta name="description" content="">
@@ -79,15 +79,15 @@
                                    style="font-size: 25px; text-decoration: none; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">제목</a>
 
                                 <p th:text="${greeting.name} + '(' + ${greeting.year} + '기)'" class="card-text mb-0" >작성자</p>
-                                <p th:text="${greeting.regdate}" class="card-text mb-0" >날짜</p>
+                                <p th:text="${greeting.regdate.contains(' ') ? greeting.regdate.split(' ')[0] : greeting.regdate}" class="card-text mb-0" >날짜</p>
                                 <div class="d-flex justify-content">
                                     <p>댓글수</p><p th:text="${greeting.comments.size()}" class="card-text"><small class="text-muted" style="padding-right: 10px;">댓글수</small></p>
                                     <p style="padding-left: 10px;">조회수</p><p th:text="${greeting.hit}" class="card-text"><small class="text-muted" >조회수</small></p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 d-flex justify-content-end " th:each="fileName: ${greeting.file}">
-                            <img  th:src="@{'/data/' + ${fileName}}" style="max-width: 300px;max-height: 200px;">
+                        <div class="col-md-4 d-flex justify-content-end">
+                            <img th:src="@{'/data/' + ${greeting.file.split(',')[0]}}" style="max-width: 300px; max-height: 200px;">
                         </div>
                     </div>
                 </div>

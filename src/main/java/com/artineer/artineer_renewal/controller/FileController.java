@@ -80,6 +80,7 @@ public class FileController {
     public ResponseEntity<Resource> viewFile(@PathVariable String file) {
         try {
             Path filePath = Paths.get(fileDir).resolve(file).normalize();
+            System.out.println("불러올" + filePath);
             Resource resource = new UrlResource(filePath.toUri());
 
             if(!resource.exists()) {

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, user-scalable=yes, initial-scale=0.5">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Greeting Detail</title>
     <meta name="description" content="">
@@ -42,20 +42,20 @@
 <div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
 <main class="main">
 <div style="margin-top: 150px;">
-    <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px;" >
+    <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px;">
         <div class="border-bottom pb-3">
-            <h1 th:text="${greeting.title}" class="text-break" style="padding-top: 20px; width: 700px;">Greeting Title</h1>
+            <h1 th:text="${greeting.title}" class="text-break" style="padding-top: 20px;">Greeting Title</h1>
             <div class="border-bottom pb-3">
                 <a >작성자: </a><a th:text="${greeting.name} + '(' + ${greeting.year} + '기)'" style="padding-right: 20px">작성자</a>
                 <a>날짜: </a><a th:text="${greeting.regdate}" style="padding-right: 20px">날짜</a>
                 <a>조회수: </a><a th:text="${greeting.hit}">조회수</a>
             </div>
 
-            <nav id="navmenu" class="navmenu d-flex justify-content-end"  th:each="fileName: ${greeting.file}" >
-                <ul th:if="${fileName != 'no_image.jpg'}">
+            <nav id="navmenu" class="navmenu d-flex justify-content-end"  >
+                <ul th:if="${greeting.file != 'no_image.jpg'}">
                     <li class="dropdown"><span>파일 다운로드 ▼</span>
                         <ul>
-                            <li><div>
+                            <li><div th:each="fileName: ${greeting.file}" >
                                 <a th:if="${fileName != 'no_image.jpg'}" th:href="|/downloads/${fileName}|" th:text="${fileName.contains('_') ? fileName.split('_', 2)[1] : fileName }" alt="Image" class="text-info"></a>
                             </div></li>
                         </ul>
@@ -64,11 +64,11 @@
             </nav>
 
             <div class="pt-3 pb-3" style="min-height: 300px">
-                <div class="ck-content" style="width: 800px;">
+                <div class="ck-content">
                     <div class="pb-3" th:utext="${greeting.story}">Greeting Story</div>
 
                     <div th:each="fileName: ${greeting.file}" class="pt-5">
-                        <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">
+                        <img th:if="${fileName != 'no_image.jpg'}" th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
             <div class="d-flex justify-content-center">
             <div class="d-flex justify-content-between" style="width: 800px">
                 <a href="/greeting" class="btn btn-outline-info custom-btn">목록</a>
-            <div class="btn-group" sec:authorize="isAuthenticated()">
+                <div class="btn-group" sec:authorize="isAuthenticated()" th:if="${greeting.getUsername() == #authentication.name}">
                 <a type="button" class="btn btn-outline-info custom-btn"
                    th:href="@{/greeting/edit/{no}(no=${greeting.no})}">수정</a>
                 <a type="button" class="btn btn-outline-info custom-btn"
@@ -97,7 +97,7 @@
             <input type="hidden" name="username" th:value="${user!=null ? user.getUsername() : '익명'}" />
             <input type="hidden" name="replys" th:value="${null}" />
             <div class="d-flex align-items-center">
-            <input class="form-control" type="text" name="memo" placeholder="댓글을 입력하세요." style="width: 600px" required />
+            <input class="form-control" type="text" name="memo" placeholder="댓글을 입력하세요." style="width: 350px" required />
             <button type="submit" class="btn _btn" style="width: 80px;">등록</button>
             </div>
         </form>
@@ -105,7 +105,7 @@
 
         <h2>댓글 목록</h2>
 <!--        <div th:each="comment : ${greeting.comments}">-->
-            <div th:replace="/fragments/commentFragment :: comment(comments=${greeting.comments})"></div>
+            <div th:replace="~{fragments/commentFragment :: comment(comments=${greeting.comments})}"></div>
 <!--        </div>-->
 
 

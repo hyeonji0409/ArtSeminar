@@ -36,11 +36,12 @@ public class GalleryDto {
 
 
     @Builder
-    public GalleryDto(Long no, String title, String story, int hit, String name,int year, String regdate, List<String> file, List<Comment> comments) {
+    public GalleryDto(Long no, String title, String story, int hit, String username, String name,int year, String regdate, List<String> file, List<Comment> comments) {
         this.no = no;
         this.title = title;
         this.story = story;
         this.hit = hit;
+        this.username = username;
         this.name = name;
         this.regdate = regdate;
         this.year = year;

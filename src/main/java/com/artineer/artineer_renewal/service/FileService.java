@@ -18,13 +18,13 @@ public class FileService {
     private String fileDir;
 
     // @Value는 인스턴스 생성 단계에서 주입되지 않음.
-//    @PostConstruct
-//    public void init() {
-//        File directory = new File(fileDir);
-//        if (!directory.exists()) {
-//            directory.mkdirs(); // 디렉토리 생성
-//        }
-//    }
+    @PostConstruct
+    public void init() {
+        File directory = new File(fileDir);
+        if (!directory.exists()) {
+            directory.mkdirs(); // 디렉토리 생성
+        }
+    }
 
 
     /**

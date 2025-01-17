@@ -37,6 +37,7 @@ public class Comment {
     private String name;
     private int year;
 
+    // todo 대댓글도 낙수적으로 처리가 되야 함 캐스케이드 옵션 필요
     @OneToMany
     @JoinColumn(name = "replys", referencedColumnName = "no")
     private List<Comment> comments;
