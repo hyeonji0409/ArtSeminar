@@ -41,7 +41,6 @@ public class FileService {
 
         try {
             Path path = Paths.get(fileDir + fileName);
-            System.out.println("업로드된 파일의 절대경로는");
             System.out.println(path.toAbsolutePath());
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {

@@ -1,8 +1,10 @@
 package com.artineer.artineer_renewal.security;
 
+import io.micrometer.core.instrument.binder.logging.LogbackMetrics;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
@@ -14,6 +16,8 @@ import java.io.IOException;
 
 @Component
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler{
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(CustomAuthenticationFailureHandler.class);
+
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
@@ -33,5 +37,11 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 //            response.sendRedirect("/user/sign-in?error=invalid");
             response.sendRedirect("/user/sign-in?error=");
         }
+
+        log.warn("Authentication failure: {}, {} at {}",
+                request.getParameter("username"),
+                exception.getMessage(),
+                request.getRemoteAddr()
+        );
     }
 }

@@ -29,6 +29,7 @@ const nameInput = document.querySelector('input[name="name"]');
 const birthdayInput = document.querySelector('input[name="birth"]');
 const contactNumberInput = document.querySelector('input[name="tel"]');
 const cohortInput = document.querySelector('input[name="year"]');
+const zipcodeInput = document.querySelector('input[name="zipcode"]');
 const roadFullAddrInput = document.querySelector('input[name="roadAddress"]');
 const detailAddrInput = document.querySelector('input[name="detailAddress"]');
 // const submitBtn = document.querySelector('button[type="submit"]');
@@ -374,6 +375,7 @@ editButtons.forEach(v => v.addEventListener("click", (e) => {
     birthdayInput.value = eachUser.birth
     contactNumberInput.value = eachUser.tel
     cohortInput.value = eachUser.year
+    zipcodeInput.value = eachUser.zipcode
     roadFullAddrInput.value = eachUser.roadAddress
     detailAddrInput.value = eachUser.detailAddress
 // const submitBtn = document.querySelector('button[type="submit"]');

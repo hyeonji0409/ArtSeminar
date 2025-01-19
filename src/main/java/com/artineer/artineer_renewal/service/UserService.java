@@ -4,6 +4,8 @@ import com.artineer.artineer_renewal.dto.UserDto;
 import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +36,7 @@ import java.util.NoSuchElementException;
 @Service
 @Component
 public class UserService {
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -62,7 +65,6 @@ public class UserService {
     public ResponseEntity<String> checkSignUpValue(String valueName,
                                                    Map<String, String> payload) {
 
-
 //        Todo 이하 3종목이 유니크하지 않을 떄 오류 발생(회원가입되버림)
 //        org.hibernate.NonUniqueResultException: Query did not return a unique result: 9 results were returned
         User foundUser = switch (valueName) {
@@ -72,15 +74,15 @@ public class UserService {
             default -> null;
         };
 
-        System.out.println("sign-up check: "+ valueName);
-        System.out.println(payload);
-        System.out.println(
-                (foundUser ==
-                        null ?
-                        "It is possible to register a new user...\n null" :
-                        "submitted value is already exist in database...\n" + foundUser.toString()
-                ) + "\n-------------------------------------------------\n"
-        );
+//        System.out.println("sign-up check: "+ valueName);
+//        System.out.println(payload);
+//        System.out.println(
+//                (foundUser ==
+//                        null ?
+//                        "It is possible to register a new user...\n null" :
+//                        "submitted value is already exist in database...\n" + foundUser.toString()
+//                ) + "\n-------------------------------------------------\n"
+//        );
 
 
         if (foundUser != null) {
@@ -94,10 +96,6 @@ public class UserService {
 
 
     public boolean updateUser(String logInUsername, UserDto userDto, String clientIp) {
-        // IP 주소 가져오기
-        System.out.println("Client IP: " + clientIp);
-        System.out.println("회원정보수정");
-        System.out.println(userDto.toString());
 
         if (!(
                 logInUsername.equals( userDto.getUsername() )
@@ -115,24 +113,20 @@ public class UserService {
             throw new IllegalArgumentException("잘못된 날짜입니다.");
         }
 
-        System.out.println("수정요청 받음" +  userDto.toString());
-
-
         User oldUser = userRepository.findByUsername(userDto.getUsername());
-
-        // todo 예외처리
+        log.info("updating user by {}: {}", logInUsername, oldUser.toString());
 
         if (isAdmin(logInUsername)) {
             if (userDto.getPassword() !=null && !userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
-            oldUser.setName(userDto.getName());
-            oldUser.setSex(userDto.getSex());
-            oldUser.setBirth(formattedBirth);
-            oldUser.setTel(userDto.getTel());
-            oldUser.setEmail(userDto.getEmail());
-            oldUser.setZipcode(userDto.getZipcode());
-            oldUser.setRoadAddress(userDto.getRoadAddress());
-            oldUser.setDetailAddress(userDto.getDetailAddress());
-            oldUser.setYear(userDto.getYear());
+            if (userDto.getName() != null) oldUser.setName(userDto.getName());
+            if (userDto.getSex() != null) oldUser.setSex(userDto.getSex());
+            if (userDto.getBirth() != null)oldUser.setBirth(formattedBirth);
+            if (userDto.getTel()!=null) oldUser.setTel(userDto.getTel());
+            if (userDto.getEmail() != null)oldUser.setEmail(userDto.getEmail());
+            if (userDto.getZipcode() != null)oldUser.setZipcode(userDto.getZipcode());
+            if (userDto.getRoadAddress() != null) oldUser.setRoadAddress(userDto.getRoadAddress());
+            if (userDto.getDetailAddress() != null) oldUser.setDetailAddress(userDto.getDetailAddress());
+            if (userDto.getYear()!=null) oldUser.setYear(userDto.getYear());
             if (userDto.getRole() != null && !userDto.getRole().isEmpty()) oldUser.setRole(userDto.getRole());
         } else {
             if (userDto.getPassword()!=null && !userDto.getPassword().isEmpty()) oldUser.setPassword( passwordEncoder.encode(userDto.getPassword()));
@@ -164,7 +158,6 @@ public class UserService {
     public ResponseEntity<String> PostWithdrawal(Map<String, Object> payload,
                                                  String username) {
 
-        System.out.println("아이디가 삭제될 예정" + payload);
         User requestedUser = userRepository.findByUsername(username);
         User toDelete = userRepository.findByUsername((String) payload.get("username"));
         if (toDelete == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -181,6 +174,7 @@ public class UserService {
 //        userRepository.deleteById(toDelete.getNo());
         toDelete.setDeletedAt(Timestamp.from(Instant.now()));
         userRepository.save(toDelete);
+        log.info("deleted user: {}", toDelete.toString());
         if (!isAdmin(requestedUser.getUsername())) httpSession.invalidate();
 
         return ResponseEntity.status(HttpStatus.OK).body("success");

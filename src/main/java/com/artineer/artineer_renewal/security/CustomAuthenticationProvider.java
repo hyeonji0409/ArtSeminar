@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @ComponentScan
 @RequiredArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
     private final CustomUserDetailService customUserDetailService;
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
@@ -33,7 +34,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         User user = (User) customUserDetailService.loadUserByUsername(username);
 
         try {
-            // check pw Todo 숨기기
+            // check pw
             if (!passwordEncoder.matches(password, user.getPassword())) {
                 throw new BadCredentialsException("Password is invalid");
             }
@@ -51,17 +52,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 // 계정 비밀번호 만료 여부
                 throw new CredentialsExpiredException("Credentials is expired");
             }
-        } catch (UsernameNotFoundException e) {
-            e.printStackTrace();
+        }catch (UsernameNotFoundException e) {
+            throw new BadCredentialsException("Username not found");
         }catch (AccountLockedException e) {
             throw new RuntimeException(e);
         }
 
 //         비밀번호 인코딩 알고리즘 최신화
         upgradeEncodingIfNecessary(user, password);
-
-//        유저의 권한 출력해보기
-//        System.out.println(user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(", ")));
 
         // 인증 완료 후 객체 리턴
         return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());

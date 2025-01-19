@@ -4,6 +4,7 @@ import com.artineer.artineer_renewal.entity.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class);
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
@@ -49,5 +50,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         }
 
 //        response.sendRedirect( prevPage!=null ? prevPage : "/");
+
+        log.info("authentication successful: {} at {}",
+                ((User) authentication.getPrincipal()).getUsername(),
+                request.getRemoteAddr()
+        );
     }
 }

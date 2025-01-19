@@ -1,0 +1,72 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+
+name: Deploy to Server
+
+on:
+  release:
+    types:
+      - created
+      - edited
+      - updated
+  push:
+    branches:
+      - "release_test/*"  # 릴리즈 브랜치 패턴
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4.0.0
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew  # 실행 권한을 추가하는 단계
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: Deploy to Server
+        env:
+          SERVER_USER: ${{ secrets.SERVER_USER }}  # 서버 사용자명
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}  # 서버 호스트
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}  # GitHub Secrets에 저장된 비밀번호
+        run: |
+          # scp 명령어로 .jar 파일을 리눅스 서버로 복사
+          #sshpass -p $SERVER_PASSWORD scp -o StrictHostKeyChecking=no ./build/libs/artineer-renewal-0.0.1-SNAPSHOT.jar $SERVER_USER@$SERVER_HOST:/opt/tomcat/webapps/
+          
+          # ssh 명령어로 서버에 접속하여 .jar 파일 실행
+          #sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST 'nohup java -jar /var/www/artineer/artineer-renewal-0.0.1-SNAPSHOT.jar &'
+          
+          
+          # 톰캣
+          # scp 명령어로 .jar 파일을 리눅스 서버로 복사
+          sshpass -p $SERVER_PASSWORD scp -o StrictHostKeyChecking=no ./build/libs/artineer-renewal-0.0.1-SNAPSHOT-plain.war $SERVER_USER@$SERVER_HOST:/opt/tomcat/webapps/
+          sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST 'mv /opt/tomcat/webapps/artineer-renewal-0.0.1-SNAPSHOT-plain.war /opt/tomcat/webapps/artineer.war'
+          
+          # 기존 애플리케이션 제거 (선택 사항)
+          sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST 'rm -rf /opt/tomcat/webapps/artineer'
+
+          # Tomcat 서버 재시작
+          sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST '
+            /opt/tomcat/bin/shutdown.sh;
+            sleep 5; # 재시작 전에 몇 초 대기
+            /opt/tomcat/bin/startup.sh;
+          '
