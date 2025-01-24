@@ -5,6 +5,7 @@ import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.security.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -56,18 +57,23 @@ public class SecurityConfig {
                                         "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
                                 .requestMatchers("note/**").permitAll()
                                 .requestMatchers(
-                                        "/notice/**",
-                                        "/minutes/**",
+                                        "/notice/new/**", "/notice/edit/**", "/notice/delete/**",
+                                        "/minutes/new/**", "/minutes/edit/**", "/minutes/delete/**",
                                         "/admin/**").hasAnyRole("ADMIN", "MANAGER")
                                 .requestMatchers(
+                                        "/notice/**",
+                                        "/minutes/**",
                                         "/gallery/**",
                                         "/note/**",
                                         "/project/**",
                                         "/reference/**",
-                                        "/exam/**").hasAnyRole("ADMIN", "MANAGER", "REGULAR")
+                                        "/exam/**",
+                                        "/comments/**").hasAnyRole("ADMIN", "MANAGER", "REGULAR")
                                 .requestMatchers(
                                         "/mypage/**",
                                         "/greeting/**").authenticated()
+                                .requestMatchers(
+                                        "/actuator/**").hasRole("ADMIN")
                                 .anyRequest().permitAll()
                 )
                 .formLogin(form -> form

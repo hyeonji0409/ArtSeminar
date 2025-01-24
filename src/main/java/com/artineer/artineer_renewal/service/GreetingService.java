@@ -54,8 +54,6 @@ public class GreetingService {
         // IP 주소 가져오기
         String clientIp = request.getRemoteAddr();
 
-        System.out.println("Client IP: " + clientIp);
-
         // 현재 시간 가져오기
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd (HH:mm)");

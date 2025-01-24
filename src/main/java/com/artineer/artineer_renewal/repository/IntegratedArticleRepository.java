@@ -21,6 +21,9 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 @Repository
@@ -70,10 +73,29 @@ public class IntegratedArticleRepository {
             Query query = entityManager.createNativeQuery(sql.toString(), Object.class);
             List<Object[]> resultList = query.getResultList();
 
+            List<String> usernames = resultList.stream()
+                    .map(row -> (String) row[1])
+                    .distinct()
+                    .toList();
+
+            List<User> users = userRepository.findByUsernameIn(usernames);
+            Map<String, User> userMap = users.stream().collect(Collectors.toMap(User::getUsername, Function.identity()));
+
+            List<Integer> bbsIds = resultList.stream()
+                    .map(row -> ((Number) row[0]).intValue())
+                    .collect(Collectors.toList());
+
+            Map<Integer, List<Comment>> commentMap = commentRepository.findByBbsNoIn(bbsIds)
+                    .stream()
+                    .collect(Collectors.groupingBy(Comment::getBbsNo));
+
+
             // 각 직렬화된? 값들을 직접 수동으로 통합게시글 객체에 담는다.
+            // N+1 주의
             for (Object[] row : resultList) {
                 Integer id = ((Number) row[0]).intValue();
-                User user = userRepository.findByUsername((String) row[1] );
+//                User user = userRepository.findByUsername((String) row[1] );
+                User user = userMap.get((String) row[1]);
                 String name = row[2].toString();
                 String title = row[3].toString();
                 String content = row[4].toString();
@@ -81,7 +103,8 @@ public class IntegratedArticleRepository {
                 Integer year = ((Number) row[6]).intValue();
                 String file = ((String) row[7]);
                 Integer comment = ((Number) row[8]).intValue();
-                List<Comment> comments = commentRepository.findAllByBbsNo(id);
+//                List<Comment> comments = commentRepository.findAllByBbsNo(id);
+                List<Comment> comments = commentMap.getOrDefault(id, new ArrayList<>());
                 String regdate = ((String) row[9]);
                 String ip = ((String) row[10]);
 

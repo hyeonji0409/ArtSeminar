@@ -125,8 +125,6 @@ public class GalleryController {
         if (gallery == null)
             throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
 
-       // System.out.println("WLWL" + gallery.getComments().size());
-
         galleryService.increaseHitCount(no);
 
         model.addAttribute("bbsName", "gallery");

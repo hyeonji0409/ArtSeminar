@@ -5,6 +5,8 @@ import com.artineer.artineer_renewal.entity.User;
 import com.artineer.artineer_renewal.repository.UserRepository;
 import com.artineer.artineer_renewal.service.EmailService;
 import com.artineer.artineer_renewal.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -15,10 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -26,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@Slf4j
 public class EmailController {
 
     @Autowired
@@ -35,12 +35,22 @@ public class EmailController {
     @Autowired
     private UserService userService;
 
+    @ModelAttribute
+    public void logRequestDetails(HttpServletRequest request,
+                                  @AuthenticationPrincipal User user) {
+
+        log.info("email accessed by {}: [{}] {} at {}",
+                user.getUsername(),
+                request.getMethod(),
+                request.getRequestURI(),
+                request.getRemoteAddr()
+        );
+    }
+
     @PostMapping("/email/send")
     public ResponseEntity<Map<String, Object>> sendEmail(
             @RequestParam("name") String name,
             @RequestParam("email") String email) {
-
-        System.out.println("Email sent");
 
         User user = userRepository.findByEmail(email);
 
@@ -57,7 +67,6 @@ public class EmailController {
                     "인증번호 : " + code
             );
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
 
@@ -72,7 +81,6 @@ public class EmailController {
             @RequestParam("email") String email,
             @RequestParam(value = "injeung", required = false) String injeung) {
 
-        System.out.println("Email verifiyng");
         Map<String, Object> responseData = new HashMap<>();
         User user = userRepository.findByEmail(email);
 

@@ -53,7 +53,6 @@ public class ExamController {
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
 
-        System.out.println("받아온 값" + queryType +"~" + query);
 
         Pageable pageable = PageRequest.of(
                 page - 1,

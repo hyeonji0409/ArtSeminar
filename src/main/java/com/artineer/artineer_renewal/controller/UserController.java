@@ -58,16 +58,11 @@ public class UserController {
         boolean isBot = !turnstileService.getVerification(turnstileKey, request);
         if (isBot) throw new AccessDeniedException("의심적인 활동입니다. 나중에 다시 시도해주세요.");
 
-
-        System.out.println("Client IP: " + request.getRemoteAddr());
-
         // 현재 시간 가져오기
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd (HH:mm)");
         String formattedDate = now.format(formatter);
 
-
-        // Todo js에서도 포멧하면 좋은가
         String formattedBirth = null;
         try {
             DateTimeFormatter dbDtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -96,7 +91,6 @@ public class UserController {
         );
 
         userRepository.save(user);
-        System.out.println(user);
 
         return  "redirect:/user/sign-in";
     }
@@ -132,8 +126,6 @@ public class UserController {
                              @RequestParam(name = "mode", required = false) String mode,
                              UserDto userDto) {
 
-        System.out.println("/user/update");
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
@@ -146,7 +138,6 @@ public class UserController {
                         request.getHeader("Referer") :
                         (String) request.getSession().getAttribute("redirectUrl");
 
-        System.out.println("리다이렉 주소는 " + redirectAddress);
         return "redirect:" + redirectAddress;
     }
 
