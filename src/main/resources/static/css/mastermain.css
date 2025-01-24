@@ -969,14 +969,7 @@ html, body {
   bottom: 15px;
 }
 
-/*--------------------------------------------------------------
-# Disable aos animation delay on mobile devices
---------------------------------------------------------------*/
-/*@media screen and (max-width: 768px) {*/
-/*  [data-aos-delay] {*/
-/*    transition-delay: 0 !important;*/
-/*  }*/
-/*}*/
+
 
 /*--------------------------------------------------------------
 # Global Page Titles & Breadcrumbs
@@ -1440,9 +1433,15 @@ header {
 .services .service-item {
   background-color: var(--surface-color);
   box-shadow: 0px 5px 90px 0px rgba(0, 0, 0, 0.1);
-  padding: 50px 30px;
+  padding: 30px; /* 여백을 약간 줄여 카드 안에 공간 확보 */
   transition: all ease-in-out 0.4s;
-  height: 100%;
+  width: 476.37px; /* 고정 너비 */
+  height: 404.44px; /* 고정 높이 */
+  display: flex;
+  flex-direction: column; /* 수직 정렬 */
+  justify-content: space-between; /* 콘텐츠 간격 조정 */
+  align-items: center; /* 가운데 정렬 */
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
 }
 
 .services .service-item .icon {
@@ -1460,6 +1459,7 @@ header {
   margin-bottom: 15px;
   font-size: 22px;
   margin-top: 15px; /* 이미지와 텍스트 사이의 적절한 간격 */
+  text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 .services .service-item h4 a {
@@ -1471,6 +1471,7 @@ header {
   line-height: 24px;
   font-size: 14px;
   margin-bottom: 0;
+  text-align: center; /* 본문도 중앙 정렬 */
 }
 
 .services .service-item:hover {
@@ -1481,25 +1482,20 @@ header {
   color: var(--accent-color);
 }
 
-/* 이미지 위의 공백을 없애는 스타일 */
-.no-margin {
-  margin-top: 0;
-  padding-top: 0;
-}
-
-/* 모든 이미지의 크기를 동일하게 조정 */
-.equal-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-/* 이미지가 상단에 꽉 차도록 */
+/* 이미지의 크기를 동일하게 조정 */
 .image img {
-    display: block;
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+  display: block;
+  width: 100%;
+  height: 200px; /* 고정 높이 */
+  object-fit: cover; /* 이미지 비율 유지 */
+}
+
+/* 상단 이미지와 카드 전체 크기를 맞추기 위한 추가 클래스 */
+.image {
+  width: 100%; /* 카드의 너비에 맞춤 */
+  height: 200px; /* 이미지 높이 */
+  margin-bottom: 15px; /* 이미지와 텍스트 사이 간격 */
+  flex-shrink: 0; /* 이미지 크기 고정 */
 }
 
 
@@ -1668,9 +1664,6 @@ header {
     padding: 20px;
   }
 
-  b, strong {
-    font-size: 50px;
-  }
 }
 
 footer strong {
