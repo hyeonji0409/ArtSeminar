@@ -521,7 +521,7 @@ body{
       min-width: 100px; /* 버튼의 최소 너비 */
       min-height: 40px; /* 버튼의 최소 높이 */
       padding: 8px 25px; /* 기존 패딩 유지 */
-      font-size: 14px; /* 글자 크기 유지 */
+      font-size: 15px; /* 글자 크기 유지 */
     }
 
     @media (max-width: 480px) {
@@ -1180,8 +1180,8 @@ section,
   /*-webkit-text-stroke: 2px white;*/
   color: white;
 
-  font-size: 50px;
-  line-height: 56px;
+  font-size: 35px;
+  line-height: 20px;
   margin-bottom: 20px;
   text-align: center;
 
@@ -1247,7 +1247,7 @@ section,
 /* 반응형 스타일 */
 @media (max-width: 640px) {
     .hero h1, #hero h1 {
-      font-size: 75px;
+      font-size: 65px;
       font-weight: 400;
       line-height: 70px;
       color: #fff;
@@ -1258,9 +1258,9 @@ section,
     }
 
     .hero p, #hero p {
-        font-size: 18px;
-        line-height: 24px;
-        margin-bottom: 30px;
+        font-size: 15px;
+        line-height: 28px;
+        margin-bottom: 10px;
     }
 
     .btn-get-started, .btn-watch-video {
