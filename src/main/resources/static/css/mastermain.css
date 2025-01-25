@@ -240,6 +240,15 @@ body{
     white-space: nowrap;
 }
 
+/* 창 크기가 481px ~ 1198px일 때 드롭다운 위치 변경 */
+@media screen and (min-width: 481px) and (max-width: 1198px) {
+  #dropdown-menu {
+    top: 101%;
+    left: 17%;
+    transform: translateX(-50%);
+  }
+}
+
 #login-dropdown:hover #dropdown-menu {
     display: block;
 }
@@ -285,8 +294,7 @@ body{
   display: none;
   position: absolute;
   top: calc(100% + 1px);
-  left: 0;
-  /*transform: translateX(-35%);*/
+  left: 8px;
   background-color: var(--accent-color);
   list-style-type: none;
   padding: 0;
@@ -295,6 +303,14 @@ body{
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 10;
   white-space: nowrap;
+}
+
+@media (max-width: 1198px) {
+  #account-menu {
+    top: 101%;
+    left: 24%;
+    transform: translateX(-50%);
+  }
 }
 
 #account-dropdown:hover #account-menu {
@@ -521,7 +537,7 @@ body{
       min-width: 100px; /* 버튼의 최소 너비 */
       min-height: 40px; /* 버튼의 최소 높이 */
       padding: 8px 25px; /* 기존 패딩 유지 */
-      font-size: 14px; /* 글자 크기 유지 */
+      font-size: 15px; /* 글자 크기 유지 */
     }
 
     @media (max-width: 480px) {
@@ -575,7 +591,7 @@ body{
       display: block; /* 기본적으로 숨김 처리 후 자바스크립트로 제어 가능 */
       position: absolute;
       inset: 0 0 0 auto; /* 오른쪽에 위치 */
-      width: 350px; /* 메뉴 너비 설정 */
+      width: 300px; /* 메뉴 너비 설정 */
       transform: translateX(100%); /* 초기 상태 - 화면 오른쪽 밖으로 이동 */
       transition: transform 0.3s ease; /* 슬라이드 전환 효과 */
       padding: 70px;
@@ -585,6 +601,7 @@ body{
       overflow-y: auto;
       z-index: 9998;
       box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+      list-style-type: none;
   }
 
   /* 내부 리스트가 움직이지 않도록 처리 */
@@ -687,41 +704,41 @@ body{
   
 }
 
-@media (max-width: 470px) {
+/*@media (max-width: 470px) {
   .navmenu ul {
-    padding: 20px; /* 메뉴 내부 간격 축소 */
-    width: 250px; /* 메뉴 너비 축소 */
+    padding: 20px; !* 메뉴 내부 간격 축소 *!
+    width: 250px; !* 메뉴 너비 축소 *!
   }
 
   .navmenu a {
-    font-size: 14px; /* 텍스트 크기 축소 */
-    padding: 10px 5px; /* 링크 간격 조정 */
+    font-size: 14px; !* 텍스트 크기 축소 *!
+    padding: 10px 5px; !* 링크 간격 조정 *!
   }
 
   .mobile-nav-toggle {
-    font-size: 30px; /* 모바일 메뉴 토글 버튼 크기 조정 */
+    font-size: 30px; !* 모바일 메뉴 토글 버튼 크기 조정 *!
   }
 
-  /* 헤더 텍스트가 보이지 않으면 숨기기 대신 간격 조정 */
-  /*h1.sitename {*/
-  /*  font-size: 16px; !* 작은 화면에서 헤더 텍스트 크기 축소 *!*/
-  /*  visibility: visible;*/
-  /*  text-align: center;*/
-  /*  margin-bottom: 10px;*/
-  /*}*/
+  !* 헤더 텍스트가 보이지 않으면 숨기기 대신 간격 조정 *!
+  !*h1.sitename {*!
+  !*  font-size: 16px; !* 작은 화면에서 헤더 텍스트 크기 축소 *!*!
+  !*  visibility: visible;*!
+  !*  text-align: center;*!
+  !*  margin-bottom: 10px;*!
+  !*}*!
 
-  /* Hero Section 텍스트 조정 */
+  !* Hero Section 텍스트 조정 *!
   .hero h1, #hero h1 {
-    font-size: 40px; /* 텍스트 크기 축소 */
-    line-height: 45px; /* 간격 조정 */
+    font-size: 40px; !* 텍스트 크기 축소 *!
+    line-height: 45px; !* 간격 조정 *!
   }
 
   .hero h2 {
-    font-size: 20px; /* 서브 텍스트 크기 축소 */
+    font-size: 20px; !* 서브 텍스트 크기 축소 *!
     line-height: 25px;
-    -webkit-text-stroke: 1px white; /* 텍스트 선 두께 조정 */
+    -webkit-text-stroke: 1px white; !* 텍스트 선 두께 조정 *!
   }
-}
+}*/
 
 html, body {
   -webkit-text-size-adjust: none; /* 크롬, 사파리, 오페라 신버전 */
@@ -976,14 +993,7 @@ html, body {
   bottom: 15px;
 }
 
-/*--------------------------------------------------------------
-# Disable aos animation delay on mobile devices
---------------------------------------------------------------*/
-/*@media screen and (max-width: 768px) {*/
-/*  [data-aos-delay] {*/
-/*    transition-delay: 0 !important;*/
-/*  }*/
-/*}*/
+
 
 /*--------------------------------------------------------------
 # Global Page Titles & Breadcrumbs
@@ -1187,8 +1197,8 @@ section,
   /*-webkit-text-stroke: 2px white;*/
   color: white;
 
-  font-size: 50px;
-  line-height: 56px;
+  font-size: 35px;
+  line-height: 20px;
   margin-bottom: 20px;
   text-align: center;
 
@@ -1254,7 +1264,7 @@ section,
 /* 반응형 스타일 */
 @media (max-width: 640px) {
     .hero h1, #hero h1 {
-      font-size: 75px;
+      font-size: 65px;
       font-weight: 400;
       line-height: 70px;
       color: #fff;
@@ -1265,9 +1275,9 @@ section,
     }
 
     .hero p, #hero p {
-        font-size: 18px;
-        line-height: 24px;
-        margin-bottom: 30px;
+        font-size: 15px;
+        line-height: 28px;
+        margin-bottom: 10px;
     }
 
     .btn-get-started, .btn-watch-video {
@@ -1447,8 +1457,15 @@ header {
 .services .service-item {
   background-color: var(--surface-color);
   box-shadow: 0px 5px 90px 0px rgba(0, 0, 0, 0.1);
-  padding: 50px 30px;
+  padding: 30px; /* 여백을 약간 줄여 카드 안에 공간 확보 */
   transition: all ease-in-out 0.4s;
+  width: 476.37px; /* 고정 너비 */
+  height: 404.44px; /* 고정 높이 */
+  display: flex;
+  flex-direction: column; /* 수직 정렬 */
+  justify-content: space-between; /* 콘텐츠 간격 조정 */
+  align-items: center; /* 가운데 정렬 */
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
   height: 100%;
   width: 100%;
   max-width: 500px;
@@ -1469,6 +1486,7 @@ header {
   margin-bottom: 15px;
   font-size: 22px;
   margin-top: 15px; /* 이미지와 텍스트 사이의 적절한 간격 */
+  text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 .services .service-item h4 a {
@@ -1480,6 +1498,7 @@ header {
   line-height: 24px;
   font-size: 14px;
   margin-bottom: 0;
+  text-align: center; /* 본문도 중앙 정렬 */
 }
 
 .services .service-item:hover {
@@ -1490,25 +1509,20 @@ header {
   color: var(--accent-color);
 }
 
-/* 이미지 위의 공백을 없애는 스타일 */
-.no-margin {
-  margin-top: 0;
-  padding-top: 0;
-}
-
-/* 모든 이미지의 크기를 동일하게 조정 */
-.equal-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-/* 이미지가 상단에 꽉 차도록 */
+/* 이미지의 크기를 동일하게 조정 */
 .image img {
-    display: block;
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+  display: block;
+  width: 100%;
+  height: 200px; /* 고정 높이 */
+  object-fit: cover; /* 이미지 비율 유지 */
+}
+
+/* 상단 이미지와 카드 전체 크기를 맞추기 위한 추가 클래스 */
+.image {
+  width: 100%; /* 카드의 너비에 맞춤 */
+  height: 200px; /* 이미지 높이 */
+  margin-bottom: 15px; /* 이미지와 텍스트 사이 간격 */
+  flex-shrink: 0; /* 이미지 크기 고정 */
 }
 
 
@@ -1677,9 +1691,6 @@ header {
     padding: 20px;
   }
 
-  b, strong {
-    font-size: 50px;
-  }
 }
 
 footer strong {
