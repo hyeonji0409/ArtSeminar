@@ -14,14 +14,12 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 
 <!-- todo 고비용인가-->
-<div th:each="comment, iterStat :  ${comments}"  th:fragment="comment(comments)">
+<div th:each="comment, iterStat :  ${comments}" th:fragment="comment(comments, isParent)" th:if="${(comment.getReplys() == null)==isParent}" th:style="${isParent} ? 'border-bottom: #a1c5ff thin solid; margin: 0 0 15px 0; padding: 0 0 15px 0' : null">
 
-    <div th:data-no="${comment.getNo()}" style="margin: 2px 0 12px 0; padding-bottom: 5px; border-bottom: #a1c5ff thin solid">
+    <div  class="comment" th:data-no="${comment.getNo()}" style="margin: 0 0 0 10px;">
 
         <div class="d-flex justify-content-between">
             <strong style="display: inline" th:text="${comment.getUser().getName()} + '(' + ${comment.getUser().getYear()} + '기)'">작성자</strong>
-
-
 
             <div class="btn-group">
                 <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 13px">
@@ -39,36 +37,17 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
                     </li>
                 </ul>
             </div>
-
-<!--            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>-->
-
-            <!--                    <li class="dropdown" style="display: inline; font-size: 12px">-->
-<!--                        <span>더보기</span>-->
-<!--                        <ul style="display: inline">-->
-<!--                            <li style="display: inline">-->
-<!--                                <a class="report_comment_btn text-info" href="#">신고</a>-->
-<!--                            </li>-->
-<!--                            <li th:if="${#authentication.getPrincipal().getUsername()==comment.getUser().getUsername()}" style="display: inline">-->
-<!--                                    <a class="update_comment_btn text-warning" href="#" >수정</a>-->
-<!--                            </li>-->
-<!--                            <li th:if="${(#authentication.getPrincipal().getUsername()==comment.getUser().getUsername()) || (#authentication.getPrincipal().getRole()=='ROLE_ADMIN')}" style="display: inline">-->
-<!--                                <a class="delete_comment_btn text-danger" href="#" >삭제</a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </nav>-->
         </div>
 
         <div style="display: flex; align-items: flex-end;">
         <span class="content_box" th:utext="${comment.memo}" style="white-space: pre-wrap;">content</span>
         </div>
         <div style="color: gray; font-size: 13px;"><a th:text="${comment.regdate}">날짜</a>
-            <a style="color: gray; font-size: 14px; margin-left: 5px" role="button" onclick="alert('준비중입니다.')">답글 작성</a>
+            <a class="reply_comment_btn" style="color: gray; font-size: 14px; margin-left: 5px" role="button">답글 작성</a>
         </div>
 
         <div th:if="${!comment.getComments().isEmpty()}">
-            <div th:replace="~{/fragments/commentFragment :: comment(comments=${comment.getComments()})}"></div>
+            <div th:replace="~{/fragments/commentFragment :: comment(comments=${comment.getComments()}, isParent=${false})}"></div>
         </div>
     </div>
 
@@ -77,10 +56,5 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 
 </body>
-
-
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"-->
-<!--        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"-->
-<!--        crossorigin="anonymous"></script>-->
 
 </html>

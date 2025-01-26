@@ -1,20 +1,27 @@
-document.getElementById('new_comment').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var form = e.target;
-    var formData = new FormData(form);
-
+createComment = (formData) => {
     fetch('/comments/add', {
         method: 'POST',
         body: formData
     }).then(function (response) {
         if (response.ok) {
             location.reload();
-        }
-        else {
+        } else {
             alert('댓글 등록에 실패했습니다.');
         }
     })
-});
+};
+
+document.querySelectorAll('.createCmt_btn').forEach((btn) =>
+    btn.addEventListener('click', (e) => {
+        e.preventDefault()
+
+        const form = e.target.closest('.new_comment');
+        let formData = new FormData(form);
+        // console.log(formData);
+        // alert(...formData.entries())
+        createComment(formData);
+    })
+)
 
 const reportButtons =  document.getElementsByClassName('report_comment_btn');
 for (const button of reportButtons) {
@@ -97,3 +104,51 @@ for (const button of deleteButtons) {
         })
     });
 }
+
+
+
+
+const uniqueArticleInfo = document.querySelector('.new_comment');
+const bbsName = uniqueArticleInfo.querySelector('input[name="bbsName"]').value
+const bbsNo = uniqueArticleInfo.querySelector('input[name="bbsNo"]').value
+const username = uniqueArticleInfo.querySelector('input[name="username"]').value
+
+let replyForm
+
+const replyButtons =  document.querySelectorAll('.reply_comment_btn')
+replyButtons.forEach( (button) => {
+    button.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const commentElement = e.target.closest('.comment');
+        const commentElementId = commentElement.dataset.no;
+
+        if (replyForm) replyForm.remove()
+        replyForm = document.createElement('form');
+        replyForm.className = 'reply-form';
+        replyForm.innerHTML = `
+            <input type="hidden" name="bbsName" value="${bbsName}" />
+            <input type="hidden" name="bbsNo" value="${bbsNo}" />
+            <input type="hidden" name="username" value="${username}" />
+            <input type="hidden" name="replys" value="${commentElementId}" />
+            <div class="d-flex align-items-center">
+            <input class="form-control" type="text" name="memo" placeholder="댓글을 입력하세요." style="width: 350px" required />
+            <button type="submit" class="btn _btn createCmt_btn" style="width: 80px;">등록</button>
+            </div>
+        `;
+        const replyFormNode = commentElement.appendChild(replyForm);
+
+        replyFormNode.querySelector('input[name="memo"]').focus();
+
+        replyFormNode.querySelector('.createCmt_btn').addEventListener('click', (e) => {
+            e.preventDefault()
+
+            const form = e.target.closest('.reply-form');
+            let formData = new FormData(form);
+            // console.log(formData);
+            // alert(...formData.entries())
+            createComment(formData);
+        })
+
+    })
+})
