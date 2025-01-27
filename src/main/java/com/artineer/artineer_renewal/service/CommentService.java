@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class CommentService {
@@ -91,6 +92,7 @@ public class CommentService {
         return true;
     }
 
+
     public boolean deleteComment(Integer no) {
         // user 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -109,8 +111,28 @@ public class CommentService {
             log.error("comment not found!!! {}", no.longValue());
             return false;
         }
-        else if (user.getUsername().equals(originComment.getUser().getUsername()) || userService.isAdmin(loggedInUsername)) {
-            commentRepository.delete(originComment);
+
+        // 인가 권한 확인
+        if (user.getUsername().equals(originComment.getUser().getUsername()) || userService.isAdmin(loggedInUsername)) {
+
+            // 자식이 있다면 소프트딜리트
+            List<Comment> repliesSize = commentRepository.findAllByReplys(originComment.getNo());
+            if (repliesSize.isEmpty()) {
+                commentRepository.delete(originComment);
+                // 삭제한 댓글의 부모가 있을 시, 그 부모가 삭제된 댓글이고 자식도 없을 때 부모도 하드딜리트
+                Comment parentCmt = commentRepository.findByNo(Long.valueOf(originComment.getReplys()));
+                if (parentCmt != null &&
+                        parentCmt.getMemo().equals("삭제된 댓글입니다.") &&
+                        commentRepository.findAllByReplys(parentCmt.getNo()).isEmpty()
+                ) {
+                    // 재귀적으로 조상를 확인 후 삭제.
+                    deleteComment(Math.toIntExact(parentCmt.getNo()));
+                }
+            }
+            else {
+                originComment.setMemo("삭제된 댓글입니다.");
+                commentRepository.save(originComment);
+            }
         } else {
             log.error("co!!! {}", userService.isAdmin(loggedInUsername));
             return false;

@@ -132,23 +132,20 @@ replyButtons.forEach( (button) => {
             <input type="hidden" name="username" value="${username}" />
             <input type="hidden" name="replys" value="${commentElementId}" />
             <div class="d-flex align-items-center">
-            <input class="form-control" type="text" name="memo" placeholder="댓글을 입력하세요." style="width: 350px" required />
+            <input class="form-control" type="text" name="memo" placeholder="댓글을 입력하세요." style="width: 350px" autocomplete="off" required />
             <button type="submit" class="btn _btn createCmt_btn" style="width: 80px;">등록</button>
             </div>
         `;
-        const replyFormNode = commentElement.appendChild(replyForm);
 
-        replyFormNode.querySelector('input[name="memo"]').focus();
-
-        replyFormNode.querySelector('.createCmt_btn').addEventListener('click', (e) => {
+        replyForm.querySelector('.createCmt_btn').addEventListener('click', (e) => {
             e.preventDefault()
 
             const form = e.target.closest('.reply-form');
             let formData = new FormData(form);
-            // console.log(formData);
-            // alert(...formData.entries())
             createComment(formData);
         })
 
+        commentElement.firstElementChild.append(replyForm);
+        replyForm.querySelector('input[name="memo"]').focus();
     })
 })

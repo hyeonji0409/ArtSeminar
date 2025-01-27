@@ -98,7 +98,7 @@
                 <input type="hidden" name="username" th:value="${user!=null ? user.getUsername() : '익명'}" />
                 <input type="hidden" name="replys" th:value="${null}" />
                 <div class="d-flex align-items-center">
-                    <input class="form-control" type="text" name="memo" placeholder="댓글을 입력하세요." style="width: 350px" required />
+                    <input class="form-control" type="text" name="memo" placeholder="댓글을 입력하세요." style="width: 350px" autocomplete="off" required />
                     <button type="submit" class="btn _btn" style="width: 80px;">등록</button>
                 </div>
             </form>
