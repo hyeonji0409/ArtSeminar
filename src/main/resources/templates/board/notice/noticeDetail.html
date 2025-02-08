@@ -53,7 +53,7 @@
 
             <nav id="navmenu" class="navmenu d-flex justify-content-end">
                 <ul th:if="${!notice.getFile().isEmpty()}">
-                    <li class="dropdown" ><span>파일 다운로드 ▼</span>
+                    <li class="dropdown"><span>파일 다운로드 ▼</span>
                         <ul style="transform: translateX(-65%);">
                             <li><div th:each="fileName: ${notice.file}" class="pt-3" >
                                 <a th:href="|/downloads/${fileName}|" th:text="${fileName.contains('_') ? fileName.split('_', 2)[1] : fileName }" alt="Image" class="text-info"></a>
@@ -68,7 +68,7 @@
                     <div class="pb-3" th:utext="${notice.story}">Notice Story</div>
 
                     <div th:each="fileName: ${notice.file}" class="pt-5">
-                        <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">
+                        <img class="container" th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">
                     </div>
                 </div>
             </div>

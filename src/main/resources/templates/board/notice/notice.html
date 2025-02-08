@@ -82,12 +82,12 @@
 <!--                <td><a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}" class="a-color" style="text-decoration: none;"></a></td>-->
 <!--                <td th:text="${notice.comment}">댓글수</td>-->
 <!--                <th th:text="${pagination.getSize() - iterStat.index}">1</th>-->
-                <td style="width: 430px"><div class="d-flex align-items-center" style="max-height: 40px;">
+                <td style="width: 430px"><div class="d-flex align-items-center" style="max-height: 25px;">
                     <a th:text="${notice.title}" th:href="@{/notice/{no}(no=${notice.no})}"
                        class="a-color d-flex justify-content-start text-truncate custom-width" style="text-decoration: none;"></a>
-                    <div class="d-flex align-items-center text-danger fw-bold p-3">
+                    <div class="d-flex align-items-center text-danger fw-bold ps-2 pt-2">
                     <p>[</p>
-                    <p class="d-flex justify-content-start " th:text="${notice.comments.size()}">댓글수</p>
+                    <p th:text="${notice.comments.size()}">댓글수</p>
                     <p>]</p>
                     </div>
                 </div>

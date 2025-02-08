@@ -79,10 +79,10 @@
             <tr th:each="reference, iterStat :  ${pagination}" class="text-nowrap">
                 <!-- 전체 게시글 수에서 역순으로 표기하게 설정 -->
                 <td th:text="${reference.getNo()}" style="width: 80px;">게시글 넘버</td>
-                <td style="width: 430px"><div class="d-flex align-items-center" style="max-height: 40px;">
+                <td style="width: 430px"><div class="d-flex align-items-center" style="max-height: 25px;">
                     <a th:text="${reference.title}" th:href="@{/reference/{no}(no=${reference.no})}"
                        class="a-color d-flex justify-content-start text-truncate custom-width" style="text-decoration: none;"></a>
-                    <div class="d-flex align-items-center text-danger fw-bold p-3">
+                    <div class="d-flex align-items-center text-danger fw-bold ps-2 pt-2">
                     <p>[</p>
                     <p class="d-flex justify-content-start " th:text="${reference.comments.size()}">댓글수</p>
                     <p>]</p>
