@@ -1264,7 +1264,7 @@ section,
 /* 반응형 스타일 */
 @media (max-width: 640px) {
     .hero h1, #hero h1 {
-      font-size: 65px;
+      font-size: 60px;
       font-weight: 400;
       line-height: 70px;
       color: #fff;
@@ -1351,6 +1351,7 @@ section,
   from { border-right: 2px solid #222; }
   to { border-right: 2px solid #777; }
 }
+
 
 
 
