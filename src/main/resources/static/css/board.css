@@ -77,3 +77,158 @@
     text-decoration: none;
     background-color: #d8d8d8;
 }
+
+/* 사진 다운 드롭다운 */
+
+.name {
+    padding: 0;
+}
+
+.name ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+.name li {
+    position: relative;
+}
+
+.name a,
+.name a:focus {
+    color: var(--nav-color);
+    padding: 18px 15px;
+    font-size: 18px;
+    font-family: var(--nav-font);
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.name a i,
+.name a:focus i {
+    font-size: 12px;
+    line-height: 0;
+    margin-left: 5px;
+    transition: 0.3s;
+}
+
+.name li:last-child a {
+    padding-right: 0;
+}
+
+/*  .name li:hover>a,
+  .name .active,
+  .name .active:focus {
+    color: var(--nav-hover-color);
+  }*/
+
+.name .dropdown ul {
+    margin: 0;
+    padding: 10px 0;
+    background: var(--nav-dropdown-background-color);
+    display: block;
+    position: absolute;
+    visibility: hidden;
+    left: 14px;
+    top: 130%;
+    opacity: 0;
+    transition: 0.3s;
+    border-radius: 4px;
+    z-index: 99;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+}
+
+.name .dropdown ul li {
+    min-width: 200px;
+}
+
+.name .dropdown ul a {
+    padding: 10px 20px;
+    font-size: 15px;
+    text-transform: none;
+    color: var(--nav-dropdown-color);
+}
+
+.name .dropdown ul a i {
+    font-size: 12px;
+}
+
+.name .dropdown ul a:hover,
+.name .dropdown ul .active:hover,
+.name .dropdown ul li:hover>a {
+    color: var(--nav-dropdown-hover-color);
+}
+
+.name .dropdown:hover>ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+}
+
+.name .dropdown .dropdown ul {
+    top: 0;
+    left: -90%;
+    visibility: hidden;
+}
+
+.name .dropdown .dropdown:hover>ul {
+    opacity: 1;
+    top: 0;
+    left: -100%;
+    visibility: visible;
+}
+
+.name .megamenu {
+    position: static;
+}
+
+.name .megamenu ul {
+    margin: 0;
+    padding: 10px;
+    background: var(--nav-dropdown-background-color);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 130%;
+    left: 0;
+    right: 0;
+    visibility: hidden;
+    opacity: 0;
+    display: flex;
+    transition: 0.3s;
+    border-radius: 4px;
+    z-index: 99;
+}
+
+.name .megamenu ul li {
+    flex: 1;
+}
+
+.name .megamenu ul li a,
+.name .megamenu ul li:hover>a {
+    padding: 10px 20px;
+    font-size: 15px;
+    color: var(--nav-dropdown-color);
+}
+
+.name .megamenu ul li a:hover,
+.name .megamenu ul li .active,
+.name .megamenu ul li .active:hover {
+    color: var(--nav-dropdown-hover-color);
+}
+
+.name .megamenu:hover>ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+}
+
+.name .dd-box-shadow {
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+}
+

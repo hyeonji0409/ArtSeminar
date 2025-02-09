@@ -43,8 +43,8 @@
 <div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
 <main class="main">
 <div class="container text-center" style="margin-top: 150px;">
-    <h2 class="fw-bold" style="color: #47b2e4;">시험 족보</h2>
-    <h5 class="text-muted" style="opacity: 0.5;">Examination</h5>
+    <h5 class="text-muted pb-1" style="opacity: 0.5;">Examination</h5>
+    <h2 class="fw-bold pb-4" style="color: #47b2e4;">시험 족보</h2>
     <div class="container-fluid" style="max-width: 1100px;">
         <form class="d-flex justify-content-end">
             <div class="pe-3">
@@ -79,10 +79,10 @@
             <tr th:each="exam, iterStat :  ${pagination}" class="text-nowrap">
                 <!-- 전체 게시글 수에서 역순으로 표기하게 설정 -->
                 <td th:text="${exam.getNo()}" style="width: 80px;">게시글 넘버</td>
-                <td style="width: 430px"><div class="d-flex align-items-center" style="max-height: 40px;">
+                <td style="width: 430px"><div class="d-flex align-items-center" style="max-height: 25px;">
                     <a th:text="${exam.title}" th:href="@{/exam/{no}(no=${exam.no})}"
                        class="a-color d-flex justify-content-start text-truncate custom-width" style="text-decoration: none;"></a>
-                    <div class="d-flex align-items-center text-danger fw-bold p-3">
+                    <div class="d-flex align-items-center text-danger fw-bold ps-2 pt-2">
                     <p>[</p>
                     <p class="d-flex justify-content-start " th:text="${exam.comments.size()}">댓글수</p>
                     <p>]</p>

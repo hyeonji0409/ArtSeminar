@@ -42,7 +42,7 @@
 <div th:replace="~{fragments/headerFragment :: header(user=${user})}"></div>
 <main class="main">
 <div style="margin-top: 150px;">
-    <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px;">
+    <div class="container text-start mt-5 border border-secondary my-1" style="width: 800px; position: relative;">
         <div class="border-bottom pb-3">
             <h1 th:text="${notice.title}" class="text-break" style="padding-top: 20px;">Notice Title</h1>
             <div class="border-bottom pb-3">
@@ -51,10 +51,10 @@
                 <a>조회수: </a><a th:text="${notice.hit}">조회수</a>
             </div>
 
-            <nav id="navmenu" class="navmenu d-flex justify-content-end">
+            <nav id="name" class="name d-flex justify-content-end">
                 <ul th:if="${!notice.getFile().isEmpty()}">
                     <li class="dropdown"><span>파일 다운로드 ▼</span>
-                        <ul>
+                        <ul style="transform: translateX(-65%);">
                             <li><div th:each="fileName: ${notice.file}" class="pt-3" >
                                 <a th:href="|/downloads/${fileName}|" th:text="${fileName.contains('_') ? fileName.split('_', 2)[1] : fileName }" alt="Image" class="text-info"></a>
                             </div></li>
@@ -68,7 +68,7 @@
                     <div class="pb-3" th:utext="${notice.story}">Notice Story</div>
 
                     <div th:each="fileName: ${notice.file}" class="pt-5">
-                        <img th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">
+                        <img class="container" th:src="@{'/data/' + ${fileName}}" style="max-height: 500px; max-width: 750px;">
                     </div>
                 </div>
             </div>
