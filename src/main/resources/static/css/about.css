@@ -131,7 +131,7 @@ html, body {
     transition: all 0.3s;
     position: relative;
     left: 35px;
-    border: 1px solid transparent;
+    border: none;
 }
 
 .btn:hover {
@@ -258,7 +258,7 @@ html, body {
 
     .gallery-item img.equal-image {
         width: 230px;
-        height: px;
+        height: 190px;
         object-fit: cover;
         border-radius: 20px;
         margin-bottom: 20px;
